@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><?php echo $this->getPageTitle(); ?></title>
+<?php
+foreach ($this->getCss() as $varCss) {
+	echo $varCss . "\n";
+}
+?>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+
+<?php
+	foreach ($this->getBlocks() as $varBlocks) {
+		include $varBlocks;
+		echo "\n";
+	}
+?>
+
+
+<?php
+foreach ($this->getJs() as $varJs) {
+	echo $varJs . "\n";
+}
+?>
+</body>
+</html>
