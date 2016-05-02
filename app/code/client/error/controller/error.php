@@ -50,6 +50,7 @@ Class Error_Controller_Error extends Frontend_Controller_Action {
 		$this->setBaseCss("error/error-style");
 		$this->setBlock("error/body");
 		$this->render();
+		exit();
 
 	}
 

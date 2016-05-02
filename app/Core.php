@@ -99,10 +99,10 @@ Class Core {
  		if(method_exists($this->controller, $this->method)) {
  			call_user_func_array([$this->controller, $this->method], [$this->params]);
  		}else {
- 			echo "Page not found!";
+ 			Core::dispatchError()->setTitlepage("Page not found")->setMessage("Sorry the page deosnt exist.")->setType(401)->exec();
  		}
 
- 		Core::dispatchError()->setTitlepage("Hello")->setMessage("Wow")->setType(401);
+ 		
 
  	}
 
@@ -119,7 +119,6 @@ Class Core {
  	public static function getSingleton($varController) {
  		$varController = explode("/", $varController);
  		$varController = $varController[0] . US . "Controller" . US . $varController[1];
-
  		return new $varController;
  	}
 

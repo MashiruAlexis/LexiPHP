@@ -46,6 +46,8 @@ spl_autoload_register(function($class) {
 			return;
 		}
 	}
+	Core::dispatchError()->setMessage("Something went wrong.")->setType(401)->exec();
+	return;
 });
 
 require_once "app/Core.php";
