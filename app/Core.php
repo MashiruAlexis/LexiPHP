@@ -91,6 +91,7 @@ Class Core {
 			}
 			$request = Core::getSingleton("url/request");
  			$request->genRequest($this->params);
+ 			Core::log(Core::getSingleton("url/Http"));
 			$this->controller = Core::getSingleton($this->app . "/" . $this->controller);
  		}else{
  			$this->controller = Core::getSingleton($this->app . "/" . $this->controller);

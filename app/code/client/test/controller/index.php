@@ -24,46 +24,10 @@
  * SOFTWARE.
  */
 
-Class Url_Controller_Request {
+Class Test_Controller_Index extends Frontend_Controller_Action {
 
-	/**
-	 *	Request
-	 */
-	public $request = array();
-
-	public function genRequest($varReq) {
-
-		if(isset($varReq[3])) {
-			$key = 3; $val = 4;
-			for ($x = 0; $x <= count($varReq) ; $x++) { 
-				if(isset($varReq[$key]) && isset($varReq[$val])) {
-					$this->request[$varReq[$key]] = $varReq[$val];
-				}
-				$key = $key + 2; $val = $val + 2;
-			}
-			unset($_GET);
-		}
-		print_r($this->request);
-	}
-
-	public function __call($method, $params = null) {
-
-		$type = substr($method, 0, 3);
-		$property = lcfirst(substr($method, 3));
-
-		
-		try {
-			
-			if($type == "set") {
-				$this->$property = $params[0];
-				return $this;
-			}elseif($type == "get") {
-				return $this->$property;
-			}else{
-				throw new Exception("Error Processing Request", 1);
-			}
-		} catch (Exception $e) {
-			Core::log($e);
-		}
+	public function index() {
+		echo "Hello";
+		$this->render();
 	}
 }
