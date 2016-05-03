@@ -27,7 +27,8 @@
 Class Test_Controller_Index extends Frontend_Controller_Action {
 
 	public function index() {
-		echo "Hello";
+		$params = Core::getSingleton("Url/Request");
+		Core::log($params->getRequest());
 		$this->render();
 	}
 }

@@ -61,3 +61,6 @@ define("ROOT", getcwd() . DIRECTORY_SEPARATOR);
  *	Instantiate Core
  */
 Core::app();
+
+$test = new Core;
+Core::log($test);

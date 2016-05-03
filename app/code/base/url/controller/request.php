@@ -29,21 +29,35 @@ Class Url_Controller_Request {
 	/**
 	 *	Request
 	 */
-	public $request = array();
+	public $request;
 
+	/**
+	 *	Group the request
+	 */
 	public function genRequest($varReq) {
-
-		if(isset($varReq[3])) {
-			$key = 3; $val = 4;
-			for ($x = 0; $x <= count($varReq) ; $x++) { 
-				if(isset($varReq[$key]) && isset($varReq[$val])) {
-					$this->request[$varReq[$key]] = $varReq[$val];
-				}
-				$key = $key + 2; $val = $val + 2;
-			}
-			unset($_GET);
+		if(isset($varReq[2])) {
+			unset($varReq[2]);
 		}
-		print_r($this->request);
+		
+		$len = ceil(count($varReq) / 2);
+		$key = 3; $val = 4;
+		for($x = 0; $x < $len; $x++) {
+			if(isset($varReq[$key]) && isset($varReq[$val])) {
+				$this->request[$varReq[$key]] = $varReq[$val];
+			}
+			$key = $key + 2;
+			$val = $val + 2;
+		}
+
+		return $this->request;
+	}
+
+	/**
+	 *	Return Request
+	 */
+	public function getRequest() {
+
+		return Core::getParams();
 	}
 
 	public function __call($method, $params = null) {

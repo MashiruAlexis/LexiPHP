@@ -90,8 +90,7 @@ Class Core {
 				$this->method = $this->params[2];
 			}
 			$request = Core::getSingleton("url/request");
- 			$request->genRequest($this->params);
- 			Core::log(Core::getSingleton("url/Http"));
+ 			$this->params = $request->genRequest($this->params);
 			$this->controller = Core::getSingleton($this->app . "/" . $this->controller);
  		}else{
  			$this->controller = Core::getSingleton($this->app . "/" . $this->controller);
@@ -102,8 +101,6 @@ Class Core {
  		}else {
  			Core::dispatchError()->setTitlepage("Page not found")->setMessage("Sorry the page deosnt exist.")->setType(401)->exec();
  		}
-
- 		
 
  	}
 
@@ -131,6 +128,13 @@ Class Core {
  	}
 
  	/**
+ 	 *	Return the parameters
+ 	 */
+ 	public static function getParams() {
+ 		return self::params;
+ 	}
+
+ 	/**
  	 *	Print Variables
  	 */
  	public static function log($varLog) {
@@ -138,27 +142,6 @@ Class Core {
  		print_r($varLog);
  		echo "</pre>";
  	}
-
- 	public function __call($method, $params = null) {
-
-		$type = substr($method, 0, 3);
-		$property = lcfirst(substr($method, 3));
-
-		
-		try {
-			
-			if($type == "set") {
-				$this->$property = $params[0];
-				return $this;
-			}elseif($type == "get") {
-				return $this->$property;
-			}else{
-				throw new Exception("Error Processing Request", 1);
-			}
-		} catch (Exception $e) {
-			Core::log($e);
-		}
-	}
 
  	/**
  	 *	Instantiate Core Class
