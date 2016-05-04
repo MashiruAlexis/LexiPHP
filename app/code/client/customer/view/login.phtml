@@ -1,0 +1,10 @@
+<?php
+$pass = Core::getSingleton("hash/password");
+$pass1 = $pass->hash("blockman");
+$pass2 = "blockman";
+if($pass->verify($pass2, $pass1)) {
+	echo "Success!";
+}else{
+	echo "Failed!";
+}
+?>

@@ -106,8 +106,6 @@ Class Core {
  		}else {
  			Core::dispatchError()->setTitlepage("Page not found")->setMessage("Sorry the page deosnt exist.")->setType(401)->exec();
  		}
- 		Core::log(Core::getSingleton("url/request"));
-
  	}
 
  	/**
