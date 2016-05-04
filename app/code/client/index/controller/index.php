@@ -27,6 +27,8 @@
 Class Index_Controller_Index extends Frontend_Controller_Action {
 
 	public function index() {
+		$req = Core::getSingleton("url/request");
+		Core::log($req);
 		$this->setPageTitle("Hello");
 		$this->setBlock("index/nav");
 		$this->setBlock("index/body");

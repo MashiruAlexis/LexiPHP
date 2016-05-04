@@ -58,6 +58,11 @@ Class Core {
 	 */
 	public $params = array();
 
+	/**
+	 *	Objects Instance
+	 */
+	public static $objects = array();
+
  	/**
  	 *	Variable Paths
  	 */
@@ -90,7 +95,7 @@ Class Core {
 				$this->method = $this->params[2];
 			}
 			$request = Core::getSingleton("url/request");
- 			$this->params = $request->genRequest($this->params);
+ 			$request->genRequest($this->params);
 			$this->controller = Core::getSingleton($this->app . "/" . $this->controller);
  		}else{
  			$this->controller = Core::getSingleton($this->app . "/" . $this->controller);
@@ -101,6 +106,7 @@ Class Core {
  		}else {
  			Core::dispatchError()->setTitlepage("Page not found")->setMessage("Sorry the page deosnt exist.")->setType(401)->exec();
  		}
+ 		Core::log(Core::getSingleton("url/request"));
 
  	}
 
@@ -117,7 +123,12 @@ Class Core {
  	public static function getSingleton($varController) {
  		$varController = explode("/", $varController);
  		$varController = $varController[0] . US . "Controller" . US . $varController[1];
- 		return new $varController;
+
+ 		if(!array_key_exists($varController, self::$objects)) {
+ 			self::$objects = self::$objects + array($varController => new $varController);
+ 		}
+ 		
+ 		return self::$objects[$varController];
  	}
 
  	/**

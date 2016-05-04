@@ -48,17 +48,16 @@ Class Url_Controller_Request {
 			$key = $key + 2;
 			$val = $val + 2;
 		}
-
 		return $this->request;
 	}
 
 	/**
 	 *	Return Request
 	 */
-	public function getRequest() {
+	// public function getRequest() {
 
-		return Core::getParams();
-	}
+	// 	// return $core->getParams();
+	// }
 
 	public function __call($method, $params = null) {
 
