@@ -32,24 +32,6 @@ Whoops, it looks like you have an invalid PHP version.</h3></div><p>Because of t
     exit;
 }
 
-/**
- *	Autoloader
- */
-spl_autoload_register(function($class) {
-	$class = str_replace("_", DIRECTORY_SEPARATOR, $class);
-	$paths = Core::$paths;
-
-	foreach($paths as $path) {
-		$mainpath = $path . $class . ".php";
-		if(file_exists($mainpath)) {
-			require_once $mainpath;
-			return;
-		}
-	}
-	Core::dispatchError()->setMessage("Something went wrong.")->setType(401)->exec();
-	return;
-});
-
 require_once "app/Core.php";
 
 /**

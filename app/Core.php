@@ -24,6 +24,24 @@
  * SOFTWARE.
  */
 
+/**
+ *	Autoloader
+ */
+spl_autoload_register(function($class) {
+	$class = str_replace("_", DIRECTORY_SEPARATOR, $class);
+	$paths = Core::$paths;
+
+	foreach($paths as $path) {
+		$mainpath = $path . $class . ".php";
+		if(file_exists($mainpath)) {
+			require_once $mainpath;
+			return;
+		}
+	}
+	Core::dispatchError()->setMessage("Something went wrong.")->setType(401)->exec();
+	return;
+});
+
 define("DS", DIRECTORY_SEPARATOR);
 define("PS", PATH_SEPARATOR);
 define("BP", dirname(dirname(__FILE__)));
