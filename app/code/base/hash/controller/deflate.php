@@ -24,38 +24,20 @@
  * SOFTWARE.
  */
 
- Class Hash_Controller_Password {
+Class Hash_Controller_Deflate {
 
- 	/**
- 	 *	PHP version
- 	 */
- 	const VERSION_CONFLICT = false;
+	/**
+	 *	Encode through gzdeflate
+	 */
+	public function encode($varData) {
+		return gzdeflate($varData);
+	}
 
- 	public function __construct() {
+	/**
+	 *	Decode
+	 */
+	public function decode($varData) {
+		return gzinflate($varData);
+	}
 
- 		if (version_compare(phpversion(), '5.5.0', '<')===true) {
-		    echo  '<div style="font:12px/1.35em arial, helvetica, sans-serif;">
-		<div style="margin:0 0 25px 0; border-bottom:1px solid #ccc;">
-		<h3 style="margin:0; font-size:1.7em; font-weight:normal; text-transform:none; text-align:left; color:#2f2f2f;">
-		This password hash controller will not work with the current verion of your php. -Lexi</p></div>';
-		    exit;
-		}
- 	}
-
- 	public function encode($pass) {
- 		if(isset($pass) && $pass != null) {
- 			$pass = password_hash($pass, PASSWORD_DEFAULT);
- 		}
- 		return $pass;
- 	}
-
- 	public function verify($pass, $hashedPass) {
- 		if($pass != null && isset($pass) && isset($hashedPass) && $hashedPass != null) {
- 			if(password_verify($pass, $hashedPass)) {
- 				return true;
- 			}else{
- 				return false;
- 			}
- 		}
- 	}
- }
+}

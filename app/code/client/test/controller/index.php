@@ -27,7 +27,8 @@
 Class Test_Controller_Index extends Frontend_Controller_Action {
 
 	public function index() {
-		Core::log(Core::$objects);
+		$this->setPageTitle("Javascript");
+		$this->setBlock("test/index");
 		$this->render();
 	}
 }

@@ -7,6 +7,13 @@ foreach ($this->getCss() as $varCss) {
 	echo $varCss . "\n";
 }
 ?>
+
+<?php
+foreach ($this->getJs() as $varJs) {
+	echo $varJs . "\n";
+}
+?>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
@@ -19,10 +26,6 @@ foreach ($this->getCss() as $varCss) {
 ?>
 
 
-<?php
-foreach ($this->getJs() as $varJs) {
-	echo $varJs . "\n";
-}
-?>
+
 </body>
 </html>
