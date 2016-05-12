@@ -1,5 +1,7 @@
 <?php
 
 include_once "app/Core.php";
+// Core::app();
 
-Core::log(Core::$objects);
+$hash = Core::getSingleton("hash/encrypt");
+echo $hash->encode("hello World!");

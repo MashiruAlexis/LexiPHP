@@ -28,7 +28,7 @@ Class Index_Controller_Index extends Frontend_Controller_Action {
 
 	public function index() {
 		
-		$this->setPageTitle("Hello");
+		$this->setPageTitle("LexiPHP");
 		$this->setBlock("index/nav");
 		$this->setBlock("index/body");
 		$this->setBlock("index/footer");

@@ -28,7 +28,7 @@
  *	Autoloader
  */
 spl_autoload_register(function($class) {
-	$class = str_replace("_", DIRECTORY_SEPARATOR, $class);
+	$class = strtolower(str_replace("_", DIRECTORY_SEPARATOR, $class));
 	$paths = Core::$paths;
 
 	foreach($paths as $path) {
@@ -51,6 +51,7 @@ define("BS", "/");
 $paths = array();
 $paths[] = BP . DS . "app" . DS . "code" . DS . "client" . DS;
 $paths[] = BP . DS . "app" . DS . "code" . DS . "base" . DS;
+$paths[] = BP . DS . "lib" . DS . "lexi" . DS;
 
 Core::regPath($paths);
 
