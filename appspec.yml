@@ -1,0 +1,4 @@
+os: linux
+files:
+  - source: /LexiPHP
+    destination: /var/www/html/
