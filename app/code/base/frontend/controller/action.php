@@ -71,15 +71,47 @@ Class Frontend_Controller_Action {
 	 */
 	public function setDefault() {
 		$this->linkCss("http://fonts.googleapis.com/icon?family=Material+Icons");
-		$this->setBaseCss("default/materialize");
-		$this->setBaseCss("default/style");
-		$this->setBaseJs("default/jquery-2.1.1.min");
-		$this->setBaseJs("default/materialize");
-		$this->setBaseJs("default/init");
+		$this->setCss("default/materialize");
+		$this->setCss("default/style");
+		$this->setJs("default/jquery-2.1.1.min");
+		$this->setJs("default/materialize");
+		$this->setJs("default/init");
 	}
 
 	/**
-	 * Set CSS
+	 *	Set CSS [new Update]
+	 */
+	public function setCss($varCss) {
+		$varCss = explode(BS, $varCss);
+		$config = Core::getSingleton("system/config");
+		$paths = $config->getSkinPaths();
+		$baseurl = $config->getBaseUrl();
+		foreach($paths as $cssPath) {
+			$fileLoc = BP . DS . "skin" . DS . $cssPath . DS . $varCss[0] . DS . "css" . DS . $varCss[1] . ".css";
+			if(file_exists($fileLoc)) {
+				$this->css[] = "<link rel='stylesheet' href='" . $baseurl . "skin" . BS . $cssPath . BS . $varCss[0] . BS . "css" . BS . $varCss[1] . ".css'>";			
+			}
+		}
+	}
+
+	/**
+	 *	Set JS [New Update]
+	 */
+	public function setJs($varJs) {
+		$varJs = explode(BS, $varJs);
+		$config = Core::getSingleton("system/config");
+		$paths = $config->getSkinPaths();
+		$baseurl = $config->getBaseUrl();
+		foreach($paths as $jsPaths) {
+			$fileLoc = BP . DS . "skin" . DS . $jsPaths . DS . $varJs[0] . DS . "js" . DS . $varJs[1] . ".js";
+			if(file_exists($fileLoc)) {
+				$this->js[] = "<script src='" . $baseurl . "skin" . BS . $jsPaths . BS . $varJs[0] . BS . "js" . BS . $varJs[1] . ".js'></script>";
+			}
+		}
+	}
+
+	/**
+	 * Set CSS [Deprecated]
 	 */
 	public function setBaseCss($varCss) {
 		$varCss = explode(BS, $varCss);
@@ -97,11 +129,10 @@ Class Frontend_Controller_Action {
 	}
 
 	/**
-	 *	Set JS
+	 *	Set JS [Deprecated]
 	 */
 	public function setBaseJs($varJs) {
 		$varJs = explode(BS, $varJs);
-		// Core::log($varJs[1]);
 		$dir = Core::getSingleton("system/config")->loadConfigFile()->frontend->directory;
 		$sysConfig = Core::getSingleton("system/config")->loadConfigFile();
 		$baseurl = $sysConfig->system->url;

@@ -43,6 +43,24 @@ Class System_Controller_Config {
 		return Core::getSingleton("system/xmlreader")->read("config");
 	}
 
+	/**
+	|----------------------------------------
+	|	Load the Skin Paths
+	|----------------------------------------
+	*/
+	public function getSkinPaths() {
+		return $this->loadConfigFile()->frontend->directory->skin;
+	}
+
+	/**
+	|----------------------------------------
+	|	Load the baseurl
+	|----------------------------------------
+	*/
+	public function getBaseUrl() {
+		return $this->loadConfigFile()->system->url;
+	}
+
 	public function __call($method, $params = null) {
 
 		$type = substr($method, 0, 3);

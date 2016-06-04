@@ -7,7 +7,9 @@
 			<images>images</images>
 			<fonts>fonts</fonts>
 
-			<skin>skin</skin>
+			<skin>base</skin>
+			<skin>client</skin>
+			
 			<default>default</default>
 
 			<base>base</base>
@@ -24,7 +26,7 @@
 	</frontend>
 
 	<system>
-		<url>http://lexiphp.com/</url>
+		<url>http://localhost/lexiphp/</url>
 	</system>
 	
 	<database>
