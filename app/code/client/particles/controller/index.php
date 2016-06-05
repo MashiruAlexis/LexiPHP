@@ -30,8 +30,11 @@ Class Particles_Controller_Index extends Frontend_Controller_Action {
 		$this->setCss("particles/base");
 		$this->setCss("particles/main");
 		$this->setCss("particles/vendor");
+		$this->setJs("particles/jquery-2.1.3.min");
+		$this->setJs("particles/modernizr");
 		$this->setJs("particles/plugins");
 		$this->setJs("particles/main");
+		$this->setBlock("particles/main");
 		$this->render();
 	}
 }
