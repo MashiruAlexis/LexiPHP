@@ -1,0 +1,72 @@
+<script>hljs.initHighlightingOnLoad();</script>
+<pre>
+	<code class="language-php">
+$_productCollection = Mage::getModel('catalog/product')->getCollection();
+$_productCollection->addFieldToFilter('visibility', array(
+                               Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
+                               Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG
+                   )) //showing just products visible in catalog or both search and catalog
+                   ->addFinalPrice()
+//                        ->addAttributeToSort('price', 'asc') //in case we would like to sort products by price
+                   ->getSelect()
+                   ->where('price_index.final_price < price_index.price')
+                       ->limit(10) //we can specify how many products we want to show on this page
+//                        ->order(new Zend_Db_Expr('RAND()')) //in case we would like to sort products randomly
+                   ;
+
+$list = $_productCollection;
+
+if (!empty($list)) {
+
+    $import_str = "";
+    $jsHelper = Mage::helper('core/js');
+    // jquery has not added yet
+    if (!defined('MAGENTECH_JQUERY') && (int)$this->_getConfig('include_jquery')) {
+        // if module allowed jquery.
+        $import_str .= $jsHelper->includeSkinScript('sm/listingextend/js/jquery-1.8.2.min.js');
+        $import_str .= $jsHelper->includeSkinScript('sm/listingextend/js/jquery-noconflict.js');
+        define('MAGENTECH_JQUERY', 1);
+    }
+    if (!defined('MAGENTECH_JQUERY_EXTRASLIDER')) {
+        $import_str .= $jsHelper->includeSkinScript('sm/listingextend/js/owl.carousel.js');
+        define('MAGENTECH_JQUERY_EXTRASLIDER', 1);
+    }
+    echo $import_str;
+
+    $count_item = count($list);
+
+    $helper = Mage::helper('listingextend/data');
+
+    $tag_id = 'sm_listingextend_' . rand() . time();
+
+    $autoPlay = $this->_getConfig('autoPlay', 1);
+
+    $slideSpeed = $this->_getConfig('slideSpeed', 2000);
+    $slideSpeed = ($autoPlay && $slideSpeed <= 0) ? 2000 : $slideSpeed;
+    $paginationSpeed = $this->_getConfig('paginationSpeed', 800);
+    $rewindSpeed = $this->_getConfig('rewindSpeed', 1000);
+    $scrollPerPage = $this->_getConfig('scrollPerPage', 1);
+    $scrollPerPage = $scrollPerPage ? 'true' : 'false';
+    $pause_hover = $this->_getConfig('pause_hover', 1);
+    $pause_hover = $pause_hover ? 'true' : 'false';
+    $mouseDrag = $this->_getConfig('mouseDrag', 1);
+    $mouseDrag = $mouseDrag ? 'true' : 'false';
+    $touchDrag = $this->_getConfig('touchDrag', 1);
+    $touchDrag = $touchDrag ? 'true' : 'false';
+
+    $autoPlay = $autoPlay ? 'true' : 'false';
+    $effect = $this->_getConfig('effect', 'fadeIn');
+
+    $nb_rows = $this->_getConfig('nb_rows', 3);
+    $nb_rows = ($nb_rows <= 0) ? 1 : $nb_rows;
+    $nb_rows = ($nb_rows >= $count_item) ? $count_item : $nb_rows;
+
+    $nb_column1 = $this->_getConfig('nb_column1', 6);
+    $nb_column2 = $this->_getConfig('nb_column2', 4);
+    $nb_column3 = $this->_getConfig('nb_column3', 2);
+    $nb_column4 = $this->_getConfig('nb_column4', 1);
+	
+	$listing_type = $this->_getConfig('listing_type');
+
+	</code>
+</pre>

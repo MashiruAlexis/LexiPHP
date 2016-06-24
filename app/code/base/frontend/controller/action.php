@@ -129,6 +129,13 @@ Class Frontend_Controller_Action {
 	}
 
 	/**
+	 *	Link External JS
+	 */
+	public function linkJs($varJs) {
+		$this->js[] = '<script src="' . $varJs . '"></script>';
+	}
+
+	/**
 	 *	Set JS [Deprecated]
 	 */
 	public function setBaseJs($varJs) {
