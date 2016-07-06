@@ -38,10 +38,15 @@ spl_autoload_register(function($class) {
 			return;
 		}
 	}
-	Core::dispatchError()->setMessage("Something went wrong.")->setType(401)->exec();
+	Core::dispatchError()
+ 				->setTitlepage("Page not found")
+ 				->setMessage("Sorry the page deosnt exist.")
+ 				->setType(401)
+ 				->exec();
 	return;
 });
 
+define("BPcore", "app/code/base/");
 define("DS", DIRECTORY_SEPARATOR);
 define("PS", PATH_SEPARATOR);
 define("BP", dirname(dirname(__FILE__)));
@@ -98,7 +103,17 @@ Class Core {
  			$httpurl = Core::getSingleton("Url/Http");
  			$httpurl->setUrl($_GET['request'])->chkUrl();
  			$this->params = $httpurl->getParams();
+ 			$dirs = array_filter(glob(BPcore . '*'), 'is_dir');
 
+ 			foreach($dirs as $dir) {
+ 				if($this->params[0] == str_replace(BPcore, "", $dir)) {
+ 					Core::dispatchError()
+ 						->setTitlepage("Access Denied")
+ 						->setMessage("Sorry this page is reserve for core files only")
+ 						->setType(401)
+ 						->exec();
+ 				}
+ 			}
  		}
 
  		if(isset($this->params[0])) {
@@ -123,7 +138,11 @@ Class Core {
  		if(method_exists($this->controller, $this->method)) {
  			call_user_func_array([$this->controller, $this->method], [$this->params]);
  		}else {
- 			Core::dispatchError()->setTitlepage("Page not found")->setMessage("Sorry the page deosnt exist.")->setType(401)->exec();
+ 			Core::dispatchError()
+ 				->setTitlepage("Page not found")
+ 				->setMessage("Sorry the page deosnt exist.")
+ 				->setType(401)
+ 				->exec();
  		}
  	}
 
@@ -151,7 +170,7 @@ Class Core {
  	/**
  	 *	Error Handler
  	 */
- 	public function dispatchError() {
+ 	public static function dispatchError() {
  		return Core::getSingleton("error/error");
  	}
 

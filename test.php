@@ -3,5 +3,6 @@
 include_once "app/Core.php";
 // Core::app();
 
-$hash = Core::getSingleton("hash/encrypt");
-echo $hash->encode("hello World!");
+$hash = Core::getSingleton("frontend/action");
+$hash->setPageTitle("TestPage");
+$hash->render();

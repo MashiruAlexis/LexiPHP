@@ -1,0 +1,8 @@
+
+
+<?php
+// Core::log(Core::getSingleton("facedetector/detector")->getDetectData());
+$recog = Core::getSingleton("facedetector/detector");
+$recog->facedetect("picture.jpg");
+$recog->toJpeg();
+?>

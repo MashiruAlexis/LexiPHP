@@ -1,6 +1,14 @@
 <script>hljs.initHighlightingOnLoad();</script>
-<pre>
-	<code class="language-php">
+<!-- <div class="container"> -->
+    <div class="row">
+        <div class="col s6">
+            <p class="flow-text">
+                This is a message testing the font!
+            </p>
+        </div>
+        <div class="col s12">
+            <pre>
+    <code class="language-php">
 $_productCollection = Mage::getModel('catalog/product')->getCollection();
 $_productCollection->addFieldToFilter('visibility', array(
                                Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
@@ -65,8 +73,14 @@ if (!empty($list)) {
     $nb_column2 = $this->_getConfig('nb_column2', 4);
     $nb_column3 = $this->_getConfig('nb_column3', 2);
     $nb_column4 = $this->_getConfig('nb_column4', 1);
-	
-	$listing_type = $this->_getConfig('listing_type');
+    
+    $listing_type = $this->_getConfig('listing_type');
 
-	</code>
+    function($var) {
+        echo("Hello");
+    }
+    </code>
 </pre>
+        </div>
+    </div>
+<!-- </div> -->
