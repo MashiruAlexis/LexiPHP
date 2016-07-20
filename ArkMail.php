@@ -50,12 +50,12 @@
     /**
      *  Email
      */
-    public $email = "alexis@arkhold.com";
+    public $email = "******";
 
     /**
      *  Password
      */
-    public $password = "QGwzeDFz";
+    public $password = "******";
 
     /**
      *  Type
