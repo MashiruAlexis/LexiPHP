@@ -38,6 +38,7 @@ spl_autoload_register(function($class) {
 			return;
 		}
 	}
+
 	Core::dispatchError()
  				->setTitlepage("Page not found")
  				->setMessage("Sorry the page deosnt exist.")
@@ -103,6 +104,7 @@ Class Core {
  			$httpurl = Core::getSingleton("Url/Http");
  			$httpurl->setUrl($_GET['request'])->chkUrl();
  			$this->params = $httpurl->getParams();
+ 			
  			$dirs = array_filter(glob(BPcore . '*'), 'is_dir');
 
  			foreach($dirs as $dir) {

@@ -28,7 +28,48 @@ Class Test_Controller_Index extends Frontend_Controller_Action {
 
 	public function index() {
 		$this->setPageTitle("Javascript");
+		$this->linkCss("//tutsplus.github.io/syntax-highlighter-demos/highlighters/highlightjs/styles/monokai_sublime.css");
+		$this->linkJs("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js");
+		// Core::getSingleton("syntax/highlight")->assets();
 		$this->setBlock("test/index");
+		$this->setBlock("syntax/main");
 		$this->render();
+	}
+
+	public function formula() {
+		$varAmount = 800;
+		$baseAmount = 500;
+
+		$result = (($varAmount / $baseAmount) * 100);
+		echo $result . "%";
+	}
+
+	public function ipLookUp() {
+		$this->setPageTitle("IP Look UP");
+		// $_SERVER['REMOTE_ADDR']
+		$ip = Core::getSingleton("url/request")->getRequest("ip");
+		$details = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
+		Core::log($details); // -> "Mountain View"
+
+		$this->render();
+	}
+
+	public function sidebar() {
+		$this->setPageTitle("Side Nav Bar");
+		$this->setBlock("test/sidebar");
+		$this->render();
+	}
+
+	public function rdTags($string, $tagname)
+{
+    $pattern = "#<\s*?$tagname\b[^>]*>(.*?)</$tagname\b[^>]*>#s";
+    preg_match($pattern, $string, $matches);
+    return $matches[1];
+}
+	public function autoSink() {
+		// Core::log(file_get_contents("http://www.megadiscountstore.com.sg/search?q=washing*+machine*&type=product"));
+		preg_match_all('/<div class="product-json">(.*?)<div>/', file_get_contents("http://www.megadiscountstore.com.sg/search?q=washing*+machine*&type=product"), $matches);
+		// preg_match("'<div class=\"product-json\">(.*?)</div>'si", file_get_contents("http://www.megadiscountstore.com.sg/search?q=washing*+machine*&type=product"), $match);
+		Core::log($matches);
 	}
 }

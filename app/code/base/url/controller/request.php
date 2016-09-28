@@ -32,14 +32,10 @@ Class Url_Controller_Request {
 	public $request;
 
 	/**
-	 *	HTTP
-	 */
-	public $test = "testing";
-
-	/**
 	 *	Group the request
 	 */
 	public function genRequest($varReq) {
+		// $varReq = array_map("strtolower", $varReq);
 		if(isset($varReq[2])) {
 			unset($varReq[2]);
 		}
@@ -53,7 +49,21 @@ Class Url_Controller_Request {
 			$key = $key + 2;
 			$val = $val + 2;
 		}
-		return $this->request;
+		
+		return $this;
+	}
+
+	/**
+	 *	Get Request
+	 */
+	public function getRequest($varSting = false) {
+		if($varSting) {
+			if(isset($this->request[$varSting])) {
+				return $this->request[$varSting];
+			}
+		}else{
+			return $this->request;
+		}
 	}
 
 	/**

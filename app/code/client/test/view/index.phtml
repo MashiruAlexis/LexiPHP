@@ -8,9 +8,18 @@
     multidate: true, // Creates a dropdown to control month
     selectYears: 15 // Creates a dropdown of 15 years to control year
   });
+
+
+
+$(window).resize(function() {
+	var viewportWidth = $(window).width();
+	var viewportHeight = $(window).height();
+	console.log( viewportWidth + "|" + viewportHeight);
+});
 </script>
 
 
 <?php
 echo date('D, M j, Y h:i:s a', strtotime('-30 days'));
+
 ?> 
