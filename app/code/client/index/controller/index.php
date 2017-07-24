@@ -26,12 +26,25 @@
 
 Class Index_Controller_Index extends Frontend_Controller_Action {
 
-	public function index() {
+	public function __construct() {
+		$this->setCss("index/index");
+		$this->setJs("index/index");
+	}
+
+	public function indexAction() {
 		
 		$this->setPageTitle("LexiPHP");
 		$this->setBlock("index/nav");
 		$this->setBlock("index/body");
 		$this->setBlock("index/footer");
 		$this->render(); 
+	}
+
+	/**
+	 *	Js, Css and fonts
+	 */
+	public function setup() {
+		$this->setCss("index/index");
+		$this->setJs("index/index");
 	}
 }

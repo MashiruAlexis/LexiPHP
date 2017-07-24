@@ -62,10 +62,6 @@ Class Frontend_Controller_Action {
 	 */
 	public $pageTitle = "lexi";
 
-	public function __construct() {
-		$this->setDefault();
-	}
-
 	/**
 	 *	Load defaults
 	 */
@@ -84,7 +80,7 @@ Class Frontend_Controller_Action {
 	public function setCss($varCss) {
 		$varCss = explode(BS, $varCss);
 		$config = Core::getSingleton("system/config");
-		$paths = $config->getSkinPaths();
+		$paths = $config->getSkinPath();
 		$baseurl = $config->getBaseUrl();
 		foreach($paths as $cssPath) {
 			$fileLoc = BP . DS . "skin" . DS . $cssPath . DS . $varCss[0] . DS . "css" . DS . $varCss[1] . ".css";
@@ -100,7 +96,7 @@ Class Frontend_Controller_Action {
 	public function setJs($varJs) {
 		$varJs = explode(BS, $varJs);
 		$config = Core::getSingleton("system/config");
-		$paths = $config->getSkinPaths();
+		$paths = $config->getSkinPath();
 		$baseurl = $config->getBaseUrl();
 		foreach($paths as $jsPaths) {
 			$fileLoc = BP . DS . "skin" . DS . $jsPaths . DS . $varJs[0] . DS . "js" . DS . $varJs[1] . ".js";
@@ -113,13 +109,13 @@ Class Frontend_Controller_Action {
 	/**
 	 * Set CSS [Deprecated]
 	 */
-	public function setBaseCss($varCss) {
-		$varCss = explode(BS, $varCss);
-		$dir = Core::getSingleton("system/config")->loadConfigFile()->frontend->directory;
-		$sysConfig = Core::getSingleton("system/config")->loadConfigFile();
-		$baseurl = $sysConfig->system->url;
-		$this->css[] = "<link rel='stylesheet' href='" . $baseurl . $dir->skin . BS . $dir->base . BS . $varCss[0] . BS . $dir->css . BS . $varCss[1] . ".css'>";
-	}
+	// public function setBaseCss($varCss) {
+	// 	$varCss = explode(BS, $varCss);
+	// 	$dir = Core::getSingleton("system/config")->loadConfigFile()->frontend->directory;
+	// 	$sysConfig = Core::getSingleton("system/config")->loadConfigFile();
+	// 	$baseurl = $sysConfig->system->url;
+	// 	$this->css[] = "<link rel='stylesheet' href='" . $baseurl . $dir->skin . BS . $dir->base . BS . $varCss[0] . BS . $dir->css . BS . $varCss[1] . ".css'>";
+	// }
 
 	/**
 	 *	Link external css file
@@ -138,13 +134,13 @@ Class Frontend_Controller_Action {
 	/**
 	 *	Set JS [Deprecated]
 	 */
-	public function setBaseJs($varJs) {
-		$varJs = explode(BS, $varJs);
-		$dir = Core::getSingleton("system/config")->loadConfigFile()->frontend->directory;
-		$sysConfig = Core::getSingleton("system/config")->loadConfigFile();
-		$baseurl = $sysConfig->system->url;
-		$this->js[] = "<script src='" . $baseurl . $dir->skin . BS . $dir->base . BS . $varJs[0] . BS . $dir->js . BS . $varJs[1] . ".js'></script>";
-	}
+	// public function setBaseJs($varJs) {
+	// 	$varJs = explode(BS, $varJs);
+	// 	$dir = Core::getSingleton("system/config")->loadConfigFile()->frontend->directory;
+	// 	$sysConfig = Core::getSingleton("system/config")->loadConfigFile();
+	// 	$baseurl = $sysConfig->system->url;
+	// 	$this->js[] = "<script src='" . $baseurl . $dir->skin . BS . $dir->base . BS . $varJs[0] . BS . $dir->js . BS . $varJs[1] . ".js'></script>";
+	// }
 
 	/**
 	 *	Get Images from Skin
@@ -162,8 +158,7 @@ Class Frontend_Controller_Action {
 	 */
 	public function setBlock($varBlock) {
 		$varBlock = explode(BS, $varBlock);
-		$dir = Core::getSingleton("system/config")->loadConfigFile()->frontend->directory;
-		$this->blocks[] = BP . DS . $dir->app . DS . $dir->code . DS . $dir->client . DS . $varBlock[0] . DS . $dir->view . DS . $varBlock[1] . ".phtml";
+		$this->blocks[] = Core::$paths[0] . $varBlock[0] . DS . "view" . DS . $varBlock[1] . ".phtml";
 	}
 
 	/**
@@ -174,7 +169,26 @@ Class Frontend_Controller_Action {
 		return $baseurl . $varUrl;
 	}
 
+	/**
+	 *	Get the block and insert
+	 */
+	public function getBlock( $block = false ) {
+		if( $block ) {
+			$blocks = explode(BS, $block);
+			$blockPath = Core::$paths[0] . $blocks[0] . DS . "view" . DS . $blocks[1] . ".phtml";
+			if( file_exists($blockPath) ) {
+				return include $blockPath;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 *	Render all the blocks
+	 */
 	public function render() {
+		$this->setDefault();
+		Core::log( Core::getSingleton("system/kernel")->getController() );
 		return include dirname(dirname(__FILE__)) . DS . "view" . DS . "main.phtml";
 	}
 

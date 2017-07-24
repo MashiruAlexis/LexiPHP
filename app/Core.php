@@ -3,7 +3,7 @@
  *
  * MIT License
  *
- * Copyright (c) 2016 Ramon Alexis Celis
+ * Copyright (c) 2017 Ramon Alexis Celis
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -64,6 +64,11 @@ Core::regPath($paths);
 Class Core {
 
 	/**
+	 *	System Kernel
+	 */
+	protected $kernel;
+
+	/**
 	 *	Default App
 	 */
 	public $app = "index";
@@ -98,8 +103,11 @@ Class Core {
  	 */
  	public static $url = null;
 
+ 	/**
+ 	 *	Bootsrap
+ 	 */
  	public function __construct() {
-
+ 		$kernel = Core::getSingleton("system/kernel");
  		if(isset($_GET['request'])) {
  			$httpurl = Core::getSingleton("Url/Http");
  			$httpurl->setUrl($_GET['request'])->chkUrl();
@@ -119,26 +127,25 @@ Class Core {
  		}
 
  		if(isset($this->params[0])) {
-			$this->app = $this->params[0];
+			$kernel->setApp( $this->params[0] );
 			unset($this->params[0]);
-
 			if(isset($this->params[1])) {
-				$this->controller = $this->params[1]; 
+				$kernel->setController( $this->params[1] ); 
 				unset($this->params[1]);
 			}
 
 			if(isset($this->params[2])) {
-				$this->method = $this->params[2];
+				$kernel->setMethod( $this->params[2] . "Action" );
+				unset($this->params[2]);
 			}
 			$request = Core::getSingleton("url/request");
  			$request->genRequest($this->params);
-			$this->controller = Core::getSingleton($this->app . "/" . $this->controller);
+			$kernel->setController( Core::getSingleton($kernel->getApp() . "/" . $kernel->getController()) );
  		}else{
- 			$this->controller = Core::getSingleton($this->app . "/" . $this->controller);
+ 			$kernel->setController( Core::getSingleton($kernel->getApp() . "/" . $kernel->getController()) );
  		}
-
- 		if(method_exists($this->controller, $this->method)) {
- 			call_user_func_array([$this->controller, $this->method], [$this->params]);
+ 		if(method_exists($kernel->getController(), $kernel->getMethod())) {
+ 			call_user_func_array([$kernel->getController(), $kernel->getMethod()], [$this->params]);
  		}else {
  			Core::dispatchError()
  				->setTitlepage("Page not found")
@@ -150,23 +157,38 @@ Class Core {
 
  	/**
  	 *	Register paths
+ 	 *	@var array $path
+ 	 *	@return
  	 */
- 	public static function regPath($varPath) {
- 		self::$paths = $varPath;
+ 	public static function regPath( $path ) {
+ 		self::$paths = $path;
  	}
 
  	/**
  	 *	Get Singleton
+ 	 *	@var string $controller
+ 	 *	@return obj $controller
  	 */
- 	public static function getSingleton($varController) {
- 		$varController = explode("/", $varController);
- 		$varController = $varController[0] . US . "Controller" . US . $varController[1];
+ 	public static function getSingleton( $controller ) {
+ 		$controller = explode("/", $controller);
+ 		$controller = $controller[0] . US . "Controller" . US . $controller[1];
 
- 		if(!array_key_exists($varController, self::$objects)) {
- 			self::$objects = self::$objects + array($varController => new $varController);
+ 		if(!array_key_exists($controller, self::$objects)) {
+ 			self::$objects = self::$objects + array($controller => new $controller);
  		}
  		
- 		return self::$objects[$varController];
+ 		return self::$objects[$controller];
+ 	}
+
+ 	/**
+ 	 *	Get new Instace of object
+ 	 *	@var string $instance
+ 	 *	@return obj $obj
+ 	 */
+ 	public static function getInstance( $instance ) {
+ 		$obj = explode("/", $instance);
+ 		$obj = $obj[0] . US . "controller" . US . $obj[1];
+ 		return new $obj;
  	}
 
  	/**
@@ -185,10 +207,12 @@ Class Core {
 
  	/**
  	 *	Print Variables
+ 	 *	@var string $str
+ 	 *	@return
  	 */
- 	public static function log($varLog) {
+ 	public static function log( $str ) {
  		echo "<pre>";
- 		print_r($varLog);
+ 		print_r($str);
  		echo "</pre>";
  	}
 

@@ -27,20 +27,42 @@
 Class System_Controller_Config {
 
 	/**
-	 *	Base URL
+	 *	Config Path
 	 */
-	public $baseUrl = '';
+	protected $configFileName = "system";
 
+	/**
+	 *	Configuration
+	 */
+	private $config;
+
+	/**
+	 *	Default Extension
+	 */
+	private $ext = ".php";
+
+	/**
+	 *	Configuration
+	 */
+	protected $configuration;
+	
 	public function __construct() {
-		$xmlBaseUrl = Core::getSingleton("system/xmlreader")->read("config")->system->url;
-		$this->baseurl = $xmlBaseUrl;
+		$this->config = Core::getSingleton("system/kernel")->getConfig($this->configFileName);
+	}
+
+	/**
+	 *	Get Config Data
+	 *	@return array $config
+	 */
+	public function getConfig() {
+		return $this->config;
 	}
 
 	/**
 	 *	Load configuration
 	 */
 	public function loadConfigFile() {
-		return Core::getSingleton("system/xmlreader")->read("config");
+		return $this->config;
 	}
 
 	/**
@@ -48,8 +70,8 @@ Class System_Controller_Config {
 	|	Load the Skin Paths
 	|----------------------------------------
 	*/
-	public function getSkinPaths() {
-		return $this->loadConfigFile()->frontend->directory->skin;
+	public function getSkinPath() {
+		return $this->config["skin"];
 	}
 
 	/**
@@ -58,7 +80,7 @@ Class System_Controller_Config {
 	|----------------------------------------
 	*/
 	public function getBaseUrl() {
-		return $this->loadConfigFile()->system->url;
+		return $this->config["baseUrl"];
 	}
 
 	public function __call($method, $params = null) {
