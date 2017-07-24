@@ -24,21 +24,35 @@
  * SOFTWARE.
  */
 
-Class Index_Controller_Index extends Frontend_Controller_Action {
+ Class System_Controller_Session {
 
-	public function indexAction() {
-		
-		$this->setPageTitle("LexiPHP");
-		$this->setBlock("index/nav");
-		$this->setBlock("index/body");
-		$this->setBlock("index/footer");
-	}
+ 	/**
+ 	 *	Start Sessions
+ 	 */
+ 	public function start() {
+ 		if( $this->isRunning() ) {
+ 			session_start();
+ 		}
+ 	}
 
-	/**
-	 *	Js, Css and fonts
-	 */
-	public function setup() {
-		$this->setCss("index/index");
-		$this->setJs("index/index");
-	}
-}
+ 	/**
+ 	 *	check if session is running
+ 	 */
+ 	public function isRunning() {
+ 		if (session_status() == PHP_SESSION_NONE) {
+ 			return false;
+		}
+		return true;
+ 	}
+
+ 	/**
+ 	 *	Remove and Destroy Sessions
+ 	 */
+ 	public function destroy() {
+ 		if( isset($_SESSION ) ) {
+ 			$_SESSION = [];
+ 		}
+ 		session_unset(session_id());
+ 		// session_destroy();
+ 	}
+ }

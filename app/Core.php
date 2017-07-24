@@ -107,9 +107,13 @@ Class Core {
  	 *	Bootsrap
  	 */
  	public function __construct() {
+ 		// instantiate the kernel
  		$kernel = Core::getSingleton("system/kernel");
+
+ 		// get all the request
  		if(isset($_GET['request'])) {
  			$httpurl = Core::getSingleton("Url/Http");
+ 			// validate url
  			$httpurl->setUrl($_GET['request'])->chkUrl();
  			$this->params = $httpurl->getParams();
  			
@@ -145,7 +149,13 @@ Class Core {
  			$kernel->setController( Core::getSingleton($kernel->getApp() . "/" . $kernel->getController()) );
  		}
  		if(method_exists($kernel->getController(), $kernel->getMethod())) {
+ 			call_user_func([$kernel->getController(), "loadThemeResource"]);
+ 			if( method_exists($kernel->getController(), "setup") ) {
+ 				call_user_func([$kernel->getController(), "setup"]);
+ 			}
  			call_user_func_array([$kernel->getController(), $kernel->getMethod()], [$this->params]);
+ 			// render all the blocks
+ 			call_user_func([$kernel->getController(), "render"]);
  		}else {
  			Core::dispatchError()
  				->setTitlepage("Page not found")

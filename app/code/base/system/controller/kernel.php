@@ -56,10 +56,16 @@ Class System_Controller_Kernel {
 	 */
 	public function __construct() {
 		$config = $this->getConfig("system");
+		$session = Core::getSingleton("system/session");
+		
+		// set debug mode
 		if( $config["debug"] ) {
 			error_reporting(E_ALL);
 			ini_set('display_errors', 1);
 		}
+
+		// start session
+		$session->start();
 	}
 
 	/**

@@ -63,6 +63,13 @@ Class Frontend_Controller_Action {
 	public $pageTitle = "lexi";
 
 	/**
+	 *	
+	 */
+	public function __construct() {
+		// $this->setDefault();
+	}
+
+	/**
 	 *	Load defaults
 	 */
 	public function setDefault() {
@@ -72,6 +79,25 @@ Class Frontend_Controller_Action {
 		$this->setJs("default/jquery-2.1.1.min");
 		$this->setJs("default/materialize");
 		$this->setJs("default/init");
+	}
+
+	/**
+	 *	load the resources from theme
+	 */
+	public function loadThemeResource() {
+		$theme = Core::getSingleton("system/kernel")->getConfig("theme");
+		if( isset($theme["css"]) ) {
+			foreach( $theme["css"] as $css ) {
+				$this->setCss( $css );
+			}
+		}
+
+		if( isset($theme["js"]) ) {
+			foreach( $theme["js"] as $js ) {
+				$this->setJs( $js );
+			}
+		}
+		return;
 	}
 
 	/**
@@ -187,8 +213,6 @@ Class Frontend_Controller_Action {
 	 *	Render all the blocks
 	 */
 	public function render() {
-		$this->setDefault();
-		Core::log( Core::getSingleton("system/kernel")->getController() );
 		return include dirname(dirname(__FILE__)) . DS . "view" . DS . "main.phtml";
 	}
 
