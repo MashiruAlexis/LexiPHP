@@ -63,14 +63,7 @@ Class Frontend_Controller_Action {
 	public $pageTitle = "lexi";
 
 	/**
-	 *	
-	 */
-	public function __construct() {
-		// $this->setDefault();
-	}
-
-	/**
-	 *	Load defaults
+	 *	Load defaults [Deprecated]
 	 */
 	public function setDefault() {
 		$this->linkCss("http://fonts.googleapis.com/icon?family=Material+Icons");
@@ -79,6 +72,20 @@ Class Frontend_Controller_Action {
 		$this->setJs("default/jquery-2.1.1.min");
 		$this->setJs("default/materialize");
 		$this->setJs("default/init");
+	}
+
+	/**
+	 *	Get Child Block
+	 *	@var string $child
+	 *	@return $blocks
+	 */
+	public function getChildBlock( $child ) {
+		$key = explode("/", $child);
+		$path = Core::$paths[0] . $key[0] . DS . "view" . DS . "blocks" . DS . $key[1] . ".phtml";
+		if( file_exists($path) ) {
+			return include $path;
+		}
+		return false;
 	}
 
 	/**
@@ -182,9 +189,13 @@ Class Frontend_Controller_Action {
 	/**
 	 *	Set Blocks
 	 */
-	public function setBlock($varBlock) {
-		$varBlock = explode(BS, $varBlock);
-		$this->blocks[] = Core::$paths[0] . $varBlock[0] . DS . "view" . DS . $varBlock[1] . ".phtml";
+	public function setBlock( $block ) {
+		$block = explode(BS, $block);
+		$path = Core::$paths[0] . $block[0] . DS . "view" . DS . $block[1] . ".phtml";
+		if( file_exists($path) ) {
+			$this->blocks[] = $path;
+		}
+		return false;
 	}
 
 	/**
