@@ -228,6 +228,16 @@ Class Core {
  	}
 
  	/**
+ 	 *	Get Model
+ 	 *	@var string $model
+ 	 *	@return obj $model
+ 	 */
+ 	public static function getModel( $model ) {
+ 		$model = explode("/", $model);
+ 		Core::log($model);
+ 	}
+
+ 	/**
  	 *	Return the parameters
  	 */
  	public static function getParams() {
