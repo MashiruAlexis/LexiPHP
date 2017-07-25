@@ -15,6 +15,8 @@ Class Account_Controller_Login extends Frontend_Controller_Action {
 	}
 
 	public function authenticateAction() {
+		$request = Core::getSingleton("url/request");
+		$core::log( $request );
 		Core::log( $_POST );
 	}
 }

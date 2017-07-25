@@ -29,13 +29,20 @@ Class Url_Controller_Request {
 	/**
 	 *	Request
 	 */
-	public $request;
+	public $request = array();
 
 	/**
 	 *	Group the request
 	 */
 	public function genRequest($varReq) {
-		// $varReq = array_map("strtolower", $varReq);
+		unset($_GET["request"]);
+		if( isset($_GET) ) {
+			$this->request = $this->request + $_GET;
+		}
+		if( isset($_POST) ) {
+			$this->request = $this->request + $_POST;
+		}
+		
 		if(isset($varReq[2])) {
 			unset($varReq[2]);
 		}
@@ -49,7 +56,6 @@ Class Url_Controller_Request {
 			$key = $key + 2;
 			$val = $val + 2;
 		}
-		
 		return $this;
 	}
 
