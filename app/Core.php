@@ -59,7 +59,12 @@ $paths[] = BP . DS . "app" . DS . "code" . DS . "client" . DS;
 $paths[] = BP . DS . "app" . DS . "code" . DS . "base" . DS;
 $paths[] = BP . DS . "lib" . DS . "lexi" . DS;
 
-Core::regPath($paths);
+$skinPath = array();
+$skinPath[] = BP . DS . "skin" . DS . "client" . DS;
+$skinPath[] = BP . DS . "skin" . DS . "base" . DS;
+
+Core::regPath( $paths );
+Core::regSkinPath( $skinPath );
 
 Class Core {
 
@@ -97,6 +102,11 @@ Class Core {
  	 *	Variable Paths
  	 */
  	public static $paths;
+
+ 	/**
+ 	 *	Skin Paths
+ 	 */
+ 	public static $skinPath;
 
  	/**
  	 *	Url
@@ -172,6 +182,15 @@ Class Core {
  	 */
  	public static function regPath( $path ) {
  		self::$paths = $path;
+ 	}
+
+ 	/**
+ 	 *	Register Skin Path
+ 	 *	@var array $path
+ 	 *	@return
+ 	 */
+ 	public static function regSkinPath( $path ) {
+ 		self::$skinPath = $path;
  	}
 
  	/**

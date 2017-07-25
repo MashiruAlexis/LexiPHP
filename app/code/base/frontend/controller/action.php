@@ -89,6 +89,23 @@ Class Frontend_Controller_Action {
 	}
 
 	/**
+	 *	Get Images
+	 *	@var string $image
+	 *	@return string $image
+	 */
+	public function getImage( $image ) {
+		$img = explode("/", $image);
+		$baseUrl = Core::getSingleton("system/config")->getBaseUrl();
+		foreach( Core::$skinPath as $path ) {
+			$imagePath = $path . $img[0] . DS . "images" . DS . $img[1];
+			if( file_exists($imagePath) ) {
+				$imagePath = str_replace(BP . DS, $baseUrl, $imagePath);
+				return $imagePath;
+			}
+		}
+	}
+
+	/**
 	 *	load the resources from theme
 	 */
 	public function loadThemeResource() {

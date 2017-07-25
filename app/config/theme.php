@@ -14,7 +14,11 @@ return [
 	 */
 	"css" => [
 		"default/icon",
-		"default/materialize.min"
+		"default/materialize",
+		"default/prism",
+		"default/simplebar",
+		"default/assistance",
+		"default/style",
 	],
 
 	/**
@@ -23,7 +27,11 @@ return [
 	 * ----------------------------------
 	 */
 	"js" => [
+		"default/jquery-2.1.4.min",
+		"default/prism",
+		"default/simplebar.min",
 		"default/materialize.min",
+		"default/initialize",
 	]
 
 ];
