@@ -54,6 +54,14 @@ Class Database_Model_Base {
 	 *	conenct to database when instantiated
 	 */
 	public function __construct() {
+		$kernel = Core::getSingleton("system/kernel");
+		$dbConfig = $kernel->getConfig("database");
+		if( $dbConfig ) {
+			$this->database = $dbConfig["DatabaseName"];
+			$this->user = $dbConfig["Username"];
+			$this->pass = $dbConfig["Password"];
+			$this->host = $dbConfig["Host"];
+		}
 		$this->connect();
 	}
 

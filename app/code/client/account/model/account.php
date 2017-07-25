@@ -7,6 +7,6 @@
 Class Account_Model_Account extends Database_Model_Base {
 
 	public function __construct() {
-		Core::log( $this );
+		parent::__construct();
 	}
 }
