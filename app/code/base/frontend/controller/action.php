@@ -238,6 +238,14 @@ Class Frontend_Controller_Action {
 	}
 
 	/**
+	 *	Redirect
+	 */
+	public function _redirect( $urlKey ) {
+		header("location: " . $urlKey);
+		exit();
+	}
+
+	/**
 	 *	Render all the blocks
 	 */
 	public function render() {

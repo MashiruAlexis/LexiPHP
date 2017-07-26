@@ -2,7 +2,7 @@
       <div id="login" class="row">
 	  <!-- <h1 class="thin">Login</h1> -->
     <div class="col s12 m8 l6 offset-m2 offset-l3 card-panel">
-      <form class="login-form">
+      <form id="frmRegister" class="login-form" action="/account/register/create" method="POST">
         <div class="row primary-color form-header blue-grey darken-3">
           <div class="col s4">
             <img src="<?=$this->getImage('default/admin-logo-full.svg');?>" alt="logo" class="logo responsive-img-height">
@@ -12,37 +12,38 @@
           </div>
         </div>
 		<div class="form-body">
+    <?php $this->getChildBlock("page/alert"); ?>
         <div class="row">
           <div class="input-field col s12">
             <i class="mdi-social-person prefix"></i>
-            <input id="username" type="text" class="validate">
+            <input id="username" name="username" type="text" class="validate">
             <label for="username" class="center-align">Username</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
             <i class="mdi-communication-email prefix"></i>
-            <input id="email" type="email" class="validate">
+            <input id="email" name="email" type="email" class="validate">
             <label for="email" class="center-align">Email</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
             <i class="mdi-action-lock prefix"></i>
-            <input id="password" type="password" class="validate">
+            <input id="password" name="password" type="password" class="validate">
             <label for="password">Password</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
             <i class="mdi-action-lock prefix"></i>
-            <input id="password-again" type="password">
-            <label for="password-again">Re-type password</label>
+            <input id="repassword" name="repassword" type="password">
+            <label for="repassword">Re-type password</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <a href="register.html" class="btn-large waves-effect waves-light col s12">Register Now</a>
+            <input type="submit" href="/account/register/create" class="btn-large waves-effect waves-light col s12" value="Register Now">
           </div>
           <div class="input-field col s12">
             <p class="center medium-small sign-up">Already registered? <a href="/account/login">Login</a></p>
@@ -52,3 +53,46 @@
       </form>
     </div>
   </div>
+
+<script type="text/javascript">
+  $("#frmRegister").validate({
+        rules: {
+            username: {
+                required: true,
+                minlength: 5
+            },
+            email: {
+                required: true,
+                email:true
+            },
+            password: {
+        required: true,
+        minlength: 5
+      },
+      repassword: {
+        required: true,
+        minlength: 5,
+        equalTo: "#password"
+      },
+            cgender:"required",
+      cagree:"required",
+        },
+        //For custom messages
+        messages: {
+            uname:{
+                required: "Enter a username",
+                minlength: "Enter at least 5 characters"
+            },
+            curl: "Enter your website",
+        },
+        errorElement : 'div',
+        errorPlacement: function(error, element) {
+          var placement = $(element).data('error');
+          if (placement) {
+            $(placement).append(error)
+          } else {
+            error.insertAfter(element);
+          }
+        }
+     });
+</script>

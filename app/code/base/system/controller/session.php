@@ -24,35 +24,49 @@
  * SOFTWARE.
  */
 
- Class System_Controller_Session {
+Class System_Controller_Session {
 
- 	/**
- 	 *	Start Sessions
- 	 */
- 	public function start() {
- 		if( $this->isRunning() ) {
- 			session_start();
- 		}
- 	}
-
- 	/**
- 	 *	check if session is running
- 	 */
- 	public function isRunning() {
- 		if (session_status() == PHP_SESSION_NONE) {
- 			return false;
+	/**
+	 *	Add data to session
+	 *	@var string $name
+	 *	@var string|obj $val
+	 *	@return $this
+	 */
+	public function add( $name, $val = false ) {
+		if( $val ) {
+			$_SESSION[$name] = $val;
+			return $this;
 		}
-		return true;
- 	}
+		$_SESSION[] = $name;
+		return $this;
+	}
 
- 	/**
- 	 *	Remove and Destroy Sessions
- 	 */
- 	public function destroy() {
- 		if( isset($_SESSION ) ) {
- 			$_SESSION = [];
- 		}
- 		session_unset(session_id());
- 		// session_destroy();
- 	}
- }
+	/**
+	 *	Start Sessions
+	 */
+	public function start() {
+		if(! $this->isRunning() ) {
+			session_start();
+			$_SESSION["test"] = md5(rand());
+		}
+	}
+
+	/**
+	 *	check if session is running
+	 */
+	public function isRunning() {
+		if ( session_id() == '' ) {
+			return false;
+		}
+	return true;
+	}
+
+	/**
+	 *	Remove and Destroy Sessions
+	 */
+	public function destroy() {
+		$_SESSION = [];
+		session_unset(session_id());
+		// session_destroy();
+	}
+}

@@ -63,7 +63,6 @@ Class System_Controller_Kernel {
 			error_reporting(E_ALL);
 			ini_set('display_errors', 1);
 		}
-
 		// start session
 		$session->start();
 	}

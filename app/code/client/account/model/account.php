@@ -6,4 +6,8 @@
 
 Class Account_Model_Account extends Database_Model_Base {
 
+	/**
+	 *	Table Name for this model
+	 */
+	protected $table = "accounts";
 }

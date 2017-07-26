@@ -11,8 +11,17 @@ Class Account_Controller_Register extends Frontend_Controller_Action {
 		$this->setBlock("account/register");
 	}
 
+	public function createAction() {
+		$request = Core::getSingleton("url/request")->getRequest();
+		if( $request["password"] != $request["repassword"] ) {
+
+		}
+		$this->_redirect("/account/register");
+	}
+
 	public function setup() {
-		// $this->setJs("default/initialize");
+		$this->setJs("account/account");
+		$this->setJs("default/jquery.validate.min");
 	}
 
 }

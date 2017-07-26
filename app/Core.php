@@ -235,7 +235,7 @@ Class Core {
  	public static function getModel( $model ) {
  		$model = explode("/", $model);
  		$model = $model[0] . "_model_" . $model[1];
- 		Core::log(new $model);
+ 		return new $model;
  	}
 
  	/**

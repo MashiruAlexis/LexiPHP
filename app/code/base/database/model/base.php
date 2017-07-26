@@ -1,4 +1,8 @@
 <?php
+/**
+ * Copyright © Ramon Alexis Celis All rights reserved.
+ * See license file for more info.
+ */
 
 /**
  *	Base model of all model
@@ -8,7 +12,7 @@ Class Database_Model_Base {
 	/**
 	 *	Database
 	 */
-	protected $database = "centralpoint";
+	protected $database;
 
 	/**
 	 *	Table
@@ -18,17 +22,17 @@ Class Database_Model_Base {
 	/**
 	 *	host
 	 */
-	protected $host = "localhost";
+	protected $host;
 
 	/**
 	 *	username
 	 */
-	protected $user = "lioncityco";
+	protected $user;
 
 	/**
 	 *	password
 	 */
-	protected $pass = "lcc987";
+	protected $pass;
 
 	/**
 	 *	SQL QUERY
@@ -88,7 +92,6 @@ Class Database_Model_Base {
 			}
 		}
 		$sql .= ")";
-		Kernel::put($sql, "sql.logs");
 		try {
 		    // use exec() because no results are returned
 
@@ -111,8 +114,6 @@ Class Database_Model_Base {
 		}
 		$sql .= $this->whereClause;
 		$this->whereClause = null;
-		Kernel::log( $sql );
-		// exit();
 		try {
 		    // use exec() because no results are returned
 		    $stmt = $this->conn->prepare($sql);
@@ -198,7 +199,6 @@ Class Database_Model_Base {
 			}
 			
 		}
-		// Kernel::log($this->selectClause);
 		return $this;
 	}
 
@@ -244,9 +244,5 @@ Class Database_Model_Base {
 			echo "Connection failed: " . $e->getMessage();
 		}
 		return $this->conn;
-	}
-
-	public function bootParent() {
-		Kernel::log("Mother Model was successfully booted.");
 	}
 }
