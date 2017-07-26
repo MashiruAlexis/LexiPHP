@@ -20,7 +20,7 @@ Class Url_Controller_Http {
 	 * Sanitize Url and	extract args
 	 */
 	public function chkUrl() {
-		$this->params = explode("/", filter_var(rtrim($this->url, "/"), FILTER_SANITIZE_URL));
+		$this->params = explode("/",  filter_var(rtrim($this->url, "/"), FILTER_SANITIZE_URL));
 		return $this;
 	}
 	

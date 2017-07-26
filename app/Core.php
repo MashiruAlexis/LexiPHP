@@ -30,7 +30,7 @@
 spl_autoload_register(function($class) {
 	$class = strtolower(str_replace("_", DIRECTORY_SEPARATOR, $class));
 	$paths = Core::$paths;
-
+	
 	foreach($paths as $path) {
 		$mainpath = $path . $class . ".php";
 		if(file_exists($mainpath)) {
@@ -41,7 +41,7 @@ spl_autoload_register(function($class) {
 
 	Core::dispatchError()
  				->setTitlepage("Page not found")
- 				->setMessage("Sorry the page deosnt exist.")
+ 				->setMessage("Sorry the page doesn't exist.")
  				->setType(401)
  				->exec();
 	return;
@@ -154,10 +154,12 @@ Class Core {
 			}
 			$request = Core::getSingleton("url/request");
  			$request->genRequest($this->params);
-			$kernel->setController( Core::getSingleton($kernel->getApp() . "/" . $kernel->getController()) );
- 		}else{
- 			$kernel->setController( Core::getSingleton($kernel->getApp() . "/" . $kernel->getController()) );
  		}
+ 		// Core::log( $kernel->getApp() );
+ 		// Core::log( $kernel->getController() );
+ 		// Core::log( $kernel->getMethod() );
+ 		$kernel->setController( Core::getSingleton($kernel->getApp() . "/" . $kernel->getController()) );
+
  		if(method_exists($kernel->getController(), $kernel->getMethod())) {
  			call_user_func([$kernel->getController(), "loadThemeResource"]);
  			if( method_exists($kernel->getController(), "setup") ) {
@@ -201,7 +203,6 @@ Class Core {
  	public static function getSingleton( $controller ) {
  		$controller = explode("/", $controller);
  		$controller = $controller[0] . US . "Controller" . US . $controller[1];
-
  		if(!array_key_exists($controller, self::$objects)) {
  			self::$objects = self::$objects + array($controller => new $controller);
  		}

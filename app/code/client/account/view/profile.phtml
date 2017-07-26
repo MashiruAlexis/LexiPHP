@@ -1,0 +1,179 @@
+<?php $this->getChildBlock("page/navmember"); ?>
+<!-- Main Start -->
+<main>
+  <div class="container">
+	<h1 class="thin">My Account</h1>
+	<!--  Tables Section-->
+	<div id="messages" class="mailbox section">
+	  <div class="row">
+		<div class="col s12">
+		  <div class="z-depth-1">
+			<ul class="tabs account">
+				<li class="col s4 tab"><a class="active" href="#personal">Profile</a></li>
+				<li class="col s4 tab"><a href="#password">Password</a></li>
+				<li class="col s4 tab"><a href="#privacy">Privacy</a></li>
+			</ul>
+		  </div>
+		</div>
+		<div class="col s12">
+		  <div class="card-panel no-padding">
+		  	<?php
+		  		Core::getSingleton("system/session")->add("alert",[
+		  				"type" => "error",
+		  				"message" => "Personal information that is displayed below are not yours. please consider updating you information."
+		  			]);
+		  	?>
+		  	<?php $this->getChildBlock("page/alert"); ?>
+			<?php $this->getChildBlock("account/personal"); ?>
+			<?php $this->getChildBlock("account/password"); ?>
+
+		   <!-- Privacy tab START -->
+		   <div id="privacy">
+		   <form>
+		   <div class="form-pad">
+			<div class="row">
+				<div class="col s12">
+					  <div class="row" style="margin-top: 20px;">
+						<!-- Switch Title -->
+						<div class="col s12 m8">
+							<span>Pariatur prehenderit enim eiusmod</span>
+						</div>
+						<!-- Switch -->
+						<div class="col s12 m4">
+						  <div class="switch right">
+							<label>
+								Off
+								<input type="checkbox" checked="checked">
+								<span class="lever"></span>
+								On
+							</label>
+						  </div>
+						</div>
+					  </div>
+					  <div class="divider"></div>
+					  <div class="row" style="margin-top: 20px;">
+						<!-- Switch Title -->
+						<div class="col s12 m8">
+							<span>Suspendisse nisi sem</span>
+						</div>
+						<!-- Switch -->
+						<div class="col s12 m4">
+						  <div class="switch right">
+							<label>
+								Off
+								<input type="checkbox">
+								<span class="lever"></span>
+								On
+							</label>
+						  </div>
+						</div>
+					  </div>
+					  <div class="divider"></div>
+					  <div class="row" style="margin-top: 20px;">
+						<!-- Switch Title -->
+						<div class="col s12 m8">
+							<span>Ut vestibulum nunc convallis</span>
+						</div>
+						<!-- Switch -->
+						<div class="col s12 m4">
+						  <div class="switch right">
+							<label>
+								Off
+								<input type="checkbox" checked="checked">
+								<span class="lever"></span>
+								On
+							</label>
+						  </div>
+						</div>
+					  </div>
+					  <div class="divider"></div>
+					  <div class="row" style="margin-top: 20px;">
+						<!-- Switch Title -->
+						<div class="col s12 m8">
+							<span>Cras vitae lobortis lectus</span>
+						</div>
+						<!-- Switch -->
+						<div class="col s12 m4">
+						  <div class="switch right">
+							<label>
+								Off
+								<input type="checkbox" checked="checked">
+								<span class="lever"></span>
+								On
+							</label>
+						  </div>
+						</div>
+					  </div>
+					  <div class="divider"></div>
+					  <div class="row" style="margin-top: 20px;">
+						<!-- Switch Title -->
+						<div class="col s12 m8">
+							<span>Cras laoreet dui</span>
+						</div>
+						<!-- Switch -->
+						<div class="col s12 m4">
+						  <div class="switch right">
+							<label>
+								Off
+								<input type="checkbox">
+								<span class="lever"></span>
+								On
+							</label>
+						  </div>
+						</div>
+					  </div>
+					  <div class="divider"></div>
+					<div class="buttons" style="margin-top: 20px;">
+						<button class="waves-effect waves-light btn" type="submit" name="action1"><i class="material-icons right">done</i>Save changes</button>
+						<button class="waves-effect waves-light btn blue-grey lighten-2" type="submit" name="action2"><i class="material-icons right">clear</i>Cancel</button>
+					</div>
+				</div>
+			</div>
+		   </div>
+		   </form>
+		   </div>
+		   <!-- Privacy tab END -->
+		  </div>
+		</div>
+		<div class="section col s12">
+		  <div class="row"> 
+			<!--SOCIAL card dark START -->
+			<!-- <div class="col s12 m4">
+			  <div class="card">
+				<div class="card-content center-align">
+				  <div class="card-title truncate">Caroline Doe</div>
+				  <div class="air-box-6"> <img class="responsive-img circle" src="imgs/operator-female-smile_sml01.jpg"> </div>
+				  <p>support</p>
+				  <br>
+				  <div class="center-align social"> <a href="#" class="circle"><img class="responsive-img" src="imgs/facebook.svg"></a> <a href="#" class="circle"><img class="responsive-img" src="imgs/twitter.svg"></a> <a href="#" class="circle"><img class="responsive-img" src="imgs/gplus.svg"></a> </div>
+				</div>
+				<div class="card-action center-align truncate"> <a href="#">San Jose, California</a> </div>
+			  </div>
+			</div> -->
+			<!--SOCIAL card END --> 
+			<!--SOCIAL card dark START -->
+			<!-- <div class="col s12 m4">
+			  <div class="card secondary-color">
+				<div class="card-content center-align">
+				  <div class="card-title primary-color-text truncate">Caroline Doe</div>
+				  <div class="air-box-6"> <img class="responsive-img circle" src="imgs/operator-female-smile_sml01.jpg"> </div>
+				  <p class="primary-color-text">support</p>
+				  <br>
+				  <div class="center-align social"> <a href="#" class="circle"><img class="responsive-img" src="imgs/facebook-w.svg"></a> <a href="#" class="circle"><img class="responsive-img" src="imgs/twitter-w.svg"></a> <a href="#" class="circle"><img class="responsive-img" src="imgs/gplus-w.svg"></a> </div>
+				</div>
+				<div class="card-action center-align truncate"> <a href="#">San Jose, California</a> </div>
+			  </div>
+			</div> -->
+			<!--SOCIAL card dark END --> 
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </div>
+  <!-- container END --> 
+  
+</main>
+<!-- Main END --> 
+<script type="text/javascript">
+	$("body").removeClass("loading")
+</script>

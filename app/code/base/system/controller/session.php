@@ -22,12 +22,35 @@ Class System_Controller_Session {
 	}
 
 	/**
+	 *	Get data from session
+	 *	@var string $key
+	 *	@return string|array|obj $session
+	 */
+	public function get( $key ) {
+		if( isset($_SESSION[$key]) ) {
+			return $_SESSION[$key];
+		}
+	}
+
+	/**
+	 *	Delete session data from session
+	 *	@var string $key
+	 *	@var bool
+	 */
+	public function del( $key ) {
+		if( isset($_SESSION[$key]) ) {
+			unset($_SESSION[$key]);
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 *	Start Sessions
 	 */
 	public function start() {
 		if(! $this->isRunning() ) {
 			session_start();
-			$_SESSION["test"] = md5(rand());
 		}
 	}
 
@@ -47,6 +70,26 @@ Class System_Controller_Session {
 	public function destroy() {
 		$_SESSION = [];
 		session_unset(session_id());
-		// session_destroy();
 	}
+
+	// public function __call($method, $params = null) {
+
+	// 	$type = substr($method, 0, 3);
+	// 	$property = lcfirst(substr($method, 3));
+
+		
+	// 	try {
+			
+	// 		if($type == "set") {
+	// 			$this->{$property} = $params[0];
+	// 			return $this;
+	// 		}elseif($type == "get") {
+	// 			return $this->{$property};
+	// 		}else{
+	// 			throw new Exception("Error Processing Request", 1);
+	// 		}
+	// 	} catch (Exception $e) {
+	// 		Core::log($e);
+	// 	}
+	// }
 }

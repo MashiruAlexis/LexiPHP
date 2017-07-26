@@ -12,9 +12,45 @@ Class Account_Controller_Register extends Frontend_Controller_Action {
 	}
 
 	public function createAction() {
+		$session = Core::getSingleton("system/session");
 		$request = Core::getSingleton("url/request")->getRequest();
-		if( $request["password"] != $request["repassword"] ) {
+		$db = Core::getModel("account/account");
 
+		if( $request["password"] != $request["repassword"] ) {
+			$session->add("alert",[
+					"type" => "error",
+					"message" => "An error has occurd while checking the input you have provided, please try again."
+				]);
+			$this->_redirect("/account/register");
+		}
+
+		if( $db->where("username", $request["username"])->exist() ) {
+			$session->add("alert", [
+					"type" => "error",
+					"message" => "Sorry, the username you have picked already exist, please pick another one."
+				]);
+			$this->_redirect("/account/register");
+		}
+
+		if( $db->where("email", $request["email"])->exist() ) {
+			$session->add("alert", [
+					"type" => "error",
+					"message" => "Sorry, the email you have picked already exist, please pick another one."
+				]);
+			$this->_redirect("/account/register");
+		}
+		
+		$reg = $db->insert([
+				"username" => $request["username"],
+				"password" => $request["password"],
+				"email" => $request["email"]
+			]);
+		if( $reg ) {
+			$session->add("alert",[
+					"type" => "success",
+					"message" => "Congrats, you successfully created an account."
+				]);
+			$this->_redirect("/");
 		}
 		$this->_redirect("/account/register");
 	}
@@ -22,6 +58,7 @@ Class Account_Controller_Register extends Frontend_Controller_Action {
 	public function setup() {
 		$this->setJs("account/account");
 		$this->setJs("default/jquery.validate.min");
+		$this->setCss("default/style");
 	}
 
 }

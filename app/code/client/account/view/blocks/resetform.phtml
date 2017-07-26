@@ -1,38 +1,45 @@
 <!--  Tables Section-->
-      <div id="login" class="row">
+	  <div id="login" class="row">
 	  <!-- <h1 class="thin">Login</h1> -->
-    <div class="col s12 m8 l6 offset-m2 offset-l3 card-panel">
-      <form class="login-form">
-        <div class="row primary-color form-header">
-          <div class="col s3">
-            <img src="<?=$this->getImage('default/admin-logo-full.svg');?>" alt="logo" class="logo responsive-img-height">
-          </div>
+	<div class="col s12 m8 l6 offset-m2 offset-l3 card-panel">
+	  <form class="login-form">
+		<div class="row primary-color form-header">
+		  <div class="col s3">
+			<img src="<?=$this->getImage('default/admin-logo-full.svg');?>" alt="logo" class="logo responsive-img-height">
+		  </div>
 		  <div class="col s9 right-align">
-            <h4 class="light white-text">Reset Password</h4>
-          </div>
-        </div>
+			<h4 class="light white-text">Reset Password</h4>
+		  </div>
+		</div>
 		<div class="form-body">
-        <div class="row">
-          <div class="input-field col s12">
-            <i class="mdi-content-mail prefix"></i>
-            <input class="validate" id="email" type="email">
-            <label for="email" data-error="wrong" data-success="right" class="center-align">Email</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <a href="index-2.html" class="btn-large waves-effect waves-light col s12">Reset my Password</a>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s6">
-            <p class="medium-small"><a href="/account/register">Register Now!</a></p>
-          </div>
-          <div class="input-field col s6">
-              <p class="right-align medium-small"><a href="/account/login">Login</a></p>
-          </div>          
-        </div>
+<?php
+Core::getSingleton("system/session")->add("alert", [
+		"type" => "warning",
+		"message" => "This feature is not fully integrated on the system or in other words its not implemented yet, thankyou for understanding."
+	]);
+$this->getChildBlock("page/alert");
+?>
+		<div class="row">
+		  <div class="input-field col s12">
+			<i class="mdi-content-mail prefix"></i>
+			<input class="validate" id="email" type="email">
+			<label for="email" data-error="wrong" data-success="right" class="center-align">Email</label>
+		  </div>
+		</div>
+		<div class="row">
+		  <div class="input-field col s12">
+			<a href="/account/reset" class="btn-large waves-effect waves-light col s12">Reset my Password</a>
+		  </div>
+		</div>
+		<div class="row">
+		  <div class="input-field col s6">
+			<p class="medium-small"><a href="/account/register">Register Now!</a></p>
+		  </div>
+		  <div class="input-field col s6">
+			  <p class="right-align medium-small"><a href="/account/login">Login</a></p>
+		  </div>          
+		</div>
 	  </div>
-      </form>
-    </div>
+	  </form>
+	</div>
   </div>

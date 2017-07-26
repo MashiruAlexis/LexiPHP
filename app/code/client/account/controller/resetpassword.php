@@ -13,4 +13,8 @@
  		$this->setPageTitle("Reset Password");
  		$this->setBlock("account/resetpassword");
  	}
+
+ 	public function setup() {
+ 		$this->setCss("default/style");
+ 	}
  }

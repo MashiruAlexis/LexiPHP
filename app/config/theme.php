@@ -18,12 +18,13 @@ return [
 	 * ----------------------------------
 	 */
 	"css" => [
+		"default/preloader-stage",
 		"default/icon",
 		"default/materialize",
 		"default/prism",
 		"default/simplebar",
+		"default/justifiedGallery",
 		"default/assistance",
-		"default/style",
 	],
 
 	/**
@@ -37,6 +38,12 @@ return [
 		"default/simplebar.min",
 		"default/materialize.min",
 		"default/initialize",
+		"default/charts_chart.core.min",
+		"default/charts_chart.line.min",
+		"default/charts_chart.doughnut.min",
+		"default/charts_chart.bar.min",
+		"default/jquery.justifiedGallery.min",
+		"default/jquery.countTo",
 	]
 
 ];

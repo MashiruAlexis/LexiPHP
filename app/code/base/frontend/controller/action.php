@@ -40,7 +40,7 @@ Class Frontend_Controller_Action {
 	/**
 	 *	Page Title
 	 */
-	public $pageTitle = "lexi";
+	public $pageTitle = "LexiPHP Framework";
 
 	/**
 	 *	Load defaults [Deprecated]
@@ -130,6 +130,10 @@ Class Frontend_Controller_Action {
 		$baseurl = $config->getBaseUrl();
 		foreach($paths as $jsPaths) {
 			$fileLoc = BP . DS . "skin" . DS . $jsPaths . DS . $varJs[0] . DS . "js" . DS . $varJs[1] . ".js";
+			if( strpos( $fileLoc, US ) !== false ) {
+				$fileLoc = str_replace(US, DS, $fileLoc);
+				$varJs[1] = str_replace(US, DS, $varJs[1]);
+			}
 			if(file_exists($fileLoc)) {
 				$this->js[] = "<script src='" . $baseurl . "skin" . BS . $jsPaths . BS . $varJs[0] . BS . "js" . BS . $varJs[1] . ".js'></script>";
 			}
@@ -233,7 +237,7 @@ Class Frontend_Controller_Action {
 	}
 
 	/**
-	 *	Clear the blocks
+	 *	Clear the blocks [pending removal]
 	 */
 	public function clear() {
 		$this->css = null;
@@ -242,24 +246,66 @@ Class Frontend_Controller_Action {
 		return $this;
 	}
 
-	public function __call($method, $params = null) {
+	/**
+	 *	set Page title
+	 *	@var string $title
+	 *	@return null
+	 */
+	public function setPageTitle( $title ) {
+		$this->pageTitle = $title;
+		return;
+	}
 
-		$type = substr($method, 0, 3);
-		$property = lcfirst(substr($method, 3));
+	/**
+	 *	Get Page Title
+	 *	@return string $pageTitle
+	 */
+	public function getPageTitle() {
+		return $this->pageTitle;
+	}
+
+	/**
+	 *	Get Css
+	 *	@return array $this->css
+	 */
+	public function getCss() {
+		return $this->css;
+	}
+
+	/**
+	 *	Get Js
+	 *	@return array $this->js
+	 */
+	public function getJs() {
+		return $this->js;
+	}
+
+	/**
+	 *	Get blocks
+	 *	@return array $this->blocks
+	 */
+	public function getBlocks() {
+		return $this->blocks;
+	}
+
+	// public function __call($method, $params = null) {
+
+	// 	$type = substr($method, 0, 3);
+	// 	$property = lcfirst(substr($method, 3));
 
 		
-		try {
+	// 	try {
 			
-			if($type == "set") {
-				$this->$property = $params[0];
-				return $this;
-			}elseif($type == "get") {
-				return $this->$property;
-			}else{
-				throw new Exception("Error Processing Request", 1);
-			}
-		} catch (Exception $e) {
-			Core::log($e);
-		}
-	}
+	// 		if($type == "set") {
+	// 			$this->$property = $params[0];
+	// 			return $this;
+	// 		}elseif($type == "get") {
+	// 			return $this->$property;
+	// 		}else{
+	// 			throw new Exception("Error Processing Request", 1);
+	// 		}
+	// 	} catch (Exception $e) {
+	// 		Core::log($e);
+	// 	}
+	// }
 }

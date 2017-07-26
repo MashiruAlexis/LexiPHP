@@ -9,7 +9,7 @@ Class System_Controller_Kernel {
 	/**
 	 *	Current Running App
 	 */
-	private $app = "index";
+	private $app = "dashboard";
 
 	/**
 	 *	Current Running Controller
