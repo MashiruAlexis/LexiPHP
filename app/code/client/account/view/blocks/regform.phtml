@@ -2,7 +2,7 @@
       <div id="login" class="row">
 	  <!-- <h1 class="thin">Login</h1> -->
     <div class="col s12 m8 l6 offset-m2 offset-l3 card-panel">
-      <form id="frmRegister" class="login-form" action="/account/register/create" method="POST">
+      <form id="frmRegister" class="login-form" action="<?=Core::getBaseUrl()?>account/register/create" method="POST">
         <div class="row primary-color form-header blue-grey darken-3">
           <div class="col s4">
             <img src="<?=$this->getImage('default/admin-logo-full.svg');?>" alt="logo" class="logo responsive-img-height">
@@ -43,10 +43,10 @@
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input type="submit" href="/account/register/create" class="btn-large waves-effect waves-light col s12" value="Register Now">
+            <input type="submit" href="<?=Core::getBaseUrl()?>account/register/create" class="btn-large waves-effect waves-light col s12" value="Register Now">
           </div>
           <div class="input-field col s12">
-            <p class="center medium-small sign-up">Already registered? <a href="/account/login">Login</a></p>
+            <p class="center medium-small sign-up">Already registered? <a href="<?=Core::getBaseUrl()?>account/login">Login</a></p>
           </div>
         </div>
 	  </div>
