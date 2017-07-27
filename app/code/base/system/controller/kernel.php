@@ -38,6 +38,9 @@ Class System_Controller_Kernel {
 		$config = $this->getConfig("system");
 		$session = Core::getSingleton("system/session");
 		
+		if( isset($config["app"]) ) {
+			$this->setApp( $config["app"] );
+		}
 		// set debug mode
 		if( $config["debug"] ) {
 			error_reporting(E_ALL);

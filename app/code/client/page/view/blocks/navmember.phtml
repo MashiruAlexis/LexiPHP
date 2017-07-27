@@ -24,17 +24,17 @@
 	<ul class="side-nav-main">
 	  <li class="logo hide-on-med-and-down"><img src="<?=$this->getImage('default/admin-logo-full.svg');?>" alt="logo" class="logo responsive-img"></li>
 		<li class="side-nav-inline hide-on-med-only"> 
-			<a href="/account/login/exit" class="inline waves-effect tooltipped" data-position="bottom" data-delay="50" data-tooltip="Logout">
+			<a href="<?=Core::getBaseUrl()?>account/login/exit" class="inline waves-effect tooltipped" data-position="bottom" data-delay="50" data-tooltip="Logout">
 				<i class="mdi-action-exit-to-app"></i>
 			</a> 
-			<a href="/account/profile" class="inline waves-effect tooltipped" data-position="bottom" data-delay="50" data-tooltip="Profile">
+			<a href="<?=Core::getBaseUrl()?>account/profile" class="inline waves-effect tooltipped" data-position="bottom" data-delay="50" data-tooltip="Profile">
 				<i class="mdi-action-perm-identity"></i>
 			</a> 
 			<a href="#search-in-modal" class="inline waves-effect modal-trigger">
 				<i class="mdi-action-search"></i>
 			</a>
 		</li>
-	  <li><a href="/" class="waves-effect"><i class="mdi-action-dashboard left"></i><span>Dashboard</span></a></li>
+	  <li><a href="<?=Core::getBaseUrl()?>" class="waves-effect"><i class="mdi-action-dashboard left"></i><span>Dashboard</span></a></li>
 	  <li><a href="messages.html" class="waves-effect"><i class="mdi-communication-email left"></i><span>Messages</span><span class="new badge">3</span></a></li>
 	  <li>
 		<ul class="collapsible" data-collapsible="accordion">

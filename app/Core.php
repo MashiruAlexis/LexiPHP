@@ -155,9 +155,7 @@ Class Core {
 			$request = Core::getSingleton("url/request");
  			$request->genRequest($this->params);
  		}
- 		// Core::log( $kernel->getApp() );
- 		// Core::log( $kernel->getController() );
- 		// Core::log( $kernel->getMethod() );
+
  		$kernel->setController( Core::getSingleton($kernel->getApp() . "/" . $kernel->getController()) );
 
  		if(method_exists($kernel->getController(), $kernel->getMethod())) {
@@ -244,6 +242,14 @@ Class Core {
  	 */
  	public static function getParams() {
  		return self::params;
+ 	}
+
+ 	/**
+ 	 *	Get Base URL
+ 	 */
+ 	public static function getBaseUrl() {
+ 		$config = Core::getSingleton("system/kernel")->getConfig("system");
+ 		return $config["baseUrl"];
  	}
 
  	/**
