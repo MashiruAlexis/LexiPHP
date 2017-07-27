@@ -39,12 +39,12 @@ spl_autoload_register(function($class) {
 		}
 	}
 
-	Core::dispatchError()
- 				->setTitlepage("Page not found")
- 				->setMessage("Sorry the page doesn't exist.")
- 				->setType(401)
- 				->exec();
-	return;
+	// Core::dispatchError()
+ // 				->setTitlepage("Page not found")
+ // 				->setMessage("Sorry the page doesn't exist.")
+ // 				->setType(401)
+ // 				->exec();
+	// return;
 });
 
 define("BPcore", "app/code/base/");

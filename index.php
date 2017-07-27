@@ -20,6 +20,27 @@ require_once "app/Core.php";
 define("ROOT", getcwd() . DIRECTORY_SEPARATOR);
 
 /**
+ *	Lets add vendor here [if we need php packages this will autoload them]
+ */
+// $vendor = BP . DS . "vendor" . DS . "autoload.php";
+// if( file_exists($vendor) ) {
+// 	include_once $vendor;
+// }
+
+/**
+ *	Lets add vendor here [if we need php packages this will autoload them]
+ */
+$vendor = BP . DS . "app" . DS . "code" . DS . "modules" . DS . "toggl" . DS . "Toggl.php";
+if( file_exists($vendor) ) {
+	include_once $vendor;
+}
+
+$f1 = BP . DS . "app" . DS . "code" . DS . "modules" . DS . "toggl" . DS . "Classloader.php";
+if( file_exists($f1) ) {
+	include_once $f1;
+}
+
+/**
  *	Instantiate Core
  */
 Core::app();
