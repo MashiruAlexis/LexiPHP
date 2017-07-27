@@ -15,7 +15,7 @@ return [
 	 *	Base URL
 	 * --------------------
 	 */
-	"baseUrl" => "http://mashapp.com/",
+	"baseUrl" => "http://192.168.1.99/ark/",
 
 	/**
 	 * --------------------
