@@ -33,11 +33,10 @@ Class Error_Controller_Error extends Frontend_Controller_Action {
 	 */
 	public function exec() {
 		$this->setPageTitle($this->titlepage);
-		$this->setBaseCss("error/error-style");
+		$this->setCss("error/error-style");
 		$this->setBlock("error/body");
 		$this->render();
 		exit();
-
 	}
 
 
