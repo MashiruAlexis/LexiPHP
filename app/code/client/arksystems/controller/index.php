@@ -3,7 +3,9 @@
 Class Arksystems_Controller_Index extends Frontend_Controller_Action {
 
 	public function indexAction() {
-		Core::log("I was set as default");
+		$this->setPageTitle("Enter Number");
+		$this->setCss("default/style");
+		$this->setBlock("arksystems/cashier");
 	}
 
 	public function setup() {
