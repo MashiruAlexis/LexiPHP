@@ -3,7 +3,7 @@
  *
  * MIT License
  *
- * Copyright (c) 2016 Ramon Alexis Celis
+ * Copyright (c) 2017 Ramon Alexis Celis
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,30 @@
  * SOFTWARE.
  */
 
+/**
+ *	Autoloader
+ */
+spl_autoload_register(function($class) {
+	$class = strtolower(str_replace("_", DIRECTORY_SEPARATOR, $class));
+	$paths = Core::$paths;
+	
+	foreach($paths as $path) {
+		$mainpath = $path . $class . ".php";
+		if(file_exists($mainpath)) {
+			require_once $mainpath;
+			return;
+		}
+	}
+
+	Core::dispatchError()
+ 				->setTitlepage("Page not found")
+ 				->setMessage("Sorry the page doesn't exist.")
+ 				->setType(401)
+ 				->exec();
+	return;
+});
+
+define("BPcore", "app/code/base/");
 define("DS", DIRECTORY_SEPARATOR);
 define("PS", PATH_SEPARATOR);
 define("BP", dirname(dirname(__FILE__)));
@@ -33,10 +57,21 @@ define("BS", "/");
 $paths = array();
 $paths[] = BP . DS . "app" . DS . "code" . DS . "client" . DS;
 $paths[] = BP . DS . "app" . DS . "code" . DS . "base" . DS;
+$paths[] = BP . DS . "lib" . DS . "lexi" . DS;
 
-Core::regPath($paths);
+$skinPath = array();
+$skinPath[] = BP . DS . "skin" . DS . "client" . DS;
+$skinPath[] = BP . DS . "skin" . DS . "base" . DS;
+
+Core::regPath( $paths );
+Core::regSkinPath( $skinPath );
 
 Class Core {
+
+	/**
+	 *	System Kernel
+	 */
+	protected $kernel;
 
 	/**
 	 *	Default App
@@ -58,107 +93,175 @@ Class Core {
 	 */
 	public $params = array();
 
+	/**
+	 *	Objects Instance
+	 */
+	public static $objects = array();
+
  	/**
  	 *	Variable Paths
  	 */
  	public static $paths;
 
  	/**
+ 	 *	Skin Paths
+ 	 */
+ 	public static $skinPath;
+
+ 	/**
  	 *	Url
  	 */
  	public static $url = null;
 
+ 	/**
+ 	 *	Bootsrap
+ 	 */
  	public function __construct() {
+ 		// instantiate the kernel
+ 		$kernel = Core::getSingleton("system/kernel");
 
+ 		// get all the request
  		if(isset($_GET['request'])) {
  			$httpurl = Core::getSingleton("Url/Http");
+ 			// validate url
  			$httpurl->setUrl($_GET['request'])->chkUrl();
  			$this->params = $httpurl->getParams();
+ 			
+ 			$dirs = array_filter(glob(BPcore . '*'), 'is_dir');
 
+ 			foreach($dirs as $dir) {
+ 				if($this->params[0] == str_replace(BPcore, "", $dir)) {
+ 					Core::dispatchError()
+ 						->setTitlepage("Access Denied")
+ 						->setMessage("Sorry this page is reserve for core files only")
+ 						->setType(401)
+ 						->exec();
+ 				}
+ 			}
  		}
 
  		if(isset($this->params[0])) {
-			$this->app = $this->params[0];
+			$kernel->setApp( $this->params[0] );
 			unset($this->params[0]);
-
 			if(isset($this->params[1])) {
-				$this->controller = $this->params[1]; 
+				$kernel->setController( $this->params[1] ); 
 				unset($this->params[1]);
 			}
 
 			if(isset($this->params[2])) {
-				$this->method = $this->params[2];
+				$kernel->setMethod( $this->params[2] . "Action" );
+				unset($this->params[2]);
 			}
 			$request = Core::getSingleton("url/request");
  			$request->genRequest($this->params);
-			$this->controller = Core::getSingleton($this->app . "/" . $this->controller);
- 		}else{
- 			$this->controller = Core::getSingleton($this->app . "/" . $this->controller);
  		}
 
- 		if(method_exists($this->controller, $this->method)) {
- 			call_user_func_array([$this->controller, $this->method], [$this->params]);
+ 		$kernel->setController( Core::getSingleton($kernel->getApp() . "/" . $kernel->getController()) );
+
+ 		if(method_exists($kernel->getController(), $kernel->getMethod())) {
+ 			call_user_func([$kernel->getController(), "loadThemeResource"]);
+ 			if( method_exists($kernel->getController(), "setup") ) {
+ 				call_user_func([$kernel->getController(), "setup"]);
+ 			}
+ 			call_user_func_array([$kernel->getController(), $kernel->getMethod()], [$this->params]);
+ 			// render all the blocks
+ 			call_user_func([$kernel->getController(), "render"]);
  		}else {
- 			echo "Page not found!";
+ 			Core::dispatchError()
+ 				->setTitlepage("Page not found")
+ 				->setMessage("Sorry the page deosnt exist.")
+ 				->setType(401)
+ 				->exec();
  		}
-
- 		Core::dispatchError()->setTitlepage("Hello")->setMessage("Wow")->setType(401);
-
  	}
 
  	/**
  	 *	Register paths
+ 	 *	@var array $path
+ 	 *	@return
  	 */
- 	public static function regPath($varPath) {
- 		self::$paths = $varPath;
+ 	public static function regPath( $path ) {
+ 		self::$paths = $path;
+ 	}
+
+ 	/**
+ 	 *	Register Skin Path
+ 	 *	@var array $path
+ 	 *	@return
+ 	 */
+ 	public static function regSkinPath( $path ) {
+ 		self::$skinPath = $path;
  	}
 
  	/**
  	 *	Get Singleton
+ 	 *	@var string $controller
+ 	 *	@return obj $controller
  	 */
- 	public static function getSingleton($varController) {
- 		$varController = explode("/", $varController);
- 		$varController = $varController[0] . US . "Controller" . US . $varController[1];
+ 	public static function getSingleton( $controller ) {
+ 		$controller = explode("/", $controller);
+ 		$controller = $controller[0] . US . "Controller" . US . $controller[1];
+ 		if(!array_key_exists($controller, self::$objects)) {
+ 			self::$objects = self::$objects + array($controller => new $controller);
+ 		}
+ 		
+ 		return self::$objects[$controller];
+ 	}
 
- 		return new $varController;
+ 	/**
+ 	 *	Get new Instace of object
+ 	 *	@var string $instance
+ 	 *	@return obj $obj
+ 	 */
+ 	public static function getInstance( $instance ) {
+ 		$obj = explode("/", $instance);
+ 		$obj = $obj[0] . US . "controller" . US . $obj[1];
+ 		return new $obj;
  	}
 
  	/**
  	 *	Error Handler
  	 */
- 	public function dispatchError() {
+ 	public static function dispatchError() {
  		return Core::getSingleton("error/error");
  	}
 
  	/**
- 	 *	Print Variables
+ 	 *	Get Model
+ 	 *	@var string $model
+ 	 *	@return obj $model
  	 */
- 	public static function log($varLog) {
- 		echo "<pre>";
- 		print_r($varLog);
- 		echo "</pre>";
+ 	public static function getModel( $model ) {
+ 		$model = explode("/", $model);
+ 		$model = $model[0] . "_model_" . $model[1];
+ 		return new $model;
  	}
 
- 	public function __call($method, $params = null) {
+ 	/**
+ 	 *	Return the parameters
+ 	 */
+ 	public static function getParams() {
+ 		return self::params;
+ 	}
 
-		$type = substr($method, 0, 3);
-		$property = lcfirst(substr($method, 3));
+ 	/**
+ 	 *	Get Base URL
+ 	 */
+ 	public static function getBaseUrl() {
+ 		$config = Core::getSingleton("system/kernel")->getConfig("system");
+ 		return $config["baseUrl"];
+ 	}
 
-		
-		try {
-			
-			if($type == "set") {
-				$this->$property = $params[0];
-				return $this;
-			}elseif($type == "get") {
-				return $this->$property;
-			}else{
-				throw new Exception("Error Processing Request", 1);
-			}
-		} catch (Exception $e) {
-			Core::log($e);
-		}
-	}
+ 	/**
+ 	 *	Print Variables
+ 	 *	@var string $str
+ 	 *	@return
+ 	 */
+ 	public static function log( $str ) {
+ 		echo "<pre>";
+ 		print_r($str);
+ 		echo "</pre>";
+ 	}
 
  	/**
  	 *	Instantiate Core Class

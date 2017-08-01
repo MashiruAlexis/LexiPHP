@@ -1,0 +1,62 @@
+<style type="text/css">
+.queue-numbers {
+	color: #b71c1c;
+}
+</style>
+<div class="row">
+	<div class="col s12 center-align" id="queueList">
+		
+	</div>
+</div>
+
+<script type="text/javascript">
+	
+
+	$(document).ready(function() {
+	  var MyTimer = setInterval(function() {
+	  	update();
+	 },  1000);
+	});
+
+	function inArray( data, listData ) {
+		for( i = 0; i < listData.length; i++ ) {
+			if( listData[i] == data ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	function addToArray( data, arrayData ) {
+		if( arrayData != null ) {
+			if(! inArray(data, arrayData) ) {
+				arrayData[arrayData.length + 1] = data;
+				return;
+			}
+			return;
+		}
+		return;
+	}
+
+	function update() {
+
+		for( var x = 0; x < queue.length; x++ ) {
+			if (! $( "#queue-" + queue[x] ).length ) {
+				newItem = $('<h1 class="queue-numbers" id="queue-'+ queue[x] +'"> '+ queue[x] +' </h1>').hide();
+				$("#queueList").prepend(newItem);
+				newItem.fadeIn();
+			}
+		}
+
+		for( var x = 0; x < queueCollection.length; x++ ) {
+			if( $( "#queue-" + queueCollection[x] ).length ) {
+				$( "#queue-" + queueCollection[x] ).fadeOut(1000, function(){
+					$( "#queue-" + queueCollection[x] ).remove();
+				});
+				
+			}
+		}
+
+
+	}
+</script>

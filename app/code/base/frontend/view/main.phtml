@@ -1,15 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="msapplication-tap-highlight" content="no">
 	<title><?php echo $this->getPageTitle(); ?></title>
 <?php
 foreach ($this->getCss() as $varCss) {
 	echo $varCss . "\n";
 }
 ?>
+
+<?php
+foreach ($this->getJs() as $varJs) {
+	echo $varJs . "\n";
+}
+?>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
-<body>
+<body class="loading">
 
 <?php
 	foreach ($this->getBlocks() as $varBlocks) {
@@ -19,10 +30,5 @@ foreach ($this->getCss() as $varCss) {
 ?>
 
 
-<?php
-foreach ($this->getJs() as $varJs) {
-	echo $varJs . "\n";
-}
-?>
 </body>
 </html>

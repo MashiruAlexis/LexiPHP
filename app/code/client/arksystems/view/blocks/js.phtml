@@ -1,0 +1,42 @@
+<script type="text/javascript">
+var queuePreparingSinageup 		= [];
+var queueCollectionSinageup 	= [];
+var queueCompletedSinageup 		= [];
+var queuePreparingSinagedown 	= [];
+var queueCollectionSinagedown 	= [];
+var queueCompletedSinagedown 	= [];
+var queue 						= [];
+var queueCollection 			= [];
+var queueCompleted 				= [];
+
+
+$(document).ready(function() {
+	var MyTimer4 = setInterval(function() {
+		$.getJSON("<?=Core::getBaseUrl()?>arksystems/queue/getQueueList", function(data) {
+		queuePreparingSinageup 		= data.preparing;
+		queueCollectionSinageup 	= data.ready;
+		queueCompleted 				= data.completed;
+		queuePreparingSinagedown 	= data.preparing;
+		queueCollectionSinagedown	= data.ready;
+		queueCompletedSinagedown 	= data.completed;
+		queue 						= data.preparing;
+		queueCollection 			= data.ready;
+		queueCompleted 				= data.completed;
+
+	});
+
+	},  3000);
+});
+
+$(document).ready(function(){
+	$("body").removeClass("loading");
+	$("#queueNumber").click(function() {
+		$("#iQueue").removeClass("active");
+		$("#iQueueLabel").removeClass("active");
+		$("#queueNumber").val("");
+		
+
+	});
+});
+</script>
+
