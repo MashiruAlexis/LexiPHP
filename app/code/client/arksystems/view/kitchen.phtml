@@ -3,41 +3,24 @@
 <!-- Main Start -->
 <main>
 	<div class="row">
-		<div class="col s5" style="border: 1px solid red;">
-			<div class="col s12 card-panel" style="height: 900px;">
-				<form class="login-form" name="frmEnterQueueNumber" id="frmEnterQueueNumber" method="POST" action="<?=Core::getBaseUrl()?>arksystems/queue/add"  >
-					<div class="row primary-color form-header">
-						<div class="col s12 center-align">
-							<h4 class="light white-text">Enter Queue Number</h4>
-						</div>
+	<?php $this->getChildBlock("page/alert"); ?>
+		<div class="col s5">
+			<div class="col s12 card-panel">
+				<div class="row primary-color form-header">
+					<div class="col s12 center-align">
+						<h4 class="light white-text">Queue Numbers</h4>
 					</div>
-					<div class="form-body">
-						<?php $this->getChildBlock("page/alert"); ?>
-						<div class="row">
-							<div class="input-field col s12">
-								<i class="large material-icons prefix">add_to_queue</i>
-								<input name="queueNumber" class="validate" id="queueNumber" type="number" autofocus>
-								<label for="queueNumber" class="center-align">Queue Number</label>
-							</div>
-						</div>
-						<div class="row">
-							<div class="input-field col s6">
-								<input type="submit" name="btnEnter" class="btn-large waves-effect waves-light col s12" value="Enter">
-							</div>
-							<div class="input-field col s6">
-								<button type="reset" class="btn-large waves-effect waves-light col s12">Clear</button>
-							</div>
-						</div>
-					</div>
-				</form>
+				</div>
+				<div class="form-body">
+					<?php $this->getChildBlock("arksystems/queuelist") ?>
+				</div>
 			</div>
 		</div>
-		<div class="col s7" style="border: 1px solid red;">
-			<h1>Hellow!</h1>
+		<div class="col s7 center-align">
+			<?php $this->getChildBlock("arksystems/collection"); ?>
+			<?php $this->getChildBlock("arksystems/completed"); ?>
+		</div>
 		</div>
 	</div>
-	<!-- <div class="container valign" style="border: 1px solid red;">
-		<?php #$this->getChildBlock("arksystems/preparinglist"); ?>
-	</div> -->
 </main>
 <!-- Main End -->

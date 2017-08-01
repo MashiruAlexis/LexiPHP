@@ -1,0 +1,42 @@
+<div class="row">
+	<h1 class="center-align">Ready to Collect</h1>
+	<div class="col s12 center-align" id="sinagedown">
+		<!-- Content will be automatically populated here. -->
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+	var MyTimer2 = setInterval(function() {
+		updateCollectionList();
+	},  1000);
+});
+
+function log( str , alert1 = false) {
+	if( alert1 ) {
+		alert(str);
+		return;
+	}
+	console.log( str );
+	return;
+}
+
+function updateCollectionList() {
+	apiUrl = "<?=Core::getBaseUrl()?>arksystems/queue/getQueueList";
+	for( var i = 0; i < queueCollectionSinagedown.length; i++ ) {
+		if (! $( "span#sinagedown-queue-" + queueCollectionSinagedown[i] ).length ) {
+			newItem = $('<span class="qtxt" id="sinagedown-queue-'+ queueCollectionSinagedown[i] +'"> '+ queueCollectionSinagedown[i] +', </span>').hide();
+			$("div#sinagedown").prepend(newItem);
+			newItem.fadeIn();
+		}
+	}
+
+	for( var x = 0; x < queueCompletedSinagedown.length; x++ ) {
+		if( $( "span#sinagedown-queue-" + queueCompletedSinagedown[x] ).length ) {
+			$( "span#sinagedown-queue-" + queueCompletedSinagedown[x] ).fadeOut(1000, function(){
+				$( "span#sinagedown-queue-" + queueCompletedSinagedown[x] ).remove();
+			});
+			
+		}
+	}
+}
+</script>

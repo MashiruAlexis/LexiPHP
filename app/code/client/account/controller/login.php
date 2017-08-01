@@ -35,7 +35,7 @@ Class Account_Controller_Login extends Frontend_Controller_Action {
 				"message" => "The credentials you have enter does not exist in our database."
 			]);
 		}
-		$this->_redirect('/account/login');
+		$this->_redirect( Core::getBaseUrl() . 'account/login');
 	}
 
 	public function exitAction() {

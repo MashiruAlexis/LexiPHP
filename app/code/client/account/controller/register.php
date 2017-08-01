@@ -21,7 +21,7 @@ Class Account_Controller_Register extends Frontend_Controller_Action {
 					"type" => "error",
 					"message" => "An error has occurd while checking the input you have provided, please try again."
 				]);
-			$this->_redirect("/account/register");
+			$this->_redirect(Core::getBaseUrl() . "account/register");
 		}
 
 		if( $db->where("username", $request["username"])->exist() ) {
@@ -29,7 +29,7 @@ Class Account_Controller_Register extends Frontend_Controller_Action {
 					"type" => "error",
 					"message" => "Sorry, the username you have picked already exist, please pick another one."
 				]);
-			$this->_redirect("/account/register");
+			$this->_redirect(Core::getBaseUrl() . "account/register");
 		}
 
 		if( $db->where("email", $request["email"])->exist() ) {
@@ -37,7 +37,7 @@ Class Account_Controller_Register extends Frontend_Controller_Action {
 					"type" => "error",
 					"message" => "Sorry, the email you have picked already exist, please pick another one."
 				]);
-			$this->_redirect("/account/register");
+			$this->_redirect(Core::getBaseUrl() . "account/register");
 		}
 		
 		$reg = $db->insert([
@@ -50,9 +50,9 @@ Class Account_Controller_Register extends Frontend_Controller_Action {
 					"type" => "success",
 					"message" => "Congrats, you successfully created an account."
 				]);
-			$this->_redirect("/");
+			$this->_redirect(Core::getBaseUrl());
 		}
-		$this->_redirect("/account/register");
+		$this->_redirect(Core::getBaseUrl() . "account/register");
 	}
 
 	public function setup() {

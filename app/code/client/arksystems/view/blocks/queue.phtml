@@ -1,6 +1,5 @@
 <!--  Tables Section-->
 <div id="login" class="row">
-<!-- <h1 class="thin">Login</h1> -->
 	<div class="col s12 m8 l6 offset-m2 offset-l3 card-panel">
 		<form class="login-form" name="frmEnterQueueNumber" id="frmEnterQueueNumber" method="POST" action="<?=Core::getBaseUrl()?>arksystems/queue/add"  >
 			<div class="row primary-color form-header">
@@ -13,7 +12,7 @@
 				<div class="row">
 					<div class="input-field col s12">
 						<i class="large material-icons prefix">add_to_queue</i>
-						<input name="queueNumber" class="validate" id="queueNumber" type="number" autofocus>
+						<input name="queueNumber" class="validate" id="queueNumber" type="number" min="1" max="999" autofocus>
 						<label for="queueNumber" class="center-align">Queue Number</label>
 					</div>
 				</div>
@@ -22,7 +21,6 @@
 						<input type="submit" name="btnEnter" class="btn-large waves-effect waves-light col s12" value="Enter">
 					</div>
 					<div class="input-field col s6">
-						<!-- <a href="#" id="btnClear" class="btn-large waves-effect waves-light col s12">Clear</a> -->
 						<button type="reset" class="btn-large waves-effect waves-light col s12">Clear</button>
 					</div>
 				</div>

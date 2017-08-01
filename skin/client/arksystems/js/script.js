@@ -1,3 +1,5 @@
+
+
 function toggleFullScreen() {
 	if ((document.fullScreenElement && document.fullScreenElement !== null) || (!document.mozFullScreen && !document.webkitIsFullScreen)) {
 		if (document.documentElement.requestFullScreen) {  
@@ -17,4 +19,3 @@ function toggleFullScreen() {
 		}  
 	}  
 }
-
