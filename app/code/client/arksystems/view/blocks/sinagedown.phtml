@@ -11,17 +11,7 @@ $(document).ready(function() {
 	},  1000);
 });
 
-function log( str , alert1 = false) {
-	if( alert1 ) {
-		alert(str);
-		return;
-	}
-	console.log( str );
-	return;
-}
-
 function updateCollectionList() {
-	apiUrl = "<?=Core::getBaseUrl()?>arksystems/queue/getQueueList";
 	for( var i = 0; i < queueCollectionSinagedown.length; i++ ) {
 		if (! $( "span#sinagedown-queue-" + queueCollectionSinagedown[i] ).length ) {
 			newItem = $('<span class="qtxt" id="sinagedown-queue-'+ queueCollectionSinagedown[i] +'"> '+ queueCollectionSinagedown[i] +', </span>').hide();

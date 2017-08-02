@@ -12,15 +12,6 @@ $(document).ready(function() {
 	},  1000);
 });
 
-function log( str , alert1 = false) {
-	if( alert1 ) {
-		alert(str);
-		return;
-	}
-	console.log( str );
-	return;
-}
-
 function updatePreparingList() {
 	for( var i = 0; i < queuePreparingSinageup.length; i++ ) {
 		if (! $( "span#sinage-queue-" + queuePreparingSinageup[i] ).length ) {
@@ -29,7 +20,7 @@ function updatePreparingList() {
 			newItem.fadeIn();
 		}
 	}
-
+	
 	for( var x = 0; x < queueCollectionSinageup.length; x++ ) {
 		if( $( "span#sinage-queue-" + queueCollectionSinageup[x] ).length ) {
 			$( "span#sinage-queue-" + queueCollectionSinageup[x] ).fadeOut(1000, function(){

@@ -13,6 +13,18 @@ var queueCompleted 				= [];
 $(document).ready(function() {
 	var MyTimer4 = setInterval(function() {
 		$.getJSON("<?=Core::getBaseUrl()?>arksystems/queue/getQueueList", function(data) {
+			
+			if( data.preparing === undefined ) {
+				data.preparing = [];
+			}
+
+			if( data.ready === undefined ) {
+				data.ready = [];
+			}
+
+			if( data.completed === undefined ) {
+				data.completed = [];
+			}
 		queuePreparingSinageup 		= data.preparing;
 		queueCollectionSinageup 	= data.ready;
 		queueCompleted 				= data.completed;
@@ -22,6 +34,7 @@ $(document).ready(function() {
 		queue 						= data.preparing;
 		queueCollection 			= data.ready;
 		queueCompleted 				= data.completed;
+
 
 	});
 
