@@ -51,6 +51,14 @@ Class System_Controller_Kernel {
 	}
 
 	/**
+	 *	Autoloader
+	 */
+	public function autoload() {
+		$autoload = $this->getConfig("autoload");
+		Core::log($autoload);
+	}
+
+	/**
 	 *	Get Config
 	 *	@return array $config
 	 */

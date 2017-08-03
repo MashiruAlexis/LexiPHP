@@ -3,7 +3,8 @@
  * Copyright © Ramon Alexis Celis All rights reserved.
  * See license file for more info.
  */
-
+error_reporting(E_ALL);
+			ini_set('display_errors', 1);
 if (version_compare(phpversion(), '5.4.0', '<')===true) {
     echo  '<div style="font:12px/1.35em arial, helvetica, sans-serif;">
 <div style="margin:0 0 25px 0; border-bottom:1px solid #ccc;">

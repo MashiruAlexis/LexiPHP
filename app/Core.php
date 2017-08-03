@@ -24,9 +24,6 @@
  * SOFTWARE.
  */
 
-/**
- *	Autoloader
- */
 spl_autoload_register(function($class) {
 	$class = strtolower(str_replace("_", DIRECTORY_SEPARATOR, $class));
 	$paths = Core::$paths;
@@ -38,12 +35,6 @@ spl_autoload_register(function($class) {
 			return;
 		}
 	}
-
-	Core::dispatchError()
- 				->setTitlepage("Page not found")
- 				->setMessage("Sorry the page doesn't exist.")
- 				->setType(401)
- 				->exec();
 	return;
 });
 
@@ -65,7 +56,7 @@ $skinPath[] = BP . DS . "skin" . DS . "base" . DS;
 
 Core::regPath( $paths );
 Core::regSkinPath( $skinPath );
-
+Core::getSingleton("system/kernel")->autoload();
 Class Core {
 
 	/**
@@ -245,7 +236,26 @@ Class Core {
  	}
 
  	/**
+ 	 *	Command 
+ 	 *	@param string $cmd
+ 	 *	@return obj $console
+ 	 */
+ 	public static function getConsole( $cmd ) {
+ 		if( strpos($cmd, "/") !== false ) {
+ 			$cmd = explode("/", $cmd);
+ 		}else{
+ 			$cmd = [
+ 				$cmd,
+ 				"main"
+ 			];
+ 		}
+ 		$cmd =  "Console_" . $cmd[0] . "_" . $cmd[1]; 
+ 		return new $cmd;
+ 	}
+
+ 	/**
  	 *	Get Base URL
+ 	 *	@return string $BaseUrl
  	 */
  	public static function getBaseUrl() {
  		$config = Core::getSingleton("system/kernel")->getConfig("system");
@@ -265,6 +275,7 @@ Class Core {
 
  	/**
  	 *	Instantiate Core Class
+ 	 *	@return obj Core
  	 */
  	public static function app() {
  		return new Core;
