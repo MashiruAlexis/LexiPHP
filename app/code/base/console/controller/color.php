@@ -1,6 +1,6 @@
 <?php
 
-Class Command_Controller_Color extends Console_Controller_Core {
+Class Console_Controller_Color extends Console_Controller_Core {
 
 	private $foreground_colors = array();
 	private $background_colors = array();

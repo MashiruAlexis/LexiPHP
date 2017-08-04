@@ -31,11 +31,9 @@ spl_autoload_register(function($class) {
 	foreach($paths as $path) {
 		$mainpath = $path . $class . ".php";
 		if(file_exists($mainpath)) {
-			require_once $mainpath;
-			return;
+			return require_once $mainpath;
 		}
 	}
-	return;
 });
 
 define("BPcore", "app/code/base/");
@@ -57,6 +55,7 @@ $skinPath[] = BP . DS . "skin" . DS . "base" . DS;
 Core::regPath( $paths );
 Core::regSkinPath( $skinPath );
 Core::getSingleton("system/kernel")->autoload();
+
 Class Core {
 
 	/**
@@ -114,7 +113,6 @@ Class Core {
  		// get all the request
  		if(isset($_GET['request'])) {
  			$httpurl = Core::getSingleton("Url/Http");
- 			// validate url
  			$httpurl->setUrl($_GET['request'])->chkUrl();
  			$this->params = $httpurl->getParams();
  			
@@ -145,6 +143,14 @@ Class Core {
 			}
 			$request = Core::getSingleton("url/request");
  			$request->genRequest($this->params);
+ 		}
+
+ 		if(! Core::controllerExist([$kernel->getApp(), $kernel->getController()]) ) {
+ 			Core::dispatchError()
+ 				->setTitlepage("Page not found")
+ 				->setMessage("Sorry the page deosnt exist.")
+ 				->setType(401)
+ 				->exec();
  		}
 
  		$kernel->setController( Core::getSingleton($kernel->getApp() . "/" . $kernel->getController()) );
@@ -249,7 +255,7 @@ Class Core {
  				"main"
  			];
  		}
- 		$cmd =  "Console_" . $cmd[0] . "_" . $cmd[1]; 
+ 		$cmd =  "console_" . $cmd[0] . "_" . $cmd[1]; 
  		return new $cmd;
  	}
 
@@ -260,6 +266,21 @@ Class Core {
  	public static function getBaseUrl() {
  		$config = Core::getSingleton("system/kernel")->getConfig("system");
  		return $config["baseUrl"];
+ 	}
+
+ 	/**
+ 	 *	Check if controller exist
+ 	 *	@param array $cont
+ 	 *	@return bool
+ 	 */
+ 	public static function controllerExist( $cont ){
+ 		foreach( Core::$paths as $path ){
+ 			$contPath = $path . $cont[0] . DS . "controller" . DS . $cont[1] . ".php";
+ 			if( file_exists($contPath) ) {
+ 				return true;
+ 			}
+ 		}
+ 		return false;
  	}
 
  	/**

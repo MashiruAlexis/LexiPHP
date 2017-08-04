@@ -12,9 +12,19 @@ Class Console_Controller_Core {
 	const STATUS_SUCCESS 	= "green";
 
 	/**
-	 *	Command
+	 *	Default Console App
 	 */
-	public $cmd;
+	public $app = "lexi";
+
+	/**
+	 *	Default Console Controller
+	 */
+	public $controller = "index";
+
+	/**
+	 *	Default Console Method
+	 */
+	public $method = "handler";
 
 	/**
 	 *	Args
@@ -30,26 +40,92 @@ Class Console_Controller_Core {
 			$this->alert("error", "this script will only run on terminal.");
 			return;
 		}
-		echo "\n\n";
-		$this->cmd = isset($this->args[1]) ? $this->args[1] : $this->alert("error", "No Command was added to parameter.");
+
+		$this->args[1] = isset($this->args[1]) ? $this->args[1] : $this->getApp();
+
+		if ( strpos($this->args[1], ':') !== false ) {
+		    $args = explode(':', $this->args[1]);
+		    $this->setApp($args[0]);
+		    $this->setController($args[1]);
+		}else{
+			$this->setApp( $this->args[1] );
+		}
+		
 		unset($this->args[0]);
 		unset($this->args[1]);
 
-		$commands = Core::getSingleton("system/kernel")->getConfig("console");
-		$this->output(Core::getConsole("account/add"));
+		$this->setController( $this->getApp() . "/" . $this->getController() );
+		if( $this->controllerExist( $this->getController() ) ) {
+			$this->setController( Core::getConsole($this->getController()) );
+		}else{
+			$this->error("Error: unknown console command.");
+		}
+
+		if( method_exists($this->getController(), $this->getMethod()) ) {
+			call_user_func([$this->getController(), $this->getMethod()]);
+		}
 	}
 
 	/**
-	 *	Get available commands
+	 *	Log
+	 *	@param string $str
+	 *	@param bool $mode
+	 *	@return
 	 */
-	public function getAvailableCommands() {
-
+	public function log( $str = "", $mode = false, $modebg = null ) {
+		return $this->output( $str, $mode, $modebg );
 	}
 
-	public function output( $str, $mode = false ) {
-		$color = Core::getSingleton("command/color");
+	/**
+	 *	Output Error on terminal
+	 *	@param string $msg
+	 *	@return
+	 */
+	public function error( $msg ) {
+		$this->output( $msg, "error" );
+		return;
+	}
 
-		if( is_array($str) ) {
+	/**
+	 *	Output Information on terminal
+	 *	@param string $msg
+	 *	@return
+	 */
+	public function info( $msg ) {
+		$this->output( $msg, "info" );
+		return;
+	}
+
+	/**
+	 *	Output Warming on terminal
+	 *	@param string $msg
+	 *	@return
+	 */
+	public function warning( $msg ) {
+		$this->output( $msg, "warning" );
+		return;
+	}
+
+	/**
+	 *	Output Success on terminal
+	 *	@param string $msg
+	 *	@return
+	 */
+	public function success( $msg ) {
+		$this->output( $msg, "success" );
+		return;
+	}
+
+	/**
+	 *	Output colored on terminal
+	 *	@param string $str
+	 *	@param string $mode
+	 *	@return
+	 */
+	public function output( $str, $mode = false, $modebg = null ) {
+		$color = Core::getSingleton("console/color");
+
+		if( is_array($str) or is_object($str) ) {
 			print_r($str);
 			return;
 		}
@@ -112,6 +188,29 @@ Class Console_Controller_Core {
 	}
 
 	/**
+	 *	Add color to string
+	 *	@param string $str
+	 *	@param string $color
+	 *	@return string $str
+	 */
+	public function color( $str, $color, $modebg = null ) {
+		$strColor = Core::getSingleton("console/color");
+		return $strColor->getColoredString( $str, $color, $modebg );
+	}
+
+	/**
+	 *	Check if controller exist
+	 */
+	public function controllerExist( $cont ) {
+		$cont = explode("/", $cont);
+		$consoleControllerPath = BP . DS . "app" . DS . "console" . DS . $cont[0] . DS . $cont[1] . ".php";
+		if( file_exists($consoleControllerPath) ) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 *	Set command
 	 *	@var string $cmd
 	 *	@return
@@ -140,10 +239,60 @@ Class Console_Controller_Core {
 
 	/**
 	 *	Get the arguments
-	 *	@retyrb
+	 *	@return array $this->args
 	 */
 	public function getArgs() {
 		return $this->args;
+	}
+
+	/**
+	 *	Set Console App
+	 *	@param string $app
+	 */
+	public function setApp( $app ) {
+		$this->app = $app;
+	}
+
+	/**
+	 *	Get Console App
+	 *	@return string $this->app
+	 */
+	public function getApp() {
+		return $this->app;
+	}
+
+	/**
+	 *	Set Console Controller
+	 *	@param string $cont
+	 *	@return
+	 */
+	public function setController( $cont ) {
+		$this->controller = $cont;
+	}
+
+	/**
+	 *	Get Controller
+	 *	@return string $this->controller
+	 */
+	public function getController() {
+		return $this->controller;
+	}
+
+	/**
+	 *	Set Console Method
+	 *	@param string $method
+	 *	@return
+	 */
+	public function setMethod( $method ) {
+		$this->method = $method;
+	}
+
+	/**
+	 *	Get Console Method
+	 *	@return string $this->method
+	 */
+	public function getMethod() {
+		return $this->method;
 	}
 
 	public function test() {

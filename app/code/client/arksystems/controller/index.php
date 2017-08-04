@@ -3,6 +3,12 @@
 Class Arksystems_Controller_Index extends Frontend_Controller_Action {
 
 	public function indexAction() {
+		$this->setPageTitle("Menu");
+		$this->setCss("default/style");
+		$this->setBlock("arksystems/menu");
+	}
+
+	public function cashierAction() {
 		$this->setPageTitle("Enter Number");
 		$this->setCss("default/style");
 		$this->setBlock("arksystems/cashier");

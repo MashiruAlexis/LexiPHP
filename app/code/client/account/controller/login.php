@@ -28,7 +28,7 @@ Class Account_Controller_Login extends Frontend_Controller_Action {
 					"message" => "You have login success fully."
 				]);
 			$session->add("user", $user);
-			$this->_redirect('/');
+			$this->_redirect( Core::getBaseUrl() );
 		}else{
 			$session->add("alert", [
 				"type" => "error",
@@ -45,7 +45,7 @@ Class Account_Controller_Login extends Frontend_Controller_Action {
 				"type" => "info",
 				"message" => "You have successfully logout, come again."
 			]);
-		$this->_redirect("/");
+		$this->_redirect( Core::getBaseUrl() );
 	}
 
 	public function setup() {

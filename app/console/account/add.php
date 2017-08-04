@@ -8,8 +8,10 @@ Class Console_Account_Add extends Console_Controller_Core {
 
 	protected $description = "Add new User.";
 
-	public function __construct() {
-		$args = $this->getArgs();
-		$this->output($args);
+	/**
+	 *	Default console handler
+	 */
+	public function handler() {
+		$this->info( $this->args );
 	}
-}
+} 

@@ -21,6 +21,5 @@ return [
 	|
 	| Migrate all database file.
 	*/
-
-	"migrate" => "account/account",
+	"migrate" => "account/add",
 ];
