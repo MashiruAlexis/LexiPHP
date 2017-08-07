@@ -16,5 +16,11 @@ Class Console_Account_Index extends Console_Controller_Core {
 		if( empty($this->getArgs()) ) {
 			$this->error("   Error: no argument was passed.");
 		}
+
+		foreach( $this->getArgs() as $arg ) {
+			if( $arg == "down" ) {
+				Core::getConsole("lexi/down")->handler();
+			}
+		}
 	}
 }

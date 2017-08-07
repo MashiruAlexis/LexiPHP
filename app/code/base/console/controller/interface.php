@@ -12,4 +12,7 @@ Class Console_Controller_Interface extends Console_Controller_Core {
 	| ----------------------------------
 	*/
 	
+	public function getAllCommands() {
+		
+	}
 }

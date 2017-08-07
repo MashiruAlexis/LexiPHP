@@ -27,7 +27,7 @@ Class Account_Controller_Login extends Frontend_Controller_Action {
 					"type" => "success",
 					"message" => "You have login success fully."
 				]);
-			$session->add("user", $user);
+			$session->add("auth", $user);
 			$this->_redirect( Core::getBaseUrl() );
 		}else{
 			$session->add("alert", [

@@ -30,6 +30,7 @@ Class System_Controller_Session {
 		if( isset($_SESSION[$key]) ) {
 			return $_SESSION[$key];
 		}
+		return false;
 	}
 
 	/**
