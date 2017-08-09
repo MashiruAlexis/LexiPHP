@@ -161,7 +161,6 @@ Class Core {
  				call_user_func([$kernel->getController(), "setup"]);
  			}
  			call_user_func_array([$kernel->getController(), $kernel->getMethod()], [$this->params]);
- 			// render all the blocks
  			call_user_func([$kernel->getController(), "render"]);
  		}else {
  			Core::dispatchError()

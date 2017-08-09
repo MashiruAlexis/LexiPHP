@@ -22,4 +22,22 @@ return [
 	| Autoloader for console script.
 	*/
 	'console' => "app/code/base/console/autoload.php",
+
+	/*
+	|--------------------------------------------------------------------------
+	|	Toggl Autoloader
+	|--------------------------------------------------------------------------
+	|
+	| Autoloader for toggl module.
+	*/
+	'toggl' => "app/code/modules/toggl/Classloader.php",
+
+	/*
+	|--------------------------------------------------------------------------
+	|	Middleware Autoloader
+	|--------------------------------------------------------------------------
+	|
+	| Autoloader for middleware
+	*/
+	'middleware' => "app/code/middleware/autoload.php",
 ];

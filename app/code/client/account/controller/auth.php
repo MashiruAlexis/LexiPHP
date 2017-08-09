@@ -6,6 +6,12 @@
 
 Class Account_Controller_Auth extends Frontend_Controller_Action {
 
+	/**
+	 *	check if user is authenticated
+	 */
+	public function isAuth() {
+		return $this->isLogin();
+	}
 
 	/**
 	 *	Check if the user has login
@@ -13,7 +19,7 @@ Class Account_Controller_Auth extends Frontend_Controller_Action {
 	 */
 	public function isLogin(){
 		$session = Core::getSingleton("system/session");
-		if( $session->get("user") ) {
+		if( $session->get("auth") ) {
 			return true;
 		}
 		return false;

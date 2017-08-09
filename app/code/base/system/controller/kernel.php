@@ -55,9 +55,9 @@ Class System_Controller_Kernel {
 	 */
 	public function autoload() {
 		$paths = $this->getConfig("autoload");
-		foreach( $paths as $path ) {
+		foreach( $paths as $mod => $path ) {
 			if( file_exists($path) ) {
-				return include_once $path;
+				include $path;
 			}
 		}
 		return;

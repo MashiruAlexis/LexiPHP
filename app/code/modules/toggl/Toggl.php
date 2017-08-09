@@ -1,15 +1,15 @@
 <?php
-require_once('Classloader.php');
+// require_once('Classloader.php');
 
-$classLoader = new Toggl_Classloader();
-spl_autoload_register(array(&$classLoader, "loadClass"));
+// $classLoader = new Toggl_Classloader();
+// spl_autoload_register(array(&$classLoader, "loadClass"));
 
 class Toggl{
 
     /*
      * API URL parts
      */
-    private static $token;
+    private static $token = 'c7279f362fe703f7a3f53e941d454f5d';
     public static $debug = false;
     public static $verifyPeer = true;
 
@@ -64,7 +64,7 @@ class Toggl{
             return $resultJson;
         } else {
             $errorMessage = 'Toggl API call failed -- Request URL: ' . $url . (is_string($params)? ' Request Data: ' . $params : null) . ' Response code: ' . $info['http_code'] . ' Raw response dump: ' . $result . ' serialized CURL info: ' . serialize($info);
-            CakeLog::write('error', $errorMessage);
+            Core::log('error', $errorMessage);
             throw new Exception($errorMessage);
         }
     }

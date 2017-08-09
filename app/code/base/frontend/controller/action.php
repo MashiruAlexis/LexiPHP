@@ -288,24 +288,12 @@ Class Frontend_Controller_Action {
 		return $this->blocks;
 	}
 
-	// public function __call($method, $params = null) {
-
-	// 	$type = substr($method, 0, 3);
-	// 	$property = lcfirst(substr($method, 3));
-
-		
-	// 	try {
-			
-	// 		if($type == "set") {
-	// 			$this->$property = $params[0];
-	// 			return $this;
-	// 		}elseif($type == "get") {
-	// 			return $this->$property;
-	// 		}else{
-	// 			throw new Exception("Error Processing Request", 1);
-	// 		}
-	// 	} catch (Exception $e) {
-	// 		Core::log($e);
-	// 	}
-	// }
+	/**
+	 *	Middleware
+	 *	@param string $name
+	 *	@return
+	 */
+	public function middleware( $name ) {
+		return $middleware = new $name;
+	}
 }

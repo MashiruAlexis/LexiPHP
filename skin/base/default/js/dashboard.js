@@ -1,29 +1,29 @@
 		var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
-		var lineChartData = {
-			labels : ["January","February","March","April","May","June","July"],
-			datasets : [
-				{
-					label: "My First dataset",
-					fillColor : "rgba(99,129,143,0.2)",
-					strokeColor : "rgba(99,129,143,1)",
-					pointColor : "rgba(99,129,143,1)",
-					pointStrokeColor : "#fff",
-					pointHighlightFill : "#fff",
-					pointHighlightStroke : "rgba(99,129,143,1)",
-					data : [24,37,52,45,68,72,85]
-				},
-				{
-					label: "My Second dataset",
-					fillColor : "rgba(150,203,0,0.2)",
-					strokeColor : "rgba(150,203,0,1)",
-					pointColor : "rgba(150,203,0,1)",
-					pointStrokeColor : "#fff",
-					pointHighlightFill : "#fff",
-					pointHighlightStroke : "rgba(150,203,0,1)",
-					data : [31,42,58,35,60,80,95]
-				}
-			]
-		}
+		// var lineChartData = {
+		// 	labels : ["January","February","March","April","May","June","July"],
+		// 	datasets : [
+		// 		{
+		// 			label: "My First dataset",
+		// 			fillColor : "rgba(99,129,143,0.2)",
+		// 			strokeColor : "rgba(99,129,143,1)",
+		// 			pointColor : "rgba(99,129,143,1)",
+		// 			pointStrokeColor : "#fff",
+		// 			pointHighlightFill : "#fff",
+		// 			pointHighlightStroke : "rgba(99,129,143,1)",
+		// 			data : [24,37,52,45,68,72,85]
+		// 		},
+		// 		{
+		// 			label: "My Second dataset",
+		// 			fillColor : "rgba(150,203,0,0.2)",
+		// 			strokeColor : "rgba(150,203,0,1)",
+		// 			pointColor : "rgba(150,203,0,1)",
+		// 			pointStrokeColor : "#fff",
+		// 			pointHighlightFill : "#fff",
+		// 			pointHighlightStroke : "rgba(150,203,0,1)",
+		// 			data : [31,42,58,35,60,80,95]
+		// 		}
+		// 	]
+		// }
 		
 		var doughnutData = [
 				{
@@ -111,12 +111,13 @@
 	});
 	
 	/* Display Graphs and Counting with delay */
-	setTimeout(function() {  
-		var ctx1 = document.getElementById("graph-lined").getContext("2d");
-		window.myLine = new Chart(ctx1).Line(lineChartData, {responsive: true});
+	setTimeout(function() {
 		
-		var ctx2 = document.getElementById("graph-doughnut").getContext("2d");
-		window.myDoughnut = new Chart(ctx2).Doughnut(doughnutData, {responsive : true});
+		// var ctx1 = document.getElementById("graph-lined").getContext("2d");
+		// window.myLine = new Chart(ctx1).Line(lineChartData, {responsive: true});
+		
+		// var ctx2 = document.getElementById("graph-doughnut").getContext("2d");
+		// window.myDoughnut = new Chart(ctx2).Doughnut(doughnutData, {responsive : true});
 		
 		var ctxB1 = document.getElementById("graph-bar1").getContext("2d");
 		window.myBar1 = new Chart(ctxB1).Bar(barChartData1, {responsive : true, animation: false, showScale: false, scaleShowLabels: false, barValueSpacing : 3, barShowStroke : false, scaleShowGridLines : false});
@@ -131,6 +132,6 @@
 		window.myBar4 = new Chart(ctxB4).Bar(barChartData4, {responsive : true, animation: false, showScale: false, scaleShowLabels: false, barValueSpacing : 3, barShowStroke : false, scaleShowGridLines : false});
 		
 		$('.countup').countTo();
-	}, 200);	
+	}, 200);
 		
 	}

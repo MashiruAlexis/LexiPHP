@@ -6,6 +6,10 @@
 
 Class Account_Controller_Profile extends Frontend_Controller_Action {
 
+	public function __construct() {
+		$this->middleware("auth");
+	}
+
 	/**
 	 *
 	 */
@@ -14,5 +18,39 @@ Class Account_Controller_Profile extends Frontend_Controller_Action {
 		$this->setBlock("account/profile");
 	}
 
+	/**
+	 *
+	 */
+	public function updateAction() {
+		$db = Core::getModel("account/account");
+		$session = Core::getSingleton("system/session");
+		$request = Core::getSingleton("url/request")->getRequest();
+		if( isset($request["btnTogglUpdate"]) ) {
+			unset($request["btnTogglUpdate"]);
+		}
+		if( isset($request["btnPersonalUpdate"]) ) {
+			unset($request["btnPersonalUpdate"]);
+		}
 
+		if( isset($request["id"]) ) {
+			$userId = $request["id"];
+			unset($request["id"]);
+		}
+				
+		$res = $db->where("id", $userId)->update($request);
+
+		if( $res ) {
+			$session->add("alert", [
+				"type" => "info",
+				"message" => "Profile has been updated."
+			]);
+		}else{
+			$session->add("alert", [
+				"type" => "error",
+				"message" => "Something went wrong, please contact IT support."
+			]);
+		}
+		$this->_redirect(Core::getBaseUrl() . "account/profile");
+		return;
+	}
 }

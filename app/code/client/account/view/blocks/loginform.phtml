@@ -3,6 +3,14 @@
 	  <!-- <h1 class="thin">Login</h1> -->
 	<div class="col s12 m8 l6 offset-m2 offset-l3 card-panel">
 	  <form name="frmLogin" id="frmLogin" action="<?=Core::getBaseUrl()?>account/login/authenticate" method="POST" class="login-form">
+	  <?php
+		$http = Core::getSingleton("url/request");
+		if( $http->getRequest("redirect") ) {
+		?>
+			<input type="hidden" name="redirect" value="<?=$http->getRequest("redirect")?>">
+		<?php
+		}
+	  ?>
 		<div class="row primary-color form-header">
 		  <div class="col s4">
 			<img src="<?=$this->getImage('default/admin-logo-full.svg');?>" alt="logo" class="logo responsive-img-height">

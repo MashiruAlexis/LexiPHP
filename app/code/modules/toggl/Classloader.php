@@ -1,27 +1,11 @@
 <?php
-/* Usage */
-
-class Toggl_Classloader{
-    protected $paths = array();
-
-    public function __construct(){
-        $path = dirname(__FILE__) . "/";
-        $this->paths[] = $path;
+/**
+ * Copyright © Ramon Alexis Celis All rights reserved.
+ * See license file for more info.
+ */
+spl_autoload_register(function( $class ) {
+    $filePath = dirname(__FILE__). DIRECTORY_SEPARATOR . $class . ".php";
+    if( file_exists($filePath) ) {
+        return include_once($filePath);
     }
-
-    public function loadClass($className){
-        $relativePath = $className . ".php";
-        foreach($this->paths as $path){
-            if(file_exists($path . $relativePath)){
-                include($path . $relativePath);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected function addPath($path){
-        $paths[] = $path;
-    }
-
-}
+});

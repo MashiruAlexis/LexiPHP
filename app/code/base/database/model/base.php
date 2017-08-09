@@ -109,11 +109,22 @@ Class Database_Model_Base {
 	 */
 	public function update( $items = array() ) {
 		$sql = "UPDATE " . $this->table . " SET ";
+		$c = 0;
+		$itemNo = count($items);
 		foreach( $items as $key => $val ) {
+			$c++;
 			$sql .= $key . '="' . $val . '"';
+			if(! empty($val) ) {
+				if( $c != $itemNo ) {
+					$sql .= ", ";
+				}
+			}else{
+				$itemNo = $itemNo - 1;
+			}
 		}
 		$sql .= $this->whereClause;
 		$this->whereClause = null;
+		Core::log( $sql );
 		try {
 		    // use exec() because no results are returned
 		    $stmt = $this->conn->prepare($sql);

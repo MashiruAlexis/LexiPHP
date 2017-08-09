@@ -7,12 +7,11 @@
 Class Dashboard_Controller_Index extends Frontend_Controller_Action {
 
 	public function indexAction() {
-
-		$user = Core::getSingleton("system/session")->get("user");
 		$this->setPageTitle("Dashboard");
+		$auth = Core::getSingleton("account/auth");
 
 		// trigger login form
-		if(! isset($user->id) ) {
+		if(! $auth->isLogin() ) {
 			$this->setCss("default/style");
 			$this->setBlock("account/login");
 			return;	
