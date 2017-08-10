@@ -36,7 +36,12 @@ Class Account_Controller_Profile extends Frontend_Controller_Action {
 			$userId = $request["id"];
 			unset($request["id"]);
 		}
-				
+
+		if( isset($request["workspaceId"]) ) {
+			Core::getModel("toggl/workspace")->where("wid", $request["workspaceId"])->update(["isDefault" => 1]);
+			unset($request["workspaceId"]);
+		}
+		
 		$res = $db->where("id", $userId)->update($request);
 
 		if( $res ) {
@@ -52,5 +57,9 @@ Class Account_Controller_Profile extends Frontend_Controller_Action {
 		}
 		$this->_redirect(Core::getBaseUrl() . "account/profile");
 		return;
+	}
+
+	public function setup() {
+		$this->setCss("account/style");
 	}
 }

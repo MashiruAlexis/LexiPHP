@@ -27,7 +27,7 @@ return [
 
 	/*
 	|--------------------------------------------------------------------------
-	| Database Passwrord
+	| Database Password
 	|--------------------------------------------------------------------------
 	|
 	| Password used as a credentials to login in database.

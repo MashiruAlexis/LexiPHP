@@ -8,18 +8,15 @@ Class Console_Account_Index extends Console_Controller_Core {
 
 	public $description = "All account console will be called here.";
 
-	public function help() {
+	public $cmd = [
+		"dummy"
+	];
 
-	}
-
-	public function handler() {
-		if( empty($this->getArgs()) ) {
-			$this->error("   Error: no argument was passed.");
-		}
-
-		foreach( $this->getArgs() as $arg ) {
-			if( $arg == "down" ) {
-				Core::getConsole("lexi/down")->handler();
+	public function handler( $args ) {
+		foreach( $args as $arg ) {
+			if( $arg == "dummy" ) {
+				Core::getModel("account/account")->dummy();
+				$this->success("Dummy Account Added!");
 			}
 		}
 	}

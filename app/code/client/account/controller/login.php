@@ -32,7 +32,7 @@ Class Account_Controller_Login extends Frontend_Controller_Action {
 		}else{
 			$session->add("alert", [
 				"type" => "error",
-				"message" => "The credentials you have enter does not exist in our database."
+				"message" => "Username or Password is incorrect."
 			]);
 		}
 		$this->_redirect( Core::getBaseUrl() . 'account/login');

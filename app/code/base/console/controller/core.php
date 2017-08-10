@@ -55,6 +55,7 @@ Class Console_Controller_Core {
 		unset($this->args[1]);
 
 		$this->setController( $this->getApp() . "/" . $this->getController() );
+		
 		if( $this->controllerExist( $this->getController() ) ) {
 			$this->setController( Core::getConsole($this->getController()) );
 		}else{
@@ -62,7 +63,7 @@ Class Console_Controller_Core {
 		}
 
 		if( method_exists($this->getController(), $this->getMethod()) ) {
-			call_user_func([$this->getController(), $this->getMethod()]);
+			call_user_func_array([$this->getController(), $this->getMethod()], [$this->args]);
 		}
 	}
 
@@ -160,10 +161,7 @@ Class Console_Controller_Core {
 	 *	@return
 	 */
 	public function alert( $type, $msg = false ) {
-		$color = Core::getSingleton("command/color");
-		// if( $msg ) {
-		// 	echo $this->getColoredString($type, );
-		// }
+		$color = Core::getSingleton("console/color");
 		switch ($type) {
 			case 'error':
 				echo "\n" . $color->getColoredString("Error: " . $msg, self::STATUS_ERROR) . "\n";
