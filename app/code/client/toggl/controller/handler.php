@@ -78,7 +78,7 @@ Class Toggl_Controller_Handler extends Frontend_Controller_Action {
 				$def = 1;
 			}
 			foreach( $toggl['workspaces'] as $workspace ) {
-				if( $togglWorkspaceDb->ifNotExist( "togglId", $workspace['id'] ) ) {
+				// if( $togglWorkspaceDb->ifNotExist( "togglId", $workspace['id'] ) ) {
 					$togglWorkspaceDb->insert([
 						"workspaceId" 	=> $workspace['id'],
 						"togglId" 		=> $toggl['id'],
@@ -86,7 +86,7 @@ Class Toggl_Controller_Handler extends Frontend_Controller_Action {
 						"apiToken" 		=> isset($workspace['api_token']) ? $workspace['api_token'] : "none",
 						"isDefault" 	=> $def
 					]);
-				}
+				// }
 			}
 		}
 		return;

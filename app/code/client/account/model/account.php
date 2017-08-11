@@ -31,7 +31,7 @@ Class Account_Model_Account extends Database_Model_Base {
 		$res = $this->where( $col, $val )->first();
 		Core::getSingleton("system/session")->add("auth", $res);
 	}
-	
+
 	/**
 	 *	Get Id
 	 */
@@ -128,6 +128,9 @@ Class Account_Model_Account extends Database_Model_Base {
 				}
 			}
 		}
+		// Core::log( $since );
+		// Core::log( $until );
+		// Core::log( $data );
 		return $data;
 	}
 
@@ -167,9 +170,13 @@ Class Account_Model_Account extends Database_Model_Base {
 		}else{
 			$entries = $this->getTimeEntries( $since );
 		}
+		// Core::log("Duration: " . $since);
+		// Core::log("Duration: " . $until);
 		$times = "00:00:00";
 		foreach( $entries as $entry ) {
 			$dur = $date->getDiff( $entry["start"], $entry["end"] );
+			// Core::log("Description: " . $entry["description"]);
+			// Core::log("Duration: " . $dur);
 			$times = $this->addTwoTimes($times, $dur);
 		}
 		return $times;

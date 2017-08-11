@@ -1,8 +1,9 @@
 <script type="text/javascript">
 	$(document).ready(function() {
+		updateTodayHours();
 		var todayTotalHours = setInterval(function() {
 			updateTodayHours();
-		},  3000);
+		},  5000);
 	});
 
 	/**
@@ -22,7 +23,7 @@
 	 */
 	function updateTodayHours() {
 		$.getJSON("<?=Core::getBaseUrl()?>api/toggl/todayTotalHours", function(data) {
-			$("h1#todayTotalHours").text(data.hrs);
+			$("#todayTotalHours").text(data.hrs);
 		});
 	}
 </script>

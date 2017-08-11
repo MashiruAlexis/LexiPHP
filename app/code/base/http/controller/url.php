@@ -4,7 +4,7 @@
  * See license file for more info.
  */
 
-Class Http_Controller_Url {
+Class Http_Controller_Url  extends Url_Controller_Request{
 
 	/**
 	 *	Reload current page
