@@ -1,0 +1,28 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		var todayTotalHours = setInterval(function() {
+			updateTodayHours();
+		},  3000);
+	});
+
+	/**
+	 *	Var Loggers
+	 */
+	function logs( str, alert = false ){
+		if( alert ) {
+			alert( str );
+			return;
+		}
+		console.log( str );
+		return;
+	}
+
+	/**
+	 *	Update today hour
+	 */
+	function updateTodayHours() {
+		$.getJSON("<?=Core::getBaseUrl()?>api/toggl/todayTotalHours", function(data) {
+			$("h1#todayTotalHours").text(data.hrs);
+		});
+	}
+</script>

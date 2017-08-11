@@ -19,12 +19,16 @@ $dt = Core::getSingleton("system/date");
 		</div>
 		<div class="divider"></div>
 		<div class="card-content" style="padding:40px;">
-			<!-- <canvas id="graph-doughnut" width="360" height="360"/></canvas> -->
-			<h1 class="center-align red-text text-darken-1">4:30:32</h1>
-			<div class="progress">
-				<div class="determinate" style="width: 70%"></div>
+			<div class="row">
+				<div class="col s12 m12">
+					<h1 id="todayTotalHours" class="center-align red-text text-darken-1">00:00:00</h1>
+					<div class="progress">
+						<div class="determinate" style="width: 70%"></div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
 <!--DOUGHNUT graph END --> 
+<?php $this->getChildBlock("dashboard/js"); ?>

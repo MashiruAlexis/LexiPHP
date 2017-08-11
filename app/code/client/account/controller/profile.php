@@ -6,6 +6,9 @@
 
 Class Account_Controller_Profile extends Frontend_Controller_Action {
 
+	/**
+	 *
+	 */
 	public function __construct() {
 		$this->middleware("auth");
 	}
@@ -55,6 +58,7 @@ Class Account_Controller_Profile extends Frontend_Controller_Action {
 				"message" => "Something went wrong, please contact IT support."
 			]);
 		}
+		$db->loginBy( "username", $session->get("auth")->username );
 		$this->_redirect(Core::getBaseUrl() . "account/profile");
 		return;
 	}

@@ -25,6 +25,14 @@ Class Account_Model_Account extends Database_Model_Base {
 	}
 
 	/**
+	 *	Login User By Col
+	 */
+	public function loginBy( $col, $val ) {
+		$res = $this->where( $col, $val )->first();
+		Core::getSingleton("system/session")->add("auth", $res);
+	}
+	
+	/**
 	 *	Get Id
 	 */
 	public function getId() {
@@ -40,7 +48,7 @@ Class Account_Model_Account extends Database_Model_Base {
 		$toggl = Core::getModel("toggl/toggl");
 		$res = $toggl->where("uid", Core::getSingleton("system/session")->get('auth')->id)->first();
 		if( $col ) {
-			return $res->$col;
+			return isset($res->$col) ? $res->$col : "";
 		}
 		return $res;
 	}
@@ -58,7 +66,6 @@ Class Account_Model_Account extends Database_Model_Base {
 			}
 		}
 		return false;
-		// return Core::getModel("toggl/workspace")->where("isDefault", 1)->where("togglId", $this->getToggl("togglId"))->first();
 	}
 
 	/**
@@ -105,7 +112,7 @@ Class Account_Model_Account extends Database_Model_Base {
 		$res = $toggl->getApp("reports")->detailed($params);
 
 		$data = $res["data"];
-		
+
 		if( $res["total_count"] > 50 ) {
 			$params["page"] = 2;
 			$res =  $toggl->getApp("reports")->detailed($params);
@@ -124,6 +131,53 @@ Class Account_Model_Account extends Database_Model_Base {
 		return $data;
 	}
 
+	public function addTwoTimes($time1 = "00:00:00", $time2 = "00:00:00"){
+        $time2_arr = [];
+        $time1 = $time1;
+        $time2_arr = explode(":", $time2);
+        //Hour
+        if(isset($time2_arr[0]) && $time2_arr[0] != ""){
+            $time1 = $time1." +".$time2_arr[0]." hours";
+            $time1 = date("H:i:s", strtotime($time1));
+        }
+        //Minutes
+        if(isset($time2_arr[1]) && $time2_arr[1] != ""){
+            $time1 = $time1." +".$time2_arr[1]." minutes";
+            $time1 = date("H:i:s", strtotime($time1));
+        }
+        //Seconds
+        if(isset($time2_arr[2]) && $time2_arr[2] != ""){
+            $time1 = $time1." +".$time2_arr[2]." seconds";
+            $time1 = date("H:i:s", strtotime($time1));
+        }
+
+        return date("H:i:s", strtotime($time1));
+    }
+
+	/**
+	 *	Get Total Hours
+	 *	@param date|time $since
+	 *	@param date|time $until
+	 *	@return date|time $time
+	 */
+	public function getTotalHours( $since, $until = false ) {
+		$date = Core::getSingleton("system/date");
+		if( $until ) {
+			$entries = $this->getTimeEntries( $since, $until );
+		}else{
+			$entries = $this->getTimeEntries( $since );
+		}
+		$times = "00:00:00";
+		foreach( $entries as $entry ) {
+			$dur = $date->getDiff( $entry["start"], $entry["end"] );
+			$times = $this->addTwoTimes($times, $dur);
+		}
+		return $times;
+	}
+
+	/**
+	 *	Combine arrays
+	 */
 	public function combine( $base, $data ) {
 		foreach( $data as $dt ) {
 			$base[] = $dt;
@@ -135,7 +189,7 @@ Class Account_Model_Account extends Database_Model_Base {
 	 * Creates Dummy Account
 	 */
 	public function dummy() {
-		$this->insert([
+		$accounts[] = [
 			"username" 	=> "mashiro",
 			"password" 	=> "blockman123",
 			"email" 	=> "alexis@arkhold.com",
@@ -144,7 +198,22 @@ Class Account_Model_Account extends Database_Model_Base {
 			"contact" 	=> "09061498612",
 			"skills" 	=> "Backend Developer",
 			"apiKey" 	=> "c7279f362fe703f7a3f53e941d454f5d",
-		]);
+		];
+
+		$accounts[] = [
+			"username" 	=> "jllimpo",
+			"password" 	=> "123123123",
+			"email" 	=> "jovelou@team.arkhold.com",
+			"fname" 	=> "",
+			"lname" 	=> "",
+			"contact" 	=> "",
+			"skills" 	=> "Stupid",
+			"apiKey" 	=> "2230d512d73c8174025a216af0b548a6",
+		];
+
+		foreach( $accounts as $account ) {
+			$this->insert($account);
+		}
 		return true;
 	}
 }

@@ -9,9 +9,13 @@ class Toggl{
     /*
      * API URL parts
      */
-    private static $token = 'c7279f362fe703f7a3f53e941d454f5d';
+    private static $token;
     public static $debug = false;
     public static $verifyPeer = true;
+
+    public function __construct() {
+        self::setKey(Core::getSingleton("system/session")->get("auth")->apiKey);
+    }
 
     public static function setKey($apiKey) {
         self::$token = $apiKey;

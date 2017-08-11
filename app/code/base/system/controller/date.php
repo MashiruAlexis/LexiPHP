@@ -59,6 +59,7 @@ Class System_Controller_Date {
 	 *	@return time $time;
 	 */
 	public function secondsToTime($inputSeconds) {
+		$inputSeconds = abs($inputSeconds);
 		$secondsInAMinute = 60;
 		$secondsInAnHour  = 60 * $secondsInAMinute;
 		$secondsInADay    = 24 * $secondsInAnHour;
@@ -79,6 +80,27 @@ Class System_Controller_Date {
 		$seconds = ceil($remainingSeconds);
 
 	    return $hours . ":" . $minutes . ":" . $seconds;
+	}
+
+	public function parseAtom( $date, $timestamp = false ) {
+		$date = strtotime($date) ? strtotime($date) : $date;
+		$date = date($this->timeFormat, $date);
+		if( $timestamp ) {
+			return strtotime($date);
+		}
+		return $date;
+	}
+
+	/**
+	 *	Get Diff between time
+	 *	@param date $date1
+	 *	@param date $date2
+	 *	@return time
+	 */
+	public function getDiff( $time1, $time2 ){
+		$start = $this->parseAtom( $time1, true );
+		$end = $this->parseAtom( $time2, true );
+		return $this->secondsToTime( $start - $end );
 	}
 
 	/**
