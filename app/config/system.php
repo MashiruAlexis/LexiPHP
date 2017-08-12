@@ -29,7 +29,7 @@ return [
 	 *	Base URL
 	 * --------------------
 	 */
-	"baseUrl" => "http://192.168.1.99/ark/",
+	"baseUrl" => "http://localhost/ark/",
 
 	/**
 	 * --------------------
@@ -53,7 +53,7 @@ return [
 	 *	Default App
 	 * --------------------
 	 */
-	"app" => "arksystems",
+	"app" => "dashboard",
 
 	/**
 	 * --------------------

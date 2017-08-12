@@ -1,6 +1,12 @@
 #!/usr/bin/env php
 <?php
 /**
+ * Copyright © Ramon Alexis Celis All rights reserved.
+ * See license file for more info.
+ */
+
+ 
+/**
  *	Require lexi core file
  */
 require_once "app/Core.php";

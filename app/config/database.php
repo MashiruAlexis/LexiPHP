@@ -22,7 +22,7 @@ return [
 	|
 	| Username used as a credentials to login in database.
 	*/
-	'Username' => 'lioncityco',
+	'Username' => 'root',
 
 
 	/*
@@ -32,7 +32,7 @@ return [
 	|
 	| Password used as a credentials to login in database.
 	*/
-	'Password' => 'lcc987',
+	'Password' => '',
 
 	/*
 	|--------------------------------------------------------------------------
