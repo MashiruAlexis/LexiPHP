@@ -24,9 +24,6 @@
  * SOFTWARE.
  */
 
-/**
- *	Autoloader
- */
 spl_autoload_register(function($class) {
 	$class = strtolower(str_replace("_", DIRECTORY_SEPARATOR, $class));
 	$paths = Core::$paths;
@@ -34,17 +31,9 @@ spl_autoload_register(function($class) {
 	foreach($paths as $path) {
 		$mainpath = $path . $class . ".php";
 		if(file_exists($mainpath)) {
-			require_once $mainpath;
-			return;
+			return require_once $mainpath;
 		}
 	}
-
-	Core::dispatchError()
- 				->setTitlepage("Page not found")
- 				->setMessage("Sorry the page doesn't exist.")
- 				->setType(401)
- 				->exec();
-	return;
 });
 
 define("BPcore", "app/code/base/");
@@ -65,6 +54,7 @@ $skinPath[] = BP . DS . "skin" . DS . "base" . DS;
 
 Core::regPath( $paths );
 Core::regSkinPath( $skinPath );
+Core::getSingleton("system/kernel")->autoload();
 
 Class Core {
 
@@ -123,7 +113,6 @@ Class Core {
  		// get all the request
  		if(isset($_GET['request'])) {
  			$httpurl = Core::getSingleton("Url/Http");
- 			// validate url
  			$httpurl->setUrl($_GET['request'])->chkUrl();
  			$this->params = $httpurl->getParams();
  			
@@ -156,6 +145,14 @@ Class Core {
  			$request->genRequest($this->params);
  		}
 
+ 		if(! Core::controllerExist([$kernel->getApp(), $kernel->getController()]) ) {
+ 			Core::dispatchError()
+ 				->setTitlepage("Page not found")
+ 				->setMessage("Sorry the page deosnt exist.")
+ 				->setType(401)
+ 				->exec();
+ 		}
+
  		$kernel->setController( Core::getSingleton($kernel->getApp() . "/" . $kernel->getController()) );
 
  		if(method_exists($kernel->getController(), $kernel->getMethod())) {
@@ -164,7 +161,6 @@ Class Core {
  				call_user_func([$kernel->getController(), "setup"]);
  			}
  			call_user_func_array([$kernel->getController(), $kernel->getMethod()], [$this->params]);
- 			// render all the blocks
  			call_user_func([$kernel->getController(), "render"]);
  		}else {
  			Core::dispatchError()
@@ -245,11 +241,45 @@ Class Core {
  	}
 
  	/**
+ 	 *	Command 
+ 	 *	@param string $cmd
+ 	 *	@return obj $console
+ 	 */
+ 	public static function getConsole( $cmd ) {
+ 		if( strpos($cmd, "/") !== false ) {
+ 			$cmd = explode("/", $cmd);
+ 		}else{
+ 			$cmd = [
+ 				$cmd,
+ 				"main"
+ 			];
+ 		}
+ 		$cmd =  "console_" . $cmd[0] . "_" . $cmd[1]; 
+ 		return new $cmd;
+ 	}
+
+ 	/**
  	 *	Get Base URL
+ 	 *	@return string $BaseUrl
  	 */
  	public static function getBaseUrl() {
  		$config = Core::getSingleton("system/kernel")->getConfig("system");
  		return $config["baseUrl"];
+ 	}
+
+ 	/**
+ 	 *	Check if controller exist
+ 	 *	@param array $cont
+ 	 *	@return bool
+ 	 */
+ 	public static function controllerExist( $cont ){
+ 		foreach( Core::$paths as $path ){
+ 			$contPath = $path . $cont[0] . DS . "controller" . DS . $cont[1] . ".php";
+ 			if( file_exists($contPath) ) {
+ 				return true;
+ 			}
+ 		}
+ 		return false;
  	}
 
  	/**
@@ -265,6 +295,7 @@ Class Core {
 
  	/**
  	 *	Instantiate Core Class
+ 	 *	@return obj Core
  	 */
  	public static function app() {
  		return new Core;

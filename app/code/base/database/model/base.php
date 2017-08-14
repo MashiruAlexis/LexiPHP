@@ -73,7 +73,7 @@ Class Database_Model_Base {
 	 *	SQL QUERIES Add, Update, Delete and SELECT
 	 */
 	public function insert( $items = array() ) {
-		$sql = "INSERT INTO " . $this->table . "(";
+		$sql = "INSERT INTO " . $this->table . " (";
 		$itemLoopCounter = 0;
 		foreach( $items as $key => $val ) {
 			$itemLoopCounter++;
@@ -101,6 +101,7 @@ Class Database_Model_Base {
 			echo $sql . "<br>" . $e->getMessage();
 			return false;
 		}
+		$sql = null;
 		return true;
 	}
 
@@ -109,8 +110,18 @@ Class Database_Model_Base {
 	 */
 	public function update( $items = array() ) {
 		$sql = "UPDATE " . $this->table . " SET ";
+		$c = 0;
+		$itemNo = count($items);
 		foreach( $items as $key => $val ) {
+			$c++;
 			$sql .= $key . '="' . $val . '"';
+			if(! empty($val) ) {
+				if( $c != $itemNo ) {
+					$sql .= ", ";
+				}
+			}else{
+				$itemNo = $itemNo - 1;
+			}
 		}
 		$sql .= $this->whereClause;
 		$this->whereClause = null;
@@ -203,6 +214,65 @@ Class Database_Model_Base {
 	}
 
 	/**
+	 *	Check if table not empty
+	 */
+	public function tableNotEmpty( $name ) {
+		$this->table = $name;
+		$res = $this->first();
+		if(! empty( $res ) ) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 *	Truncate Table
+	 *	@param string $name
+	 *	@return bool
+	 */
+	public function truncate( $name ) {
+		$res = $this->conn->exec("TRUNCATE TABLE $name");
+		if( $this->tableNotEmpty( $name ) ) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 *	Check specific data
+	 *	@param array $data
+	 *	@return bool
+	 */
+	public function ifNotExist( $key, $val ) {
+		$res = $this->where( $key, $val )->exist();
+		if( $res ) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 *	Check if table exist
+	 *	@param string $name
+	 *	@return bool
+	 */
+	public function tableExist( $name ) {
+		return in_array($name, $this->showTables()) ? true : false;
+	}
+
+	/**
+	 *	Get Tables
+	 */
+	public function showTables() {
+		$tables =  $this->conn->query("show tables from " . $this->database)->fetchAll();
+		$tableName = "Tables_in_" . $this->database;
+		foreach( $tables as $table ) {
+			$list[] = $table->$tableName;
+		}
+		return isset($list) ? $list : false;
+	}
+
+	/**
 	 *	checks if the data exist
 	 */
 	public function exist() {
@@ -222,6 +292,13 @@ Class Database_Model_Base {
 		}
 		$this->whereClause .= $andTxt . $col . " = '" . $val . "'";
 		return $this;
+	}
+
+	/**
+	 *	Get Table
+	 */
+	public function getTable() {
+		return $this->table;
 	}
 
 	/**

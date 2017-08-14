@@ -12,28 +12,19 @@ $(document).ready(function() {
 	},  1000);
 });
 
-function log( str , alert1 = false) {
-	if( alert1 ) {
-		alert(str);
-		return;
-	}
-	console.log( str );
-	return;
-}
-
 function updatePreparingList() {
 	for( var i = 0; i < queuePreparingSinageup.length; i++ ) {
-		if (! $( "span#sinage-queue-" + queuePreparingSinageup[i] ).length ) {
-			newItem = $('<span class="qtxt" id="sinage-queue-'+ queuePreparingSinageup[i] +'"> '+ queuePreparingSinageup[i] +', </span>').hide();
+		if (! $( "p#sinage-queue-" + queuePreparingSinageup[i] ).length ) {
+			newItem = $('<p class="qtxt" id="sinage-queue-'+ queuePreparingSinageup[i] +'"> '+ queuePreparingSinageup[i] +'</p>').hide();
 			$("div#sinageup").prepend(newItem);
 			newItem.fadeIn();
 		}
 	}
-
+	
 	for( var x = 0; x < queueCollectionSinageup.length; x++ ) {
-		if( $( "span#sinage-queue-" + queueCollectionSinageup[x] ).length ) {
-			$( "span#sinage-queue-" + queueCollectionSinageup[x] ).fadeOut(1000, function(){
-				$( "span#sinage-queue-" + queueCollectionSinageup[x] ).remove();
+		if( $( "p#sinage-queue-" + queueCollectionSinageup[x] ).length ) {
+			$( "p#sinage-queue-" + queueCollectionSinageup[x] ).fadeOut(1000, function(){
+				$( "p#sinage-queue-" + queueCollectionSinageup[x] ).remove();
 			});
 			
 		}

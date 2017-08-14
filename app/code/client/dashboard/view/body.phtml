@@ -1,133 +1,110 @@
 <?php $this->getChildBlock("page/preloader"); ?>
 <?php $this->getChildBlock("page/navmember"); ?>
+<?php $this->getChildBlock("page/icon"); ?>
+
 <!-- Main START -->
 <main>
-  <div class="container">
-    <h1 class="thin">Dashboard</h1>
-    <div id="dashboard">
-      <div class="row"> 
-      <?php $this->getChildBlock("page/alert"); ?>
-        <!-- LINE graph START -->
-        <div class="col s12 m8">
-          <div class="card">
-            <div class="card-header"> <span class="card-title secondary-color-text">Visitors </span> <span class="card-title soft-text"> / </span> <span class="card-title primary-color-text"> Sales</span> </div>
-            <div class="divider"></div>
-            <div class="card-content">
-              <canvas id="graph-lined" height="300" width="600"></canvas>
-            </div>
-          </div>
-        </div>
-        <!-- LINE graph END --> 
-        <!--DOUGHNUT graph START -->
-        <div class="col s12 m4">
-          <div class="card">
-            <div class="card-header"> <span class="card-title cyan-text text-accent-4">New </span> <span class="card-title soft-text"> / </span> <span class="card-title amber-text text-darken-3"> Returning</span>
-              <p>Last 30 days</p>
-            </div>
-            <div class="divider"></div>
-            <div class="card-content" style="padding:40px;">
-              <canvas id="graph-doughnut" width="360" height="360"/>
-            </div>
-          </div>
-        </div>
-        <!--DOUGHNUT graph END --> 
-      </div>
-      <div class="row"> 
-        <!-- Total Profit BAR graph START -->
-        <div class="col s12 m6 l3">
-          <div class="card cyan accent-4 hoverable">
-            <div class="card-content"> <span class="card-title white-text countup" data-from="25" data-to="7800" data-speed="1000"></span> <span class="card-title white-text">$</span>
-              <p class="white-text">Total Profit </p>
-              <canvas id="graph-bar1" height="200" width="600"></canvas>
-            </div>
-          </div>
-        </div>
-        <!-- Total Profit BAR END --> 
-        <!-- Average Monthly BAR graph START -->
-        <div class="col s12 m6 l3">
-          <div class="card yellow accent-4 hoverable">
-            <div class="card-content"> <span class="card-title white-text countup" data-from="25" data-to="1489" data-speed="1000"></span> <span class="card-title white-text">$</span>
-              <p class="white-text">Average Monthly</p>
-              <canvas id="graph-bar2" height="200" width="600"></canvas>
-            </div>
-          </div>
-        </div>
-        <!-- Average Monthly BAR END --> 
-        <!-- New Orders BAR graph START -->
-        <div class="col s12 m6 l3">
-          <div class="card deep-orange hoverable">
-            <div class="card-content"> <span class="card-title white-text countup" data-from="2" data-to="64" data-speed="1000"></span>
-              <p class="white-text">New Orders</p>
-              <canvas id="graph-bar3" height="200" width="600"></canvas>
-            </div>
-          </div>
-        </div>
-        <!-- New Orders BAR END --> 
-        <!-- New Users BAR graph START -->
-        <div class="col s12 m6 l3">
-          <div class="card primary-color hoverable">
-            <div class="card-content"> <span class="card-title white-text countup" data-from="2" data-to="45" data-speed="1000"></span>
-              <p class="white-text">New Users</p>
-              <canvas id="graph-bar4" height="200" width="600"></canvas>
-            </div>
-          </div>
-        </div>
-        <!-- New Users BAR graph END --> 
-      </div>
-      <div class="row"> 
-        <!-- Latest Tasks START -->
-        <div class="col s12 m6">
-          <div id="tasks" class="card hoverable">
-            <ul class="collection with-header">
-              <li class="collection-header primary-color">
-                <h5 class="light secondary-color-text">My Tasks <a href="#!" class="secondary-content tooltipped" data-position="bottom" data-delay="50" data-tooltip="View All"><i class="material-icons secondary-color-text">arrow_forward</i></a></h5>
-              </li>
-              <li class="collection-item in-progress">
-                <p>Create e-commerce cards<br>
-                  <span class="badge static pink accent-4">UI/UX</span> <span class="secondary-content">25%</span> </p>
-                <div class="progress">
-                  <div class="determinate" style="width: 25%"></div>
-                </div>
-              </li>
-              <li class="collection-item in-progress">
-                <p>Implement another smart JS<br>
-                  <span class="badge static blue">Development</span> <span class="secondary-content">67%</span> </p>
-                <div class="progress">
-                  <div class="determinate" style="width: 67%"></div>
-                </div>
-              </li>
-              <li class="collection-item finished">
-                <p>SASS code revision<br>
-                  <span class="badge static blue">Development</span> <span class="secondary-content"><i class="material-icons">check</i></span> </p>
-              </li>
-              <li class="collection-item finished">
-                <p>Extra additions<br>
-                  <span class="badge static amber accent-3">Bonus</span> <span class="secondary-content"><i class="material-icons">check</i></span> </p>
-              </li>
-              <li class="collection-item finished">
-                <p>Extend code blocks notations<br>
-                  <span class="badge static blue">Development</span> <span class="secondary-content"><i class="material-icons">check</i></span> </p>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <!-- Latest Tasks END --> 
-        <!-- Gallery START -->
-        <div class="col s12 m6">
-          <div class="card secondary-color">
-            <div class="card-header"> <span class="card-title primary-color-text">New images</span> </div>
-            <div class="card-content no-padding">
-              <div id="gallery"> <img src="imgs/wall-clock-detail_m.jpg" class="materialboxed responsive-img" data-caption="Wall-clock"/> <img src="imgs/discounts_c01.jpg" class="materialboxed responsive-img" data-caption="Discounts shopping cart"/> <img src="imgs/sun-glasses_01.jpg" class="materialboxed responsive-img" data-caption="Smiling sun with glasses"/> <img src="imgs/flaming_m02.jpg" class="materialboxed responsive-img" data-caption="Wild flames" /> <img src="imgs/idea-bulb.jpg" class="materialboxed responsive-img" data-caption="Idea bulb" /> <img src="imgs/bm-using-laptop_m01.jpg" class="materialboxed responsive-img" data-caption="Businessman using laptop" /> </div>
-            </div>
-          </div>
-        </div>
-        <!-- Gallery END --> 
-        
-      </div>
-      <div class="section">
-        <p>NOTE: Mauris sed erat ac dolor pretium tincidunt in et metus.</p>
-      </div>
-    </div>
+	<div class="container">
+		<h1 class="thin">Dashboard</h1>
+			<div id="dashboard">
+				<?php $this->getChildBlock("page/alert"); ?>
+				<?php $this->getChildBlock("dashboard/overview"); ?>
+	  <div class="row"> 
+		<!-- Total Profit BAR graph START -->
+		<!-- <div class="col s12 m6 l3">
+		  <div class="card cyan accent-4 hoverable">
+			<div class="card-content"> <span class="card-title white-text countup" data-from="25" data-to="7800" data-speed="1000"></span> <span class="card-title white-text">$</span>
+			  <p class="white-text">Total Profit </p>
+			  <canvas id="graph-bar1" height="200" width="600"></canvas>
+			</div>
+		  </div>
+		</div> -->
+		<!-- Total Profit BAR END --> 
+		<!-- Average Monthly BAR graph START -->
+		<!-- <div class="col s12 m6 l3">
+		  <div class="card yellow accent-4 hoverable">
+			<div class="card-content"> <span class="card-title white-text countup" data-from="25" data-to="1489" data-speed="1000"></span> <span class="card-title white-text">$</span>
+			  <p class="white-text">Average Monthly</p>
+			  <canvas id="graph-bar2" height="200" width="600"></canvas>
+			</div>
+		  </div>
+		</div> -->
+		<!-- Average Monthly BAR END --> 
+		<!-- New Orders BAR graph START -->
+		<!-- <div class="col s12 m6 l3">
+		  <div class="card deep-orange hoverable">
+			<div class="card-content"> <span class="card-title white-text countup" data-from="2" data-to="64" data-speed="1000"></span>
+			  <p class="white-text">New Orders</p>
+			  <canvas id="graph-bar3" height="200" width="600"></canvas>
+			</div>
+		  </div>
+		</div> -->
+		<!-- New Orders BAR END --> 
+		<!-- New Users BAR graph START -->
+		<!-- <div class="col s12 m6 l3">
+		  <div class="card primary-color hoverable">
+			<div class="card-content"> <span class="card-title white-text countup" data-from="2" data-to="45" data-speed="1000"></span>
+			  <p class="white-text">New Users</p>
+			  <canvas id="graph-bar4" height="200" width="600"></canvas>
+			</div>
+		  </div>
+		</div> -->
+		<!-- New Users BAR graph END --> 
+	  </div>
+	  <div class="row"> 
+		<!-- Latest Tasks START -->
+		<div class="col s12 m12">
+		  <div id="tasks" class="card hoverable">
+			<ul class="collection with-header">
+			  <li class="collection-header primary-color" style="background-color: #546e7a !important;">
+				<h5 class="light secondary-color-text">My Tasks <a href="#!" class="secondary-content tooltipped" data-position="bottom" data-delay="50" data-tooltip="View All"><i class="material-icons secondary-color-text">arrow_forward</i></a></h5>
+			  </li>
+			  <li class="collection-item in-progress">
+				<p>Create e-commerce cards<br>
+				  <span class="badge static pink accent-4">UI/UX</span> <span class="secondary-content">25%</span> </p>
+				<div class="progress">
+				  <div class="determinate" style="width: 25%"></div>
+				</div>
+			  </li>
+			  <li class="collection-item in-progress">
+				<p>Implement another smart JS<br>
+				  <span class="badge static blue">Development</span> <span class="secondary-content">67%</span> </p>
+				<div class="progress">
+				  <div class="determinate" style="width: 67%"></div>
+				</div>
+			  </li>
+			  <li class="collection-item finished">
+				<p>SASS code revision<br>
+				  <span class="badge static blue">Development</span> <span class="secondary-content"><i class="material-icons">check</i></span> </p>
+			  </li>
+			  <li class="collection-item finished">
+				<p>Extra additions<br>
+				  <span class="badge static amber accent-3">Bonus</span> <span class="secondary-content"><i class="material-icons">check</i></span> </p>
+			  </li>
+			  <li class="collection-item finished">
+				<p>Extend code blocks notations<br>
+				  <span class="badge static blue">Development</span> <span class="secondary-content"><i class="material-icons">check</i></span> </p>
+			  </li>
+			</ul>
+		  </div>
+		</div>
+		<!-- Latest Tasks END --> 
+		<!-- Gallery START -->
+		<!-- <div class="col s12 m6">
+		  <div class="card secondary-color">
+			<div class="card-header"> <span class="card-title primary-color-text">New images</span> </div>
+			<div class="card-content no-padding">
+			  <div id="gallery"> <img src="imgs/wall-clock-detail_m.jpg" class="materialboxed responsive-img" data-caption="Wall-clock"/> <img src="imgs/discounts_c01.jpg" class="materialboxed responsive-img" data-caption="Discounts shopping cart"/> <img src="imgs/sun-glasses_01.jpg" class="materialboxed responsive-img" data-caption="Smiling sun with glasses"/> <img src="imgs/flaming_m02.jpg" class="materialboxed responsive-img" data-caption="Wild flames" /> <img src="imgs/idea-bulb.jpg" class="materialboxed responsive-img" data-caption="Idea bulb" /> <img src="imgs/bm-using-laptop_m01.jpg" class="materialboxed responsive-img" data-caption="Businessman using laptop" /> </div>
+			</div>
+		  </div>
+		</div> -->
+		<!-- Gallery END --> 
+		
+	  </div>
+	<!--   <div class="section">
+		<p>NOTE: Mauris sed erat ac dolor pretium tincidunt in et metus.</p>
+	  </div> -->
+	</div>
   </div>
   <!-- container END --> 
   

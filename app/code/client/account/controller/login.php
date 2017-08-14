@@ -6,6 +6,10 @@
 
 Class Account_Controller_Login extends Frontend_Controller_Action {
 
+	public function __construct() {
+		$this->middleware("autologin");
+	}
+	
 	/**
 	 *	User Login
 	 */
@@ -23,16 +27,16 @@ Class Account_Controller_Login extends Frontend_Controller_Action {
 		$pass 		= $request->getRequest("password");
 		$user 		= $db->where("username", $uname)->where("password", $pass)->first();
 		if( $user ) {
-			$session->add("alert", [
-					"type" => "success",
-					"message" => "You have login success fully."
-				]);
-			$session->add("user", $user);
-			$this->_redirect('/');
+			$session->add("auth", $user);
+			if( $request->getRequest("redirect") ) {
+				$this->_redirect($request->getRequest("redirect"));
+			}else{
+				$this->_redirect( Core::getBaseUrl() . "dashboard" );
+			}
 		}else{
 			$session->add("alert", [
 				"type" => "error",
-				"message" => "The credentials you have enter does not exist in our database."
+				"message" => "Username or Password is incorrect."
 			]);
 		}
 		$this->_redirect( Core::getBaseUrl() . 'account/login');
@@ -40,12 +44,12 @@ Class Account_Controller_Login extends Frontend_Controller_Action {
 
 	public function exitAction() {
 		$session = Core::getSingleton("system/session");
-		$session->del("user");
+		$session->del("auth");
 		$session->add("alert", [
 				"type" => "info",
 				"message" => "You have successfully logout, come again."
 			]);
-		$this->_redirect("/");
+		$this->_redirect( Core::getBaseUrl() . "account/login" );
 	}
 
 	public function setup() {

@@ -27,15 +27,15 @@ Class System_Controller_Config {
 	protected $configuration;
 	
 	public function __construct() {
-		$this->config = Core::getSingleton("system/kernel")->getConfig($this->configFileName);
+		$this->config = Core::getSingleton("system/kernel")->getConfig( $this->configFileName );
 	}
 
 	/**
 	 *	Get Config Data
 	 *	@return array $config
 	 */
-	public function getConfig() {
-		return $this->config;
+	public function getConfig( $name = false ) {
+		return isset($this->config[$name]) ? $this->config[$name] : $this->config;
 	}
 
 	/**
@@ -61,26 +61,5 @@ Class System_Controller_Config {
 	*/
 	public function getBaseUrl() {
 		return $this->config["baseUrl"];
-	}
-
-	public function __call($method, $params = null) {
-
-		$type = substr($method, 0, 3);
-		$property = lcfirst(substr($method, 3));
-
-		
-		try {
-			
-			if($type == "set") {
-				$this->$property = $params[0];
-				return $this;
-			}elseif($type == "get") {
-				return $this->$property;
-			}else{
-				throw new Exception("Error Processing Request", 1);
-			}
-		} catch (Exception $e) {
-			Core::log($e);
-		}
 	}
 }

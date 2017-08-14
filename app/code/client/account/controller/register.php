@@ -50,7 +50,7 @@ Class Account_Controller_Register extends Frontend_Controller_Action {
 					"type" => "success",
 					"message" => "Congrats, you successfully created an account."
 				]);
-			$this->_redirect(Core::getBaseUrl());
+			$this->_redirect(Core::getBaseUrl() . "account/login");
 		}
 		$this->_redirect(Core::getBaseUrl() . "account/register");
 	}

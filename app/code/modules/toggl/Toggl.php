@@ -1,8 +1,8 @@
 <?php
-require_once('Classloader.php');
+// require_once('Classloader.php');
 
-$classLoader = new Toggl_Classloader();
-spl_autoload_register(array(&$classLoader, "loadClass"));
+// $classLoader = new Toggl_Classloader();
+// spl_autoload_register(array(&$classLoader, "loadClass"));
 
 class Toggl{
 
@@ -12,6 +12,10 @@ class Toggl{
     private static $token;
     public static $debug = false;
     public static $verifyPeer = true;
+
+    public function __construct() {
+        self::setKey(Core::getSingleton("system/session")->get("auth")->apiKey);
+    }
 
     public static function setKey($apiKey) {
         self::$token = $apiKey;
@@ -64,7 +68,7 @@ class Toggl{
             return $resultJson;
         } else {
             $errorMessage = 'Toggl API call failed -- Request URL: ' . $url . (is_string($params)? ' Request Data: ' . $params : null) . ' Response code: ' . $info['http_code'] . ' Raw response dump: ' . $result . ' serialized CURL info: ' . serialize($info);
-            CakeLog::write('error', $errorMessage);
+            Core::log('error', $errorMessage);
             throw new Exception($errorMessage);
         }
     }

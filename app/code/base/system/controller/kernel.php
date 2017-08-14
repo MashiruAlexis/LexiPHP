@@ -51,6 +51,19 @@ Class System_Controller_Kernel {
 	}
 
 	/**
+	 *	Autoloader
+	 */
+	public function autoload() {
+		$paths = $this->getConfig("autoload");
+		foreach( $paths as $mod => $path ) {
+			if( file_exists($path) ) {
+				include $path;
+			}
+		}
+		return;
+	}
+
+	/**
 	 *	Get Config
 	 *	@return array $config
 	 */

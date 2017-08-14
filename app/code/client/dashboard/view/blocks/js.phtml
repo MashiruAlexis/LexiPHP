@@ -1,0 +1,33 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		dashboard();
+		var dashboardTimer = setInterval(function() {
+			dashboard();
+		},  10000);
+	});
+
+	/**
+	 *	Var Loggers
+	 */
+	function logs( str, alert = false ){
+		if( alert ) {
+			alert( str );
+			return;
+		}
+		console.log( str );
+		return;
+	}
+
+	/**
+	 *	Update today hour
+	 */
+	function dashboard() {
+		$.getJSON("<?=Core::getBaseUrl()?>api/toggl/dashboard", function(data) {
+			logs(data);
+			$("#todayTotalHours").text(data.totalToday.hrs);
+			$("#amountEarned").text("PHP " + data.totalToday.earned);
+			$("#payGrandTotalHours").text(data.payGrandTotal.hrs);
+			$("#payGrandTotalEarned").text("PHP " + data.payGrandTotal.amountEarned)
+		});
+	}
+</script>

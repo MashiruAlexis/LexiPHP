@@ -73,7 +73,7 @@ Class Arksystems_Controller_Queue extends Frontend_Controller_Action {
 						"type" => "error",
 						"message" => "Please enter valid number format."
 					]);
-				$this->_redirect(Core::getBaseUrl() . "arksystems/");
+				$this->_redirect(Core::getBaseUrl() . "arksystems/index/cashier");
 			}
 			// Core::log("Queue: " . $request["queueNumber"] );
 			$queue = Core::getModel("arksystems/queue");
@@ -82,7 +82,7 @@ Class Arksystems_Controller_Queue extends Frontend_Controller_Action {
 						"type" => "error",
 						"message" => "Queue number already exist, please check the number and enter it again."
 					]);
-				$this->_redirect(Core::getBaseUrl() . "arksystems");
+				$this->_redirect(Core::getBaseUrl() . "arksystems/index/cashier");
 			}
 			$res = $queue->insert([
 					"qnumber" => $request["queueNumber"],
@@ -99,13 +99,13 @@ Class Arksystems_Controller_Queue extends Frontend_Controller_Action {
 						"message" => "Something went wrong. please contact IT professional to fix this issue."
 					]);
 			}
-			$this->_redirect( Core::getBaseUrl() . "arksystems");
+			$this->_redirect( Core::getBaseUrl() . "arksystems/index/cashier");
 		}else{
 			$session->add("alert",[
 				"type" => "warning",
 				"message" => "Unidentified request. Application has been automatically terminated."
 				]);
-			$this->_redirect(Core::getBaseUrl() . "arksystems");
+			$this->_redirect(Core::getBaseUrl() . "arksystems/index/cashier");
 		}
 	}
 }

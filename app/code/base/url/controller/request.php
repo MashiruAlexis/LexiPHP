@@ -50,6 +50,7 @@ Class Url_Controller_Request {
 		}else{
 			return $this->request;
 		}
+		return false;
 	}
 
 	/**
