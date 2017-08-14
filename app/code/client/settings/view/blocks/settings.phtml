@@ -1,0 +1,46 @@
+<?php
+$accountSession = Core::getSingleton("system/session")->get("auth");
+
+?>
+<div id="privacy">
+	<form name="frmUpdateAccount" method="POST" action="<?=Core::getBaseUrl()?>account/profile/update" >
+		<input type="hidden" name="id" value="<?=$user->id?>">
+		<div class="form-pad">
+			<div class="row">
+				<div class="col s12">
+					<div class="row" style="margin-top: 20px;">
+						 <div class="col s12 m6">
+						 	<div class="input-field">
+								<input id="apikey" name="apiKey" type="text" class="validate" value="">
+								<label for="apikey">API Key</label>
+							</div>
+						 </div>
+						<div class="col s12 m6">
+						 	<div class="input-field">
+								<input id="targethrs" name="targetHrs" type="number" min="4" max="12" class="validate" value="<?=$user->targetHrs?>">
+								<label for="targethrs">Target hours per day</label>
+							</div>
+						</div>
+					</div>
+					
+					<div class="buttons" style="margin-top: 20px;">
+						<button class="waves-effect waves-light btn" type="submit" name="btnTogglUpdate"><i class="material-icons right">done</i>Save changes</button>
+						<button class="waves-effect waves-light btn blue-grey lighten-2" type="submit" name="action2"><i class="material-icons right">clear</i>Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<?php
+	$toggl = Core::getSingleton("toggl/handler");
+	if(! $toggl->isSetup() ) {
+?>
+<script type="text/javascript">
+	var $toastContent = $('<span>Hey! <a href="<?=Core::getBaseUrl()?>/toggl/handler/goSetup"> Sync </a> now.</span>').add($('<button class="btn-flat toast-action">Undo</button>'));
+	Materialize.toast($toastContent, 10000);
+</script>
+<?php
+	}
+?>

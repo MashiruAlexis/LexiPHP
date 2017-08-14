@@ -11,6 +11,7 @@ Class Toggl_Controller_Handler extends Frontend_Controller_Action {
 	protected $userAgent;
 
 	public function __construct() {
+		$this->middleware("auth");
 		$account = Core::getModel("account/account");
 		$userSession = Core::getSingleton("system/session")->get("auth");
 		$user = $account->get($userSession->id);

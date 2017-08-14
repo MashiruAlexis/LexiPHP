@@ -82,6 +82,29 @@ Class System_Controller_Date {
 	    return $hours . ":" . $minutes . ":" . $seconds;
 	}
 
+	/**
+	 *	Sum all time
+	 */
+	public function sumTime( $times = array() ) {
+		$timeHr = 0;
+		$timeMin = 0;
+		$timeSec = 0;
+		foreach( $times as $time ) {
+			$expTime = explode( ":", $time );
+			$timeHr += $expTime[0];
+			$timeMin += $expTime[1];
+			$timeSec += $expTime[2];
+		}
+		$timeMin = floor(($timeSec / 60)) + $timeMin;
+		$timeHr = floor(($timeMin / 60)) + $timeHr;
+		$timeMin = $timeMin % 60;
+		$timeSec = $timeSec % 60;
+		return str_pad($timeHr, 2, '0', STR_PAD_LEFT) . ":" . str_pad($timeMin, 2, '0', STR_PAD_LEFT) .":" . str_pad($timeSec, 2, '0', STR_PAD_LEFT);
+	}
+
+	/**
+	 *	Parse Atom Time
+	 */
 	public function parseAtom( $date, $timestamp = false ) {
 		$date = strtotime($date) ? strtotime($date) : $date;
 		$date = date($this->timeFormat, $date);
@@ -98,9 +121,12 @@ Class System_Controller_Date {
 	 *	@return time
 	 */
 	public function getDiff( $time1, $time2 ){
-		$start = $this->parseAtom( $time1, true );
-		$end = $this->parseAtom( $time2, true );
-		return $this->secondsToTime( $start - $end );
+		$time1 = date("Y-m-d h:i:s a", strtotime($time1));
+		$time2 = date("Y-m-d h:i:s a", strtotime($time2));
+		$datetime1 = new DateTime($time1);
+		$datetime2 = new DateTime($time2);
+		$interval = $datetime1->diff($datetime2);
+		return $interval->format('%h').":".$interval->format('%i').":".$interval->format('%s');
 	}
 
 	/**

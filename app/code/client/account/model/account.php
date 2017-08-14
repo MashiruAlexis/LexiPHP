@@ -33,6 +33,13 @@ Class Account_Model_Account extends Database_Model_Base {
 	}
 
 	/**
+	 *	Get Rate
+	 */
+	public function getRate() {
+
+	}
+
+	/**
 	 *	Get Id
 	 */
 	public function getId() {
@@ -112,6 +119,9 @@ Class Account_Model_Account extends Database_Model_Base {
 		$res = $toggl->getApp("reports")->detailed($params);
 
 		$data = $res["data"];
+		// Core::log( Core::getSingleton("system/date")->secondsToTime($res["total_grand"]) );
+		// Core::log( "Total: " . date("h:i:s", strtotime($res["total_grand"])) );
+		// Core::log( $res );
 
 		if( $res["total_count"] > 50 ) {
 			$params["page"] = 2;
@@ -128,34 +138,8 @@ Class Account_Model_Account extends Database_Model_Base {
 				}
 			}
 		}
-		// Core::log( $since );
-		// Core::log( $until );
-		// Core::log( $data );
 		return $data;
 	}
-
-	public function addTwoTimes($time1 = "00:00:00", $time2 = "00:00:00"){
-        $time2_arr = [];
-        $time1 = $time1;
-        $time2_arr = explode(":", $time2);
-        //Hour
-        if(isset($time2_arr[0]) && $time2_arr[0] != ""){
-            $time1 = $time1." +".$time2_arr[0]." hours";
-            $time1 = date("H:i:s", strtotime($time1));
-        }
-        //Minutes
-        if(isset($time2_arr[1]) && $time2_arr[1] != ""){
-            $time1 = $time1." +".$time2_arr[1]." minutes";
-            $time1 = date("H:i:s", strtotime($time1));
-        }
-        //Seconds
-        if(isset($time2_arr[2]) && $time2_arr[2] != ""){
-            $time1 = $time1." +".$time2_arr[2]." seconds";
-            $time1 = date("H:i:s", strtotime($time1));
-        }
-
-        return date("H:i:s", strtotime($time1));
-    }
 
 	/**
 	 *	Get Total Hours
@@ -170,16 +154,32 @@ Class Account_Model_Account extends Database_Model_Base {
 		}else{
 			$entries = $this->getTimeEntries( $since );
 		}
-		// Core::log("Duration: " . $since);
-		// Core::log("Duration: " . $until);
+		if( empty($entries) ) {
+			return false;
+		}
 		$times = "00:00:00";
 		foreach( $entries as $entry ) {
 			$dur = $date->getDiff( $entry["start"], $entry["end"] );
-			// Core::log("Description: " . $entry["description"]);
-			// Core::log("Duration: " . $dur);
-			$times = $this->addTwoTimes($times, $dur);
+			Core::log( "Duration: " . $dur );
+			$timeAdd[] = $dur;
 		}
-		return $times;
+		return $date->sumTime( $timeAdd );
+	}
+
+	/**
+	 *	Get Total Earned
+	 *	@param time $time
+	 *	@return int $earned
+	 */
+	public function getTotalEarned( $time = "00:00:00", $rate ) {
+		$time = explode(":", $time);
+		$hourPay = $time[0];
+		$minPay = ($time[1] / 60);
+		$secPay = (($time[1] / 60) / 60);
+		$total = $hourPay + $minPay + $secPay;
+		$total = number_format((float)$total, 2, '.', '') * $rate;
+		$total = number_format((float)$total, 2, '.', '');
+		return $total;
 	}
 
 	/**

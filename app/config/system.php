@@ -29,7 +29,7 @@ return [
 	 *	Base URL
 	 * --------------------
 	 */
-	"baseUrl" => "http://localhost/ark/",
+	"baseUrl" => "http://192.168.1.99/ark/",
 
 	/**
 	 * --------------------
