@@ -37,21 +37,3 @@ $account = Core::getModel("account/account");
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-$(document).ready(function() {
-	updatePayGrandTotal();
-	var payGrandTotal = setInterval(function() {
-		updatePayGrandTotal();
-	},  5000);
-});
-
-/**
- *	Update today hour
- */
-function updatePayGrandTotal() {
-	$.getJSON("<?=Core::getBaseUrl()?>api/toggl/paydayEarned", function(data) {
-		$("#payGrandTotalHours").text(data.hrs);
-		$("#payGrandTotalEarned").text("PHP " + data.amountEarned);
-	});
-}
-</script>

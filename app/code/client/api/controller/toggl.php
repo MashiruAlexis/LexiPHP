@@ -10,20 +10,26 @@ Class Api_Controller_Toggl extends Frontend_Controller_Action {
 		$this->middleware("auth");
 	}
 
-	public function todayTotalHoursAction() {
+	public function dashboardAction() {
+		$response["totalToday"] = $this->todayTotalHours();
+		$response["payGrandTotal"] = $this->paydayEarned();
+		echo json_encode($response);
+		exit();
+	}
+
+	public function todayTotalHours() {
 		$date 		= Core::getSingleton("system/date");
 		$account 	= Core::getModel("account/account");
 		$totalHours = $account->getTotalHours( date("M d, Y"), date("M d, Y") );
 		$rate = Core::getSingleton("system/session")->get("auth")->rate;
 		$earned = $account->getTotalEarned( $totalHours, $rate );
-		echo json_encode([
+		return [
 			"hrs" => $totalHours,
 			"earned" => $earned
-		]);
-		exit();
+		];
 	}
 
-	public function paydayEarnedAction() {
+	public function paydayEarned() {
 		$account 	= Core::getModel("account/account");
 		$date 		= Core::getSingleton("system/date");
 		$user 		= Core::getSingleton("system/session")->get("auth");
@@ -50,11 +56,10 @@ Class Api_Controller_Toggl extends Frontend_Controller_Action {
 		}
 		$totalHours = $account->getTotalHours( $since, $until );
 		$amountEarned = $account->getTotalEarned( $totalHours, $user->rate );
-		echo json_encode([
+		return [
 			"hrs" => $totalHours, 
 			"amountEarned" => $amountEarned
-		]);
-		exit();
+		];
 	}
 
 	public function format( $num ) {

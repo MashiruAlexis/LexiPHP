@@ -27,5 +27,6 @@ Class Dashboard_Controller_Index extends Frontend_Controller_Action {
 	public function setup() {
 		$this->setJs("default/dashboard");
 		$this->setCss("default/ark");
+		$this->setJs("toggl/toggl");
 	}
 }

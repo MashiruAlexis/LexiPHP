@@ -1,9 +1,9 @@
 <script type="text/javascript">
 	$(document).ready(function() {
-		updateTodayHours();
-		var todayTotalHours = setInterval(function() {
-			updateTodayHours();
-		},  5000);
+		dashboard();
+		var dashboardTimer = setInterval(function() {
+			dashboard();
+		},  10000);
 	});
 
 	/**
@@ -21,10 +21,13 @@
 	/**
 	 *	Update today hour
 	 */
-	function updateTodayHours() {
-		$.getJSON("<?=Core::getBaseUrl()?>api/toggl/todayTotalHours", function(data) {
-			$("#todayTotalHours").text(data.hrs);
-			$("#amountEarned").text("PHP " + data.earned);
+	function dashboard() {
+		$.getJSON("<?=Core::getBaseUrl()?>api/toggl/dashboard", function(data) {
+			logs(data);
+			$("#todayTotalHours").text(data.totalToday.hrs);
+			$("#amountEarned").text("PHP " + data.totalToday.earned);
+			$("#payGrandTotalHours").text(data.payGrandTotal.hrs);
+			$("#payGrandTotalEarned").text("PHP " + data.payGrandTotal.amountEarned)
 		});
 	}
 </script>
