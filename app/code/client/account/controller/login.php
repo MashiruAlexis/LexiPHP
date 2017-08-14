@@ -6,6 +6,10 @@
 
 Class Account_Controller_Login extends Frontend_Controller_Action {
 
+	public function __construct() {
+		$this->middleware("autologin");
+	}
+	
 	/**
 	 *	User Login
 	 */

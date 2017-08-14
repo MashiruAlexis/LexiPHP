@@ -7,20 +7,20 @@ $account = Core::getModel("account/account");
 	<div class="card">
 		<div class="card-header">
 			<span class="card-title cyan-text text-accent-4">
-				Today
+				Payday
 			</span> 
-			<!-- <span class="card-title soft-text"> 
+			<span class="card-title soft-text"> 
 				/ 
 			</span> 
 			<span class="card-title amber-text text-darken-3">
-				Earned Today
-			</span> -->
+				Earned
+			</span>
 		</div>
 		<div class="divider"></div>
 		<div class="card-content" style="padding:40px;">
 			<div class="row">
 				<div class="col s12 m12">
-					<h2 id="todayTotalHours" class="center-align red-text text-darken-1">00:00:00</h2>
+					<h2 id="payGrandTotalHours" class="center-align red-text text-darken-1">00:00:00</h2>
 					<div class="progress">
 						<div class="determinate" style="width: 70%"></div>
 					</div>
@@ -31,11 +31,27 @@ $account = Core::getModel("account/account");
 					<p class="text-panels">Earned:</p>
 				</div>
 				<div class="col s7 m7">
-					<p class="text-panels" id="amountEarned">0</p>
+					<p class="text-panels" id="payGrandTotalEarned">0</p>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<!--DOUGHNUT graph END --> 
-<?php $this->getChildBlock("dashboard/js"); ?>
+<script type="text/javascript">
+$(document).ready(function() {
+	updatePayGrandTotal();
+	var payGrandTotal = setInterval(function() {
+		updatePayGrandTotal();
+	},  5000);
+});
+
+/**
+ *	Update today hour
+ */
+function updatePayGrandTotal() {
+	$.getJSON("<?=Core::getBaseUrl()?>api/toggl/paydayEarned", function(data) {
+		$("#payGrandTotalHours").text(data.hrs);
+		$("#payGrandTotalEarned").text("PHP " + data.amountEarned);
+	});
+}
+</script>

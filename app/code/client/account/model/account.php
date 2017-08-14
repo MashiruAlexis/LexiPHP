@@ -119,9 +119,6 @@ Class Account_Model_Account extends Database_Model_Base {
 		$res = $toggl->getApp("reports")->detailed($params);
 
 		$data = $res["data"];
-		// Core::log( Core::getSingleton("system/date")->secondsToTime($res["total_grand"]) );
-		// Core::log( "Total: " . date("h:i:s", strtotime($res["total_grand"])) );
-		// Core::log( $res );
 
 		if( $res["total_count"] > 50 ) {
 			$params["page"] = 2;
@@ -160,7 +157,6 @@ Class Account_Model_Account extends Database_Model_Base {
 		$times = "00:00:00";
 		foreach( $entries as $entry ) {
 			$dur = $date->getDiff( $entry["start"], $entry["end"] );
-			Core::log( "Duration: " . $dur );
 			$timeAdd[] = $dur;
 		}
 		return $date->sumTime( $timeAdd );
@@ -177,9 +173,8 @@ Class Account_Model_Account extends Database_Model_Base {
 		$minPay = ($time[1] / 60);
 		$secPay = (($time[1] / 60) / 60);
 		$total = $hourPay + $minPay + $secPay;
-		$total = number_format((float)$total, 2, '.', '') * $rate;
-		$total = number_format((float)$total, 2, '.', '');
-		return $total;
+		$total = $total * $rate;
+		return number_format($total, 2, '.', '');
 	}
 
 	/**

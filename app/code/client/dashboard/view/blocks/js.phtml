@@ -24,6 +24,7 @@
 	function updateTodayHours() {
 		$.getJSON("<?=Core::getBaseUrl()?>api/toggl/todayTotalHours", function(data) {
 			$("#todayTotalHours").text(data.hrs);
+			$("#amountEarned").text("PHP " + data.earned);
 		});
 	}
 </script>
