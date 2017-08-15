@@ -215,7 +215,6 @@ Class Account_Model_Account extends Database_Model_Base {
 			"skills" 	=> "Stupid",
 			"apiKey" 	=> "2230d512d73c8174025a216af0b548a6",
 		];
-
 		foreach( $accounts as $account ) {
 			$this->insert($account);
 		}
