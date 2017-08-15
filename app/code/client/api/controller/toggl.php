@@ -20,16 +20,18 @@ Class Api_Controller_Toggl extends Frontend_Controller_Action {
 			$timeEntry[$task["description"]]["start"] = date("h:i:s a", strtotime($task["start"]));
 			$timeEntry[$task["description"]]["end"] = date("h:i:s a", strtotime($task["end"]));
 		}
-		
+		foreach( $tasks as $task ) {
+			$timelog[$task["description"]]["start"][] = date("h:i:s a", strtotime($task["start"])); 
+			$timelog[$task["description"]]["end"][] = date("h:i:s a", strtotime($task["end"]));
+		}
 		foreach( $taskLists as $key => $tasklist ) {
 			$list[] = [
 				"description" => $key,
 				"duration" => $date->sumTime($tasklist),
-				"start" => $timeEntry[$key]["start"],
-				"end" => $timeEntry[$key]["end"]
+				"start" => end($timelog[$key]["start"]),
+				"end" => $timelog[$key]["end"][0]
 			];
 		}
-
 		unset($totalToday["tasks"]);
 		$response["totalToday"] = $totalToday;
 		$response["payGrandTotal"] = $this->paydayEarned();
