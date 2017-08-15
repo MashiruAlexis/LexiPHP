@@ -35,13 +35,6 @@ Class Account_Model_Account extends Database_Model_Base {
 	}
 
 	/**
-	 *	Get Rate
-	 */
-	public function getRate() {
-
-	}
-
-	/**
 	 *	Get Id
 	 */
 	public function getId() {
