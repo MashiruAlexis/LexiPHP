@@ -6,6 +6,8 @@
 
 Class Account_Model_Account extends Database_Model_Base {
 
+	protected $tasks;
+
 	/**
 	 *	Table Name for this model
 	 */
@@ -135,6 +137,7 @@ Class Account_Model_Account extends Database_Model_Base {
 				}
 			}
 		}
+		$this->tasks = $res["data"];
 		return $data;
 	}
 
@@ -146,11 +149,13 @@ Class Account_Model_Account extends Database_Model_Base {
 	 */
 	public function getTotalHours( $since, $until = false ) {
 		$date = Core::getSingleton("system/date");
+
 		if( $until ) {
 			$entries = $this->getTimeEntries( $since, $until );
 		}else{
 			$entries = $this->getTimeEntries( $since );
 		}
+
 		if( empty($entries) ) {
 			return false;
 		}
@@ -167,7 +172,8 @@ Class Account_Model_Account extends Database_Model_Base {
 	 *	@param time $time
 	 *	@return int $earned
 	 */
-	public function getTotalEarned( $time = "00:00:00", $rate ) {
+	public function getTotalEarned( $time = "00:00:00", $rate = 0 ) {
+		$time = empty($time) ? "00:00:00" : $time;
 		$time = explode(":", $time);
 		$hourPay = $time[0];
 		$minPay = ($time[1] / 60);
@@ -185,6 +191,10 @@ Class Account_Model_Account extends Database_Model_Base {
 			$base[] = $dt;
 		}
 		return $base;
+	}
+
+	public function getTasks() {
+		return $this->tasks;
 	}
 
 	/**

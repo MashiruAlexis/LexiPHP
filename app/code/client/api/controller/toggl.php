@@ -11,8 +11,29 @@ Class Api_Controller_Toggl extends Frontend_Controller_Action {
 	}
 
 	public function dashboardAction() {
-		$response["totalToday"] = $this->todayTotalHours();
+		$date = Core::getSingleton("system/date");
+		$totalToday = $this->todayTotalHours();
+		$tasks = $totalToday["tasks"];
+		$taskLists = [];
+		foreach( $tasks as $task ) {
+			$taskLists[$task["description"]][] = $date->getDiff( $task["start"], $task["end"] );
+			$timeEntry[$task["description"]]["start"] = date("h:i:s a", strtotime($task["start"]));
+			$timeEntry[$task["description"]]["end"] = date("h:i:s a", strtotime($task["end"]));
+		}
+		
+		foreach( $taskLists as $key => $tasklist ) {
+			$list[] = [
+				"description" => $key,
+				"duration" => $date->sumTime($tasklist),
+				"start" => $timeEntry[$key]["start"],
+				"end" => $timeEntry[$key]["end"]
+			];
+		}
+
+		unset($totalToday["tasks"]);
+		$response["totalToday"] = $totalToday;
 		$response["payGrandTotal"] = $this->paydayEarned();
+		$response["tasks"] = isset($list) ? $list : "";
 		echo json_encode($response);
 		exit();
 	}
@@ -23,9 +44,13 @@ Class Api_Controller_Toggl extends Frontend_Controller_Action {
 		$totalHours = $account->getTotalHours( date("M d, Y"), date("M d, Y") );
 		$rate = Core::getSingleton("system/session")->get("auth")->rate;
 		$earned = $account->getTotalEarned( $totalHours, $rate );
+		if(! $totalHours ) {
+			$totalHours = "00:00:00";
+		}
 		return [
 			"hrs" => $totalHours,
-			"earned" => $earned
+			"earned" => $earned,
+			"tasks" => $account->getTasks()
 		];
 	}
 
@@ -62,8 +87,12 @@ Class Api_Controller_Toggl extends Frontend_Controller_Action {
 		];
 	}
 
+	/**
+	 *	Format number two decimal places
+	 *	@param float $num
+	 *	@return float $num
+	 */
 	public function format( $num ) {
 		return str_pad($num, 2, '0', STR_PAD_LEFT);
 	}
-
 }

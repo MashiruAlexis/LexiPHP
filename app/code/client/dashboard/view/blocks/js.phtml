@@ -1,4 +1,5 @@
 <script type="text/javascript">
+	var tasksList = "test";
 	$(document).ready(function() {
 		dashboard();
 		var dashboardTimer = setInterval(function() {
@@ -23,11 +24,26 @@
 	 */
 	function dashboard() {
 		$.getJSON("<?=Core::getBaseUrl()?>api/toggl/dashboard", function(data) {
-			logs(data);
 			$("#todayTotalHours").text(data.totalToday.hrs);
 			$("#amountEarned").text("PHP " + data.totalToday.earned);
 			$("#payGrandTotalHours").text(data.payGrandTotal.hrs);
-			$("#payGrandTotalEarned").text("PHP " + data.payGrandTotal.amountEarned)
+			$("#payGrandTotalEarned").text("PHP " + data.payGrandTotal.amountEarned);
+
+			if( JSON.stringify(data.tasks) !== JSON.stringify(tasksList) ) {
+				tasksList = data.tasks;
+				$('#tasks').empty();
+				if( data.tasks == "" ) {
+					newItem = $('<li class="collection-item in-progress center-align"><p style="font-size: 19px;"> <h3> Silence is Golden </h3> </li>').hide();
+					$("#tasks").prepend(newItem);
+					newItem.fadeIn();
+				}
+				for( var x = 0; x < data.tasks.length; x++ ) {
+					newItem = $('<li class="collection-item in-progress"><p style="font-size: 19px;">'+ data.tasks[x].description +'<br><span class="badge static grey">'+ data.tasks[x].start +' - '+ data.tasks[x].end +'</span><span class="secondary-content"> '+ data.tasks[x].duration +' </span></p></li>').hide();
+					$("#tasks").prepend(newItem);
+					newItem.fadeIn();
+				}
+			}
 		});
 	}
 </script>
+
