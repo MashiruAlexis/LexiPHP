@@ -130,10 +130,10 @@ Class Frontend_Controller_Action {
 		$baseurl = $config->getBaseUrl();
 		foreach($paths as $jsPaths) {
 			$fileLoc = BP . DS . "skin" . DS . $jsPaths . DS . $varJs[0] . DS . "js" . DS . $varJs[1] . ".js";
-			if( strpos( $fileLoc, US ) !== false ) {
-				$fileLoc = str_replace(US, DS, $fileLoc);
-				$varJs[1] = str_replace(US, DS, $varJs[1]);
-			}
+			// if( strpos( $fileLoc, US ) !== false ) {
+			// 	$fileLoc = str_replace(US, DS, $fileLoc);
+			// 	$varJs[1] = str_replace(US, DS, $varJs[1]);
+			// }
 			if(file_exists($fileLoc)) {
 				$this->js[] = "<script src='" . $baseurl . "skin" . BS . $jsPaths . BS . $varJs[0] . BS . "js" . BS . $varJs[1] . ".js'></script>";
 			}
