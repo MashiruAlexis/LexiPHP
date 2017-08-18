@@ -155,8 +155,15 @@ Class Account_Model_Account extends Database_Model_Base {
 		$times = "00:00:00";
 		foreach( $entries as $entry ) {
 			$dur = $date->getDiff( $entry["start"], $entry["end"] );
+			$bugs[$entry["description"]][] = $dur; 
+			// $bugsv1[$entry["description"]][] = ["start" => date("h:i:s a" , strtotime($entry["start"])), "end" => date("h:i:s a" , strtotime($entry["end"]))];
 			$timeAdd[] = $dur;
 		}
+		// Core::log( $bugsv1 );
+		// foreach( $bugs as $bugKey => $bugVal ) {
+		// 	$res[$bugKey] = $date->sumTime($bugVal);
+		// }
+		// Core::log( $res );
 		return $date->sumTime( $timeAdd );
 	}
 

@@ -86,6 +86,21 @@ Class Frontend_Controller_Action {
 	}
 
 	/**
+	 *	Get Font
+	 *	@param string $font
+	 *	@return string $font url
+	 */
+	public function getFont( $font ) {
+		$font = explode("/", $font);
+		foreach( Core::$skinPath as $path ) {
+			$fontPath = $path . $font[0] . DS . "font" . DS . $font[1];
+			if( file_exists($fontPath) ) {
+				return str_replace(BP . DS, Core::getBaseUrl(), $fontPath);
+			}
+		}
+	}
+
+	/**
 	 *	load the resources from theme
 	 */
 	public function loadThemeResource() {
@@ -141,17 +156,6 @@ Class Frontend_Controller_Action {
 	}
 
 	/**
-	 * Set CSS [Deprecated]
-	 */
-	// public function setBaseCss($varCss) {
-	// 	$varCss = explode(BS, $varCss);
-	// 	$dir = Core::getSingleton("system/config")->loadConfigFile()->frontend->directory;
-	// 	$sysConfig = Core::getSingleton("system/config")->loadConfigFile();
-	// 	$baseurl = $sysConfig->system->url;
-	// 	$this->css[] = "<link rel='stylesheet' href='" . $baseurl . $dir->skin . BS . $dir->base . BS . $varCss[0] . BS . $dir->css . BS . $varCss[1] . ".css'>";
-	// }
-
-	/**
 	 *	Link external css file
 	 */
 	public function linkCss($varLinkCss) {
@@ -164,17 +168,6 @@ Class Frontend_Controller_Action {
 	public function linkJs($varJs) {
 		$this->js[] = '<script src="' . $varJs . '"></script>';
 	}
-
-	/**
-	 *	Set JS [Deprecated]
-	 */
-	// public function setBaseJs($varJs) {
-	// 	$varJs = explode(BS, $varJs);
-	// 	$dir = Core::getSingleton("system/config")->loadConfigFile()->frontend->directory;
-	// 	$sysConfig = Core::getSingleton("system/config")->loadConfigFile();
-	// 	$baseurl = $sysConfig->system->url;
-	// 	$this->js[] = "<script src='" . $baseurl . $dir->skin . BS . $dir->base . BS . $varJs[0] . BS . $dir->js . BS . $varJs[1] . ".js'></script>";
-	// }
 
 	/**
 	 *	Get Images from Skin

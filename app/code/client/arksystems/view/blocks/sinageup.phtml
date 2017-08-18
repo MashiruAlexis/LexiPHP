@@ -1,5 +1,4 @@
 <div class="row">
-	<h1 class="center-align">Preparing</h1>
 	<div class="col s12 center-align" id="sinageup">
 		<!-- Content will be automatically populated here. -->
 	</div>
@@ -15,7 +14,7 @@ $(document).ready(function() {
 function updatePreparingList() {
 	for( var i = 0; i < queuePreparingSinageup.length; i++ ) {
 		if (! $( "p#sinage-queue-" + queuePreparingSinageup[i] ).length ) {
-			newItem = $('<p class="qtxt" id="sinage-queue-'+ queuePreparingSinageup[i] +'"> '+ queuePreparingSinageup[i] +'</p>').hide();
+			newItem = $('<p class="qtxt" id="sinage-queue-'+ queuePreparingSinageup[i] +'"> <span>'+ queuePreparingSinageup[i] +'</span></p>').hide();
 			$("div#sinageup").prepend(newItem);
 			newItem.fadeIn();
 		}

@@ -1,6 +1,15 @@
 <?php $this->getChildBlock("arksystems/css") ?>
 <?php $this->getChildBlock("arksystems/js"); ?>
 <style type="text/css">
+/* latin */
+@font-face {
+  font-family: 'Cabin Sketch';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Cabin Sketch Regular'), local('CabinSketch-Regular'), url(<?=$this->getFont("arksystems/d9fijO34zQajqQvl3YHRCRampu5_7CjHW5spxoeN3Vs.woff2")?>) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+
 .queue-numbers {
 	color: #b71c1c;
 }
@@ -13,16 +22,35 @@
 	font-size: 45px;
 	margin: 0px;
 }
+
+#mypanels.card-panel {
+	background-color: transparent !important;
+	box-shadow: none;
+	padding-top: 25%;
+	margin-bottom: 0px;
+}
+
+.qtxt {
+	font-family: Cabin Sketch;
+	color: white;
+	font-size: 65px;
+}
+
+p.qtxt span 
+{
+    display: block !important;
+}
+
 </style>
-<div class="main">
-	<div class="row">
-		<div class="col s9">
+<div class="main" style="background-image: url('<?=$this->getImage('arksystems/bg.png')?>')">
+	<div class="row ark-container" style="height: 1080px">
+		<div class="col s7">
 			<div class="row">
 				<div class="col s6 m6">
-					<div class="col s12 card-panel">
+					<div class="col s12 card-panel" id="mypanels">
 						<div class="row primary-color form-header">
 							<div class="col s12 center-align">
-								<h4 class="light white-text">Preparing</h4>
+								<!-- <h4 class="light white-text">Preparing</h4> -->
 							</div>
 						</div>
 						<div class="form-body">
@@ -31,10 +59,10 @@
 					</div>
 				</div>
 				<div class="col s6 m6">
-					<div class="col s12 card-panel">
+					<div class="col s12 card-panel" id="mypanels">
 						<div class="row primary-color form-header">
 							<div class="col s12 center-align">
-								<h4 class="light white-text">Collection</h4>
+								<!-- <h4 class="light white-text">Collection</h4> -->
 							</div>
 						</div>
 						<div class="form-body">
@@ -44,7 +72,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col s3">
+		<div class="col s5">
 			<?php $this->getChildBlock("arksystems/ads"); ?>
 		</div>
 	</div>

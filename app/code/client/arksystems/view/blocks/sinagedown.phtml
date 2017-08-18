@@ -1,5 +1,4 @@
 <div class="row">
-	<h1 class="center-align">Ready to Collect</h1>
 	<div class="col s12 center-align" id="sinagedown">
 		<!-- Content will be automatically populated here. -->
 	</div>
@@ -14,7 +13,7 @@ $(document).ready(function() {
 function updateCollectionList() {
 	for( var i = 0; i < queueCollectionSinagedown.length; i++ ) {
 		if (! $( "p#sinagedown-queue-" + queueCollectionSinagedown[i] ).length ) {
-			newItem = $('<p class="qtxt" id="sinagedown-queue-'+ queueCollectionSinagedown[i] +'"> '+ queueCollectionSinagedown[i] +'</p> <br/>').hide();
+			newItem = $('<p class="qtxt" id="sinagedown-queue-'+ queueCollectionSinagedown[i] +'"><span>'+ queueCollectionSinagedown[i] +'</span></p>').hide();
 			$("div#sinagedown").prepend(newItem);
 			newItem.fadeIn();
 		}

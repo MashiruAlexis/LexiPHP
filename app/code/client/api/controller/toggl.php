@@ -74,7 +74,6 @@ Class Api_Controller_Toggl extends Frontend_Controller_Action {
 			]
 		];
 		$currentDate = date("M d, Y");
-		$currentDate1 = date("Y/m/d");
 		foreach( $monthDivident as $mt ) {
 			if( strtotime($currentDate) <= strtotime($mt["end"]) ){
 				$since = $mt["start"];
