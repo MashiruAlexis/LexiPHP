@@ -1,17 +1,56 @@
 <style type="text/css">
+p.qtxt {
+	display: block;
+	border: 1px solid red;
+}
+
+span.qtxt {
+	font-family: Cabin Sketch;
+	color: white;
+	font-size: 2vw;
+	display: block;
+	margin-top: 23%;
+}
+
 .queue-numbers {
 	color: #b71c1c;
 }
+.blocks {
+	border: 1px solid white;
+	margin: 5px;
+}
+img {
+	display: block;
+	margin-top: 15px;
+}
+
+.inactive {
+	background: rgba(97, 97, 97, 0.3);
+}
+
+img.menu-prepare {
+	background: rgba(38, 119, 34, 0.3);
+}
+
+img.menu-serve {
+	background: rgba(155, 131, 19, 0.3);
+}
+
+img.menu-done {
+	background: rgba(133, 68, 17, 0.3);
+}
 </style>
 <div class="row">
-	<div class="col s12 center-align" id="queueList">
-		
+	<div class="col s12 center-align">
+		<div class="row" id="queueList">
+			<!-- Content will automatically populated here. -->
+		</div>
 	</div>
 </div>
-
 <script type="text/javascript">
-	
-
+var imgPrepare = "<?=$this->getImage('arksystems/preparing.png');?>";
+var imgServe = "<?=$this->getImage('arksystems/serving.png');?>";
+var imgDone = "<?=$this->getImage('arksystems/done.png');?>";
 	$(document).ready(function() {
 	  var MyTimer = setInterval(function() {
 	  	update();
@@ -39,24 +78,99 @@
 	}
 
 	function update() {
-
 		for( var x = 0; x < queue.length; x++ ) {
 			if (! $( "#queue-" + queue[x] ).length ) {
-				newItem = $('<h1 class="queue-numbers" id="queue-'+ queue[x] +'"> '+ queue[x] +' </h1>').hide();
+				newItem = $('<div id="queue-'+ queue[x] +'" class="col s4 m3 blocks"><div class="row" style="margin-bottom: 15px;"><div class="col s3"><span class="qtxt">'+ queue[x] +'</span></div><div class="col s3"><img class=" menu-prepare responsive-img" onclick="setPrepareActive(this)" id="'+ queue[x] +'" src="'+ imgPrepare +'"></div><div class="col s3"><img class="inactive responsive-img" onclick="setServeActive(this)" id="'+ queue[x] +'" src="'+ imgServe +'"></div><div class="col s3"><img class="menu inactive responsive-img" id="'+ queue[x] +'" onclick="setDoneActive(this)" src="'+ imgDone +'"></div></div></div>').hide();
 				$("#queueList").prepend(newItem);
 				newItem.fadeIn();
 			}
+
 		}
 
-		for( var x = 0; x < queueCollection.length; x++ ) {
-			if( $( "#queue-" + queueCollection[x] ).length ) {
-				$( "#queue-" + queueCollection[x] ).fadeOut(1000, function(){
-					$( "#queue-" + queueCollection[x] ).remove();
-				});
-				
+		for( var b = 0; b < queueCollection.length; b++ ) {
+			if (! $( "#queue-" + queueCollection[b] ).length ) {
+				newItem1 = $('<div id="queue-'+ queueCollection[b] +'" class="col s4 m3 blocks"><div class="row" style="margin-bottom: 15px;"><div class="col s3"><span class="qtxt">'+ queueCollection[b] +'</span></div><div class="col s3"><img class="menu-prepare responsive-img" onclick="setPrepareActive(this)" id="'+ queueCollection[b] +'" src="'+ imgPrepare +'"></div><div class="col s3"><img class="menu-serve responsive-img" onclick="setServeActive(this)" id="'+ queueCollection[b] +'" src="'+ imgServe +'"></div><div class="col s3"><img class="inactive responsive-img" id="'+ queueCollection[b] +'" onclick="setDoneActive(this)" src="'+ imgDone +'"></div></div></div>').hide();
+				$("#queueList").prepend(newItem1);
+				newItem1.fadeIn();
 			}
 		}
 
+		for( var i = 0; i < deletedQueue.length; i++ ) {
+			if( $("#queue-" + deletedQueue[i]).length ) {
+				$( "#queue-" + deletedQueue[i] ).remove();
+			}
+		}
 
+		for( var c = 0; c < queueCompleted.length; c++ ) {
+			console.log("Complted" + queueCompleted[c]);
+			if( $("#queue-" + queueCompleted[c]).length ) {
+				$("#queue-" + queueCompleted[c]).remove();
+			}
+		}
+	}
+
+	function setPrepareActive( elem ) {
+		swal("Preparing...", "This item is already being prepared, please click the next button if it's ready to be served.");
+	}
+
+	function setServeActive( elem ){
+		qid = $(elem).attr("id");
+		var apiUrl = "<?=Core::getBaseUrl()?>arksystems/queue/addToCollection?qnum=" + qid;
+		swal({
+				title: "Are you sure?",
+				text: "Serve this item.",
+				type: "info",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "Confirm",
+				cancelButtonText: "Cancel",
+				closeOnConfirm: false,
+				closeOnCancel: true
+			},
+			function(isConfirm){
+				if (isConfirm) {
+					$.getJSON(apiUrl, function(data) {
+						if( data.status == "error" ) {
+							swal("Ooops!", "This item is being served already. please click the next button if the customer has collected the item.");
+						}
+					});
+					$(elem).removeClass( "inactive" );
+					$(elem).addClass( "menu-serve" );
+					swal("Success!", "This item is ready for collection.", "success");
+				}
+			});
+	}
+
+	function setDoneActive( elem ) {
+		qid = $(elem).attr("id");
+		var apiUrl = "<?=Core::getBaseUrl()?>arksystems/queue/addToComplete?qnum=" + qid;
+		swal({
+				title: "Are you sure?",
+				text: "If the customer has collected the item please click confirm.",
+				type: "info",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "Confirm",
+				cancelButtonText: "Cancel",
+				closeOnConfirm: false,
+				closeOnCancel: true
+			},
+			function(isConfirm){
+				if (isConfirm) {
+					$.getJSON(apiUrl, function(data) {
+						if( data.status == "error" ) {
+							swal("Ooops!", "This item has been collected already.");
+						}else{
+							$(elem).removeClass( "inactive" );
+							$(elem).addClass( "menu-done" );
+							swal("Success!", "The customer has collected the item.", "success");
+							deletedQueue.push(qid);
+							$("#queue-" + qid).fadeOut(1000, function(){
+								$( "#queue-" + qid ).remove();
+							});
+						}
+					});
+				}
+			});
 	}
 </script>

@@ -283,7 +283,10 @@ Class Database_Model_Base {
 	}
 
 	/**
-	 *	auto generate where clause in sql
+	 *	Sql Where Clause
+	 *	@param string $col
+	 *	@param string $val
+	 *	@return obj $this
 	 */
 	public function where( $col, $val ) {
 		$andTxt = " and ";
@@ -291,6 +294,17 @@ Class Database_Model_Base {
 			$andTxt = " WHERE ";
 		}
 		$this->whereClause .= $andTxt . $col . " = '" . $val . "'";
+		return $this;
+	}
+
+	/**
+	 *	OrWhere Clause
+	 *	@param string $col
+	 *	@param string $val
+	 *	@return obj $this
+	 */
+	public function orWhere( $col, $val ) {
+		$this->whereClause .= $this->whereClause . " OR " . $col . "='" . $val . "' ";
 		return $this;
 	}
 

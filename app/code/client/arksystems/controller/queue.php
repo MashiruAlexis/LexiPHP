@@ -75,7 +75,6 @@ Class Arksystems_Controller_Queue extends Frontend_Controller_Action {
 					]);
 				$this->_redirect(Core::getBaseUrl() . "arksystems/index/cashier");
 			}
-			// Core::log("Queue: " . $request["queueNumber"] );
 			$queue = Core::getModel("arksystems/queue");
 			if( $queue->where("qnumber", $request["queueNumber"])->exist() ) {
 				$session->add("alert", [
@@ -107,5 +106,24 @@ Class Arksystems_Controller_Queue extends Frontend_Controller_Action {
 				]);
 			$this->_redirect(Core::getBaseUrl() . "arksystems/index/cashier");
 		}
+	}
+
+	/**
+	 *	Delete all completed items
+	 */
+	public function softResetAction() {
+		$this->setPageTitle("Soft Reset");
+		$db = Core::getModel("arksystems/queue");
+		$db->where( "status", self::STATUS_COMPLETED )->delete();
+		$this->_redirect(Core::getBaseUrl() . "arksystems");
+	}
+
+	/**
+	 *	Delete all items
+	 */
+	public function resetAction() {
+		$this->setPageTitle("Reset");
+		Core::getModel("arksystems/queue")->delete();
+		$this->_redirect(Core::getBaseUrl() . "arksystems");
 	}
 }
