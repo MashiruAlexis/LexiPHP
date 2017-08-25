@@ -1,7 +1,30 @@
 <div class="row">
 	<div class="m12">
-		<div>
-			<img class="mainADS" src="<?=$this->getImage('arksystems/ads.png')?>">
+		<div id="ads-container">
+
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+$(document).ready(function() {
+	updateAds();
+	var ads = setInterval(function() {
+		updateAds();
+	},  8000);
+});
+
+function updateAds() {
+	var apiUrl = '<?=Core::getBaseUrl()?>arksystems/queue/getAds';
+	// $( "img#ads" ).fadeOut(500, function(){
+		
+	// });
+	$( "img#ads" ).remove();
+	$.getJSON(apiUrl, function(data) {
+		// if (! $( "img#ads" ).length ) {
+		newItem = $('<img id="ads" class="mainADS" src="'+ data.ads +'">').hide();
+		$("div#ads-container").prepend(newItem);
+		newItem.fadeIn(800);			
+		// }
+	});
+}
+</script>

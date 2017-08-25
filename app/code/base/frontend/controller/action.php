@@ -79,7 +79,7 @@ Class Frontend_Controller_Action {
 		foreach( Core::$skinPath as $path ) {
 			$imagePath = $path . $img[0] . DS . "images" . DS . $img[1];
 			if( file_exists($imagePath) ) {
-				$imagePath = str_replace(BP . DS, $baseUrl, $imagePath);
+				$imagePath = str_replace("\\", "/", str_replace(BP . DS, $baseUrl, $imagePath));
 				return $imagePath;
 			}
 		}
@@ -95,7 +95,7 @@ Class Frontend_Controller_Action {
 		foreach( Core::$skinPath as $path ) {
 			$fontPath = $path . $font[0] . DS . "font" . DS . $font[1];
 			if( file_exists($fontPath) ) {
-				return str_replace(BP . DS, Core::getBaseUrl(), $fontPath);
+				return str_replace("\\", "/", str_replace(BP . DS, Core::getBaseUrl(), $fontPath));
 			}
 		}
 	}

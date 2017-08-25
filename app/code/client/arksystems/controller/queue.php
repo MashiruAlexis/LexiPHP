@@ -126,4 +126,17 @@ Class Arksystems_Controller_Queue extends Frontend_Controller_Action {
 		Core::getModel("arksystems/queue")->delete();
 		$this->_redirect(Core::getBaseUrl() . "arksystems");
 	}
+
+	/**
+	 *	get ads
+	 */
+	public function getAdsAction() {
+		$session = Core::getSingleton("system/session");
+		$session->add("ads", 1);
+		$dir = BP . DS . "app" . DS . "code" . DS . "modules" . DS . "elfinder" . DS . "files";
+		$images = glob("$dir/*.{jpg,png,bmp,gif}", GLOB_BRACE);
+		shuffle($images);
+		echo json_encode(["ads" => str_replace("\\", "/", str_replace(BP . DS, Core::getBaseUrl(), $images[0]))]);
+		exit();
+	}
 }
