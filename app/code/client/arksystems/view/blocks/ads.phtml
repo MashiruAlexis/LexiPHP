@@ -6,25 +6,42 @@
 	</div>
 </div>
 <script type="text/javascript">
+var lastAds;
+var adTimer;
+var defInterval = 8000;
+var vidDuration;
+
 $(document).ready(function() {
 	updateAds();
-	var ads = setInterval(function() {
-		updateAds();
-	},  8000);
+	// var adTimer = setTimeout(updateAds,  defInterval);
 });
 
 function updateAds() {
-	var apiUrl = '<?=Core::getBaseUrl()?>arksystems/queue/getAds';
-	// $( "img#ads" ).fadeOut(500, function(){
-		
-	// });
-	$( "img#ads" ).remove();
+	var apiUrl = '<?=Core::getBaseUrl()?>arksystems/queue/getAds';	
 	$.getJSON(apiUrl, function(data) {
-		// if (! $( "img#ads" ).length ) {
-		newItem = $('<img id="ads" class="mainADS" src="'+ data.ads +'">').hide();
-		$("div#ads-container").prepend(newItem);
-		newItem.fadeIn(800);			
-		// }
+		var vid = data.ads;
+		if( lastAds != data.ads ) {
+			lastAds = data.ads;
+			$( "#ads" ).remove();
+			$( "#adsVideo" ).remove();
+			if( vid.search(".mp4") < 1 ) {
+				newItem = $('<img id="ads" class="mainADS" src="'+ data.ads +'">').hide();
+				$("div#ads-container").prepend(newItem);
+				newItem.fadeIn(800);
+				// clearTimeout(adTimer);
+				adTimer = setTimeout( updateAds, defInterval) ;
+			}else{
+				newItem = $('<video id="adsVideo" class="mainADS" autoplay muted width="643" height="985" source src="'+ data.ads +'" type="video/mp4">Your browser does not support HTML5 video.</video>').hide();
+				$("div#ads-container").prepend(newItem);
+				newItem.fadeIn(800);
+				var myVideoPlayer = document.getElementById('adsVideo');
+				myVideoPlayer.addEventListener('durationchange', function() {
+					vidDuration = Math.round(Number(myVideoPlayer.duration * 1000));
+					console.log('Duration: ', Math.round(Number(myVideoPlayer.duration * 1000)) );
+				});
+				adTimer = setTimeout( updateAds, vidDuration );
+			}
+		}
 	});
 }
 </script>

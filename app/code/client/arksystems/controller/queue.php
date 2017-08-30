@@ -41,6 +41,37 @@ Class Arksystems_Controller_Queue extends Frontend_Controller_Action {
 		exit();
 	}
 
+	public function addToQueueAction() {
+		$db = Core::getModel("arksystems/queue");
+		$request = Core::getSingleton("url/request")->getRequest();
+		if( $request["qnum"] > 999 || empty($request["qnum"]) ) {
+			$this->response([
+				"error" => "Please review the queue number field and try it again.",
+				"status" => "error"
+			]);
+		}
+		$rs = $db->where( "qnumber", $request["qnum"] )->first();
+		if(! isset($rs->qid) ) {
+			$db->insert([
+				"qnumber" => $request["qnum"],
+				"status" => self::STATUS_PREPARING
+			]);
+			$this->response([
+				"status" => "success",
+				"msg" => "Number added to queue."
+			]);
+		}
+		$this->response([
+			"status" => "error",
+			"error" => "Number already exist."
+		]);
+	}
+
+	public function response( $data = array() ) {
+		echo json_encode($data);
+		exit();
+	}
+
 	public function getQueueListAction() {
 		$queue = Core::getModel("arksystems/queue");
 		foreach( $queue->where("status", self::STATUS_PREPARING)->get() as $queueNumer ) {
@@ -132,11 +163,17 @@ Class Arksystems_Controller_Queue extends Frontend_Controller_Action {
 	 */
 	public function getAdsAction() {
 		$session = Core::getSingleton("system/session");
-		$session->add("ads", 1);
+		// $session->add("ads", 0);
 		$dir = BP . DS . "app" . DS . "code" . DS . "modules" . DS . "elfinder" . DS . "files";
-		$images = glob("$dir/*.{jpg,png,bmp,gif}", GLOB_BRACE);
-		shuffle($images);
-		echo json_encode(["ads" => str_replace("\\", "/", str_replace(BP . DS, Core::getBaseUrl(), $images[0]))]);
+		$images = glob("$dir/*.{jpg,png,bmp,gif,mp4}", GLOB_BRACE);
+		if(! isset($_SESSION['ads']) ) {
+			$_SESSION["ads"] = 0;
+		}
+		echo json_encode(["ads" => str_replace("\\", "/", str_replace(BP . DS, Core::getBaseUrl(), $images[$_SESSION['ads']]))]);
+		$_SESSION['ads']++;
+		if( $_SESSION['ads'] >= count($images) ) {
+			$_SESSION['ads'] = 0;
+		}
 		exit();
 	}
 }

@@ -26,4 +26,9 @@ Class Test_Controller_Index extends Frontend_Controller_Action {
 		Core::log(date("Y-m-d h:i:s a", strtotime($reports["data"][0]["start"])));
 		Core::log($reports);
 	}
+	public function vidAction() {
+		$getID3 = new getID3;
+		$file = $getID3->analyze(BP . DS . "modules" . DS . "elfinder" . DS . "files" . DS . "test.mp4" );
+		Core::log($file['playtime_string']);
+	}
 }

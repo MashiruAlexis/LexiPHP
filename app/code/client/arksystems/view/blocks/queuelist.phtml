@@ -14,15 +14,35 @@ span.qtxt {
 
 #queueList {
 	margin-top: 2%;
+	width: 99%;
 }
 
 .queue-numbers {
 	color: #b71c1c;
 }
+
+#queueNumber {
+	color: #fff;
+	font-size: 3em;
+	padding: 5% 0;
+	font-weight: bold;
+}
+
+.grey.darken-4 {
+	margin-top: 7%;
+}
+
 .blocks {
 	border: 1px solid white;
-	margin: 5px;
-	width: 24.7% !important;
+	margin: 0;
+	/*width: 24.7% !important;*/
+}
+
+#btnAddQueue {
+	font-size: 3em;
+	border: 1px solid #fff;
+	color: #fff;
+	background: #2e76a4;
 }
 img {
 	display: block;
@@ -46,7 +66,24 @@ img.menu-done {
 }
 </style>
 <div class="row">
-	<div class="col s12 center-align">
+	<div class="col s12">
+		<div class="row">
+			<div class="col s12">
+				<?php #$this->getChildBlock("arksystems/queue"); ?>
+				<div class="card-panel grey darken-4">
+					<div class="row">
+						<div class="input-field col s12">
+							<i class="large material-icons prefix">add_to_queue</i>
+							<input name="queueNumber" class="col s9 validate" id="queueNumber" type="number" min="1" max="999" autofocus>
+							<input type="button" class="col s3" name="btnAddQueue" id="btnAddQueue" value="+  ADD" onclick="addQueue();">
+							<label for="queueNumber" class="center-align">Enter Queue Number</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- </div>
+	<div class="col s9 center-align"> -->
 		<div class="row" id="queueList">
 			<!-- Content will automatically populated here. -->
 		</div>
@@ -57,11 +94,28 @@ var imgPrepare = "<?=$this->getImage('arksystems/preparing.png');?>";
 var imgServe = "<?=$this->getImage('arksystems/serving.png');?>";
 var imgDone = "<?=$this->getImage('arksystems/done.png');?>";
 	$(document).ready(function() {
-	  var MyTimer = setInterval(function() {
-	  	update();
-	 },  1000);
+		$("#queueNumber").keydown(function(event){
+			if(event.keyCode == 13){
+				addQueue();
+			}
+		});
+		var MyTimer = setInterval(function() {
+			update();
+		},  3000);
 	});
 
+	function addQueue() {
+		$.getJSON('<?=Core::getBaseUrl()?>arksystems/queue/addToQueue?qnum=' + $("#queueNumber").val(), function(data) {
+		if( data.status == "error" ) {
+			swal("Ooops!", data.error);
+		}else if( data.status == "success" ) {
+			$("input#queueNumber").val("test");
+			swal("Yeyyy!", data.msg);
+		}else{
+			swal("Ooops!", data.error);
+		}
+	});
+	}
 	function inArray( data, listData ) {
 		for( i = 0; i < listData.length; i++ ) {
 			if( listData[i] == data ) {
@@ -85,7 +139,7 @@ var imgDone = "<?=$this->getImage('arksystems/done.png');?>";
 	function update() {
 		for( var x = 0; x < queue.length; x++ ) {
 			if (! $( "#queue-" + queue[x] ).length ) {
-				newItem = $('<div id="queue-'+ queue[x] +'" class="col s4 m3 blocks"><div class="row" style="margin-bottom: 15px;"><div class="col s3"><span class="qtxt">'+ queue[x] +'</span></div><div class="col s3"><img class=" menu-prepare responsive-img" onclick="setPrepareActive(this)" id="'+ queue[x] +'" src="'+ imgPrepare +'"></div><div class="col s3"><img class="inactive responsive-img" onclick="setServeActive(this)" id="'+ queue[x] +'" src="'+ imgServe +'"></div><div class="col s3"><img class="menu inactive responsive-img" id="'+ queue[x] +'" onclick="setDoneActive(this)" src="'+ imgDone +'"></div></div></div>').hide();
+				newItem = $('<div id="queue-'+ queue[x] +'" class="col s4 m3 blocks"><div class="row" style="margin-bottom: 15px;"><div class="col s3"><span class="qtxt">'+ queue[x] +'</span></div><div class="col s3"></div><div class="col s4"><img class="inactive responsive-img" onclick="setServeActive(this)" id="'+ queue[x] +'" src="'+ imgServe +'"></div><div class="col s4"><img class="menu inactive responsive-img" id="'+ queue[x] +'" onclick="setDoneActive(this)" src="'+ imgDone +'"></div></div></div>').hide();
 				$("#queueList").prepend(newItem);
 				newItem.fadeIn();
 			}
@@ -94,7 +148,7 @@ var imgDone = "<?=$this->getImage('arksystems/done.png');?>";
 
 		for( var b = 0; b < queueCollection.length; b++ ) {
 			if (! $( "#queue-" + queueCollection[b] ).length ) {
-				newItem1 = $('<div id="queue-'+ queueCollection[b] +'" class="col s4 m3 blocks"><div class="row" style="margin-bottom: 15px;"><div class="col s3"><span class="qtxt">'+ queueCollection[b] +'</span></div><div class="col s3"><img class="menu-prepare responsive-img" onclick="setPrepareActive(this)" id="'+ queueCollection[b] +'" src="'+ imgPrepare +'"></div><div class="col s3"><img class="menu-serve responsive-img" onclick="setServeActive(this)" id="'+ queueCollection[b] +'" src="'+ imgServe +'"></div><div class="col s3"><img class="inactive responsive-img" id="'+ queueCollection[b] +'" onclick="setDoneActive(this)" src="'+ imgDone +'"></div></div></div>').hide();
+				newItem1 = $('<div id="queue-'+ queueCollection[b] +'" class="col s4 m3 blocks"><div class="row" style="margin-bottom: 15px;"><div class="col s3"><span class="qtxt">'+ queueCollection[b] +'</span></div><div class="col s3"></div><div class="col s4"><img class="menu-serve responsive-img" onclick="setServeActive(this)" id="'+ queueCollection[b] +'" src="'+ imgServe +'"></div><div class="col s4"><img class="inactive responsive-img" id="'+ queueCollection[b] +'" onclick="setDoneActive(this)" src="'+ imgDone +'"></div></div></div>').hide();
 				$("#queueList").prepend(newItem1);
 				newItem1.fadeIn();
 			}
@@ -107,7 +161,6 @@ var imgDone = "<?=$this->getImage('arksystems/done.png');?>";
 		}
 
 		for( var c = 0; c < queueCompleted.length; c++ ) {
-			console.log("Complted" + queueCompleted[c]);
 			if( $("#queue-" + queueCompleted[c]).length ) {
 				$("#queue-" + queueCompleted[c]).remove();
 			}
