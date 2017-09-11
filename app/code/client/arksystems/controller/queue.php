@@ -10,8 +10,8 @@ Class Arksystems_Controller_Queue extends Frontend_Controller_Action {
 		$request = Core::getSingleton("url/request")->getRequest();
 		$queue = Core::getModel("arksystems/queue");
 		if( isset($request["qnum"]) ) {
-			if( $queue->where("qnumber", $request["qnum"])->where("status", self::STATUS_READY)->exist() ){
-				$queue->where("qnumber", $request["qnum"])->where("status", self::STATUS_READY)->update(["status" => self::STATUS_COMPLETED]);
+			if( $queue->where("qnumber", $request["qnum"]) ){
+				$queue->where("qnumber", $request["qnum"])->where("status", self::STATUS_PREPARING)->update(["status" => self::STATUS_COMPLETED]);
 				echo json_encode(["status" => "success", "message" => "Queue Number was successfully add to collection."]);
 				exit();
 			}else{
@@ -138,6 +138,13 @@ Class Arksystems_Controller_Queue extends Frontend_Controller_Action {
 			$this->_redirect(Core::getBaseUrl() . "arksystems/index/cashier");
 		}
 	}
+
+	// public function removeQueueAction() {
+	// 	$request = Core::getSingleton("url/request")->getRequest();
+	// 	$db = Core::getModel("arksystems/queue");
+	// 	if( $db->where("qnumber", $request[""]) )
+	// 	Core::log( $request );
+	// }
 
 	/**
 	 *	Delete all completed items

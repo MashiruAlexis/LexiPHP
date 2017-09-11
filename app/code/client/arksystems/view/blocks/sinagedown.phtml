@@ -3,7 +3,9 @@
 		<!-- Content will be automatically populated here. -->
 	</div>
 </div>
+<audio id="audio" src="<?=Core::getBaseUrl(); ?>app/code/client/arksystems/view/tada.mp3" autostart="false" ></audio>
 <script type="text/javascript">
+var sound = document.getElementById("audio");
 $(document).ready(function() {
 	var MyTimer2 = setInterval(function() {
 		updateCollectionList();
@@ -11,11 +13,12 @@ $(document).ready(function() {
 });
 
 function updateCollectionList() {
-	for( var i = 0; i < queueCollectionSinagedown.length; i++ ) {
-		if (! $( "p#sinagedown-queue-" + queueCollectionSinagedown[i] ).length ) {
-			newItem = $('<p class="qtxt" id="sinagedown-queue-'+ queueCollectionSinagedown[i] +'"><span>'+ queueCollectionSinagedown[i] +'</span></p>').hide();
+	for( var i = 0; i < queuePreparingSinageup.length; i++ ) {
+		if (! $( "p#sinagedown-queue-" + queuePreparingSinageup[i] ).length ) {
+			newItem = $('<p class="qtxt" id="sinagedown-queue-'+ queuePreparingSinageup[i] +'"><span>'+ queuePreparingSinageup[i] +'</span></p>').hide();
 			$("div#sinagedown").prepend(newItem);
 			newItem.fadeIn();
+			sound.play();
 		}
 	}
 
@@ -24,7 +27,6 @@ function updateCollectionList() {
 			$( "p#sinagedown-queue-" + queueCompletedSinagedown[x] ).fadeOut(1000, function(){
 				$( "p#sinagedown-queue-" + queueCompletedSinagedown[x] ).remove();
 			});
-			
 		}
 	}
 }

@@ -60,7 +60,8 @@ Class Api_Controller_Toggl extends Frontend_Controller_Action {
 		$account 	= Core::getModel("account/account");
 		$date 		= Core::getSingleton("system/date");
 		$user 		= Core::getSingleton("system/session")->get("auth");
-
+		$amountEarned = 0;
+		$totalHours = 0;
 		$currMonth = $this->format( date("m") - 1 );
 		$nextMonth = $this->format( date("m") );
 		$monthDivident = [
@@ -74,12 +75,20 @@ Class Api_Controller_Toggl extends Frontend_Controller_Action {
 			]
 		];
 		$currentDate = date("M d, Y");
-		foreach( $monthDivident as $mt ) {
-			if( strtotime($currentDate) <= strtotime($mt["end"]) ){
-				$since = $mt["start"];
-				$until = $mt["end"];
-			}
+		Core::log( $monthDivident );
+		if( strtotime($monthDivident["first"]["end"]) <= strtotime($currentDate) ) {
+			$since = $monthDivident["second"]["start"];
+			$until = $monthDivident["second"]["end"];
+		}else{
+			$since = $monthDivident["first"]["start"];
+			$until = $monthDivident["first"]["end"];
 		}
+		// foreach( $monthDivident as $mt ) {
+		// 	if( strtotime($currentDate) >= strtotime($mt["end"]) ){
+		// 		$since = $mt["start"];
+		// 		$until = $mt["end"];
+		// 	}
+		// }
 		$totalHours = $account->getTotalHours( $since, $until );
 		$amountEarned = $account->getTotalEarned( $totalHours, $user->rate );
 		return [

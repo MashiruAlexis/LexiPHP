@@ -7,9 +7,11 @@ p.qtxt {
 span.qtxt {
 	font-family: Cabin Sketch;
 	color: white;
-	font-size: 2vw;
+	font-size: 3.8em 	 ;
 	display: block;
 	margin-top: 23%;
+	display: block;
+	float: none;
 }
 
 #queueList {
@@ -21,10 +23,15 @@ span.qtxt {
 	color: #b71c1c;
 }
 
+#queueList > div {
+	width: 15%;
+	height: 127px;
+}
+
 #queueNumber {
 	color: #fff;
 	font-size: 3em;
-	padding: 5% 0;
+	padding: 4% 2% 2% 0%;
 	font-weight: bold;
 }
 
@@ -106,15 +113,30 @@ var imgDone = "<?=$this->getImage('arksystems/done.png');?>";
 
 	function addQueue() {
 		$.getJSON('<?=Core::getBaseUrl()?>arksystems/queue/addToQueue?qnum=' + $("#queueNumber").val(), function(data) {
-		if( data.status == "error" ) {
-			swal("Ooops!", data.error);
-		}else if( data.status == "success" ) {
-			$("input#queueNumber").val("test");
-			swal("Yeyyy!", data.msg);
-		}else{
-			swal("Ooops!", data.error);
-		}
-	});
+			if( data.status == "error" ) {
+				swal({
+					title: 'Error!',
+					text: data.error,
+					timer: 1000,
+					showConfirmButton: false
+				});
+			}else if( data.status == "success" ) {
+				$("input#queueNumber").val("test");
+				swal({
+					title: 'Success!',
+					text: data.msg,
+					timer: 1000,
+					showConfirmButton: false
+				});
+			}else{
+				swal({
+					title: 'Error!',
+					text: data.error,
+					timer: 1000,
+					showConfirmButton: false
+				});
+			}
+		});
 	}
 	function inArray( data, listData ) {
 		for( i = 0; i < listData.length; i++ ) {
@@ -139,7 +161,7 @@ var imgDone = "<?=$this->getImage('arksystems/done.png');?>";
 	function update() {
 		for( var x = 0; x < queue.length; x++ ) {
 			if (! $( "#queue-" + queue[x] ).length ) {
-				newItem = $('<div id="queue-'+ queue[x] +'" class="col s4 m3 blocks"><div class="row" style="margin-bottom: 15px;"><div class="col s3"><span class="qtxt">'+ queue[x] +'</span></div><div class="col s3"></div><div class="col s4"><img class="inactive responsive-img" onclick="setServeActive(this)" id="'+ queue[x] +'" src="'+ imgServe +'"></div><div class="col s4"><img class="menu inactive responsive-img" id="'+ queue[x] +'" onclick="setDoneActive(this)" src="'+ imgDone +'"></div></div></div>').hide();
+				newItem = $('<div id="queue-'+ queue[x] +'" class="col s4 m3 blocks"> <div class="row"> <div class="col s3" style="float: left; width:auto;" > <span class="qtxt">'+ queue[x] +'</span> </div> <div class="col s9 center-align" style="float:left; display:block; width:36%; margin:5% 0 0 10%; "> <img class="menu inactive responsive-img" id="'+ queue[x] +'" onclick="setDoneActive(this)" src="'+ imgDone +'"> </div> </div> </div>').hide();
 				$("#queueList").prepend(newItem);
 				newItem.fadeIn();
 			}
@@ -148,7 +170,7 @@ var imgDone = "<?=$this->getImage('arksystems/done.png');?>";
 
 		for( var b = 0; b < queueCollection.length; b++ ) {
 			if (! $( "#queue-" + queueCollection[b] ).length ) {
-				newItem1 = $('<div id="queue-'+ queueCollection[b] +'" class="col s4 m3 blocks"><div class="row" style="margin-bottom: 15px;"><div class="col s3"><span class="qtxt">'+ queueCollection[b] +'</span></div><div class="col s3"></div><div class="col s4"><img class="menu-serve responsive-img" onclick="setServeActive(this)" id="'+ queueCollection[b] +'" src="'+ imgServe +'"></div><div class="col s4"><img class="inactive responsive-img" id="'+ queueCollection[b] +'" onclick="setDoneActive(this)" src="'+ imgDone +'"></div></div></div>').hide();
+				newItem1 = $('<div id="queue-'+ queueCollection[b] +'" class="col s4 m3 blocks"><div class="row"><div class="col s3" style="float: left; width:auto;" ><span class="qtxt">'+ queueCollection[b] +'</span></div><div class="col s9" center-align" style="float:left; display:block; width:36%; margin:5% 0 0 10%;><img class="inactive responsive-img" id="'+ queueCollection[b] +'" onclick="setDoneActive(this)" src="'+ imgDone +'"></div></div></div>').hide();
 				$("#queueList").prepend(newItem1);
 				newItem1.fadeIn();
 			}
@@ -174,61 +196,46 @@ var imgDone = "<?=$this->getImage('arksystems/done.png');?>";
 	function setServeActive( elem ){
 		qid = $(elem).attr("id");
 		var apiUrl = "<?=Core::getBaseUrl()?>arksystems/queue/addToCollection?qnum=" + qid;
-		swal({
-				title: "Are you sure?",
-				text: "Serve this item.",
-				type: "info",
-				showCancelButton: true,
-				confirmButtonColor: "#DD6B55",
-				confirmButtonText: "Confirm",
-				cancelButtonText: "Cancel",
-				closeOnConfirm: false,
-				closeOnCancel: true
-			},
-			function(isConfirm){
-				if (isConfirm) {
-					$.getJSON(apiUrl, function(data) {
-						if( data.status == "error" ) {
-							swal("Ooops!", "This item is being served already. please click the next button if the customer has collected the item.");
-						}
-					});
-					$(elem).removeClass( "inactive" );
-					$(elem).addClass( "menu-serve" );
-					swal("Success!", "This item is ready for collection.", "success");
-				}
-			});
+		$.getJSON(apiUrl, function(data) {
+			if( data.status == "error" ) {
+				swal("Ooops!", "This item is being served already. please click the next button if the customer has collected the item.", {
+					buttons: false,
+  					timer: 3000,
+				});
+			}else{
+				$(elem).removeClass( "inactive" );
+				$(elem).addClass( "menu-serve" );
+				swal("Success!", "This item is ready for collection.", "success");
+			}
+		});
+		
 	}
 
 	function setDoneActive( elem ) {
 		qid = $(elem).attr("id");
 		var apiUrl = "<?=Core::getBaseUrl()?>arksystems/queue/addToComplete?qnum=" + qid;
-		swal({
-				title: "Are you sure?",
-				text: "If the customer has collected the item please click confirm.",
-				type: "info",
-				showCancelButton: true,
-				confirmButtonColor: "#DD6B55",
-				confirmButtonText: "Confirm",
-				cancelButtonText: "Cancel",
-				closeOnConfirm: false,
-				closeOnCancel: true
-			},
-			function(isConfirm){
-				if (isConfirm) {
-					$.getJSON(apiUrl, function(data) {
-						if( data.status == "error" ) {
-							swal("Ooops!", "This item has been collected already.");
-						}else{
-							$(elem).removeClass( "inactive" );
-							$(elem).addClass( "menu-done" );
-							swal("Success!", "The customer has collected the item.", "success");
-							deletedQueue.push(qid);
-							$("#queue-" + qid).fadeOut(1000, function(){
-								$( "#queue-" + qid ).remove();
-							});
-						}
-					});
-				}
-			});
+		$.getJSON(apiUrl, function(data) {
+			if( data.status == "error" ) {
+				swal({
+					title: 'Error',
+					text: "Please check the item first.",
+					timer: 1000,
+					showConfirmButton: false
+				});
+			}else{
+				$(elem).removeClass( "inactive" );
+				$(elem).addClass( "menu-done" );
+				swal({
+					title: 'Success!',
+					text: 'The customer has collected the item.',
+					timer: 1000,
+					showConfirmButton: false
+				});
+				deletedQueue.push(qid);
+				$("#queue-" + qid).fadeOut(1000, function(){
+					$( "#queue-" + qid ).remove();
+				});
+			}
+	});
 	}
 </script>
