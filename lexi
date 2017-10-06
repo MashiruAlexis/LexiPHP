@@ -13,6 +13,8 @@ require_once "app/Core.php";
 
 /**
  *	CLI
+ *
+ *	This is the endpoint to console commands.
  */
 $interface = Core::getSingleton("console/interface");
 $interface->setArgs( $argv );

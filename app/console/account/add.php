@@ -13,5 +13,6 @@ Class Console_Account_Add extends Console_Controller_Core {
 	 */
 	public function handler() {
 		$this->info( $this->args );
+		$this->log("test");
 	}
 } 
