@@ -53,7 +53,7 @@ return [
 	 *	Default App
 	 * --------------------
 	 */
-	"app" => "dashboard",
+	"app" => "admin",
 
 	/**
 	 * --------------------
