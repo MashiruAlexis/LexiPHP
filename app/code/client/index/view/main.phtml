@@ -5,6 +5,11 @@
 	.banner {
 
 	}
+
+	.login-form {
+		margin-top: 10px;
+		margin-right: 50px;
+	}
 </style>
 <div class="row">
 	<div class="banner">
@@ -13,9 +18,10 @@
 			<!-- <img src="<?=$this->getImage('admin/logo.png');?>" alt="logo" class="logo responsive-img"> -->
 		</div>
 		<div class="col s12 m4 l4">
-			<h1 class="center">
-				Login
-			</h1>
+			<div class="login-form">
+				<?php $this->getChildBlock("auth/loginform"); ?>
+			</div>
 		</div>
+		<a href="<?=Core::getBaseUrl()?>account/resetpassword">Forgot password?</a>
 	</div>
 </div>

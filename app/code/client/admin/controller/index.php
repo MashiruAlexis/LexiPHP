@@ -11,6 +11,14 @@ Class Admin_Controller_Index extends Frontend_Controller_Action {
 	}
 
 	/**
+	 *	Evaluation Page
+	 */
+	public function evaluationAction() {
+		$this->setPageTitle("Evaluation");
+		$this->setBlock("admin/evaluation");
+	}
+
+	/**
 	 *	Client Setup
 	 */
 	public function setup() {

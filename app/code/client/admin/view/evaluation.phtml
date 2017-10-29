@@ -1,16 +1,11 @@
 <?php $this->getChildBlock("page/preloader"); ?>
 <?php $this->getChildBlock("admin/nav"); ?>
 <?php $this->getChildBlock("page/icon"); ?>
-<style type="text/css">
-	.bx {
-		border: 1px solid red;
-	}
-</style>
 <!-- Main START -->
 <main>
 <?php $this->getChildBlock("admin/profilemenu"); ?>
 <div class="container">
-	<h1 class="thin">Admin Dashboard</h1>
+	<h1 class="thin"><?=$this->getPageTitle()?></h1>
 	<div id="dashboard">
 		<?php $this->getChildBlock("page/alert"); ?>
 		<div class="row"> 
@@ -20,7 +15,7 @@
 					<ul class="collection with-header">
 						<div class="collection-header primary-color" style="background-color: #546e7a !important;">
 							<h5 class="light" style="color: white;">
-								Tasks
+								Questions
 								<a href="#!" class="secondary-content tooltipped" data-position="bottom" data-delay="50" data-tooltip="View All">
 									<i class="material-icons secondary-color-text">arrow_forward</i>
 								</a>
