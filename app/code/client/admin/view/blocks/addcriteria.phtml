@@ -1,15 +1,16 @@
 <!-- Personal tab START -->
 <div id="personal">
-<form>
+<form method="POST" action="<?=Core::getBaseUrl()?>admin/evaluation/addCriteria">
 	<div class="form-pad">
 		<div class="row">
+			<?php $this->getChildBlock("page/alert") ?>
 			<div class="col s12">
 				<div class="input-field">
-					<input id="current" type="password" class="validate">
+					<input id="current" type="text" name="criteria" class="validate">
 					<label for="current">Criteria</label>
 				</div>
 				<div class="buttons">
-				<button class="waves-effect waves-light btn" type="submit" name="action1"><i class="material-icons right">done</i>add</button>
+				<button class="waves-effect waves-light btn" type="submit" name="btnAddCriteria"><i class="material-icons right">done</i>add</button>
 				</div>
 			</div>
 			<div class="col s12">

@@ -1,0 +1,56 @@
+<!-- Password tab START -->
+<div id="password">
+<form method="POST" action="<?=Core::getBaseUrl()?>admin/evaluation/addSubCriteria">
+<div class="form-pad">
+<div class="row">
+		<div class="input-field col s12">
+			<select name="criteria">
+				<option value="" disabled selected>Choose your option</option>
+				<?php
+					foreach( Core::getModel("admin/criteria")->get() as $criteria ) {
+						?>
+						<option value="<?=$criteria->id?>"><?=$criteria->label?></option>
+						<?php
+					}
+				?>
+			</select>
+			<label>Criteria</label>
+		</div>	
+		<div class="col s12">
+		<div class="input-field">
+			<input id="current" name="subcriteria" type="text">
+			<label for="current">Sub Criteria</label>
+		</div>
+		<div class="buttons">
+			<button class="waves-effect waves-light btn" type="submit" name="btnAddSubCriteria"><i class="material-icons right">done</i>add</button>
+			<!-- <button class="waves-effect waves-light btn blue-grey lighten-2" type="submit" name="action2"><i class="material-icons right">clear</i>Cancel</button> -->
+		</div>
+	</div>
+</div>
+<hr>
+<div class="row">
+	<div class="col s12">
+		<?php
+			foreach( Core::getModel("admin/criteria")->get() as $criteria ) {
+				?>
+				<ul class="collection">
+					<li class="collection-item dismissable"><div><?=$criteria->label?><a href="#!" class="secondary-content"></a></div></li>
+					<ul class="collection-item">
+						<?php
+							foreach( Core::getModel("admin/subcriteria")->where("evaluation_criteria_id", $criteria->id)->get() as $subcriteria ) {
+								?>
+								<li class="collection-item dismissable"><div><?=$subcriteria->question?><a href="#!" class="secondary-content"><i class="material-icons">touch_app</i></a></div></li>
+								<?php
+							}
+						?>
+					</ul>
+				</ul>
+				<?php
+			}
+		?>
+	</div>
+</div>
+</div>
+</form>
+</div>
+<!-- Password tab END
