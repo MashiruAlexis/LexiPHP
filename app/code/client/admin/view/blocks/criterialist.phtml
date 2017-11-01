@@ -1,9 +1,5 @@
 <ul class="collection">
-<!-- 	<li class="collection-item dismissable"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">touch_app</i></a></div></li>
-	<li class="collection-item dismissable"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
-	<li class="collection-item dismissable"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
-	<li class="collection-item dismissable"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
- -->	<?php
+	<?php
 		foreach( Core::getModel("admin/criteria")->get() as $criteria ) {
 			?>
 			<li class="collection-item dismissable"><div><?=$criteria->label?><a href="#!" class="secondary-content"><i class="material-icons">touch_app</i></a></div></li>
