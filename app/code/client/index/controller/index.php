@@ -10,4 +10,8 @@ Class Index_Controller_Index extends Frontend_Controller_Action {
 		$this->setPageTitle("Jad Systems");
 		$this->setBlock("index/main");
 	}
+
+	public function setup() {
+		$this->setCss("index/style");
+	}
 }

@@ -1,0 +1,27 @@
+<table style="margin: 15px;">
+<thead>
+  <tr>
+      <th>Code</th>
+      <th>Faculty</th>
+      <th>Status</th>
+      <th>Action</th>
+  </tr>
+</thead>
+
+<tbody>
+	<?php 
+		foreach( Core::getModel("admin/evaluation")->get() as $eval ) {
+			?>
+			<tr>
+				<td><?=$eval->code?></td>
+				<td><?=Core::getModel("account/account")->getFullname($eval->account_id)?></td>
+				<td><?=$eval->status?></td>
+				<td>
+					<a href="#">Stop</a>
+				</td>
+			</tr>
+			<?php
+		}
+	?>
+</tbody>
+</table>

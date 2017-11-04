@@ -22,13 +22,15 @@
 							</h5>
 						</div>
 						<div id="tasks">
-							 <div class="row">
+						 	<div class="row">
 							    <div class="input-field col s4 offset-s4">
-							      <input  id="evalcode" type="text" class="validate">
+							      <input  id="evalcode" type="text" class="validate" name="evalCode">
 							      <label class="active" for="evalcode">Code</label>
 							    </div>
+
 							    <div class="input-field col s2 offset-s5">
-							      <input type="submit" name="btnAddCode" class="btn waves-effect waves-light">
+							    	<a class="waves-effect waves-light btn modal-trigger" href="#modal1" id="btnEvalSubmit">Submit</a>
+							      <!-- <input type="submit" name="btnAddCode" class="btn waves-effect waves-light"> -->
 							    </div>
 							  </div>
 						</div>
@@ -50,37 +52,7 @@
 							</h5>
 						</div>
 						<div id="tasks">
-							<table style="margin: 15px;">
-						        <thead>
-						          <tr>
-						              <th>Code</th>
-						              <th>Faculty</th>
-						              <th>Status</th>
-						              <th>Action</th>
-						          </tr>
-						        </thead>
-
-						        <tbody>
-						          <tr>
-						            <td>AWDAGNFG</td>
-						            <td>Eclair</td>
-						            <td>On-Going</td>
-						            <td>
-						            	<a href="#">View</a>
-						            </td>
-						          </tr>
-						          <tr>
-						            <td>DHDFAS</td>
-						            <td>Jellybean</td>
-						            <td>On-Going</td>
-						          </tr>
-						          <tr>
-						            <td>AWDAWGGHN</td>
-						            <td>Lollipop</td>
-						            <td>Ended</td>
-						          </tr>
-						        </tbody>
-						      </table>
+							<?php $this->getChildBlock("admin/evaluationlist"); ?>
 						</div>
 					</ul>
 				</div>
@@ -91,4 +63,41 @@
 </main>
 <!-- Main END --> 
 
+<!-- Modal Structure -->
+	<div id="modal1" class="modal">
+	<form name="frmSelectFaculty" method="POST" action="<?=Core::getBaseUrl()?>admin/evaluation/create">
+		<input type="hidden" name="evalcodemodal" id="evalcodemodal" value="">
+		<div class="modal-content">
+			<h4 class="thin" style="color: #87a1ad;">Select Faculty Member</h4>
+			<div class="row">
+				
+				<?php
+					foreach( Core::getModel("account/account")->where("account_type_id", 3)->get() as $faculty ) {
+						?>
+						<div class="col s4">
+							<p>
+								<input name="faculty" type="radio" value="<?=$faculty->id?>" id="<?=$faculty->id?>" />
+								<label for="<?=$faculty->id?>"><?=$faculty->fname?> <?=$faculty->lname?></label>
+							</p>
+						</div>
+						<?php
+					}
+				?>
+				
+			</div>
+		</div>
+	<div class="modal-footer">
+		<!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a> -->
+		<input type="submit" name="btnEval" value="Evaluate" class="modal-action modal-close waves-effect waves-green btn-flat">
+	</div>
+	</form>
+	</div>
+
 <?php $this->getChildBlock("page/footer"); ?>
+
+<script type="text/javascript">
+	$('#btnEvalSubmit').on("click",function(){
+		var code = $('#evalcode').val();
+		$('#evalcodemodal').val(code);
+	})
+</script>

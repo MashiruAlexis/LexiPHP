@@ -16,6 +16,16 @@ Class Account_Model_Account extends Database_Model_Base {
 	protected $table = "account";
 
 	/**
+	 *	Get Fullname by account id
+	 *	@var int $id
+	 *	@var string $name
+	 */
+	public function getFullname( $id ) {
+		$account = $this->where("id", $id)->first();
+		return $account->fname . " " . $account->lname;
+	}
+
+	/**
 	 *	Create Account Automatically
 	 */
 	public function preAccount() {

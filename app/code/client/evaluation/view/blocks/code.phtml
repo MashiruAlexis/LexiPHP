@@ -2,13 +2,13 @@
 	  <div id="login" class="row">
 	  <!-- <h1 class="thin">Login</h1> -->
 	<div class="col s12 m8 l6 offset-m2 offset-l3 card-panel">
-	  <form class="login-form">
+	  <form class="login-form" method="POST" action="<?=Core::getBaseUrl()?>evaluation/index/validate">
 		<div class="row primary-color form-header">
 		  <div class="col s3">
 			<img src="<?=$this->getImage('admin/logo.png');?>" alt="logo" class="logo responsive-img-height">
 		  </div>
 		  <div class="col s9 right-align">
-			<h4 class="light white-text">Evaluation Code</h4>
+			<h4 class="light white-text">Evaluate</h4>
 		  </div>
 		</div>
 		<div class="form-body">
@@ -18,8 +18,8 @@ $this->getChildBlock("page/alert");
 		<div class="row">
 		  <div class="input-field col s12">
 			<i class="mdi-content-mail prefix"></i>
-			<input class="validate" id="email" type="email">
-			<label for="email" data-error="wrong" data-success="right" class="center-align">Code</label>
+			<input class="validate" id="text" type="text" name="code">
+			<label for="text" data-error="wrong" data-success="right" class="center-align">Code</label>
 		  </div>
 		</div>
 		<div class="row">
