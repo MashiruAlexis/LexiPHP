@@ -18,6 +18,11 @@ Class Console_Account_Index extends Console_Controller_Core {
 				Core::getModel("account/account")->dummy();
 				$this->success("Dummy Account Added!");
 			}
+
+			if( $arg == "prepop" ) {
+				Core::getModel("account/accounttype")->prePopulateAccountType();
+				$this->success("Account Pre Populated.");
+			}
 		}
 	}
 }

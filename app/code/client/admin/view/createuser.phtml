@@ -1,0 +1,145 @@
+<?php $this->getChildBlock("page/preloader"); ?>
+<?php $this->getChildBlock("admin/nav"); ?>
+<?php $this->getChildBlock("page/icon"); ?>
+<style type="text/css">
+	.bx {
+		border: 1px solid red;
+	}
+</style>
+<!-- Main START -->
+<main>
+<?php $this->getChildBlock("admin/profilemenu"); ?>
+<div class="container">
+	<h1 class="thin">Admin Dashboard</h1>
+	<div id="dashboard">
+		<?php $this->getChildBlock("page/alert"); ?>
+		<div class="row"> 
+			<!-- Latest Tasks START -->
+			<div class="col s12 m12">
+				<div class="card hoverable">
+					<ul class="collection with-header">
+						<div class="collection-header primary-color" style="background-color: #546e7a !important;">
+							<h5 class="light" style="color: white;">
+								Create User
+								<a href="#!" class="secondary-content tooltipped" data-position="bottom" data-delay="50" data-tooltip="View All">
+									<i class="material-icons secondary-color-text">arrow_forward</i>
+								</a>
+							</h5>
+						</div>
+						<div id="tasks">
+							
+							<!--  Tables Section-->
+	  <div id="login" class="row">
+	  <!-- <h1 class="thin">Login</h1> -->
+	  <form id="frmRegister" class="login-form" action="<?=Core::getBaseUrl()?>account/register/create" method="POST">
+		<input type="hidden" name="redirect" value="<?=Core::getBaseUrl()?>admin/users/create">
+		<div class="form-body">
+	<?php $this->getChildBlock("page/alert"); ?>
+		<div class="row">
+		  <div class="input-field col s12">
+			<i class="mdi-social-person prefix"></i>
+			<input id="username" name="username" type="text" class="validate">
+			<label for="username" class="center-align">Username</label>
+		  </div>
+		</div>
+		<div class="row">
+		  <div class="input-field col s12">
+			<i class="mdi-communication-email prefix"></i>
+			<input id="email" name="email" type="email" class="validate">
+			<label for="email" class="center-align">Email</label>
+		  </div>
+		</div>
+		<div class="row">
+		  <div class="input-field col s12">
+			<i class="mdi-action-lock prefix"></i>
+			<input id="password" name="password" type="password" class="validate">
+			<label for="password">Password</label>
+		  </div>
+		</div>
+		<div class="row">
+		  <div class="input-field col s12">
+			<i class="mdi-action-lock prefix"></i>
+			<input id="repassword" name="repassword" type="password">
+			<label for="repassword">Re-type password</label>
+		  </div>
+		</div>
+
+		<div class="row">
+		  <div class="input-field col s12">
+
+		    <select name="accountType">
+		      <!-- <option value="" disabled selected>Choose your option</option> -->
+		      <?php
+		      	foreach( Core::getModel("account/accounttype")->get() as $at ) {
+		      		?>
+		      			<option value="<?=$at->id?>"><?=$at->type?></option>
+		      		<?php
+		      	}
+		      ?>
+		    </select>
+		    <label>Account Type</label>
+		  </div>
+		</div>
+		
+		<div class="row">
+		  <div class="input-field col s12">
+			<input type="submit" href="<?=Core::getBaseUrl()?>account/register/create" class="btn-large waves-effect waves-light col s12" value="Create">
+		  </div>
+		</div>
+	  </div>
+	  </form>
+  </div>
+
+<script type="text/javascript">
+  $("#frmRegister").validate({
+		rules: {
+			username: {
+				required: true,
+				minlength: 5
+			},
+			email: {
+				required: true,
+				email:true
+			},
+			password: {
+		required: true,
+		minlength: 5
+	  },
+	  repassword: {
+		required: true,
+		minlength: 5,
+		equalTo: "#password"
+	  },
+			cgender:"required",
+	  cagree:"required",
+		},
+		//For custom messages
+		messages: {
+			uname:{
+				required: "Enter a username",
+				minlength: "Enter at least 5 characters"
+			},
+			curl: "Enter your website",
+		},
+		errorElement : 'div',
+		errorPlacement: function(error, element) {
+		  var placement = $(element).data('error');
+		  if (placement) {
+			$(placement).append(error)
+		  } else {
+			error.insertAfter(element);
+		  }
+		}
+	 });
+</script>
+						</div>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</main>
+<!-- Main END --> 
+
+<?php $this->getChildBlock("page/footer"); ?>

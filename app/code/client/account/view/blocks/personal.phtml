@@ -1,0 +1,55 @@
+<?php
+	$uid = Core::getSingleton("system/session")->get("auth")->id;
+	$user = Core::getModel("account/account")->get($uid);
+?>
+<!-- Personal tab START -->
+<div id="personal">
+	<form name="frmPersonal" action="<?=Core::getBaseUrl()?>account/profile/update" method="POST" id="frmPersonal">
+	<input type="hidden" name="id" value="<?=$user->id?>">
+		<div class="form-pad">
+			<div class="row">
+				<div class="col s12 m8 push-m4">
+					<!-- Personal info FIELDS -->
+					<div class="input-field">
+						<input id="fname" name="fname" type="text" class="validate" value="<?=$user->fname?>">
+						<label for="fname">First Name</label>
+					</div>
+					<div class="input-field">
+						<input id="lname" name="lname" type="text" class="validate" value="<?=$user->lname?>">
+						<label for="lname">Last Name</label>
+					</div>
+					<div class="input-field">
+						<input id="contact" name="contact" type="text" class="validate" value="<?=$user->contact?>" required>
+						<label for="contact">Phone</label>
+					</div>
+					<div class="input-field">
+						<input id="email" name="email" type="email" class="validate" value="<?=$user->email?>">
+						<label for="email" data-error="wrong" data-success="right">Email</label>
+					</div>
+				</div>
+				<!-- <div class="col s12 m4 pull-m8">
+					<div class="form-pad center-align">
+						<img class="responsive-img circle" src="<?php #$this->getImage('default/defaultprofile.jpg');?>">
+						<div class="file-field input-field">
+							<div class="btn no-float primary-color">
+								<i class="material-icons large">file_upload</i>
+								<input type="file" name="profileImage">
+							</div>
+							<div class="file-path-wrapper hide">
+								<input class="file-path validate center-align" type="text">
+							</div>
+						</div>
+					</div>
+				</div> -->
+			</div>
+			<!-- Save Cancel -->
+			<div class="row">
+			<div class="col s12 m8 push-m4 buttons">
+			<button class="waves-effect waves-light btn" type="submit" name="btnPersonalUpdate"><i class="material-icons right">done</i>Save changes</button>
+			<button class="waves-effect waves-light btn blue-grey lighten-2" type="submit" name="btnCancelPersonal"><i class="material-icons right">clear</i>Cancel</button>
+			</div>
+			</div>
+		</div>
+	</form>
+</div>
+<!-- Personal tab END -->
