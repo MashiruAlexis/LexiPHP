@@ -5,7 +5,8 @@
 	  <div id="login" class="row">
 	  <!-- <h1 class="thin">Login</h1> -->
 	<div class="col s12 m8 l10 offset-m2 offset-l1 card-panel">
-	  <form class="login-form" method="POST" action="<?=Core::getBaseUrl()?>evaluation/index/validate">
+	  <form class="login-form" method="POST" action="<?=Core::getBaseUrl()?>evaluation/process/submit">
+	  <input type="hidder" name="test" value="thisisit">
 		<div class="row primary-color form-header">
 		  <div class="col s1">
 			<img src="<?=$this->getImage('admin/logo.png');?>" alt="logo" class="logo responsive-img-height">
@@ -35,24 +36,24 @@ $this->getChildBlock("page/alert");
 						<div class="row">
 							<div class="col s7"><span class="thin flow-text"><?=$sct->question?></span></div>
 							<div class="col s1">
-								<input name="<?=$sct->id?>-<?=$num?>" type="radio" id="1" />
-								<label for="1">1</label>
+								<input name="<?=$num?>" type="radio" id="1-sub-<?=$num?>" />
+								<label for="1-sub-<?=$num?>">1</label>
 							</div>
 							<div class="col s1">
-								<input name="<?=$sct->id?>-<?=$num?>" type="radio" id="2" />
-								<label for="2">2</label>
+								<input name="<?=$num?>" type="radio" id="2-sub-<?=$num?>" />
+								<label for="2-sub-<?=$num?>">2</label>
 							</div>
 							<div class="col s1">
-								<input name="<?=$sct->id?>-<?=$num?>" type="radio" id="3" />
-								<label for="3">3</label>
+								<input name="<?=$num?>" type="radio" id="3-sub-<?=$num?>" />
+								<label for="3-sub-<?=$num?>">3</label>
 							</div>
 							<div class="col s1">
-								<input name="<?=$sct->id?>-<?=$num?>" type="radio" id="4" />
-								<label for="4">4</label>
+								<input name="<?=$num?>" type="radio" id="4-sub-<?=$num?>" />
+								<label for="4-sub-<?=$num?>">4</label>
 							</div>
 							<div class="col s1">
-								<input name="<?=$sct->id?>-<?=$num?>" type="radio" id="5" />
-								<label for="5">5</label>
+								<input name="<?=$num?>" type="radio" id="5-sub-<?=$num?>" />
+								<label for="5-sub-<?=$num?>">5</label>
 							</div>
 						</div>
 				  	</div>
@@ -72,7 +73,7 @@ $this->getChildBlock("page/alert");
 
 		<div class="row">
 		  <div class="input-field col s12">
-			<input type="submit" name="btnEval" class="btn-large waves-effect waves-light col s12" value="Enter">
+			<input type="submit" name="btnEval" class="btn waves-effect waves-light col s12" value="Submit">
 		  </div>
 		</div>
 	  </div>
