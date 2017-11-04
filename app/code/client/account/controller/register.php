@@ -11,11 +11,15 @@ Class Account_Controller_Register extends Frontend_Controller_Action {
 		$this->setBlock("account/register");
 	}
 
+	/**
+	 *	Create User Account
+	 */
 	public function createAction() {
-		$session = Core::getSingleton("system/session");
-		$request = Core::getSingleton("url/request")->getRequest();
-		$accountDb = Core::getModel("account/account");
-		$next = isset($request["redirect"]) ? $request["redirect"] : false;
+		$session 	= Core::getSingleton("system/session");
+		$request 	= Core::getSingleton("url/request")->getRequest();
+		$accountDb 	= Core::getModel("account/account");
+		$hash 		= Core::getSingleton("system/hash");
+		$next 		= isset($request["redirect"]) ? $request["redirect"] : false;
 
 		Core::log( $request );
 
@@ -45,17 +49,25 @@ Class Account_Controller_Register extends Frontend_Controller_Action {
 
 		$rs = $accountDb->insert([
 			"account_type_id" 	=> $request["accountType"],
+			"fname"				=> $request["fname"],
+			"lname"				=> $request["lname"],
 			"username" 			=> $request["username"],
 			"email" 			=> $request["email"],
-			"password" 			=> $request["password"],
-			"status" 			=> "active"
+			"password" 			=> $hash->hash($request["password"]),
+			"status" 			=> $accountDb::STATUS_ACTIVE
 		]);
-		Core::log( $rs );
-		// if( $next ) {
-		// 	$this->_redirect( $next );
-		// }
 
-		Core::log("Your Stock");
+		if( $rs ) {
+			$session->add("alert", [
+				"type" => "success",
+				"message" => "Successfully created account."
+			]);
+		}
+
+		if( $next ) {
+			$this->_redirect( $next );
+		}
+		return;
 	}
 
 	public function setup() {

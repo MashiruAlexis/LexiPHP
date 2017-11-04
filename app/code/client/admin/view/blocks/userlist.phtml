@@ -4,31 +4,30 @@
 <table style="margin: 15px;">
 <thead>
   <tr>
-      <th>Code</th>
-      <th>Faculty</th>
-      <th>Status</th>
-      <th>Action</th>
+	  <th>Name</th>
+	  <th>Faculty</th>
+	  <th>Status</th>
+	  <th>Action</th>
   </tr>
 </thead>
 
 <tbody>
-  <tr>
-    <td>AWDAGNFG</td>
-    <td>Eclair</td>
-    <td>On-Going</td>
-    <td>
-    	<a href="#">View</a>
-    </td>
-  </tr>
-  <tr>
-    <td>DHDFAS</td>
-    <td>Jellybean</td>
-    <td>On-Going</td>
-  </tr>
-  <tr>
-    <td>AWDAWGGHN</td>
-    <td>Lollipop</td>
-    <td>Ended</td>
-  </tr>
+	<?php
+		foreach( Core::getModel("account/account")->get() as $account ) {
+			?>
+			<tr>
+				<td><?=$account->fname?> <?=$account->lname?></td>
+				<td><?=Core::getModel("account/accounttype")->getAccountType($account->account_type_id)->type?></td>
+				<td><?= $account->status ?></td>
+				<td>
+					<i class="material-icons">system_update_alt</i>
+					<i class="material-icons">delete</i>
+					<i class="material-icons">https</i>
+				</td>
+			</tr>
+			<?php
+		}
+	?>
+	
 </tbody>
 </table>

@@ -41,4 +41,5 @@ Class Account_Controller_Auth extends Frontend_Controller_Action {
 
 		return true;
 	}
+
 }

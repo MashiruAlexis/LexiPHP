@@ -10,7 +10,7 @@
 <main>
 <?php $this->getChildBlock("admin/profilemenu"); ?>
 <div class="container">
-	<h1 class="thin">Admin Dashboard</h1>
+	<h1 class="thin">Account Management</h1>
 	<div id="dashboard">
 		<?php $this->getChildBlock("page/alert"); ?>
 		<div class="row"> 
@@ -20,14 +20,12 @@
 					<ul class="collection with-header">
 						<div class="collection-header primary-color" style="background-color: #546e7a !important;">
 							<h5 class="light" style="color: white;">
-								Tasks
-								<a href="#!" class="secondary-content tooltipped" data-position="bottom" data-delay="50" data-tooltip="View All">
-									<i class="material-icons secondary-color-text">arrow_forward</i>
-								</a>
+								Accounts  <a href="<?=Core::getBaseUrl()?>admin/users/create" class="btn-floating btn waves-effect waves-light right"><i class="material-icons">add</i></a>
+								
 							</h5>
 						</div>
 						<div id="tasks">
-							<h1 class="center">Working Area</h1>
+							<?php $this->getChildBlock("admin/userlist"); ?>
 						</div>
 					</ul>
 				</div>

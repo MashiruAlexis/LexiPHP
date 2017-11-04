@@ -19,7 +19,6 @@ Class Admin_Controller_Users extends Frontend_Controller_Action {
 		$this->setJs("default/dashboard");
 		$this->setJs("default/jquery.validate.min");
 		$this->setJs("account/account");
-		$this->setCss("default/style");
 		
 	}
 }

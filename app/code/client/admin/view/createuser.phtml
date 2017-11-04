@@ -10,7 +10,7 @@
 <main>
 <?php $this->getChildBlock("admin/profilemenu"); ?>
 <div class="container">
-	<h1 class="thin">Admin Dashboard</h1>
+	<h1 class="thin">Create Account</h1>
 	<div id="dashboard">
 		<?php $this->getChildBlock("page/alert"); ?>
 		<div class="row"> 
@@ -29,12 +29,25 @@
 						<div id="tasks">
 							
 							<!--  Tables Section-->
-	  <div id="login" class="row">
+						<div class="container">
+							<div id="login" class="row">
 	  <!-- <h1 class="thin">Login</h1> -->
 	  <form id="frmRegister" class="login-form" action="<?=Core::getBaseUrl()?>account/register/create" method="POST">
 		<input type="hidden" name="redirect" value="<?=Core::getBaseUrl()?>admin/users/create">
 		<div class="form-body">
 	<?php $this->getChildBlock("page/alert"); ?>
+		<div class="row">
+	        <div class="input-field col s6">
+	        <i class="material-icons prefix">account_circle</i>
+	          <input  id="first_name" name="fname" type="text" class="validate">
+	          <label for="first_name">First Name</label>
+	        </div>
+	        <div class="input-field col s6">
+	        <i class="material-icons prefix">account_circle</i>
+	          <input id="last_name" name="lname" type="text" class="validate">
+	          <label for="last_name">Last Name</label>
+	        </div>
+	      </div>
 		<div class="row">
 		  <div class="input-field col s12">
 			<i class="mdi-social-person prefix"></i>
@@ -89,6 +102,20 @@
 	  </div>
 	  </form>
   </div>
+						</div>
+
+
+						</div>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</main>
+<!-- Main END --> 
+
+<?php $this->getChildBlock("page/footer"); ?>
 
 <script type="text/javascript">
   $("#frmRegister").validate({
@@ -132,14 +159,3 @@
 		}
 	 });
 </script>
-						</div>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-</main>
-<!-- Main END --> 
-
-<?php $this->getChildBlock("page/footer"); ?>
