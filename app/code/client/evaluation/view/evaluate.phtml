@@ -20,41 +20,45 @@ $this->getChildBlock("page/alert");
 ?>
 		
 		<?php
+		$num = 0;
 			foreach( Core::getModel("admin/criteria")->get() as $ct ) {
 				?>
 				<div class="row">
 				<h3 style="color: #87a1ad;"><?=$ct->label?></h3>
 				<hr>
 				<?php
+
 				foreach( Core::getModel("admin/subcriteria")->where("evaluation_criteria_id", $ct->id)->get() as $sct ) {
+					
 					?>
 					<div class="input-field col s12">
 						<div class="row">
 							<div class="col s7"><span class="thin flow-text"><?=$sct->question?></span></div>
 							<div class="col s1">
-								<input name="<?=$ct->id?>" type="radio" id="1" />
+								<input name="<?=$sct->id?>-<?=$num?>" type="radio" id="1" />
 								<label for="1">1</label>
 							</div>
 							<div class="col s1">
-								<input name="<?=$ct->id?>" type="radio" id="2" />
+								<input name="<?=$sct->id?>-<?=$num?>" type="radio" id="2" />
 								<label for="2">2</label>
 							</div>
 							<div class="col s1">
-								<input name="<?=$ct->id?>" type="radio" id="3" />
+								<input name="<?=$sct->id?>-<?=$num?>" type="radio" id="3" />
 								<label for="3">3</label>
 							</div>
 							<div class="col s1">
-								<input name="<?=$ct->id?>" type="radio" id="4" />
+								<input name="<?=$sct->id?>-<?=$num?>" type="radio" id="4" />
 								<label for="4">4</label>
 							</div>
 							<div class="col s1">
-								<input name="<?=$ct->id?>" type="radio" id="5" />
+								<input name="<?=$sct->id?>-<?=$num?>" type="radio" id="5" />
 								<label for="5">5</label>
 							</div>
 						</div>
 				  	</div>
 		
 					<?php
+					$num++;
 				}
 				?>
 				</div>
