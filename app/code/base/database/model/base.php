@@ -73,6 +73,7 @@ Class Database_Model_Base {
 	 *	SQL QUERIES Add, Update, Delete and SELECT
 	 */
 	public function insert( $items = array() ) {
+
 		$sql = "INSERT INTO " . $this->table . " (";
 		$itemLoopCounter = 0;
 		foreach( $items as $key => $val ) {
