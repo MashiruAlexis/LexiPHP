@@ -19,27 +19,40 @@ Class Account_Controller_Login extends Frontend_Controller_Action {
 	}
 
 	public function authenticateAction() {
-		$request 	= Core::getSingleton("url/request");
+		$request 	= Core::getSingleton("url/request")->getRequest();
 		$session 	= Core::getSingleton("system/session");
 		$db 		= Core::getModel("account/account");
+		$next 		= Core::getBaseUrl() . "account/login/";
+		$hash 		= Core::getSingleton("system/hash");
 
-		$uname 		= $request->getRequest("username");
-		$pass 		= $request->getRequest("password");
-		$user 		= $db->where("username", $uname)->where("password", $pass)->first();
-		if( $user ) {
-			$session->add("auth", $user);
-			if( $request->getRequest("redirect") ) {
-				$this->_redirect($request->getRequest("redirect"));
-			}else{
-				$this->_redirect( Core::getBaseUrl() . "dashboard" );
-			}
-		}else{
+		if(! $db->where("username", $request["username"])->exist() ) {
 			$session->add("alert", [
 				"type" => "error",
-				"message" => "Username or Password is incorrect."
+				"message" => "Username or Password did not match."
 			]);
+			$this->_redirect($next);
+			return;
 		}
-		$this->_redirect( Core::getBaseUrl() . 'account/login');
+
+		$user = $db->where("username", $request["username"])->first();
+
+		if(! $hash->verify( $request["password"], $user->password ) ) {
+			$session->add("alert", [
+				"type" => "error",
+				"message" => "Username or Password did not match."
+			]);
+			$this->_redirect($next);
+			return;	
+		}
+
+		$session->add("auth", $user);
+		$session->add("alert", [
+			"type" => "success",
+			"message" => "You have successfully login."
+		]);
+
+		$this->_redirect( Core::getBaseUrl() . "admin" );
+		return;
 	}
 
 	public function exitAction() {

@@ -5,6 +5,10 @@
  */
 
 Class Index_Controller_Index extends Frontend_Controller_Action {
+	
+	public function __construct() {
+		$this->middleware("autologin");
+	}
 
 	public function indexAction() {
 		$this->setPageTitle("Jad Systems");

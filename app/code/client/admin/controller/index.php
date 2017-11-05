@@ -2,6 +2,10 @@
 
 Class Admin_Controller_Index extends Frontend_Controller_Action {
 
+	public function __construct() {
+		$this->middleware("auth");
+	}
+
 	/**
 	 *	Admin main page
 	 */

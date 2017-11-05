@@ -21,7 +21,7 @@
 				<td><?= $account->status ?></td>
 				<td>
 					<i class="material-icons">system_update_alt</i>
-					<i class="material-icons">delete</i>
+					<a href="<?=Core::getBaseUrl()?>admin/users/delete?id=<?=$account->id?>"><i class="material-icons">delete</i></a>
 					<i class="material-icons">https</i>
 				</td>
 			</tr>

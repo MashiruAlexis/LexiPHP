@@ -6,6 +6,11 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 	const STATUS_COMPLETED = "completed";
 	const STATUS_STOPED = "stoped";
 
+	public function __construct() {
+		// to stop unauthenticated user from access to this page
+		$this->middleware("auth");
+	}
+
 	public function indexAction() {
 		$this->setPageTitle("Evaluation");
 		$this->setBlock("admin/evaluation");
@@ -19,6 +24,24 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 		$evaluationDb = Core::getModel("admin/evaluation");
 		$session = Core::getSingleton("system/session");
 		$next = Core::getBaseUrl() . "admin/evaluation";
+
+		if( empty($request["evalcodemodal"]) ) {
+			$session->add("alert",[
+				"type" => "error",
+				"message" => "Invalid evaluation code."
+			]);
+			$this->_redirect($next);
+			return;
+		}
+
+		if( empty($request["faculty"]) ) {
+			$session->add("alert",[
+				"type" => "error",
+				"message" => "Please select faculty member to evaluate."
+			]);
+			$this->_redirect($next);
+			return;
+		}
 
 		if( $evaluationDb->where("code", $request["evalcodemodal"])->exist() ) {
 			$session->add("alert",[
