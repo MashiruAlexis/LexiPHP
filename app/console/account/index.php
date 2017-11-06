@@ -29,6 +29,13 @@ Class Console_Account_Index extends Console_Controller_Core {
 				Core::getModel("account/account")->preAccount();
 				$this->success("Account was Pre Populated.");
 			}
+
+			if( $arg == "migrate:account" ) {
+
+				// Account
+				Core::getModel("account/account")->preAccount();
+				$this->success("Account was Pre Populated.");
+			}
 		}
 	}
 }

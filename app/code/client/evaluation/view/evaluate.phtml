@@ -19,6 +19,12 @@
 <?php
 $this->getChildBlock("page/alert");
 ?>
+<style type="text/css">
+	.rad {
+		display: inline;
+		margin-right: 20px;
+	}
+</style>
 		
 		<?php
 		$num = 0;
@@ -35,25 +41,27 @@ $this->getChildBlock("page/alert");
 					<div class="input-field col s12">
 						<div class="row">
 							<div class="col s7"><span class="thin flow-text"><?=$sct->question?></span></div>							
-							<div class="col s1">
-								<input name="<?=$sct->id?>" type="radio" id="5-sub-<?=$num?>" value="5" />
-								<label for="5-sub-<?=$num?>">5</label>
-							</div>
-							<div class="col s1">
-								<input name="<?=$sct->id?>" type="radio" id="4-sub-<?=$num?>" value="4" />
-								<label for="4-sub-<?=$num?>">4</label>
-							</div>
-							<div class="col s1">
-								<input name="<?=$sct->id?>" type="radio" id="3-sub-<?=$num?>" value="3" />
-								<label for="3-sub-<?=$num?>">3</label>
-							</div>
-							<div class="col s1">
-								<input name="<?=$sct->id?>" type="radio" id="2-sub-<?=$num?>" value="2" />
-								<label for="2-sub-<?=$num?>">2</label>
-							</div>
-							<div class="col s1">
-								<input name="<?=$sct->id?>" type="radio" id="1-sub-<?=$num?>" value="1" />
-								<label for="1-sub-<?=$num?>">1</label>
+							<div class="col s5">
+								<div class="rad">
+									<input name="<?=$sct->id?>" type="radio" id="5-sub-<?=$num?>" value="5" />
+									<label for="5-sub-<?=$num?>">5</label>
+								</div>
+								<div class="rad">
+									<input name="<?=$sct->id?>" type="radio" id="4-sub-<?=$num?>" value="4" />
+									<label for="4-sub-<?=$num?>">4</label>
+								</div>
+								<div class="rad">
+									<input name="<?=$sct->id?>" type="radio" id="3-sub-<?=$num?>" value="3" />
+									<label for="3-sub-<?=$num?>">3</label>
+								</div>
+								<div class="rad">
+									<input name="<?=$sct->id?>" type="radio" id="2-sub-<?=$num?>" value="2" />
+									<label for="2-sub-<?=$num?>">2</label>
+								</div>
+								<div class="rad">
+									<input name="<?=$sct->id?>" type="radio" id="1-sub-<?=$num?>" value="1" />
+									<label for="1-sub-<?=$num?>">1</label>
+								</div>
 							</div>
 						</div>
 				  	</div>

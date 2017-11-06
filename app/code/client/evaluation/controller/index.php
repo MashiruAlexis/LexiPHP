@@ -3,8 +3,14 @@
 Class Evaluation_Controller_Index extends Frontend_Controller_Action {
 
 	public function indexAction() {
+		$session = Core::getSingleton("system/session");
 		$this->setPageTitle("Evaluation");
-		$this->setBlock("evaluation/evaluate");
+		if( $session->get("evaluation") ) {
+			$this->setBlock("evaluation/evaluate");
+		}else{
+			$this->setBlock("evaluation/main");
+		}
+
 	}
 
 	/**
@@ -24,9 +30,8 @@ Class Evaluation_Controller_Index extends Frontend_Controller_Action {
 			$this->_redirect($next);
 		}
 
-		if( $evaluationDb->where("code", $request["code"])->where("status", $evaluationDb::STATUS_ON_GOING)->exist() ) {
+		if( $evaluationDb->where("code", $request["code"])->where("status", Admin_Controller_Evaluation::STATUS_ON_GOING)->exist() ) {
 			$session->add("evaluation", true);
-
 		}
 
 		$this->_redirect($next);
