@@ -28,7 +28,9 @@ Class Account_Model_AccountType extends Database_Model_Base {
 		];
 
 		foreach( $datas as $data ) {
-			$this->insert($data);
+			if(! $this->where("type", $data["type"])->exist() ) {
+				$this->insert($data);
+			}
 		}
 		return true;
 	}

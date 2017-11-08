@@ -5,16 +5,28 @@ Class Evaluation_Controller_Index extends Frontend_Controller_Action {
 	public function indexAction() {
 		$session = Core::getSingleton("system/session");
 		$this->setPageTitle("Evaluation");
-		if( $session->get("evaluation") ) {
-			$this->setBlock("evaluation/evaluate");
-		}else{
+
+		$evaldata = $session->get("evaluation");
+
+		if(! isset($evaldata["access"]) ) {
 			$this->setBlock("evaluation/main");
 		}
+
+		if( isset($evaldata["code"]) ) {
+			$this->setBlock("evaluation/evaluator");
+		}
+
+		if( isset($evaldata["hasEvaluator"]) ) {
+			$this->setBlock("evaluation/evaluate");
+		}
+		
 
 	}
 
 	/**
 	 *	Validate Code
+	 *	@var string $code
+	 *	@return bool
 	 */
 	public function validateAction() {
 		$request = Core::getSingleton("url/request")->getRequest();
@@ -31,7 +43,15 @@ Class Evaluation_Controller_Index extends Frontend_Controller_Action {
 		}
 
 		if( $evaluationDb->where("code", $request["code"])->where("status", Admin_Controller_Evaluation::STATUS_ON_GOING)->exist() ) {
-			$session->add("evaluation", true);
+			$session->add("evaluation", [
+				"access" => true,
+				"code" => $request["code"]
+			]);
+		}else{
+			$session->add("alert", [
+				"type" => "error",
+				"message" => "Invalid evaluation code."
+			]);
 		}
 
 		$this->_redirect($next);

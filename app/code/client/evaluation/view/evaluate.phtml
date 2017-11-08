@@ -5,8 +5,7 @@
 	  <div id="login" class="row">
 	  <!-- <h1 class="thin">Login</h1> -->
 	<div class="col s12 m8 l10 offset-m2 offset-l1 card-panel">
-	  <form name="frmEval" class="login-form" method="POST" action="<?=Core::getBaseUrl()?>evaluation/process/submit">
-	  <input type="hidden" name="test" value="thisisit">
+	  <form name="frmEval" id="frmEval" class="login-form" method="POST" action="<?=Core::getBaseUrl()?>evaluation/process/submit">
 		<div class="row primary-color form-header">
 		  <div class="col s1">
 			<img src="<?=$this->getImage('admin/logo.png');?>" alt="logo" class="logo responsive-img-height">
@@ -43,7 +42,7 @@ $this->getChildBlock("page/alert");
 							<div class="col s7"><span class="thin flow-text"><?=$sct->question?></span></div>							
 							<div class="col s5">
 								<div class="rad">
-									<input name="<?=$sct->id?>" type="radio" id="5-sub-<?=$num?>" value="5" />
+									<input name="<?=$sct->id?>" type="radio" id="5-sub-<?=$num?>" value="5" class="validate" />
 									<label for="5-sub-<?=$num?>">5</label>
 								</div>
 								<div class="rad">
@@ -92,3 +91,33 @@ $this->getChildBlock("page/alert");
 
 </main>
 <!-- Main End -->
+
+<script type="text/javascript">
+	$("form#frmEval").submit(function(e){
+    var bol_continue = true;
+  $("input:radio.validate").each(function(){
+    if($(this).attr('disabled') != 'disabled'){
+      var my_parent = $(this).closest('.input-field');
+      if(!$('[name='+$(this).attr('name')+']').is(':checked')){
+        if($(my_parent).children('.warning').length < 1){
+          $(my_parent).css("border","solid red 2px");
+          $(my_parent).css("padding-top","1px");
+          $('label[name='+$(this).attr('name')+']').css('top', '0.1rem');
+          // $(my_parent).append('<div class="col m3 s12 warning"><div class="chip" style="background: white; border: #e4e4e4 1px solid;">Please select an option</div></div>');
+        }
+        bol_continue = false;
+      }else{
+        if($(my_parent).find('.warning').length > 0){
+          $(this).parent().removeAttr("style");
+          $('label[name='+$(this).attr('name')+']').removeAttr('style');
+          $(my_parent).find('.warning').remove()
+        }
+      }
+    }
+  });
+  if(!bol_continue){
+    e.preventDefault();
+    return false;
+  }
+});
+</script>
