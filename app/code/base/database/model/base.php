@@ -94,11 +94,9 @@ Class Database_Model_Base {
 		}
 		$sql .= ")";
 		try {
-		    // use exec() because no results are returned
-
 		    $this->conn->exec($sql);
-		    }
-		catch(PDOException $e){
+		    $this->lastId = $this->conn->lastInsertId();
+		}catch(PDOException $e){
 			echo $sql . "<br>" . $e->getMessage();
 			return false;
 		}

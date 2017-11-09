@@ -12,13 +12,14 @@ Class Evaluation_Controller_Index extends Frontend_Controller_Action {
 			$this->setBlock("evaluation/main");
 		}
 
-		if( isset($evaldata["code"]) ) {
+		if( isset($evaldata["code"]) and ! isset($evaldata["hasEvaluator"])  ) {
 			$this->setBlock("evaluation/evaluator");
 		}
 
 		if( isset($evaldata["hasEvaluator"]) ) {
 			$this->setBlock("evaluation/evaluate");
 		}
+		
 		
 
 	}
