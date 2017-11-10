@@ -10,8 +10,19 @@ Class Admin_Controller_Index extends Frontend_Controller_Action {
 	 *	Admin main page
 	 */
 	public function indexAction() {
-		$this->setPageTitle("Admin");
-		$this->setBlock("admin/main");
+		$session 		= Core::getSingleton("system/session");
+		$accountDb 		= Core::getModel("account/account");
+		$account 		= $session->get("auth");
+
+		// render dean page
+		if( $accountDb->getAccountType( $account->account_type_id )->type == "Dean" ) {
+			$this->setPageTitle("Dean");
+			$this->setBlock("admin/dean");
+		}
+
+		
+		// $this->setBlock("admin/main");
+
 	}
 
 	/**
@@ -27,5 +38,7 @@ Class Admin_Controller_Index extends Frontend_Controller_Action {
 	 */
 	public function setup() {
 		$this->setJs("default/dashboard");
+		$this->setJs("admin/admin");
+		$this->setJs("admin/jquery.canvasjs.min");
 	}
 }

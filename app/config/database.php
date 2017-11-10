@@ -13,7 +13,7 @@ return [
 	|
 	| Set the database name from phpmyadimn.
 	*/
-	'DatabaseName' => 'evaluationsystem',
+	'DatabaseName' => 'eval',
 
 	/*
 	|--------------------------------------------------------------------------

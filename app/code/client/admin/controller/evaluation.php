@@ -6,14 +6,53 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 	const STATUS_COMPLETED = "completed";
 	const STATUS_STOPED = "stoped";
 
+	private static $characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+	private static $string;
+	private static $length = 6; //default random string length
+
 	public function __construct() {
 		// to stop unauthenticated user from access to this page
 		$this->middleware("auth");
 	}
 
+
+	public function generateEvaluationCode($length = null) {
+
+		if($length){
+			self::$length = $length;
+		}
+
+		$characters_length = strlen(self::$characters) - 1;
+
+		for ($i = 0; $i < self::$length; $i++) {
+			self::$string .= self::$characters[mt_rand(0, $characters_length)];
+		}
+
+		return self::$string;
+	}
+
 	public function indexAction() {
 		$this->setPageTitle("Evaluation");
 		$this->setBlock("admin/evaluation");
+	}
+
+	/**
+	 *	View
+	 */
+	public function viewAction() {
+		$request = Core::getSingleton("url/request")->getRequest();
+		$session = Core::getSingleton("system/session");
+
+		$this->setPageTitle("View Evaluation");
+		$this->setBlock("admin/viewevaluation");
+	}
+
+	/**
+	 *	Evaluate
+	 */
+	public function evaluateAction() {
+		$this->setPageTitle("Evaluate");
+		$this->setBlock("admin/evaluate");
 	}
 
 	/**

@@ -16,6 +16,15 @@ Class Account_Model_Account extends Database_Model_Base {
 	protected $table = "account";
 
 	/**
+	 *	Get Account Type
+	 *	@var int $id
+	 *	@return obj $type
+	 */
+	public function getAccountType( $id ) {
+		return Core::getModel("account/accounttype")->where("id", $id)->first();
+	}
+
+	/**
 	 *	Get Fullname by account id
 	 *	@var int $id
 	 *	@var string $name
