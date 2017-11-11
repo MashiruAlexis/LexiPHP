@@ -1,5 +1,5 @@
 <?php $this->getChildBlock("page/preloader"); ?>
-<?php $this->getChildBlock("admin/navdean"); ?>
+<?php $this->getChildBlock("admin/navteacher"); ?>
 <?php $this->getChildBlock("page/icon"); ?>
 <style type="text/css">
 	.bx {
@@ -19,24 +19,12 @@
 			</div>
 		</div>
 		<div class="row ">
-			<div class="input-field col s2">
-				<select>
-					<option value="" disabled>Choose your option</option>
-					<option value="1" selected>2017-2018</option>
-					<option value="1">2017-2018</option>
-					<option value="1">2017-2018</option>
-					<option value="1">2017-2018</option>
-					<option value="1">2017-2018</option>
-				</select>
-				<label>School Year</label>
+			<div class="input-field col s3">
+				<input id="evalcode" type="text" name="evalcode" class="validate">
+				<label for="evalcode">Code</label>
 			</div>
-			<div class="input-field col s2">
-				<select>
-					<option value="" disabled>Choose your option</option>
-					<option value="1">1st sem</option>
-					<option value="2" selected >2nd sem</option>
-				</select>
-				<label>Semester</label>
+			<div class="input-field col s3">
+				<input type="submit" class="btn" name="btnSearch" value="Search">
 			</div>
 		</div>
 		<div class="row"> 
@@ -46,7 +34,7 @@
 					<ul class="collection with-header">
 						<div class="collection-header primary-color" style="background-color: #546e7a !important;">
 							<h5 class="light center" style="color: white;">
-								Evaluate Faculty
+								Evaluate Peer
 								<a href="#!" class="secondary-content tooltipped" data-position="bottom" data-delay="50" data-tooltip="View All">
 									<i class="material-icons secondary-color-text">arrow_forward</i>
 								</a>
@@ -57,11 +45,24 @@
 								<div class="row">
 									<div class="col s12">
 										<p><b>Evaluation Code:</b> WFR3G2</p>
-										<p><b>Faculty ID:</b> 123</p>
-										<p><b>Faculty Name:</b> Ramon Alexis Celis</p>
-										<p><b>Subject:</b> Comp Prog 1</p>
+									</div>
+									<div class="col s4">
+										<p><b>Faculty Name: </b>Ramon Alexis Celis</p>
+									</div>
+									<div class="col s4">
+										<p><b>School Year: </b>2017-2018</p>
+									</div>
+									<div class="col s4">
+										<p><b>Semester: </b>2nd</p>
+									</div>
+									<div class="col s6">
+										<p><b>Subject Handled: </b>Computer Programming</p>
+									</div>
+									<div class="col s6">
+										<p><b>College Dept.: </b>ICT</p>
 									</div>
 								</div>
+								<hr>
 
 								<!-- legend block -->
 								<?php $this->getChildBlock("admin/legend"); ?>

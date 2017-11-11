@@ -56,6 +56,14 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 	}
 
 	/**
+	 *	Evaluate Peer Form
+	 */
+	public function evaluatePeerAction() {
+		$this->setPageTitle("Evaluate Peer");
+		$this->setBlock("admin/evaluatepeer");
+	}
+
+	/**
 	 *	Create Evaluation
 	 */
 	public function createAction() {
