@@ -27,7 +27,7 @@
 	<ul class="side-nav-main">
 	  <li class="logo hide-on-med-and-down"><img src="<?=$this->getImage('admin/logo.png');?>" alt="logo" class="logo responsive-img"></li>
 		<li class="side-nav-inline hide-on-med-only"> 
-			<a href="<?=Core::getBaseUrl()?>account/logcin/exit" class="inline waves-effect tooltipped" data-position="bottom" data-delay="50" data-tooltip="Logout">
+			<a href="<?=Core::getBaseUrl()?>account/login/exit" class="inline waves-effect tooltipped" data-position="bottom" data-delay="50" data-tooltip="Logout">
 				<i class="mdi-action-exit-to-app"></i>
 			</a> 
 			<a href="#" class="inline waves-effect tooltipped" data-position="bottom" data-delay="50" data-tooltip="Profile">
@@ -38,9 +38,26 @@
 			</a>
 		</li>
 	  <li><a href="<?=Core::getBaseUrl()?>admin" class="waves-effect"><i class="mdi-action-dashboard left"></i><span>Dashboard</span></a></li>
-	  <li><a href="<?=Core::getBaseUrl()?>admin/evaluation" class="waves-effect"><i class="mdi-action-dashboard left"></i><span>Evaluation</span></a></li>
-	  <li><a href="<?=Core::getBaseUrl()?>admin/configure" class="waves-effect"><i class="mdi-action-settings left"></i><span>Criteria</span></a></li>
-	  <li><a href="<?=Core::getBaseUrl()?>admin/users" class="waves-effect"><i class="mdi-action-settings left"></i><span>Users</span></a></li>
+	  <!-- <li><a href="#" class="waves-effect"><i class="mdi-action-dashboard left"></i><span>View Rating</span></a></li> -->
+
+	  <li class="no-padding">
+        <ul class="collapsible collapsible-accordion">
+          <li>
+            <a class="collapsible-header"><span>View Rating</span><i class="material-icons">arrow_drop_down</i></a>
+            <div class="collapsible-body">
+              <ul>
+                <li><a href="<?=Core::getBaseUrl()?>admin/rating/students">Students</a></li>
+                <li><a href="<?=Core::getBaseUrl()?>admin/rating/peers">Peers</a></li>
+                <li><a href="<?=Core::getBaseUrl()?>admin/rating/supervisor">Supervisor</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </li>
+
+	  <li><a href="#" class="waves-effect"><i class="mdi-action-dashboard left"></i><span>Evaluate Peer</span></a></li>
+
+
 	  
 	</ul>
   </div>

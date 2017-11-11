@@ -1,0 +1,130 @@
+<?php $this->getChildBlock("page/preloader"); ?>
+<?php $this->getChildBlock("admin/navdean"); ?>
+<?php $this->getChildBlock("page/icon"); ?>
+<style type="text/css">
+	.bx {
+		border: 1px solid red;
+	}
+</style>
+<!-- Main START -->
+<main>
+<?php $this->getChildBlock("admin/profilemenu"); ?>
+<div class="container">
+	<h1 class="thin">Peers Rating</h1>
+	<div id="dashboard">
+		<?php $this->getChildBlock("page/alert"); ?>
+		<div class="row ">
+			<form>
+				<div class="input-field col s3">
+					<select>
+						<option value="" disabled selected>Choose your option</option>
+						<option value="1">2017-2018</option>
+						<option value="1">2017-2018</option>
+						<option value="1">2017-2018</option>
+						<option value="1">2017-2018</option>
+						<option value="1">2017-2018</option>
+					</select>
+					<label>School Year</label>
+				</div>
+				<div class="input-field col s3">
+					<select>
+						<option value="" disabled selected>Choose your option</option>
+						<option value="1">1st sem</option>
+						<option value="2">2nd sem</option>
+					</select>
+					<label>Semester</label>
+				</div>
+				<div class="input-field col s3">
+					<input type="submit" class="btn" name="btnView" value="View">
+				</div>
+			</form>
+		</div>
+		<div class="row"> 
+			<!-- Latest Tasks START -->
+			<div class="col s12 m12">
+				<div class="card hoverable">
+					<ul class="collection with-header">
+						<div class="collection-header primary-color" style="background-color: #546e7a !important;">
+							<h5 class="light center" style="color: white;">
+								Ratings
+							</h5>
+						</div>
+						<div id="tasks">
+							<div class="row">
+									<table class="highlight centered" style="margin-bottom: 15px;">
+										<thead>
+											<tr>
+												<th>Name</th>
+												<th>Course and Year</th>
+												<th>Rating</th>
+												<th>Action</th>
+											</tr>
+										</thead>
+
+										<tbody>
+										<tr>
+											<td>Angelou Macabutas</td>
+											<td>BSIT III-A</td>
+											<td>85</td>
+											<td><a class="waves-effect waves-light modal-trigger" href="#modal1">View Comment</a></td>
+										</tr>
+
+										<tr>
+											<td>Angelou Macabutas</td>
+											<td>BSIT III-A</td>
+											<td>85</td>
+											<td><a class="waves-effect waves-light modal-trigger" href="#modal1">View Comment</a></td>
+										</tr>
+
+										<tr>
+											<td>Angelou Macabutas</td>
+											<td>BSIT III-A</td>
+											<td>85</td>
+											<td><a class="waves-effect waves-light modal-trigger" href="#modal1">View Comment</a></td>
+										</tr>
+
+										<tr>
+											<td>Angelou Macabutas</td>
+											<td>BSIT III-A</td>
+											<td>85</td>
+											<td><a class="waves-effect waves-light modal-trigger" href="#modal1">View Comment</a></td>
+										</tr>
+
+										<tr>
+											<td>Angelou Macabutas</td>
+											<td>BSIT III-A</td>
+											<td>85</td>
+											<td><a class="waves-effect waves-light modal-trigger" href="#modal1">View Comment</a></td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+
+								<div class="row">
+									<div class="col s2 offset-s9">
+										<p><b>Average Rating:</b> 85</p>
+									</div>
+								</div>
+						</div>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</main>
+<!-- Main END --> 
+
+<?php $this->getChildBlock("page/footer"); ?>
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4 class="thin" style="color: #87a1ad;">Angelou Macabutas's Comment</h4>
+      <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+  </div>
+<!-- Main END --> 

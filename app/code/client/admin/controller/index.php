@@ -13,11 +13,17 @@ Class Admin_Controller_Index extends Frontend_Controller_Action {
 		$session 		= Core::getSingleton("system/session");
 		$accountDb 		= Core::getModel("account/account");
 		$account 		= $session->get("auth");
-
+		$accountType 	= $accountDb->getAccountType( $account->account_type_id )->type;
 		// render dean page
-		if( $accountDb->getAccountType( $account->account_type_id )->type == "Dean" ) {
+		if( $accountType == "Dean" ) {
 			$this->setPageTitle("Dean");
 			$this->setBlock("admin/dean");
+		}
+
+		// render faculty page
+		if( $accountType == "Teacher" ) {
+			$this->setPageTitle("Teacher");
+			$this->setBlock("admin/teacher");
 		}
 
 		
@@ -39,6 +45,6 @@ Class Admin_Controller_Index extends Frontend_Controller_Action {
 	public function setup() {
 		$this->setJs("default/dashboard");
 		$this->setJs("admin/admin");
-		$this->setJs("admin/jquery.canvasjs.min");
+		$this->setJs("admin/canvasjs");
 	}
 }
