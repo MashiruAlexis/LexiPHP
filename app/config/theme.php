@@ -25,6 +25,7 @@ return [
 		"default/simplebar",
 		"default/justifiedGallery",
 		"default/assistance",
+		"default/fix",
 	],
 
 	/**

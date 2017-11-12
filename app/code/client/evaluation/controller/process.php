@@ -28,6 +28,8 @@ Class Evaluation_Controller_Process extends Frontend_Controller_Action {
 			unset($request["submit"]);
 		}
 
+
+
 		$evaluatorDb->insert([
 			"name" => $_SESSION["evaluation"]["name"],
 			"position" => $_SESSION["evaluation"]["position"]
@@ -55,7 +57,7 @@ Class Evaluation_Controller_Process extends Frontend_Controller_Action {
 		$request = Core::getSingleton("url/request")->getRequest();
 		$next = Core::getBaseUrl() . "evaluation";
 
-		if( empty($request["fullname"]) or empty($request["position"]) ) {
+		if( empty($request["fullname"]) or empty($request["year"]) or empty($request["course"]) ) {
 			$session->add("alert", [ 
 				"type" => "error",
 				"message" => "Please fill all the fields."
@@ -64,17 +66,11 @@ Class Evaluation_Controller_Process extends Frontend_Controller_Action {
 			return;
 		}
 
-		// $session->add("evaluation", [
-		// 	"name" => $request["fullname"],
-		// 	"position" => $request["position"],
-		// 	"hasEvaluator" => true,
-		// 	"access" => true
-		// ]);
-
-		$_SESSION["evaluation"]["name"] 		= $request["fullname"];
-		$_SESSION["evaluation"]["position"] 	= $request["position"];
-		$_SESSION["evaluation"]["hasEvaluator"] = true;
-		$_SESSION["evaluation"]["access"] 		= true;
+		$_SESSION["evaluation"]["evaluator"]["name"] 	= $request["fullname"];
+		$_SESSION["evaluation"]["evaluator"]["year"] 	= $request["year"];
+		$_SESSION["evaluation"]["evaluator"]["course"] 	= $request["course"];
+		$_SESSION["evaluation"]["hasEvaluator"]			= true;
+		$_SESSION["evaluation"]["access"] 				= true;
 		$this->_redirect($next);
 	}
 }

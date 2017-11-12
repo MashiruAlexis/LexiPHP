@@ -19,25 +19,33 @@
 <div class="container">
 	<h1 class="thin">Dean Dashboard</h1>
 	<div id="dashboard">
+		<form id="frmRegister" class="login-form" action="<?=Core::getBaseUrl()?>admin/faculty/submitcreate" method="POST">
 		<?php $this->getChildBlock("page/alert"); ?>
 		<div class="row">
 			<div class="col s12">
-				<div class="input-field col s2">
-					<select>
+				<div class="input-field col s3">
+					<select name="scyear" id="scyear" class="validate" required>
 						<option value="" disabled selected>Choose your option</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
+						<?php
+							foreach( Core::getSingleton("admin/evaluation")->getSchoolYear() as $sy ) {
+								?>
+								<option value="<?=$sy?>"><?=$sy?></option>
+								<?php
+							}
+						?>
 					</select>
 					<label>School Year</label>
 				</div>
-				<div class="input-field col s2">
-					<select>
+				<div class="input-field col s3">
+					<select name="sem" id="sem" class="validate" required>
 						<option value="" disabled selected>Choose your option</option>
-						<option value="1">1st sem</option>
-						<option value="2">2nd sem</option>
+						<?php
+							foreach( Core::getSingleton("admin/evaluation")->getSemester() as $sem ) {
+								?>
+								<option value="<?=$sem?>"><?=$sem?></option>
+								<?php
+							}
+						?>
 					</select>
 					<label>Semester</label>
 				</div>
@@ -62,20 +70,22 @@
 						<div class="container">
 							<div id="login" class="row">
 	  <!-- <h1 class="thin">Login</h1> -->
-	  <form id="frmRegister" class="login-form" action="<?=Core::getBaseUrl()?>account/register/create" method="POST">
+	  
 		<input type="hidden" name="redirect" value="<?=Core::getBaseUrl()?>admin/users/create">
+		<!-- <input type="hidden" name="scyear">
+		<input type="hidden" name="sem"> -->
 		<div class="form-body">
 	<?php $this->getChildBlock("page/alert"); ?>
 		<div class="row">
 	        <div class="input-field col s6">
 	        <i class="material-icons prefix">account_circle</i>
-	          <input  id="first_name" name="fname" type="text" class="validate">
-	          <label for="first_name">First Name</label>
+	          <input  id="fname" name="fname" type="text" class="validate">
+	          <label for="fname">First Name</label>
 	        </div>
 	        <div class="input-field col s6">
 	        <i class="material-icons prefix">account_circle</i>
-	          <input id="last_name" name="lname" type="text" class="validate">
-	          <label for="last_name">Last Name</label>
+	          <input id="lname" name="lname" type="text" class="validate">
+	          <label for="lname">Last Name</label>
 	        </div>
 	      </div>
 		<div class="row">
@@ -105,7 +115,7 @@
 
 		<div class="row">
 		  <div class="input-field col s3">
-					<select name="subject" >
+					<select name="subject" id="subject" class="validate" required>
 						<option value="" disabled selected>Choose your option</option>
 						<?php 
 							foreach( Core::getModel("admin/subject")->get() as $subject ) {
@@ -126,7 +136,7 @@
 		  </div>
 		</div>
 	  </div>
-	  </form>
+	  
   </div>
 						</div>
 
@@ -136,6 +146,7 @@
 				</div>
 			</div>
 		</div>
+		</form>
 	</div>
 </div>
 </main>
@@ -149,6 +160,18 @@
 			username: {
 				required: true,
 				minlength: 5
+			},
+			fname: {
+				required: true,
+			},
+			lname: {
+				required: true,
+			},
+			sem: {
+				required: true,
+			},
+			scyear: {
+				required: true,
 			},
 			email: {
 				required: true,
