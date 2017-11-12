@@ -10,7 +10,7 @@
 <main>
 <?php $this->getChildBlock("admin/profilemenu"); ?>
 <div class="container">
-	<h1 class="thin">Faculty Dashboard</h1>
+	<h1 class="thin">Dean Dashboard</h1>
 	<div id="dashboard">
 		<?php $this->getChildBlock("page/alert"); ?>
 		<div class="row">
@@ -23,11 +23,13 @@
 				<div class="input-field col s2">
 					<select>
 						<option value="" disabled selected>Choose your option</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
+						<?php
+							foreach( Core::getSingleton("admin/evaluation")->getSchoolYear() as $sy ) {
+								?>
+								<option value="<?=$sy?>"><?=$sy?></option>
+								<?php
+							}
+						?>
 					</select>
 					<label>School Year</label>
 				</div>

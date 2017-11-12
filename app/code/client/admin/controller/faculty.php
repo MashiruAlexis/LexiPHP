@@ -43,21 +43,27 @@ Class Admin_Controller_Faculty extends Frontend_Controller_Action {
 		}
 
 		$accountDb->insert([
-			"account_type_id" => 3,
-			"fname" => $request["fname"],
-			"lname" => $request["lname"],
-			"username" => $request["username"],
-			"password" => $hash->hash($request["password"]),
-			"email" => $request["email"],
-			"status" => $accountDb::STATUS_ACTIVE
+			"account_type_id" 	=> 3,
+			"fname" 			=> $request["fname"],
+			"lname" 			=> $request["lname"],
+			"username" 			=> $request["username"],
+			"password" 			=> $hash->hash($request["password"]),
+			"email" 			=> $request["email"],
+			"status" 			=> $accountDb::STATUS_ACTIVE
 		]);
 
-		// $accountDataDb->ins
+		$accountDataDb->insert([
+			"account_id" 	=> $accountDb->lastId,
+			"subject_id" 	=> $request["subject"],
+			"scyear" 		=> $request["scyear"],
+			"sem" 			=> $request["sem"]
+		]);
+		
 		$session->add("alert",[
 			"type" => "success",
 			"message" => "Successfully created account."
 		]);
-		// $this->_redirect($next);
+		$this->_redirect($next);
 	}
 
 	public function setup() {

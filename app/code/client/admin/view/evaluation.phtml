@@ -1,5 +1,5 @@
 <?php $this->getChildBlock("page/preloader"); ?>
-<?php $this->getChildBlock("admin/nav"); ?>
+<?php $this->getChildBlock("admin/navdean"); ?>
 <?php $this->getChildBlock("page/icon"); ?>
 <!-- Main START -->
 <main>
@@ -26,11 +26,12 @@
 							    <div class="input-field col s4 offset-s4">
 							      <input  id="evalcode" type="text" class="validate" name="evalCode">
 							      <label class="active" for="evalcode">Code</label>
+
 							    </div>
 
-							    <div class="input-field col s2 offset-s5">
+							    <div class="input-field col s4 offset-s4 center">
+							   		<a class="waves-effect waves-light btn" href="#" id="genCode">Generate</a>
 							    	<a class="waves-effect waves-light btn modal-trigger" href="#modal1" id="btnEvalSubmit">Submit</a>
-							      <!-- <input type="submit" name="btnAddCode" class="btn waves-effect waves-light"> -->
 							    </div>
 							  </div>
 						</div>
@@ -100,4 +101,16 @@
 		var code = $('#evalcode').val();
 		$('#evalcodemodal').val(code);
 	})
+
+	$("#genCode").click(function(){
+	    $.getJSON("<?=Core::getBaseUrl()?>admin/evaluation/getcodeapi", function(result){
+	        // $.each(result, function(i, field){
+	        //     $("div").append(field + " ");
+	        // });
+
+	        $('#evalcode').val("");
+	        $('#evalcode').focus();
+	        $('#evalcode').val(result.code);
+	    });
+	});
 </script>
