@@ -23,7 +23,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
+ob_start();
 spl_autoload_register(function($class) {
 	$class = strtolower(str_replace("_", DIRECTORY_SEPARATOR, $class));
 	$paths = Core::$paths;

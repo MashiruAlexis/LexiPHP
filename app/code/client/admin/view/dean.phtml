@@ -78,7 +78,7 @@
 												<td><?=Core::getModel("account/accounttype")->getAccountType($account->account_type_id)->type?></td>
 												<td><?= $account->status ?></td>
 												<td>
-													<a href="<?=Core::getBaseUrl()?>admin/evaluation/view">View</a> |
+													<a href="<?=Core::getBaseUrl()?>admin/evaluation/view/id/<?=$account->id?>">View</a> |
 													<a href="#">Edit</a> |
 													<a href="<?=Core::getBaseUrl()?>admin/evaluation/evaluate">Evaluate</a>
 												</td>

@@ -46,6 +46,18 @@
 		</div>
 		<div class="row"> 
 			<!-- Latest Tasks START -->
+		<?php
+			$request = Core::getSingleton("url/request")->getRequest();
+			if(! isset($request["id"]) ) {
+				$this->_redirect(Core::getBaseUrl() . "admin");
+			}
+			$evaluation = Core::getModel("evaluation/evaluation")->where("account_id", $request["id"])->first();
+			$evaluationDetails = Core::getModel("evaluation/evaluationdetails")->where("evaluation_id",$evaluation->id)->get();
+			$account = Core::getModel("account/account")->where("id", $request["id"])->first();
+			$accountData = Core::getModel("account/accountdata")->where("account_id", $account->id)->first();
+			$subject = Core::getModel("admin/subject")->where("id", $accountData->subject_id)->first();
+
+		?>
 			<div class="col s12 m12">
 				<div class="card hoverable">
 					<ul class="collection with-header">
@@ -61,9 +73,9 @@
 							<div class="container">
 								<div class="row">
 									<div class="col s12">
-										<p><b>ID:</b> 112</p>
-										<p><b>Name of Faculty:</b> Ramon Alexis Celis</p>
-										<p><b>Subject:</b> Comp Prog 1</p>
+										<p><b>ID:</b> <?=$account->id?></p>
+										<p><b>Name of Faculty:</b> <?=$account->fname?> <?=$account->lname?></p>
+										<p><b>Subject:</b> <?=$subject->subject_title?></p>
 									</div>
 								</div>
 								<div class="row">
@@ -78,40 +90,35 @@
 										</thead>
 
 										<tbody>
-										<tr>
-											<td>Angelou Macabutas</td>
-											<td>BSIT III-A</td>
-											<td>85</td>
-											<td><a class="waves-effect waves-light btn modal-trigger" href="#modal1">View Comment</a></td>
-										</tr>
-
-										<tr>
-											<td>Angelou Macabutas</td>
-											<td>BSIT III-A</td>
-											<td>85</td>
-											<td><a class="waves-effect waves-light btn modal-trigger" href="#modal1">View Comment</a></td>
-										</tr>
-
-										<tr>
-											<td>Angelou Macabutas</td>
-											<td>BSIT III-A</td>
-											<td>85</td>
-											<td><a class="waves-effect waves-light btn modal-trigger" href="#modal1">View Comment</a></td>
-										</tr>
-
-										<tr>
-											<td>Angelou Macabutas</td>
-											<td>BSIT III-A</td>
-											<td>85</td>
-											<td><a class="waves-effect waves-light btn modal-trigger" href="#modal1">View Comment</a></td>
-										</tr>
-
-										<tr>
-											<td>Angelou Macabutas</td>
-											<td>BSIT III-A</td>
-											<td>85</td>
-											<td><a class="waves-effect waves-light btn modal-trigger" href="#modal1">View Comment</a></td>
-										</tr>
+										<?php
+											foreach( $evaluationDetails as $ed ) {
+												$evaluator = Core::getModel("evaluation/evaluator")->where("id", $ed->evaluator_id)->first();
+												$rating = Core::getModel("evaluation/rating")->where("id", $ed->rating_id)->first();
+												if(! $evaluator->account_id ) {
+													$name = $evaluator->name;
+												}
+												?>
+												<tr>
+													<td><?=$name?></td>
+													<td><?=$evaluator->course?> <?=$evaluator->year?> year</td>
+													<td><?=$rating->ave_total?></td>
+													<td><a class="waves-effect waves-light modal-trigger" href="#modal<?=$ed->id?>">View Comment</a></td>
+<!-- Modal Structure -->
+  <div id="modal<?=$ed->id?>" class="modal">
+    <div class="modal-content">
+      <h4 class="thin" style="color: #87a1ad;"><?=$name?>'s Comment</h4>
+      <p><?=$ed->comments?></p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+  </div>
+<!-- Main END --> 
+												</tr>
+												<?php
+											}
+										?>
+										
 										</tbody>
 									</table>
 								</div>
