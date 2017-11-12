@@ -14,6 +14,13 @@ Class Admin_Controller_Index extends Frontend_Controller_Action {
 		$accountDb 		= Core::getModel("account/account");
 		$account 		= $session->get("auth");
 		$accountType 	= $accountDb->getAccountType( $account->account_type_id )->type;
+
+		// render dean page
+		if( $accountType == "Admin" ) {
+			$this->setPageTitle("Dean");
+			$this->setBlock("admin/main");
+		}
+
 		// render dean page
 		if( $accountType == "Dean" ) {
 			$this->setPageTitle("Dean");

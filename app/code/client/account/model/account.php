@@ -40,7 +40,7 @@ Class Account_Model_Account extends Database_Model_Base {
 	public function preAccount() {
 		$hash = Core::getSingleton("system/hash");
 		$data[] = [
-			"account_type_id" 	=> rand(1,3),
+			"account_type_id" 	=> 1,
 			"fname" 			=> "Alexis",
 			"lname" 			=> "Celis",
 			"username" 			=> "alexis",
@@ -50,7 +50,7 @@ Class Account_Model_Account extends Database_Model_Base {
 		];
 
 		$data[] = [
-			"account_type_id" 	=> rand(1,3),
+			"account_type_id" 	=> 2,
 			"fname" 			=> "Alexis",
 			"lname" 			=> "Celis",
 			"username" 			=> "alexis1",
@@ -60,7 +60,7 @@ Class Account_Model_Account extends Database_Model_Base {
 		];
 
 		$data[] = [
-			"account_type_id" 	=> rand(1,3),
+			"account_type_id" 	=> 3,
 			"fname" 			=> "Alexis",
 			"lname" 			=> "Celis",
 			"username" 			=> "alexis2",

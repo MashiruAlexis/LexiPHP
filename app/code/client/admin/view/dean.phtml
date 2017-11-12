@@ -71,13 +71,12 @@
 
 								<tbody>
 									<?php
-										foreach( Core::getModel("admin/evaluation")->get() as $eval ) {
-											$account = Core::getModel("account/account")->where("id", $eval->account_id)->first();
+										foreach( Core::getModel("account/account")->where("account_type_id", 3)->get() as $account ) {
 											?>
 											<tr>
 												<td><?=$account->fname?> <?=$account->lname?></td>
 												<td><?=Core::getModel("account/accounttype")->getAccountType($account->account_type_id)->type?></td>
-												<td><?= $eval->status ?></td>
+												<td><?= $account->status ?></td>
 												<td>
 													<a href="<?=Core::getBaseUrl()?>admin/evaluation/view">View</a> |
 													<a href="#">Edit</a> |

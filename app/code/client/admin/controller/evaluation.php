@@ -15,7 +15,9 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 		$this->middleware("auth");
 	}
 
-
+	/**
+	 *	Generate random alpha numeric characters
+	 */
 	public function generateEvaluationCode($length = null) {
 
 		if($length){
