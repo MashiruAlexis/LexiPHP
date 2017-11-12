@@ -29,7 +29,7 @@ return [
 	 *	Base URL
 	 * --------------------
 	 */
-	"baseUrl" => "http://mash.com/",
+	"baseUrl" => "http://localhost/FES/",
 
 	/**
 	 * --------------------
