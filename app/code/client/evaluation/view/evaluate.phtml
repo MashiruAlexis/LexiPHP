@@ -17,7 +17,22 @@
 		<div class="form-body">
 <?php
 $this->getChildBlock("page/alert");
+
+$evaluation = Core::getModel("evaluation/evaluation")->where("code", $_SESSION["evaluation"]["code"])->first();
+$evalAccount = Core::getModel("account/account")->where("id",$evaluation->account_id)->first();
+$evalAccountData = Core::getModel("account/accountdata")->where("account_id", $evalAccount->id)->first();
+$subject = Core::getModel("admin/subject")->where("id", $evalAccountData->subject_id)->first();
+
 ?>
+		<div class="row">
+			<div class="col s12">
+				<p><b>Name: </b> <?=$evalAccount->fname?> <?=$evalAccount->lname?></p>
+				<p><b>Subject: </b> <?=$subject->subject_title?></p>
+				<p><b>School Year: </b> <?=$evalAccountData->scyear?></p>
+				<p><b>Semester: </b> <?=$evalAccountData->sem?></p>
+			</div>
+		</div>
+		<?php $this->getChildBlock("admin/legend"); ?>
 <style type="text/css">
 	.rad {
 		display: inline;
@@ -75,7 +90,11 @@ $this->getChildBlock("page/alert");
 		?>
 		
 		
-		  
+		  <div class="input-field col s12">
+			<i class="material-icons prefix">mode_edit</i>
+			<textarea id="icon_prefix2" class="materialize-textarea" name="comments"></textarea>
+			<label for="icon_prefix2">Comments / Suggestion</label>
+		</div>
 
 
 		<div class="row">
