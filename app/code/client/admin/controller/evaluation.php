@@ -34,7 +34,7 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 	}
 
 	public function getCodeApiAction() {
-		echo json_encode(["code" => $this->generateEvaluationCode(4)]);
+		echo json_encode(["code" => $this->generateEvaluationCode(6)]);
 		exit();
 	}
 
