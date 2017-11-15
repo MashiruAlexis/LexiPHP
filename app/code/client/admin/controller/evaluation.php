@@ -320,13 +320,14 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 	 */
 	public function getSchoolYear() {
 		return [
-			"2015-2016",
-			"2016-2017",
 			"2017-2018",
 			"2018-2019",
 			"2019-2020",
 			"2020-2021",
-			"2021-2022"
+			"2021-2022",
+			"2022-2023",
+			"2023-2024",
+			"2024-2025",
 		];
 	}
 
