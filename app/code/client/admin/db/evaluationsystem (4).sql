@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 16, 2017 at 12:29 AM
+-- Generation Time: Nov 15, 2017 at 10:36 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -79,8 +79,7 @@ INSERT INTO `account_data` (`id`, `account_id`, `teacher_id`, `college_dept_id`,
 (7, 3, 0, '2', NULL, '2', '2018-2019', '2nd'),
 (8, 3, 3, '3', NULL, '2', '2018-2019', '2nd'),
 (9, 5, 0, '4', NULL, '3', '2017-2018', '1st'),
-(11, 7, 0, '1', NULL, '', NULL, NULL),
-(12, 2, 2, '1', NULL, '1', NULL, NULL);
+(11, 7, 0, '1', NULL, '', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -239,7 +238,7 @@ CREATE TABLE `evaluation_sub_criteria` (
 --
 
 INSERT INTO `evaluation_sub_criteria` (`id`, `evaluation_criteria_id`, `question`) VALUES
-(1, 1, '1. Demonstrates sensitivity to students\' ability to attend and absorb content information.'),
+(1, 1, 'Demonstrates sensitivity to students\' ability to attend and absorb content information.'),
 (2, 2, '1. Demonstrate mastery of the subject matter (explain the subject matter without relying solely on the prescribed textbook).'),
 (3, 1, '2. Integrates sensitively his/her learning objectives with those of the students in a collaborative process.'),
 (4, 3, '1. Creates teaching strategies the allow students to practice using concepts they need to understand (interactive discussion).'),
@@ -468,7 +467,7 @@ ALTER TABLE `account`
 -- AUTO_INCREMENT for table `account_data`
 --
 ALTER TABLE `account_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `account_type`

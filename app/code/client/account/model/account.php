@@ -16,15 +16,14 @@ Class Account_Model_Account extends Database_Model_Base {
 	protected $table = "account";
 
 	/**
-	 *	Get Rating List
-	 *	@var int $id
-	 *	@return obj list
+	 *	Get Account Department
 	 */
-	public function getRatingList( $id ) {
-		// $evaluationDb = Core::getModel("evaluation/evaluation");
-
-		// $evaluation = $evaluation->where("account_id", $id)->first();
-		
+	public function getDepartment( $id ) {
+		$accountDataDb = Core::getModel("account/accountdata");
+		$accountDepartmentDb = Core::getModel("account/department");
+		$accountdata = $accountDataDb->where("account_id", $id)->first();
+		$accountDepartment = $accountDepartmentDb->where("id", $accountdata->college_dept_id)->first();
+		return $accountDepartment->label;
 	}
 
 	/**

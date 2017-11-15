@@ -114,20 +114,35 @@
 		</div>
 
 		<div class="row">
-		  <div class="input-field col s3">
-					<select name="subject" id="subject" class="validate" required>
-						<option value="" disabled selected>Choose your option</option>
-						<?php 
-							foreach( Core::getModel("admin/subject")->get() as $subject ) {
-								?>
-								<option value="<?=$subject->id?>"><?=$subject->subject_title?></option>
-								<?php
-							}
-						?>
-						
-					</select>
-					<label>Subject</label>
-				</div>
+		  <div class="input-field col s6">
+				<select name="subject" id="subject" class="validate" required>
+					<option value="" disabled selected>Choose your option</option>
+					<?php 
+						foreach( Core::getModel("admin/subject")->get() as $subject ) {
+							?>
+							<option value="<?=$subject->id?>"><?=$subject->subject_title?></option>
+							<?php
+						}
+					?>
+					
+				</select>
+				<label>Subject</label>
+			</div>
+
+			<div class="input-field col s6">
+				<select name="subject" id="subject" class="validate" required>
+					<option value="" disabled selected>Choose your option</option>
+					<?php 
+						foreach( Core::getModel("account/department")->get() as $dept ) {
+							?>
+							<option value="<?=$dept->id?>"><?=$dept->label?></option>
+							<?php
+						}
+					?>
+					
+				</select>
+				<label>College/Department</label>
+			</div>
 		</div>
 		
 		<div class="row">

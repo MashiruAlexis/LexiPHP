@@ -15,7 +15,13 @@
 		<?php $this->getChildBlock("page/alert"); ?>
 		<div class="row">
 			<div class="col s12" style="color: black;">
-				<h5><b>Dept: </b>College of ICT</h5>
+				<?php
+					$session = Core::getSingleton("system/session");
+					$auth = $session->get("auth");
+					$accountDb = Core::getModel("account/account");
+
+				?>
+				<h5><b>Dept: </b><?=$accountDb->getDepartment($auth->id)?></h5>
 			</div>
 		</div>
 		<div class="row ">
@@ -86,7 +92,6 @@
 												<td>
 													<!-- <a href="<?=Core::getBaseUrl()?>admin/evaluation/view/teacher/1/id/<?=$account->id?>">View</a> --> 
 													<a class="modal-trigger" href="#modal<?=$account->id?>">View</a> |
-													<a href="#">Edit</a> |
 													<a href="<?=Core::getBaseUrl()?>admin/evaluation/evaluate/id/<?=$account->id?>">Evaluate</a>
 													
 												</td>
@@ -96,6 +101,7 @@
 														<!-- Modal Structure -->
 														  <div id="modal<?=$account->id?>" class="modal">
 														    <div class="modal-content center">
+														    	<h4 style="color: #455b65;">View Evaluation Result</h4>
 														    	<a href="<?=Core::getBaseUrl()?>admin/evaluation/view/student/1/id/<?=$account->id?>" class="btn" style="width: 185px;">Student</a>
 														    	<a href="<?=Core::getBaseUrl()?>admin/evaluation/view/peer/1/id/<?=$account->id?>" class="btn" style="width: 185px;">Peer</a>
 														    </div>
