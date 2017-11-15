@@ -18,10 +18,9 @@ Class Account_Controller_Register extends Frontend_Controller_Action {
 		$session 	= Core::getSingleton("system/session");
 		$request 	= Core::getSingleton("url/request")->getRequest();
 		$accountDb 	= Core::getModel("account/account");
+		$accountDataDb = Core::getModel("account/accountdata");
 		$hash 		= Core::getSingleton("system/hash");
 		$next 		= isset($request["redirect"]) ? $request["redirect"] : false;
-
-		Core::log( $request );
 
 		if( $accountDb->where("username", $request["username"])->exist() ) {
 			$session->add("alert", [
@@ -47,6 +46,10 @@ Class Account_Controller_Register extends Frontend_Controller_Action {
 			$this->_redirect( Core::getBaseUrl() . "admin" );
 		}
 
+		if(! isset($request["department"]) ) {
+			$request["department"] = "";
+		}
+
 		$rs = $accountDb->insert([
 			"account_type_id" 	=> $request["accountType"],
 			"fname"				=> $request["fname"],
@@ -56,11 +59,20 @@ Class Account_Controller_Register extends Frontend_Controller_Action {
 			"password" 			=> $hash->hash($request["password"]),
 			"status" 			=> $accountDb::STATUS_ACTIVE
 		]);
+		$accountDataDb->insert([
+			"account_id" => $accountDb->lastId,
+			"college_dept_id" => $request["department"],
+		]);
 
 		if( $rs ) {
 			$session->add("alert", [
 				"type" => "success",
 				"message" => "Successfully created account."
+			]);
+		}else{
+			$session->add("alert", [
+				"type" => "error",
+				"message" => "Something went wrong while creating this account."
 			]);
 		}
 

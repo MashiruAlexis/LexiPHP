@@ -5,6 +5,12 @@
 	.bx {
 		border: 1px solid red;
 	}
+	.gone {
+		display: none;
+	}
+	.goneoff {
+		display: block;
+	}
 </style>
 <!-- Main START -->
 <main>
@@ -78,9 +84,8 @@
 		</div>
 
 		<div class="row">
-		  <div class="input-field col s12">
-
-		    <select name="accountType">
+		  <div class="input-field col s6">
+		    <select name="accountType" onchange="dept(this.selectedIndex)">
 		      <!-- <option value="" disabled selected>Choose your option</option> -->
 		      <?php
 		      	foreach( Core::getModel("account/accounttype")->get() as $at ) {
@@ -92,7 +97,24 @@
 		    </select>
 		    <label>Account Type</label>
 		  </div>
+
+		  <div id="department" class="input-field col s6 gone">
+		    <select name="department">
+		      <!-- <option value="" disabled selected>Choose your option</option> -->
+		      <?php
+		      	foreach( Core::getModel("account/department")->get() as $dp ) {
+		      		?>
+		      			<option value="<?=$dp->id?>"><?=$dp->label?></option>
+		      		<?php
+		      	}
+		      ?>
+		    </select>
+		    <label>College/Dept</label>
+		  </div>
+
 		</div>
+
+
 		
 		<div class="row">
 		  <div class="input-field col s12">
@@ -116,6 +138,16 @@
 <!-- Main END --> 
 
 <?php $this->getChildBlock("page/footer"); ?>
+<script type="text/javascript">
+	function dept( elem ) {
+		if( elem == 0 ) {
+			$('#department').addClass('gone').removeClass('goneoff');
+		}else{
+			$('#department').addClass('goneoff').removeClass('gone');
+		}
+		console.log(elem);
+	}
+</script>
 
 <script type="text/javascript">
   $("#frmRegister").validate({

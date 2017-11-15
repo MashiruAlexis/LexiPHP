@@ -34,7 +34,7 @@ Class Evaluation_Controller_Evaluation extends Frontend_Controller_Action {
 			"BSCE",
 			"BSED",
 			"BEED",
-			"BSHRM",
+			"BSHRRM",
 			"BSBA",
 			"BST",
 			"BA Com"
