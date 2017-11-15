@@ -78,10 +78,25 @@
 												<td><?=Core::getModel("account/accounttype")->getAccountType($account->account_type_id)->type?></td>
 												<td><?= $account->status ?></td>
 												<td>
-													<a href="<?=Core::getBaseUrl()?>admin/evaluation/view/id/<?=$account->id?>">View</a> |
+													<!-- <a href="<?=Core::getBaseUrl()?>admin/evaluation/view/teacher/1/id/<?=$account->id?>">View</a> --> 
+													<a class="modal-trigger" href="#modal<?=$account->id?>">View</a> |
 													<a href="#">Edit</a> |
 													<a href="<?=Core::getBaseUrl()?>admin/evaluation/evaluate">Evaluate</a>
+													
 												</td>
+													<!-- Modal Trigger -->
+													
+
+														<!-- Modal Structure -->
+														  <div id="modal<?=$account->id?>" class="modal">
+														    <div class="modal-content center">
+														    	<a href="<?=Core::getBaseUrl()?>admin/evaluation/view/student/1/id/<?=$account->id?>" class="btn" style="width: 185px;">Student</a>
+														    	<a href="<?=Core::getBaseUrl()?>admin/evaluation/view/peer/1/id/<?=$account->id?>" class="btn" style="width: 185px;">Peer</a>
+														    </div>
+														    <!-- <div class="modal-footer">
+														      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+														    </div> -->
+														  </div>
 											</tr>
 											<?php
 										}
