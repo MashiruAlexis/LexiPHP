@@ -83,16 +83,16 @@
 
 										<tbody>
 										<?php
-											$request = Core::getSingleton("url/request")->getRequest();
-											$session = Core::getSingleton("system/session");
-											$auth = $session->get("auth");
-											$accountDb = Core::getModel("account/account");
-											$evaluationDb = Core::getModel("evaluation/evaluation");
+											$request 			= Core::getSingleton("url/request")->getRequest();
+											$session 			= Core::getSingleton("system/session");
+											$auth 				= $session->get("auth");
+											$accountDb 			= Core::getModel("account/account");
+											$evaluationDb 		= Core::getModel("evaluation/evaluation");
 											$evaluationDetailsDb = Core::getModel("evaluation/evaluationdetails");
-											$evaluatorDb = Core::getModel("evaluation/evaluator");
-											$ratingDb = Core::getModel("evaluation/rating");
-											$scyear = Core::getSingleton("evaluation/evaluation")->getSchoolYear()[0];
-											$sem = Core::getSingleton("evaluation/evaluation")->getSemester()[0];
+											$evaluatorDb 		= Core::getModel("evaluation/evaluator");
+											$ratingDb 			= Core::getModel("evaluation/rating");
+											$scyear 			= Core::getSingleton("evaluation/evaluation")->getSchoolYear()[0];
+											$sem 				= Core::getSingleton("evaluation/evaluation")->getSemester()[0];
 
 											if( isset($request["scyear"]) ) {
 												$scyear = $request["scyear"];
@@ -109,6 +109,8 @@
 												->where("evaluation_id", $evaluation->id)
 												->get();
 
+											$sumRating = 0;
+											$noOfItems = 0;
 											foreach( $evaluationDetails as $ed ) {
 												$evaluator = $evaluatorDb
 													->where("id", $ed->evaluator_id)
@@ -120,7 +122,8 @@
 												if(! $evaluator ) {
 													continue;
 												}
-
+												$sumRating = $sumRating + $rating->ave_total;
+												$noOfItems++;
 												?>
 												<tr>
 													<td><?=$evaluator->name?></td>
@@ -150,7 +153,7 @@
 
 								<div class="row">
 									<div class="col s2 offset-s9">
-										<p><b>Average Rating:</b> 85</p>
+										<p><b>Average Rating:</b> <?php echo ($sumRating / $noOfItems) ?></p>
 									</div>
 								</div>
 						</div>
