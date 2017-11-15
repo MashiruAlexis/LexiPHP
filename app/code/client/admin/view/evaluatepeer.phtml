@@ -19,13 +19,15 @@
 			</div>
 		</div>
 		<div class="row ">
-			<div class="input-field col s3">
-				<input id="evalcode" type="text" name="evalcode" class="validate">
-				<label for="evalcode">Code</label>
-			</div>
-			<div class="input-field col s3">
-				<input type="submit" class="btn" name="btnSearch" value="Search">
-			</div>
+			<form name="frmSearchCode" action="<?=Core::getBaseUrl()?>admin/evaluation/validateCode" method="POST">
+				<div class="input-field col s3">
+					<input id="evalcode" type="text" name="evalcode" class="validate">
+					<label for="evalcode">Code</label>
+				</div>
+				<div class="input-field col s3">
+					<input type="submit" class="btn" name="btnSearch" value="Search">
+				</div>
+			</form>
 		</div>
 		<div class="row"> 
 			<!-- Latest Tasks START -->
@@ -41,36 +43,59 @@
 							</h5>
 						</div>
 						<div id="tasks">
-							<div class="container">
-								<div class="row">
-									<div class="col s12">
-										<p><b>Evaluation Code:</b> WFR3G2</p>
-									</div>
-									<div class="col s4">
-										<p><b>Faculty Name: </b>Ramon Alexis Celis</p>
-									</div>
-									<div class="col s4">
-										<p><b>School Year: </b>2017-2018</p>
-									</div>
-									<div class="col s4">
-										<p><b>Semester: </b>2nd</p>
-									</div>
-									<div class="col s6">
-										<p><b>Subject Handled: </b>Computer Programming</p>
-									</div>
-									<div class="col s6">
-										<p><b>College Dept.: </b>ICT</p>
-									</div>
-								</div>
-								<hr>
+							<?php
+								// dont let the teacher take evaluation without code
+								if( isset($_SESSION["evaluation"]) ) {
+									$evaluationDb = Core::getModel("admin/evaluation");
+									$accountDb = Core::getModel("account/account");
+									$account = $evaluationDb->getAccountEvaluated( $_SESSION["evaluation"]["code"] );
+									$accountData = $accountDb->getAccountData( $account->id );
+									?>
+									<div class="container">
+										<div class="row">
+											<div class="col s12">
+												<p><b>Evaluation Code:</b> <?=$_SESSION["evaluation"]["code"]?></p>
+											</div>
+											<div class="col s4">
+												<p><b>Faculty Name: </b><?=$account->fname?> <?=$account->lname?></p>
+											</div>
+											<div class="col s4">
+												<p><b>School Year: </b><?=$accountData->scyear?></p>
+											</div>
+											<div class="col s4">
+												<p><b>Semester: </b><?=$accountData->sem?></p>
+											</div>
+											<div class="col s6">
+												<p><b>Subject Handled: </b><?=Core::getModel("admin/subject")->where("id", $accountData->subject_id)->first()->subject_title?></p>
+											</div>
+											<div class="col s6">
+												<p><b>College Dept.: </b>Unknown</p>
+											</div>
+										</div>
+										<hr>
 
-								<!-- legend block -->
-								<?php $this->getChildBlock("admin/legend"); ?>
+										<!-- legend block -->
+										<?php $this->getChildBlock("admin/legend"); ?>
 
-								<!-- Evaluate form -->
-								<?php $this->getChildBlock("admin/evaluate"); ?>
-							</div>
-					</ul>
+										<!-- Evaluate form -->
+										<?php $this->getChildBlock("admin/evaluate"); ?>
+									</div>
+									<?php
+								}else{
+									?>
+										<div class="col s12 centered">
+										    <div class="card horizontal">
+										      <div class="card-stacked">
+										        <div class="card-content">
+										          <p class="center">Please, enter evaluation code first.</p>
+										        </div>
+										      </div>
+										    </div>
+										  </div>
+									<?php
+								}
+							?>
+					</ul
 				</div>
 			</div>
 		</div>

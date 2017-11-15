@@ -16,6 +16,66 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 	}
 
 	/**
+	 *	Submit Evaluation
+	 */
+	public function submitAction() {
+		$request = Core::getSingleton("url/request")->getRequest();
+		$session = Core::getSingleton("system/session");
+		$evaluatorDb = Core::getModel("evaluation/evaluator");
+		$accountDb = Core::getModel("account/account");
+
+		$auth = $session->get("auth");
+		Core::log( $auth );
+		$code = isset($_SESSION["evaluation"]["code"]) ? $_SESSION["evaluation"]["code"] : false;
+
+		$evaluatorDb->insert([
+			"account_id" => $auth->id,
+			"type" => $accountDb->getAccountType($auth->id)->type,
+		]);
+		Core::log( $_SESSION );
+		Core::log( $request );
+		return;
+	}
+
+	/**
+	 *	Validate Evaluation Code
+	 */
+	public function validateCodeAction() {
+		$request = Core::getSingleton("url/request")->getRequest();
+		$session = Core::getSingleton("system/session");
+		$next = Core::getBaseUrl() . "admin/evaluation/evaluatepeer";
+
+		if(! $this->validate( $request["evalcode"] ) ) {
+			$session->add("alert", [
+				"type" => "error",
+				"message" => "Evalution code does not exist."
+			]);
+			$this->_redirect( $next );
+		}
+
+		$_SESSION["evaluation"]["access"] = true;
+		$_SESSION["evaluation"]["code"] = $request["evalcode"];
+		$_SESSION["evaluation"]["hasEvaluator"] = true;
+
+		$this->_redirect( $next );
+		return;
+	}
+
+	/**
+	 *	Validate Evaluation Code
+	 *	@var string $code
+	 *	@return bool
+	 */
+	public function validate( $code ) {
+		$evaluationDb = Core::getModel("evaluation/evaluation");
+		$rs = $evaluationDb->where("code", $code)->first();
+		if( $rs ) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 *	Generate random alpha numeric characters
 	 */
 	public function generateEvaluationCode($length = null) {

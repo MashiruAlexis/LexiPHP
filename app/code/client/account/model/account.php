@@ -16,6 +16,20 @@ Class Account_Model_Account extends Database_Model_Base {
 	protected $table = "account";
 
 	/**
+	 *	Get Account Data
+	 *	@var int $id
+	 *	@return obj $account
+	 */
+	public function getAccountData( $id ) {
+		$accountDataDb = Core::getModel("account/accountdata");
+		$rs = $accountDataDb->where("account_id", $id)->first();
+		if( $rs ) {
+			return $rs;
+		}
+		return false;
+	}
+
+	/**
 	 *	Get Account Type
 	 *	@var int $id
 	 *	@return obj $type
