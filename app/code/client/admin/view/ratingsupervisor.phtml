@@ -18,11 +18,13 @@
 				<div class="input-field col s3">
 					<select>
 						<option value="" disabled selected>Choose your option</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
+						<?php
+							foreach( Core::getSingleton("evaluation/evaluation")->getSchoolYear() as $scyear ) {
+								?>
+									<option value="<?=$scyear?>"><?=$scyear?></option>
+								<?php
+							}
+						?>
 					</select>
 					<label>School Year</label>
 				</div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2017 at 10:36 PM
+-- Generation Time: Nov 15, 2017 at 05:59 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -50,8 +50,7 @@ INSERT INTO `account` (`id`, `account_type_id`, `fname`, `lname`, `username`, `p
 (2, 2, 'Alexis', 'Celis', 'alexis1', '$2y$10$hkdZ6LOcQVo3ervGZnjGMOwykU98nqdwr79nCfXV6I2FAOkJyrMLi', 'alexis1@alexis.com', 'active', NULL, NULL),
 (3, 3, 'Alexis', 'Celis', 'alexis2', '$2y$10$F.et6GT05kaKgC4XttqSoOe4Hg4Xnxk7TCMR2fXWikEzt8XyOKRfS', 'alexis2@alexis.com', 'active', NULL, NULL),
 (4, 3, 'Jared', 'Celis', 'jared', '$2y$10$BFnDl1tKeFzvAoS2d3PR5OQXIF724VEnsjTIlBWqT9kaFcCyWndSe', 'jared@admin.com', 'active', NULL, NULL),
-(5, 3, 'James', 'Jones', 'james', '$2y$10$.AiWnDypBBxlSevqxHafkeTZPKA5EBLh12u/n52p8XjvivIzDsIfC', 'james@admin.com', 'active', NULL, NULL),
-(7, 2, 'dean', 'dean', 'dean1', '$2y$10$LzF.axypsbFSaBASK6Svj.4JqOa9NhIhfZh4dCgu23Qe0QlO9OtdS', 'dean@dean.com', 'active', NULL, NULL);
+(5, 3, 'James', 'Jones', 'james', '$2y$10$.AiWnDypBBxlSevqxHafkeTZPKA5EBLh12u/n52p8XjvivIzDsIfC', 'james@admin.com', 'active', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -63,7 +62,7 @@ CREATE TABLE `account_data` (
   `id` int(11) NOT NULL,
   `account_id` int(11) DEFAULT NULL,
   `teacher_id` int(5) NOT NULL,
-  `college_dept_id` varchar(30) DEFAULT NULL,
+  `college_dept` varchar(30) DEFAULT NULL,
   `academic_rank` varchar(30) DEFAULT NULL,
   `subject_id` varchar(11) NOT NULL,
   `scyear` varchar(11) DEFAULT NULL,
@@ -74,12 +73,15 @@ CREATE TABLE `account_data` (
 -- Dumping data for table `account_data`
 --
 
-INSERT INTO `account_data` (`id`, `account_id`, `teacher_id`, `college_dept_id`, `academic_rank`, `subject_id`, `scyear`, `sem`) VALUES
-(6, 4, 0, '1', NULL, '1', '2017-2018', '2nd'),
-(7, 3, 0, '2', NULL, '2', '2018-2019', '2nd'),
-(8, 3, 3, '3', NULL, '2', '2018-2019', '2nd'),
-(9, 5, 0, '4', NULL, '3', '2017-2018', '1st'),
-(11, 7, 0, '1', NULL, '', NULL, NULL);
+INSERT INTO `account_data` (`id`, `account_id`, `teacher_id`, `college_dept`, `academic_rank`, `subject_id`, `scyear`, `sem`) VALUES
+(1, NULL, 1, 'College of Education', 'Instructor I', '1', NULL, NULL),
+(2, NULL, 2, 'College of ICT', 'Instuctor II', '2', NULL, NULL),
+(3, NULL, 1, 'College of Education', 'Instructor I', '1', NULL, NULL),
+(4, NULL, 2, 'College of ICT', 'Instuctor II', '2', NULL, NULL),
+(6, 4, 0, NULL, NULL, '1', '2017-2018', '2nd'),
+(7, 3, 0, NULL, NULL, '2', '2018-2019', '2nd'),
+(8, 3, 3, NULL, NULL, '2', '2018-2019', '2nd'),
+(9, 5, 0, NULL, NULL, '3', '2017-2018', '1st');
 
 -- --------------------------------------------------------
 
@@ -100,27 +102,6 @@ INSERT INTO `account_type` (`id`, `type`) VALUES
 (1, 'Admin'),
 (2, 'Dean'),
 (3, 'Teacher');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `college_dept`
---
-
-CREATE TABLE `college_dept` (
-  `id` int(11) NOT NULL,
-  `label` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `college_dept`
---
-
-INSERT INTO `college_dept` (`id`, `label`) VALUES
-(1, 'College of Education'),
-(2, 'College of Engineering & Technology'),
-(3, 'College of Business Management '),
-(4, 'College of Arts & Sciences');
 
 -- --------------------------------------------------------
 
@@ -216,10 +197,7 @@ INSERT INTO `evaluation_details` (`id`, `evaluation_id`, `evaluator_id`, `rating
 (9, 1, 9, 9, '2017-2018', '2nd', NULL, 'Formula test again'),
 (10, 1, 10, 10, '2017-2018', '2nd', NULL, 'Formula test'),
 (11, 3, 11, 11, '2017-2018', '1st', NULL, 'formula'),
-(12, 3, 12, 12, '2017-2018', '1st', NULL, 'another one formula test'),
-(13, 2, 13, 13, '2018-2019', '2nd', NULL, 'hello world'),
-(14, 2, 14, 14, '2018-2019', '2nd', NULL, 'Wow just wow'),
-(15, 2, 15, 15, '2018-2019', '2nd', NULL, 'lol this guys is really funny!');
+(12, 3, 12, 12, '2017-2018', '1st', NULL, 'another one formula test');
 
 -- --------------------------------------------------------
 
@@ -291,10 +269,7 @@ INSERT INTO `evaluator` (`id`, `account_id`, `type`, `name`, `year`, `course`, `
 (9, 2, 'Dean', 'Alexis Celis', NULL, NULL, NULL),
 (10, 2, 'Dean', 'Alexis Celis', NULL, NULL, NULL),
 (11, 3, 'Teacher', 'Alexis Celis', NULL, NULL, NULL),
-(12, 3, 'Teacher', 'Alexis Celis', NULL, NULL, NULL),
-(13, 0, 'Student', 'Minime', '1st', 'BSIT', NULL),
-(14, 0, 'Student', 'Jenny', '1st', 'BSIT', NULL),
-(15, 5, '', 'James Jones', NULL, NULL, NULL);
+(12, 3, 'Teacher', 'Alexis Celis', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -349,10 +324,7 @@ INSERT INTO `rating` (`id`, `teacher_id`, `evaluation_id`, `crit_A1`, `crit_A2`,
 (9, NULL, NULL, 5, 4, 5, 5, 5, '0.208333333', 5, 5, 5, 5, 5, '0.2', 5, 5, 5, 5, 5, '0.3', 5, 5, 5, 5, 5, '0.3', 21036363),
 (10, NULL, NULL, 5, 4, 5, 5, 5, '0.208333333', 5, 5, 5, 5, 5, '0.2', 5, 5, 5, 5, 5, '0.3', 5, 5, 5, 5, 5, '0.3', 101),
 (11, NULL, NULL, 5, 5, 4, 5, 5, '19.2', 5, 5, 4, 5, 5, '19.2', 5, 5, 5, 5, 5, '30', 5, 5, 5, 5, 5, '30', 9840),
-(12, NULL, NULL, 5, 4, 5, 5, 5, '19.2', 5, 5, 5, 1, 5, '16.8', 5, 5, 5, 5, 5, '30', 5, 5, 5, 5, 5, '30', 96),
-(13, NULL, NULL, 5, 5, 5, 5, 1, '16.8', 5, 1, 1, 1, 1, '7.2', 5, 5, 5, 5, 5, '30', 5, 5, 5, 5, 5, '30', 84),
-(14, NULL, NULL, 5, 5, 5, 5, 5, '20', 5, 5, 5, 5, 5, '20', 5, 5, 5, 5, 3, '27.6', 4, 5, 5, 5, 5, '28.8', 96),
-(15, NULL, NULL, 5, 5, 5, 5, 5, '20', 5, 5, 5, 5, 5, '20', 5, 1, 1, 1, 1, '10.8', 1, 1, 1, 3, 5, '13.2', 64);
+(12, NULL, NULL, 5, 4, 5, 5, 5, '19.2', 5, 5, 5, 1, 5, '16.8', 5, 5, 5, 5, 5, '30', 5, 5, 5, 5, 5, '30', 96);
 
 -- --------------------------------------------------------
 
@@ -397,12 +369,6 @@ ALTER TABLE `account_data`
 -- Indexes for table `account_type`
 --
 ALTER TABLE `account_type`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `college_dept`
---
-ALTER TABLE `college_dept`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -461,25 +427,19 @@ ALTER TABLE `subject`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `account_data`
 --
 ALTER TABLE `account_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `account_type`
 --
 ALTER TABLE `account_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `college_dept`
---
-ALTER TABLE `college_dept`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `evaluation`
@@ -503,7 +463,7 @@ ALTER TABLE `evaluation_data`
 -- AUTO_INCREMENT for table `evaluation_details`
 --
 ALTER TABLE `evaluation_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `evaluation_sub_criteria`
@@ -515,13 +475,13 @@ ALTER TABLE `evaluation_sub_criteria`
 -- AUTO_INCREMENT for table `evaluator`
 --
 ALTER TABLE `evaluator`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `rating`
 --
 ALTER TABLE `rating`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `subject`

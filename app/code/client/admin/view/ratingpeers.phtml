@@ -14,23 +14,30 @@
 	<div id="dashboard">
 		<?php $this->getChildBlock("page/alert"); ?>
 		<div class="row ">
-			<form>
+			<form method="GET">
 				<div class="input-field col s3">
-					<select>
+					<select name="scyear">
 						<option value="" disabled selected>Choose your option</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
+						<?php
+							foreach( Core::getSingleton("evaluation/evaluation")->getSchoolYear() as $scyear ) {
+								?>
+								<option value="<?=$scyear?>"><?=$scyear?></option>
+								<?php
+							}
+						?>
 					</select>
 					<label>School Year</label>
 				</div>
 				<div class="input-field col s3">
-					<select>
+					<select name="sem">
 						<option value="" disabled selected>Choose your option</option>
-						<option value="1">1st sem</option>
-						<option value="2">2nd sem</option>
+						<?php
+							foreach( Core::getSingleton("evaluation/evaluation")->getSemester() as $sem ) {
+								?>
+								<option value="<?=$sem?>"><?=$sem?></option>
+								<?php
+							}
+						?>
 					</select>
 					<label>Semester</label>
 				</div>
@@ -55,54 +62,95 @@
 										<thead>
 											<tr>
 												<th>Name</th>
-												<th>Course and Year</th>
+												<th>College</th>
 												<th>Rating</th>
 												<th>Action</th>
 											</tr>
 										</thead>
 
 										<tbody>
-										<tr>
-											<td>Angelou Macabutas</td>
-											<td>BSIT III-A</td>
-											<td>85</td>
-											<td><a class="waves-effect waves-light modal-trigger" href="#modal1">View Comment</a></td>
-										</tr>
+										<?php
+											$session = Core::getSingleton("system/session");
+											$request = Core::getSingleton("url/request")->getRequest();
+											$auth = $session->get("auth");
+											$accountDataDb = Core::getModel("account/accountdata");
+											$evaluationDb = Core::getModel("evaluation/evaluation");
+											$evaluationDetailsDb = Core::getModel("evaluation/evaluationdetails");
+											$evaluatiorDb = Core::getModel("evaluation/evaluator");
+											$ratingDb = Core::getModel("evaluation/rating");
 
-										<tr>
-											<td>Angelou Macabutas</td>
-											<td>BSIT III-A</td>
-											<td>85</td>
-											<td><a class="waves-effect waves-light modal-trigger" href="#modal1">View Comment</a></td>
-										</tr>
+											$scyear = Core::getSingleton("evaluation/evaluation")->getSchoolYear()[0];
+											$sem = Core::getSingleton("evaluation/evaluation")->getSemester()[0];
 
-										<tr>
-											<td>Angelou Macabutas</td>
-											<td>BSIT III-A</td>
-											<td>85</td>
-											<td><a class="waves-effect waves-light modal-trigger" href="#modal1">View Comment</a></td>
-										</tr>
+											if( isset($request["sem"]) ) {
+												$sem = $request["sem"];
+											}
+											if( isset($request["scyear"]) ) {
+												$scyear = $request["scyear"];
+											}
 
-										<tr>
-											<td>Angelou Macabutas</td>
-											<td>BSIT III-A</td>
-											<td>85</td>
-											<td><a class="waves-effect waves-light modal-trigger" href="#modal1">View Comment</a></td>
-										</tr>
+											$evaluation = $evaluationDb->where("account_id", $auth->id)->first();
+											$evaluationDetails = $evaluationDetailsDb
+												->where("school_year", $scyear)
+												->where("semester", $sem)
+												->where("evaluation_id", $evaluation->id )
+												->get();
 
-										<tr>
-											<td>Angelou Macabutas</td>
-											<td>BSIT III-A</td>
-											<td>85</td>
-											<td><a class="waves-effect waves-light modal-trigger" href="#modal1">View Comment</a></td>
-										</tr>
+											// Core::log( $evaluationDetails );
+											$noOfItems = 0;
+											$sumRating = 0;
+											foreach( $evaluationDetails as $ed ) {
+
+												$evaluator = $evaluatiorDb
+													->where("id", $ed->evaluator_id)
+													->where("type", "Teacher")
+													->first();
+
+												$rating = $ratingDb->where("id", $ed->rating_id)->first();
+
+												if(! $evaluator ) {
+													continue;
+												}
+												
+												$noOfItems++;
+												$sumRating = $sumRating + $rating->ave_total;
+												$subject = Core::getModel("admin/subject")->where("id", Core::getModel("account/accountdata")->where("account_id", $evaluator->account_id)->first()->subject_id)->first();
+												// Core::log( $evaluator );
+												?>
+												<tr>
+													<td><?=$evaluator->name?></td>
+													<td><?=$subject->subject_title?></td>
+													<td><?=$rating->ave_total?></td>
+													<td><a class="waves-effect waves-light modal-trigger" href="#modal1">View Comment</a></td>
+												</tr>
+												<!-- Modal Structure -->
+													  <div id="modal<?=$ed->id?>" class="modal">
+													    <div class="modal-content">
+													      <h4 class="thin" style="color: #87a1ad;"><?=$evaluator->name?>'s Comment</h4>
+													      <p><?=$ed->comments?></p>
+													    </div>
+													    <div class="modal-footer">
+													      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+													    </div>
+													  </div>
+													<!-- Main END --> 
+												<?php
+											}
+										?>
+										
+
+										
 										</tbody>
 									</table>
 								</div>
 
 								<div class="row">
 									<div class="col s2 offset-s9">
-										<p><b>Average Rating:</b> 85</p>
+										<?php
+											$ave = 0;
+											if( $noOfItems ) { $ave = ($sumRating / $noOfItems); }
+										?>
+										<p><b>Average Rating:</b> <?=$ave?></p>
 									</div>
 								</div>
 						</div>
@@ -117,14 +165,3 @@
 
 <?php $this->getChildBlock("page/footer"); ?>
 
-  <!-- Modal Structure -->
-  <div id="modal1" class="modal">
-    <div class="modal-content">
-      <h4 class="thin" style="color: #87a1ad;">Angelou Macabutas's Comment</h4>
-      <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-    </div>
-  </div>
-<!-- Main END --> 
