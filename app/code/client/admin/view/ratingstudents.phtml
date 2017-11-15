@@ -153,7 +153,11 @@
 
 								<div class="row">
 									<div class="col s2 offset-s9">
-										<p><b>Average Rating:</b> <?php echo ($sumRating / $noOfItems) ?></p>
+										<?php
+										$ave = 0;
+										if( $noOfItems ) {	$ave = ($sumRating / $noOfItems); }
+										?>
+										<p><b>Average Rating:</b> <?=$ave?></p>
 									</div>
 								</div>
 						</div>
