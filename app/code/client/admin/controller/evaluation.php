@@ -272,7 +272,7 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 						"type" => "error",
 						"message" => "Some fields were empty."
 					]);
-			$this->_redirect("/admin/configure?tab=criteria");
+			$this->_redirect(Core::getBaseUrl() . "admin/configure?tab=criteria");
 			return;
 		}
 
@@ -282,7 +282,7 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 			$this->_redirect($req["redirect"]);
 		}
 
-		$this->_redirect("/admin/configure?tab=criteria");
+		$this->_redirect( Core::getBaseUrl() . "admin/configure?tab=criteria");
 	}
 
 	/**
@@ -302,7 +302,7 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 				"type" => "error",
 				"message" => "Please check all the fields before you submit."
 			]);
-			$this->_redirect("/admin/configure?tab=subcriteria");
+			$this->_redirect(Core::getBaseUrl() . "admin/configure?tab=subcriteria");
 			return;
 		}
 
@@ -311,7 +311,7 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 			"question" => $req["subcriteria"]
 		]);
 
-		$this->_redirect("/admin/configure?tab=subcriteria");
+		$this->_redirect(Core::getBaseUrl() . "admin/configure?tab=subcriteria");
 
 	}
 

@@ -18,32 +18,33 @@
 <!-- Main START -->
 <main>
   <div class="container">
-    <h1 class="thin">Criteria</h1>
-    <!--  Tables Section-->
-    <div id="messages" class="mailbox section">
-      <div class="row">
-        <div class="col s12">
+	<h1 class="thin">Criteria</h1>
+	<!--  Tables Section-->
+	<div id="messages" class="mailbox section">
+	  <div class="row">
+	  	<?php $this->getChildBlock("page/alert") ?>
+		<div class="col s12">
 		  <div class="z-depth-1">
-		    <ul class="tabs account">
-                <li class="col s4 tab"><a class="<?=$tabActiveCriteria?>" href="#personal">Criteria</a></li>
-                <li class="col s4 tab"><a href="#password" class="<?=$tabActiveSubCriteria?>" >Sub Criteria</a></li>
-            </ul>
+			<ul class="tabs account">
+				<li class="col s4 tab"><a class="<?=$tabActiveCriteria?>" href="#personal">Criteria</a></li>
+				<li class="col s4 tab"><a href="#password" class="<?=$tabActiveSubCriteria?>" >Sub Criteria</a></li>
+			</ul>
 		  </div>
-        </div>
-        <div class="col s12">
-          <div class="card-panel no-padding">
+		</div>
+		<div class="col s12">
+		  <div class="card-panel no-padding">
 		  
-          	<!-- Add criteria childblock -->
-          	<?php $this->getChildBlock("admin/addcriteria"); ?>
+			<!-- Add criteria childblock -->
+			<?php $this->getChildBlock("admin/addcriteria"); ?>
 
 			<!-- Add sub criteria childblock -->
 			<?php $this->getChildBlock("admin/addsubcriteria"); ?>
 
 		   <!-- Privacy tab END -->
 		  </div>
-        </div>
-      </div>
-    </div>
+		</div>
+	  </div>
+	</div>
   </div>
   <!-- container END --> 
   

@@ -3,9 +3,15 @@
 	<?php
 		foreach( Core::getModel("admin/criteria")->get() as $criteria ) {
 			?>
-			<li class="collection-item dismissable"><div><?=$criteria->label?><a href="#modal<?=$criteria->id?>" class="secondary-content waves-effect waves-light modal-trigger"><i class="material-icons">edit</i></a></div></li>
+			<li class="collection-item dismissable"><div><?=$criteria->label?><a href="#modal<?=$criteria->id?>" class="secondary-content modal-trigger"><i class="material-icons">edit</i></a></div></li>
+			
 			<div id="modal<?=$criteria->id?>" class="modal">
-				<form name="frmUpdateCriteria" method="POST" action="<?=Core::getBaseUrl()?>admin/configure/updateCriteria">
+				<!--
+				/**
+				 *	Forms
+				 */
+				-->
+				<form name="frmUpdateCriteria"  method="POST" action="<?=Core::getBaseUrl()?>admin/configure/updateCriteria" />
 					<input type="hidden" name="criteriaId" value="<?=$criteria->id?>">
 					<div class="modal-content">
 						<h4 style="color: #455b65;">Update Criteria</h4>
@@ -17,7 +23,6 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a> -->
 						<input type="submit" name="btnUpdateCriteria" value="Update" class="modal-action modal-close waves-effect waves-green btn-flat">
 					</div>
 				</form>

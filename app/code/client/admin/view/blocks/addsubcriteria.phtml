@@ -39,7 +39,25 @@
 						<?php
 							foreach( Core::getModel("admin/subcriteria")->where("evaluation_criteria_id", $criteria->id)->get() as $subcriteria ) {
 								?>
-								<li class="collection-item dismissable"><div><?=$subcriteria->question?> -> <?=$subcriteria->id?><a href="#!" class="secondary-content"><i class="material-icons">touch_app</i></a></div></li>
+								<li class="collection-item dismissable"><div><?=$subcriteria->question?><a href="#modal-sub-<?=$subcriteria->id?>" class="secondary-content modal-trigger"><i class="material-icons">edit</i></a></div></li>
+								<div id="modal-sub-<?=$subcriteria->id?>" class="modal">
+									<form name="frmUpdateSubcriteria" method="POST" action="<?=Core::getBaseUrl()?>admin/configure/updateSubCriteria">
+										<input type="hidden" name="subcriteriaId" value="<?=$subcriteria->id?>">
+										<div class="modal-content">
+											<h4 style="color: #455b65;">Update Subcriteria</h4>
+											<div class="row">
+												<div class="input-field col s12">
+													<input placeholder="Placeholder" id="subcriteria" name="<?=$subcriteria->id?>" type="text" class="validate" value="<?=$subcriteria->question?>">
+													<label for="subcriteria">Sub Criteria</label>
+												</div>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a> -->
+											<input type="submit" name="btnUpdateSubCriteria" value="Update" class="modal-action modal-close waves-effect waves-green btn-flat">
+										</div>
+									</form>
+								</div>
 								<?php
 							}
 						?>

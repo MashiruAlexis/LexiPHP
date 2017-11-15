@@ -16,6 +16,16 @@ Class Account_Model_Account extends Database_Model_Base {
 	protected $table = "account";
 
 	/**
+	 *	Get Account Subject
+	 *	@var int $id
+	 *	@return obj $subject
+	 */
+	public function getSubject( $id ) {
+		$subjectDb = Core::getModel("admin/subject");
+		
+	}
+
+	/**
 	 *	Get Account Data
 	 *	@var int $id
 	 *	@return obj $account

@@ -35,6 +35,28 @@ Class Admin_Controller_Configure extends Frontend_Controller_Action {
 		return;
 	}
 
+	/**
+	 *	Update Sub Criteria
+	 */
+	public function updateSubCriteriaAction() {
+		$session = Core::getSingleton("system/session");
+		$request = Core::getSingleton("url/request")->getRequest();
+		$next = Core::getBaseUrl() . "admin/configure?tab=subcriteria";
+
+		$subcriteriaDb = Core::getModel("evaluation/subcriteria");
+
+		$subcriteriaDb->where("id", $request["subcriteriaId"])->update([
+			"question" => $request[$request["subcriteriaId"]]
+		]);
+		$session->add("alert", [
+			"type" => "success",
+			"message" => "Sub Criteria was successfully updated."
+		]);
+		
+		$this->_redirect( $next );
+		return;
+	}
+
 	public function setup() {
 		$this->setJs("default/dashboard");
 	}
