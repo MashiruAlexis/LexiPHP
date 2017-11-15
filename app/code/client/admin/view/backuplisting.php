@@ -80,7 +80,6 @@
 								}
 
 								$evaluation = $evaluationDb->where("account_id", $auth->id)->first();
-
 								$evaluationdetails = $evaluationDetailsDb
 									->where("evaluation_id", $evaluation->id)
 									->where("school_year", $scyear)
@@ -91,24 +90,15 @@
 										->where("account_id" , $ed->evaluator_id)
 										->where("type", "Dean")
 										->first();
-									$comments = $ed->comments;
-
 									if( $rs ) {
 										break;
 									}
-									$ratingId = $ed->rating_id;
 								}
 
 								if( isset($rs) ) {
+									Core::log( $rs );
 									$accountData = $accountDataDb->where("account_id", $rs->account_id)->first();
 									$dept = $departmentDb->where("id", $accountData->college_dept_id)->first();
-								}else{
-									?>
-									<div class="container center">
-										<h1>No data to show</h1>
-									</div>
-									<?php
-									exit();
 								}
 							?>
 							<div class="container">
@@ -125,135 +115,42 @@
 									</div>
 								</div>
 								<hr>
-								<div class="row">
-									<div class="col s12">
-										<?php
+								<?php
 											$criteriaDb = Core::getModel("admin/criteria");
 											$subCriteriaDb = Core::getModel("admin/subcriteria");
-											$criteria = $criteriaDb->get();
-											$rating = Core::getModel("evaluation/rating")->where("id", $ratingId)->first();
-											// $subcriteria = $subCriteriaDb->where("id", )->first()->question;
+											foreach( $criteriaDb->get() as $criteria ) {
+												?>
+												<div class="row">
+												<div class="col s12">
+													
+													<h5><?=$criteria->label?></h5>
+													<table class="col s6" style="margin-bottom: 15px;">
+															<tbody>
+													<?php
+														foreach( $subCriteriaDb->where("evaluation_criteria_id", $criteria->id)->get() as $subCriteria ) {
+															?>
+															
+																<tr>
+																	<td><?=$subCriteria->question?></td>
+																	<td>5</td>
+																</tr>
+															<?php
+														}
+													?>
+													</tbody>
+															</table>
+												</div>
+											</div>
+												<?php
+											} 
 										?>
-										<h5><?=$criteria[0]->label?></h5>
-										<table class="col s6" style="margin-bottom: 15px;">
-											<tbody>
-											<tr>
-												<td><?=$subCriteriaDb->where("id", 1)->first()->question?></td>
-												<td><?=$rating->crit_A1?></td>
-											</tr>
-											<tr>
-												<td><?=$subCriteriaDb->where("id", 3)->first()->question?></td>
-												<td><?=$rating->crit_A2?></td>
-											</tr>
-											<tr>
-												<td><?=$subCriteriaDb->where("id", 6)->first()->question?></td>
-												<td><?=$rating->crit_A3?></td>
-											</tr>
-											<tr>
-												<td><?=$subCriteriaDb->where("id", 7)->first()->question?></td>
-												<td><?=$rating->crit_A4?></td>
-											</tr>
-											<tr>
-												<td><?=$subCriteriaDb->where("id", 8)->first()->question?></td>
-												<td><?=$rating->crit_A5?></td>
-											</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col s12">
-										<h5><?=$criteria[1]->label?></h5>
-										<table class="col s6" style="margin-bottom: 15px;">
-											<tbody>
-											<tr>
-												<td><?=$subCriteriaDb->where("id", 2)->first()->question?></td>
-												<td><?=$rating->crit_B1?></td>
-											</tr>
-											<tr>
-												<td><?=$subCriteriaDb->where("id", 9)->first()->question?></td>
-												<td><?=$rating->crit_B2?></td>
-											</tr>
-											<tr>
-												<td><?=$subCriteriaDb->where("id", 10)->first()->question?></td>
-												<td><?=$rating->crit_B3?></td>
-											</tr>
-											<tr>
-												<td><?=$subCriteriaDb->where("id", 11)->first()->question?></td>
-												<td><?=$rating->crit_B4?></td>
-											</tr>
-											<tr>
-												<td><?=$subCriteriaDb->where("id", 12)->first()->question?></td>
-												<td><?=$rating->crit_B5?></td>
-											</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col s12">
-										<h5><?=$criteria[2]->label?></h5>
-										<table class="col s6" style="margin-bottom: 15px;">
-											<tbody>
-											<tr>
-												<td><?=$subCriteriaDb->where("id", 4)->first()->question?></td>
-												<td><?=$rating->crit_C1?></td>
-											</tr>
-											<tr>
-												<td><?=$subCriteriaDb->where("id", 13)->first()->question?></td>
-												<td><?=$rating->crit_C2?></td>
-											</tr>
-											<tr>
-												<td><?=$subCriteriaDb->where("id", 14)->first()->question?></td>
-												<td><?=$rating->crit_C3?></td>
-											</tr>
-											<tr>
-												<td><?=$subCriteriaDb->where("id", 15)->first()->question?></td>
-												<td><?=$rating->crit_C4?></td>
-											</tr>
-											<tr>
-												<td><?=$subCriteriaDb->where("id", 16)->first()->question?></td>
-												<td><?=$rating->crit_C5?></td>
-											</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col s12">
-										<h5><?=$criteria[3]->label?></h5>
-										<table class="col s6" style="margin-bottom: 15px;">
-											<tbody>
-											<tr>
-												<td><?=$subCriteriaDb->where("id", 5)->first()->question?></td>
-												<td><?=$rating->crit_D1?></td>
-											</tr>
-											<tr>
-												<td><?=$subCriteriaDb->where("id", 17)->first()->question?></td>
-												<td><?=$rating->crit_D2?></td>
-											</tr>
-											<tr>
-												<td><?=$subCriteriaDb->where("id", 18)->first()->question?></td>
-												<td><?=$rating->crit_D3?></td>
-											</tr>
-											<tr>
-												<td><?=$subCriteriaDb->where("id", 19)->first()->question?></td>
-												<td><?=$rating->crit_D4?></td>
-											</tr>
-											<tr>
-												<td><?=$subCriteriaDb->where("id", 20)->first()->question?></td>
-												<td><?=$rating->crit_D5?></td>
-											</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
+										
+									
+								
 								<div class="row">
 									<div class="input-field col s12 " >
 										<i class="material-icons prefix">mode_edit</i>
-										<textarea id="icon_prefix2" class="materialize-textarea "><?=$comments?></textarea>
+										<textarea id="icon_prefix2" class="materialize-textarea "></textarea>
 										<label for="icon_prefix2">Comments of the Dean / Supervisor</label>
 									</div>
 								</div>
@@ -261,7 +158,7 @@
 
 								<div class="row">
 									<div class="col s2 offset-s9">
-										<p><b>Average Rating:</b> <?=$rating->ave_total?></p>
+										<p><b>Average Rating:</b> 85</p>
 									</div>
 								</div>
 						</div>

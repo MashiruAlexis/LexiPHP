@@ -39,7 +39,7 @@
 						<?php
 							foreach( Core::getModel("admin/subcriteria")->where("evaluation_criteria_id", $criteria->id)->get() as $subcriteria ) {
 								?>
-								<li class="collection-item dismissable"><div><?=$subcriteria->question?><a href="#modal-sub-<?=$subcriteria->id?>" class="secondary-content modal-trigger"><i class="material-icons">edit</i></a></div></li>
+								<li class="collection-item dismissable"><div><?=$subcriteria->question?> => <?=$subcriteria->id?> <a href="#modal-sub-<?=$subcriteria->id?>" class="secondary-content modal-trigger"><i class="material-icons">edit</i></a></div></li>
 								<div id="modal-sub-<?=$subcriteria->id?>" class="modal">
 									<form name="frmUpdateSubcriteria" method="POST" action="<?=Core::getBaseUrl()?>admin/configure/updateSubCriteria">
 										<input type="hidden" name="subcriteriaId" value="<?=$subcriteria->id?>">
