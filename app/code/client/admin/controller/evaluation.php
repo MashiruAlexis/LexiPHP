@@ -340,6 +340,34 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 		];
 	}
 
+	/**
+	 *	Get Available Course
+	 */
+	public function getCourse() {
+		return [
+			"BSIT",
+			"BSCE",
+			"BSED",
+			"BEED",
+			"BSHRM",
+			"BSBA",
+			"BST",
+			"BA Com"
+		];
+	}
+
+	/**
+	 *	Get Student Year
+	 */
+	public function getStudentYear() {
+		return [
+			"1st",
+			"2nd",
+			"3rd",
+			"4rth"
+		];
+	}
+
 	public function setup() {
 		$this->setJs("default/dashboard");
 	}

@@ -1,3 +1,7 @@
+<?php
+	// icon fix
+	$this->getChildBlock("evaluation/icon");
+?>
 <!-- Main Start -->
 <main class="valign-wrapper">
   <div class="container valign">
@@ -98,8 +102,11 @@ $subject = Core::getModel("admin/subject")->where("id", $evalAccountData->subjec
 
 
 		<div class="row">
-		  <div class="input-field col s12">
+		  <div class="input-field col s6">
 			<input type="submit" name="btnEval" class="btn waves-effect waves-light col s12" value="Submit">
+		  </div>
+		  <div class="input-field col s6">
+			<a href="<?=Core::getBaseUrl()?>evaluation/index/cancel" class="btn col s12" >Cancel</a>
 		  </div>
 		</div>
 	  </div>

@@ -25,6 +25,24 @@ Class Evaluation_Controller_Index extends Frontend_Controller_Action {
 	}
 
 	/**
+	 *	Cancel Evaluation
+	 */
+	public function cancelAction() {
+		$next = Core::getBaseUrl() . "evaluation";
+		$redirect = Core::getSingleton("url/request")->getRequest("redirect");
+
+		if( $redirect ) {
+			$next = $redirect;
+		}
+
+		if( isset($_SESSION["evaluation"]) ) {
+			unset($_SESSION["evaluation"]);
+		}
+		
+		$this->_redirect($next);
+	}
+
+	/**
 	 *	Validate Code
 	 *	@var string $code
 	 *	@return bool
