@@ -21,19 +21,87 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 	public function submitAction() {
 		$request = Core::getSingleton("url/request")->getRequest();
 		$session = Core::getSingleton("system/session");
+		$process = Core::getSingleton("evaluation/process");
+
+		$evaluationDb = Core::getModel("evaluation/evaluation");
+		$evaluationDetailsDb = Core::getModel("evaluation/evaluationdetails");
 		$evaluatorDb = Core::getModel("evaluation/evaluator");
 		$accountDb = Core::getModel("account/account");
+		$ratingDb = Core::getModel("evaluation/rating");
+
+		$next = Core::getBaseUrl() . "admin/evaluation/evaluatepeer";
+
 
 		$auth = $session->get("auth");
-		Core::log( $auth );
+		Core::log( $request );
 		$code = isset($_SESSION["evaluation"]["code"]) ? $_SESSION["evaluation"]["code"] : false;
 
 		$evaluatorDb->insert([
 			"account_id" => $auth->id,
 			"type" => $accountDb->getAccountType($auth->id)->type,
+			"name" => $auth->fname . " " . $auth->lname,
 		]);
-		Core::log( $_SESSION );
-		Core::log( $request );
+		$evaluatorId = $evaluatorDb->lastId;
+
+		$ratingDb->insert([
+			"crit_A1" => $request[1],
+			"crit_A2" => $request[3],
+			"crit_A3" => $request[6],
+			"crit_A4" => $request[7],
+			"crit_A5" => $request[8],
+			"ave_crit1" => $process->getAve([$request[1],$request[3],$request[6],$request[7],$request[8]]),
+
+			"crit_B1" => $request[2],
+			"crit_B2" => $request[9],
+			"crit_B3" => $request[10],
+			"crit_B4" => $request[11],
+			"crit_B5" => $request[12],
+			"ave_crit2" => $process->getAve([$request[2],$request[9],$request[10],$request[11],$request[12]]),
+
+			"crit_C1" => $request[4],
+			"crit_C2" => $request[13],
+			"crit_C3" => $request[14],
+			"crit_C4" => $request[15],
+			"crit_C5" => $request[16],
+			"ave_crit3" => $process->getAve([$request[4],$request[13],$request[14],$request[15],$request[16]]),
+
+			"crit_D1" => $request[5],
+			"crit_D2" => $request[17],
+			"crit_D3" => $request[18],
+			"crit_D4" => $request[19],
+			"crit_D5" => $request[20],
+			"ave_crit4" => $process->getAve([$request[5],$request[17],$request[18],$request[19],$request[20]]),
+
+			"ave_total" => $process->getAve([
+				$process->getAve([$request[1],$request[3],$request[6],$request[7],$request[8]]),
+				$process->getAve([$request[2],$request[9],$request[10],$request[11],$request[12]]),
+				$process->getAve([$request[4],$request[13],$request[14],$request[15],$request[16]]),
+				$process->getAve([$request[5],$request[17],$request[18],$request[19],$request[20]]),
+			])
+		]);
+
+		$ratingId = $ratingDb->lastId;
+		$evaluation = $evaluationDb->where("code", $_SESSION["evaluation"]["code"])->first();
+		$accountEvaluatedData = $accountDb->getAccountData( $evaluation->account_id );
+
+		Core::log( $evaluation );
+		Core::log( $accountEvaluatedData );
+		$evaluationDetailsDb->insert([
+			"evaluation_id" => $evaluation->id,
+			"evaluator_id" => $evaluatorId,
+			"rating_id" => $ratingId,
+			"school_year" => $accountEvaluatedData->scyear,
+			"semester" => $accountEvaluatedData->sem,
+			"comments" => $request["comments"]
+		]);
+
+		$session->add("alert", [
+			"type" => "success",
+			"message" => "Faculty was successfully evaluated."
+		]); 
+
+		unset($_SESSION["evaluation"]);
+		$this->_redirect( $next );
 		return;
 	}
 

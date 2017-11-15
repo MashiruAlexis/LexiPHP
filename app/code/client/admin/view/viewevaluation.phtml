@@ -94,9 +94,9 @@
 											foreach( $evaluationDetails as $ed ) {
 												$evaluator = Core::getModel("evaluation/evaluator")->where("id", $ed->evaluator_id)->first();
 												$rating = Core::getModel("evaluation/rating")->where("id", $ed->rating_id)->first();
-												if(! $evaluator->account_id ) {
+												// if(! $evaluator->account_id ) {
 													$name = $evaluator->name;
-												}
+												// }
 												?>
 												<tr>
 													<td><?=$name?></td>
