@@ -322,54 +322,28 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 	 *	Get School Year
 	 */
 	public function getSchoolYear() {
-		return [
-			"2017-2018",
-			"2018-2019",
-			"2019-2020",
-			"2020-2021",
-			"2021-2022",
-			"2022-2023",
-			"2023-2024",
-			"2024-2025",
-		];
+		return Core::getSingleton("evaluation/evaluation")->getSchoolYear();
 	}
 
 	/**
 	 *	Get Semester
 	 */
 	public function getSemester() {
-		return [
-			"1st",
-			"2nd"
-		];
+		return Core::getSingleton("evaluation/evaluation")->getSemester();
 	}
 
 	/**
 	 *	Get Available Course
 	 */
 	public function getCourse() {
-		return [
-			"BSIT",
-			"BSCE",
-			"BSED",
-			"BEED",
-			"BSHRM",
-			"BSBA",
-			"BST",
-			"BA Com"
-		];
+		return Core::getSingleton("evaluation/evaluation")->getCourse();
 	}
 
 	/**
 	 *	Get Student Year
 	 */
 	public function getStudentYear() {
-		return [
-			"1st",
-			"2nd",
-			"3rd",
-			"4rth"
-		];
+		return Core::getSingleton("evaluation/evaluation")->getStudentYear();
 	}
 
 	public function setup() {
