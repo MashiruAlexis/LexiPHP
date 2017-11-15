@@ -52,14 +52,33 @@
 								</a>
 							</h5>
 						</div>
+						<?php
+							$request 		= Core::getSingleton("url/request")->getRequest();
+							$session 		= Core::getSingleton("system/session");
+							$accountDb 		= Core::getModel("account/account");
+							$accountDataDb 	= Core::getModel("account/accountdata");
+							$evaluationDb 	= Core::getModel("evaluation/evaluation");
+							$subjectDb 		= Core::getModel("admin/subject");
+
+							$account 		= $accountDb->where("id", $request["id"])->first();
+							$accountData 	= $accountDataDb->where("account_id", $request["id"])->first();
+							$evaluation 	= $evaluationDb->where("account_id", $request["id"])->first();
+							$subject 		= $subjectDb->where("id", $accountData->subject_id)->first();
+
+							$auth = $session->get("auth");
+							$_SESSION["evaluation"]["access"] = true;
+							$_SESSION["evaluation"]["code"] = $evaluation->code;
+							$_SESSION["evaluation"]["hasEvaluator"] = true;
+							$_SESSION["evaluation"]["redirect"] = Core::getBaseUrl() . "admin";
+						?>
 						<div id="tasks">
 							<div class="container">
 								<div class="row">
 									<div class="col s12">
-										<p><b>Evaluation Code:</b> WFR3G2</p>
-										<p><b>Faculty ID:</b> 123</p>
-										<p><b>Faculty Name:</b> Ramon Alexis Celis</p>
-										<p><b>Subject:</b> Comp Prog 1</p>
+										<p><b>Evaluation Code:</b> <?=$evaluation->code?></p>
+										<p><b>Faculty ID:</b> <?=$account->id?></p>
+										<p><b>Faculty Name:</b> <?=$account->fname?> <?=$account->lname?></p>
+										<p><b>Subject:</b> <?=$subject->subject_title?></p>
 									</div>
 								</div>
 

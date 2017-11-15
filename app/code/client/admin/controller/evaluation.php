@@ -31,9 +31,11 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 
 		$next = Core::getBaseUrl() . "admin/evaluation/evaluatepeer";
 
+		if( isset($_SESSION["evaluation"]["redirect"]) ) {
+			$next = $_SESSION["evaluation"]["redirect"];
+		}
 
 		$auth = $session->get("auth");
-		Core::log( $request );
 		$code = isset($_SESSION["evaluation"]["code"]) ? $_SESSION["evaluation"]["code"] : false;
 
 		$evaluatorDb->insert([

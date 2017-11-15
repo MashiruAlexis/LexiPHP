@@ -22,20 +22,26 @@
 			<form>
 				<div class="input-field col s2">
 					<select>
-						<option value="" disabled selected>Choose your option</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
+						<!-- <option value="" disabled selected>Choose your option</option> -->
+						<?php
+							foreach( Core::getSingleton("evaluation/evaluation")->getSchoolYear() as $scyear ) {
+								?>
+									<option value="<?=$scyear?>" ><?=$scyear?></option>
+								<?php
+							}
+						?>
 					</select>
 					<label>School Year</label>
 				</div>
 				<div class="input-field col s2">
 					<select>
-						<option value="" disabled selected>Choose your option</option>
-						<option value="1">1st sem</option>
-						<option value="2">2nd sem</option>
+						<?php
+							foreach( Core::getSingleton("evaluation/evaluation")->getSemester() as $sem ) {
+								?>
+								<option value="<?=$sem?>"><?=$sem?></option>
+								<?php
+							}
+						?>
 					</select>
 					<label>Semester</label>
 				</div>
@@ -81,7 +87,7 @@
 													<!-- <a href="<?=Core::getBaseUrl()?>admin/evaluation/view/teacher/1/id/<?=$account->id?>">View</a> --> 
 													<a class="modal-trigger" href="#modal<?=$account->id?>">View</a> |
 													<a href="#">Edit</a> |
-													<a href="<?=Core::getBaseUrl()?>admin/evaluation/evaluate">Evaluate</a>
+													<a href="<?=Core::getBaseUrl()?>admin/evaluation/evaluate/id/<?=$account->id?>">Evaluate</a>
 													
 												</td>
 													<!-- Modal Trigger -->

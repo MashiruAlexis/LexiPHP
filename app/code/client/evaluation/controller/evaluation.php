@@ -2,13 +2,11 @@
 
 Class Evaluation_Controller_Evaluation extends Frontend_Controller_Action {
 
-		/**
+	/**
 	 *	Get School Year
 	 */
 	public function getSchoolYear() {
 		return [
-			"2015-2016",
-			"2016-2017",
 			"2017-2018",
 			"2018-2019",
 			"2019-2020",
