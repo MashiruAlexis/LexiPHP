@@ -16,6 +16,18 @@ Class Account_Model_Account extends Database_Model_Base {
 	protected $table = "account";
 
 	/**
+	 *	Get Rating List
+	 *	@var int $id
+	 *	@return obj list
+	 */
+	public function getRatingList( $id ) {
+		// $evaluationDb = Core::getModel("evaluation/evaluation");
+
+		// $evaluation = $evaluation->where("account_id", $id)->first();
+		
+	}
+
+	/**
 	 *	Get Account Subject
 	 *	@var int $id
 	 *	@return obj $subject

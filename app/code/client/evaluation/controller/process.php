@@ -93,6 +93,11 @@ Class Evaluation_Controller_Process extends Frontend_Controller_Action {
 
 		unset($_SESSION["evaluation"]);
 
+		$session->add("alert", [
+			"type" => "success",
+			"message" => "Faculty was successfully evaluated."
+		]);
+		
 		$this->_redirect( $next );
 	}
 
