@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2017 at 05:59 PM
+-- Generation Time: Nov 15, 2017 at 10:37 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -49,8 +49,7 @@ INSERT INTO `account` (`id`, `account_type_id`, `fname`, `lname`, `username`, `p
 (1, 1, 'Alexis', 'Celis', 'alexis', '$2y$10$bII82dEH1evCqo9tS7CnLOzwJtUIqiLSZnrUiYMJrEJzDsZQK.dCq', 'alexis@alexis.com', 'active', NULL, NULL),
 (2, 2, 'Alexis', 'Celis', 'alexis1', '$2y$10$hkdZ6LOcQVo3ervGZnjGMOwykU98nqdwr79nCfXV6I2FAOkJyrMLi', 'alexis1@alexis.com', 'active', NULL, NULL),
 (3, 3, 'Alexis', 'Celis', 'alexis2', '$2y$10$F.et6GT05kaKgC4XttqSoOe4Hg4Xnxk7TCMR2fXWikEzt8XyOKRfS', 'alexis2@alexis.com', 'active', NULL, NULL),
-(4, 3, 'Jared', 'Celis', 'jared', '$2y$10$BFnDl1tKeFzvAoS2d3PR5OQXIF724VEnsjTIlBWqT9kaFcCyWndSe', 'jared@admin.com', 'active', NULL, NULL),
-(5, 3, 'James', 'Jones', 'james', '$2y$10$.AiWnDypBBxlSevqxHafkeTZPKA5EBLh12u/n52p8XjvivIzDsIfC', 'james@admin.com', 'active', NULL, NULL);
+(4, 3, 'Jared', 'Celis', 'jared', '$2y$10$BFnDl1tKeFzvAoS2d3PR5OQXIF724VEnsjTIlBWqT9kaFcCyWndSe', 'jared@admin.com', 'active', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -80,8 +79,7 @@ INSERT INTO `account_data` (`id`, `account_id`, `teacher_id`, `college_dept`, `a
 (4, NULL, 2, 'College of ICT', 'Instuctor II', '2', NULL, NULL),
 (6, 4, 0, NULL, NULL, '1', '2017-2018', '2nd'),
 (7, 3, 0, NULL, NULL, '2', '2018-2019', '2nd'),
-(8, 3, 3, NULL, NULL, '2', '2018-2019', '2nd'),
-(9, 5, 0, NULL, NULL, '3', '2017-2018', '1st');
+(8, 3, 3, NULL, NULL, '2', '2018-2019', '2nd');
 
 -- --------------------------------------------------------
 
@@ -125,8 +123,7 @@ CREATE TABLE `evaluation` (
 
 INSERT INTO `evaluation` (`id`, `evaluator_id`, `account_id`, `code`, `sem`, `school_year`, `status`) VALUES
 (1, NULL, 4, 'xcnu', NULL, NULL, 'on-going'),
-(2, NULL, 3, 'axur', NULL, NULL, 'on-going'),
-(3, NULL, 5, 'rklabz', NULL, NULL, 'on-going');
+(2, NULL, 3, 'axur', NULL, NULL, 'on-going');
 
 -- --------------------------------------------------------
 
@@ -187,17 +184,7 @@ CREATE TABLE `evaluation_details` (
 
 INSERT INTO `evaluation_details` (`id`, `evaluation_id`, `evaluator_id`, `rating_id`, `school_year`, `semester`, `deptartment`, `comments`) VALUES
 (1, 2, 1, 1, '2018-2019', '2nd', NULL, 'this is a test'),
-(2, 2, 2, 2, '2018-2019', '2nd', NULL, 'This teacher is really funny.'),
-(3, 3, 3, 3, '2017-2018', '1st', NULL, 'he cant teach at all.'),
-(4, 3, 4, 4, '2017-2018', '1st', NULL, 'Dean testing'),
-(5, 2, 5, 5, '2018-2019', '2nd', NULL, 'Deans Testing part 2'),
-(6, 2, 6, 6, '2018-2019', '2nd', NULL, 'this is great'),
-(7, 2, 7, 7, '2018-2019', '2nd', NULL, 'Formula testing'),
-(8, 1, 8, 8, '2017-2018', '2nd', NULL, 'formula testing'),
-(9, 1, 9, 9, '2017-2018', '2nd', NULL, 'Formula test again'),
-(10, 1, 10, 10, '2017-2018', '2nd', NULL, 'Formula test'),
-(11, 3, 11, 11, '2017-2018', '1st', NULL, 'formula'),
-(12, 3, 12, 12, '2017-2018', '1st', NULL, 'another one formula test');
+(2, 2, 2, 2, '2018-2019', '2nd', NULL, 'This teacher is really funny.');
 
 -- --------------------------------------------------------
 
@@ -259,17 +246,7 @@ CREATE TABLE `evaluator` (
 
 INSERT INTO `evaluator` (`id`, `account_id`, `type`, `name`, `year`, `course`, `date`) VALUES
 (1, 3, 'Teacher', 'Alexis Celis', NULL, NULL, NULL),
-(2, 0, 'Student', 'Katrina', '1st', 'BSED', NULL),
-(3, 3, 'Teacher', 'Alexis Celis', NULL, NULL, NULL),
-(4, 2, 'Dean', 'Alexis Celis', NULL, NULL, NULL),
-(5, 2, 'Dean', 'Alexis Celis', NULL, NULL, NULL),
-(6, 3, 'Teacher', 'Alexis Celis', NULL, NULL, NULL),
-(7, 2, 'Dean', 'Alexis Celis', NULL, NULL, NULL),
-(8, 2, 'Dean', 'Alexis Celis', NULL, NULL, NULL),
-(9, 2, 'Dean', 'Alexis Celis', NULL, NULL, NULL),
-(10, 2, 'Dean', 'Alexis Celis', NULL, NULL, NULL),
-(11, 3, 'Teacher', 'Alexis Celis', NULL, NULL, NULL),
-(12, 3, 'Teacher', 'Alexis Celis', NULL, NULL, NULL);
+(2, 0, 'Student', 'Katrina', '1st', 'BSED', NULL);
 
 -- --------------------------------------------------------
 
@@ -286,25 +263,25 @@ CREATE TABLE `rating` (
   `crit_A3` int(5) NOT NULL,
   `crit_A4` int(5) NOT NULL,
   `crit_A5` int(5) NOT NULL,
-  `ave_crit1` varchar(11) DEFAULT NULL,
+  `ave_crit1` int(11) DEFAULT NULL,
   `crit_B1` int(5) NOT NULL,
   `crit_B2` int(5) NOT NULL,
   `crit_B3` int(5) NOT NULL,
   `crit_B4` int(5) NOT NULL,
   `crit_B5` int(5) NOT NULL,
-  `ave_crit2` varchar(10) NOT NULL,
+  `ave_crit2` int(10) NOT NULL,
   `crit_C1` int(5) NOT NULL,
   `crit_C2` int(5) NOT NULL,
   `crit_C3` int(5) NOT NULL,
   `crit_C4` int(5) NOT NULL,
   `crit_C5` int(5) NOT NULL,
-  `ave_crit3` varchar(5) NOT NULL,
+  `ave_crit3` int(5) NOT NULL,
   `crit_D1` int(5) NOT NULL,
   `crit_D2` int(5) NOT NULL,
   `crit_D3` int(5) NOT NULL,
   `crit_D4` int(5) NOT NULL,
   `crit_D5` int(5) NOT NULL,
-  `ave_crit4` varchar(10) NOT NULL,
+  `ave_crit4` int(10) NOT NULL,
   `ave_total` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -313,18 +290,8 @@ CREATE TABLE `rating` (
 --
 
 INSERT INTO `rating` (`id`, `teacher_id`, `evaluation_id`, `crit_A1`, `crit_A2`, `crit_A3`, `crit_A4`, `crit_A5`, `ave_crit1`, `crit_B1`, `crit_B2`, `crit_B3`, `crit_B4`, `crit_B5`, `ave_crit2`, `crit_C1`, `crit_C2`, `crit_C3`, `crit_C4`, `crit_C5`, `ave_crit3`, `crit_D1`, `crit_D2`, `crit_D3`, `crit_D4`, `crit_D5`, `ave_crit4`, `ave_total`) VALUES
-(1, NULL, NULL, 5, 5, 5, 5, 5, '5', 5, 5, 5, 5, 5, '5', 5, 5, 5, 5, 5, '5', 5, 5, 5, 5, 5, '5', 5),
-(2, NULL, NULL, 5, 5, 5, 5, 5, '5', 5, 4, 4, 4, 5, '4', 1, 1, 1, 1, 1, '1', 1, 2, 3, 4, 5, '3', 3),
-(3, NULL, NULL, 5, 5, 4, 4, 4, '4', 3, 3, 3, 3, 2, '3', 3, 3, 4, 4, 5, '4', 5, 4, 4, 4, 5, '4', 4),
-(4, NULL, NULL, 4, 4, 4, 4, 5, '4', 4, 4, 5, 4, 4, '4', 4, 5, 5, 4, 4, '4', 5, 5, 4, 4, 5, '5', 4),
-(5, NULL, NULL, 5, 4, 3, 4, 4, '4', 4, 5, 4, 4, 2, '4', 4, 4, 5, 4, 4, '4', 4, 4, 4, 4, 5, '4', 4),
-(6, NULL, NULL, 5, 4, 5, 5, 4, '0', 5, 5, 5, 5, 5, '0', 5, 4, 5, 5, 4, '0', 5, 5, 5, 5, 5, '0', 96),
-(7, NULL, NULL, 5, 5, 5, 5, 5, '0', 5, 5, 5, 5, 5, '0', 5, 5, 5, 5, 5, '0', 5, 5, 5, 5, 5, '0', 100),
-(8, NULL, NULL, 5, 4, 5, 5, 5, '0.208333333', 5, 5, 5, 5, 5, '0.2', 5, 5, 5, 5, 5, '0.3', 5, 5, 5, 5, 5, '0.3', 1),
-(9, NULL, NULL, 5, 4, 5, 5, 5, '0.208333333', 5, 5, 5, 5, 5, '0.2', 5, 5, 5, 5, 5, '0.3', 5, 5, 5, 5, 5, '0.3', 21036363),
-(10, NULL, NULL, 5, 4, 5, 5, 5, '0.208333333', 5, 5, 5, 5, 5, '0.2', 5, 5, 5, 5, 5, '0.3', 5, 5, 5, 5, 5, '0.3', 101),
-(11, NULL, NULL, 5, 5, 4, 5, 5, '19.2', 5, 5, 4, 5, 5, '19.2', 5, 5, 5, 5, 5, '30', 5, 5, 5, 5, 5, '30', 9840),
-(12, NULL, NULL, 5, 4, 5, 5, 5, '19.2', 5, 5, 5, 1, 5, '16.8', 5, 5, 5, 5, 5, '30', 5, 5, 5, 5, 5, '30', 96);
+(1, NULL, NULL, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5),
+(2, NULL, NULL, 5, 5, 5, 5, 5, 5, 5, 4, 4, 4, 5, 4, 1, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -427,13 +394,13 @@ ALTER TABLE `subject`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `account_data`
 --
 ALTER TABLE `account_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `account_type`
@@ -445,7 +412,7 @@ ALTER TABLE `account_type`
 -- AUTO_INCREMENT for table `evaluation`
 --
 ALTER TABLE `evaluation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `evaluation_criteria`
@@ -463,7 +430,7 @@ ALTER TABLE `evaluation_data`
 -- AUTO_INCREMENT for table `evaluation_details`
 --
 ALTER TABLE `evaluation_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `evaluation_sub_criteria`
@@ -475,13 +442,13 @@ ALTER TABLE `evaluation_sub_criteria`
 -- AUTO_INCREMENT for table `evaluator`
 --
 ALTER TABLE `evaluator`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `rating`
 --
 ALTER TABLE `rating`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `subject`
