@@ -15,7 +15,7 @@
 		<?php $this->getChildBlock("page/alert"); ?>
 		<div class="row">
 			<div class="col s12" style="color: black;">
-				<h5><b>Dept: </b><?=Core::getModel("account/account")->getDepartment($_SESSION["auth"]->id);?></h5>
+				<h5><b>Dept: </b><?=Core::getModel("account/account")->getDepartment($_SESSION["auth"]->id)->label;?></h5>
 			</div>
 		</div>
 		<div class="row ">
@@ -68,13 +68,16 @@
 								<tbody>
 									<?php
 										foreach( Core::getModel("account/account")->get() as $account ) {
+											if( $account->account_type_id == 1 ) {
+												continue;
+											}
 											?>
 											<tr>
 												<td><?=$account->fname?> <?=$account->lname?></td>
 												<td><?=Core::getModel("account/accounttype")->getAccountType($account->account_type_id)->type?></td>
 												<td><?= $account->status ?></td>
 												<td>
-													<a href="#">Edit</a>
+													<a href="<?=Core::getBaseUrl()?>admin/faculty/edit/id/<?=$account->id?>">Edit</a>
 													<!-- <i class="material-icons">system_update_alt</i>
 													<a href="<?=Core::getBaseUrl()?>admin/users/delete?id=<?=$account->id?>"><i class="material-icons">delete</i></a>
 													<i class="material-icons">https</i> -->

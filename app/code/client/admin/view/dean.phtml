@@ -21,7 +21,7 @@
 					$accountDb = Core::getModel("account/account");
 
 				?>
-				<h5><b>Dept: </b><?=$accountDb->getDepartment($auth->id)?></h5>
+				<h5><b>Dept: </b><?=$accountDb->getDepartment($auth->id)->label?></h5>
 			</div>
 		</div>
 		<div class="row ">

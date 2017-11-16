@@ -15,6 +15,14 @@ Class Admin_Controller_Faculty extends Frontend_Controller_Action {
 		$this->setBlock("admin/createfaculty");
 	}
 
+	/**
+	 *	Update Faculty
+	 */
+	public function editAction() {
+		$this->setPageTitle("Update Faculty");
+		$this->setBlock("admin/updatefaculty");
+	}
+
 	public function submitCreateAction() {
 		$request = Core::getSingleton("url/request")->getRequest();
 		$session = Core::getSingleton("system/session");
@@ -56,7 +64,8 @@ Class Admin_Controller_Faculty extends Frontend_Controller_Action {
 			"account_id" 	=> $accountDb->lastId,
 			"subject_id" 	=> $request["subject"],
 			"scyear" 		=> $request["scyear"],
-			"sem" 			=> $request["sem"]
+			"sem" 			=> $request["sem"],
+			"college_dept_id" => $request["department"]
 		]);
 		
 		$session->add("alert",[
@@ -64,6 +73,13 @@ Class Admin_Controller_Faculty extends Frontend_Controller_Action {
 			"message" => "Successfully created account."
 		]);
 		$this->_redirect($next);
+	}
+
+	public function submitUpdateAction() {
+		$request = Core::getSingleton("url/request")->getRequest();
+		$session = Core::getSingleton("system/session");
+
+		Core::log( $request );
 	}
 
 	public function setup() {

@@ -23,7 +23,7 @@ Class Account_Model_Account extends Database_Model_Base {
 		$accountDepartmentDb = Core::getModel("account/department");
 		$accountdata = $accountDataDb->where("account_id", $id)->first();
 		$accountDepartment = $accountDepartmentDb->where("id", $accountdata->college_dept_id)->first();
-		return $accountDepartment->label;
+		return $accountDepartment;
 	}
 
 	/**
@@ -32,9 +32,21 @@ Class Account_Model_Account extends Database_Model_Base {
 	 *	@return obj $subject
 	 */
 	public function getSubject( $id ) {
+		$accountDataDb = Core::getModel("account/accountdata");
 		$subjectDb = Core::getModel("admin/subject");
-		
+
+		$accountData = $accountDataDb->where( "account_id", $id )->first();
+		return $subjectDb->where("id", $accountData->subject_id)->first();
 	}
+
+	/**
+	 *	Get Year
+	 */
+	// public function getYear( $id ) {
+	// 	$accountDataDb = Core::getModel("account/accountdata");
+	// 	$accountData = $accountDataDb->where( "account_id", $id )->first();
+	// 	return $accountData->
+	// }
 
 	/**
 	 *	Get Account Data
