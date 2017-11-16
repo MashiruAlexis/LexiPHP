@@ -74,7 +74,11 @@ if( $accountType->type == "Teacher" ) {
 							</h5>
 						</div>
 						<div id="tasks">
-							<?php $this->getChildBlock("admin/evaluationlist"); ?>
+							<div class="row">
+								<div class="col s12">
+									<?php $this->getChildBlock("admin/evaluationlist"); ?>
+								</div>
+							</div>
 						</div>
 					</ul>
 				</div>
