@@ -78,8 +78,46 @@ Class Admin_Controller_Faculty extends Frontend_Controller_Action {
 	public function submitUpdateAction() {
 		$request = Core::getSingleton("url/request")->getRequest();
 		$session = Core::getSingleton("system/session");
+		$hash = Core::getSingleton("system/hash");
+		$accountDb = Core::getModel("account/account");
+		$accountDataDb = Core::getModel("account/accountdata");
+		$next = Core::getBaseUrl() . "admin/faculty";
 
-		Core::log( $request );
+		if( isset($request["redirect"]) ) {
+			$next = $request["redirect"];
+		}
+
+		if( $request["password"] ) {
+			$accountDb->where("id", $request["accountId"])
+			->update([
+				"fname" 		=> $request["fname"],
+				"lname" 		=> $request["lname"],
+				"username" 		=> $request["username"],
+				"password" 		=> $hash->hash( $request["password"] )
+			]);
+		}else{
+			$accountDb->where("id", $request["accountId"])
+			->update([
+				"fname" 	=> $request["fname"],
+				"lname" 	=> $request["lname"],
+				"username" 	=> $request["username"],
+			]);
+		}
+
+		$accountDataDb->where("account_id", $request["accountId"])
+		->update([
+			"college_dept_id" 	=> $request["department"],
+			"subject_id" 		=> $request["subject"],
+			"scyear"			=> $request["scyear"],
+			"sem"				=> $request["sem"]
+		]);
+
+		$session->add("alert", [
+			"type" => "success",
+			"message" => "Account was successfully updated."
+		]);
+		$this->_redirect($next);
+		return;
 	}
 
 	public function setup() {
