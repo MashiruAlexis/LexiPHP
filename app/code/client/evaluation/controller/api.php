@@ -1,9 +1,36 @@
 <?php
 
-Class Evaluation_Controller_Api extends Frontend_Controller_Action{
+Class Evaluation_Controller_Api extends Frontend_Controller_Action {
+
+	public function getDepartmentByEvaluation( $deptId = null ) {
+		$evaluationDb = Core::getModel("evaluation/evaluation");
+		$accountDb = Core::getModel("account/account");
+		$evaluation = $evaluationDb->where("status", $evaluationDb::STATUS_ON_GOING)->get();
+		$evalData = [];
+		foreach( $evaluation as $eval ) {
+			if( $accountDb->getDepartment($eval->account_id)->id == $deptId ) {
+				$evalData[] = $eval;
+			}
+		}
+
+		return $evalData;
+	}
 
 	public function getAdminDataAction() {
-		$this->setPageTitle("Api");
+		$evaluationDb = Core::getModel("evaluation/evaluation");
+		$departmentDb = Core::getModel("account/department");
+		$accountDb = Core::getModel("account/account");
+
+		$evaluation = $evaluationDb->where("status", $evaluationDb::STATUS_ON_GOING)->get();
+		$department = $departmentDb->get();
+		$data = [];
+		foreach( $department as $dp ) {
+			Core::log( $dp );
+			Core::log( $this->getDepartmentByEvaluation($dp->id) );
+			Core::log("---------------------------------------");
+		}
+		
+		return;
 		echo json_encode([
 				[
 					"criteria" => "Commitment",
