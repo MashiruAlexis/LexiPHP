@@ -85,7 +85,7 @@ if( $accountType->type == "Teacher" ) {
 								<tbody>
 									<?php
 										foreach( Core::getModel("account/account")->get() as $account ) {
-											if( $account->account_type_id == 1 ) {
+											if( $account->account_type_id == 1 or $account->account_type_id == 2 ) {
 												continue;
 											}
 											?>

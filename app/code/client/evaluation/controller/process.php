@@ -30,7 +30,7 @@ Class Evaluation_Controller_Process extends Frontend_Controller_Action {
 		if( isset($request["btnEval"]) ) {
 			unset($request["btnEval"]);
 		}
-
+		Core::log( $_SESSION );
 		$evaluatorDb->insert([
 			"name" 	=> $_SESSION["evaluation"]["evaluator"]["name"],
 			"type" 	=> "Student",
@@ -39,6 +39,7 @@ Class Evaluation_Controller_Process extends Frontend_Controller_Action {
 		]);
 
 		$evaluatorId = $evaluatorDb->lastId;
+		Core::log( $evaluatorId ); return;
 		$evaluationId = $evaluationDb->where("code", $_SESSION["evaluation"]["code"])->first()->id;
 
 		$ratingDb->insert([
