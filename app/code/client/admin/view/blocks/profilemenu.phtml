@@ -28,7 +28,7 @@
 	      <h4 style="color: #455b65;">Change Email</h4>
 			<div class="row">
 				<div class="input-field col s12">
-					<input id="email" type="email" name="email" class="validate" value="<?=$_SESSION['auth']->email?>">
+					<input id="email" type="email" name="email" class="validate" value="<?=Core::getModel("account/account")->where("id", $_SESSION['auth']->id)->first()->email?>">
          			<label for="email">Email</label>
 				</div>
 			</div>

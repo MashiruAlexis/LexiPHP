@@ -346,5 +346,6 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 
 	public function setup() {
 		$this->setJs("default/dashboard");
+		$this->setCss("default/style");
 	}
 }

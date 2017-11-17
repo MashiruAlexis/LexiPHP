@@ -16,6 +16,19 @@ Class Account_Model_Account extends Database_Model_Base {
 	protected $table = "account";
 
 	/**
+	 *	check if current login account is admin
+	 */
+	public function isAdmin() {
+		$session = Core::getSingleton("system/session");
+		$auth = $session->get("auth");
+		$accountTypeDb = Core::getModel("account/accounttype");
+		if( $auth->account_type_id == 1 ) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 *	Get Account Department
 	 */
 	public function getDepartment( $id ) {

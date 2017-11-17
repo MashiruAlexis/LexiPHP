@@ -11,7 +11,7 @@ Class Index_Controller_Index extends Frontend_Controller_Action {
 	}
 
 	public function indexAction() {
-		$this->setPageTitle("Jad Systems");
+		$this->setPageTitle("Teacher Evaluation System");
 		$this->setBlock("index/main");
 	}
 
