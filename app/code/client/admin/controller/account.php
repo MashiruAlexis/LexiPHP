@@ -52,4 +52,43 @@ Class Admin_Controller_Account extends Frontend_Controller_Action {
 		$this->_redirect($next);
 		return;
 	}
+
+	/**
+	 *	Change Password
+	 */
+	public function changePasswordAction() {
+		$session 	= Core::getSingleton("system/session");
+		$hash 		= Core::getSingleton("system/hash");
+		$auth 		= $session->get("auth");
+		$request 	= Core::getSingleton("url/request")->getRequest();
+		$accountDb = Core::getModel("account/account");
+		$next 		= Core::getBaseUrl() . "admin";
+		if( $hash->verify($request["currentPass"], $auth->password) ) {
+			$accountDb->where("id", $auth->id)->update(["password" => $hash->hash($request["newPass"])]);
+			$session->add("alert",[
+				"type" => "success",
+				"message" => "Password has been updated."
+			]);
+			$this->_redirect($next);
+		}else{
+			$session->add("alert",[
+				"type" => "error",
+				"message" => "Sorry we could not verify your current password."
+			]);
+			$this->_redirect($next);
+		}
+		$this->_redirect($next);
+		return;
+	}
+
+	/**
+	 *	Change Email
+	 */
+	public function changeEmailAction() {
+		$request = Core::getSingleton("url/request")->getRequest();
+		$auth = $_SESSION["auth"];
+		$accountDb = Core::getModel("account/account");
+		$accountDb->where("id", $auth->id)->update(["email" => $request["email"]]);
+		$this->_redirect(Core::getBaseUrl(). "admin");
+	}
 }

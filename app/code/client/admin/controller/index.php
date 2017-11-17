@@ -17,7 +17,7 @@ Class Admin_Controller_Index extends Frontend_Controller_Action {
 
 		// render dean page
 		if( $accountType == "Admin" ) {
-			$this->setPageTitle("Dean");
+			$this->setPageTitle("Admin");
 			$this->setBlock("admin/main");
 		}
 

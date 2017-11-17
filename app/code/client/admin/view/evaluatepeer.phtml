@@ -69,7 +69,7 @@
 												<p><b>Subject Handled: </b><?=Core::getModel("admin/subject")->where("id", $accountData->subject_id)->first()->subject_title?></p>
 											</div>
 											<div class="col s6">
-												<p><b>College Dept.: </b>Unknown</p>
+												<p><b>College Dept.: </b><?=$accountDb->getDepartment($account->id)->label?></p>
 											</div>
 										</div>
 										<hr>

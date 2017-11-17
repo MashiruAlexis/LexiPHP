@@ -11,14 +11,34 @@
 <tbody>
 	<?php 
 		foreach( Core::getModel("admin/evaluation")->get() as $eval ) {
+			$account = Core::getModel("account/account")->where("id", $eval->account_id)->first();
 			?>
 			<tr>
 				<td><?=$eval->code?></td>
 				<td><?=Core::getModel("account/account")->getFullname($eval->account_id)?></td>
 				<td><?=$eval->status?></td>
 				<td>
-					<a href="#">Stop</a>
+					<a class="modal-trigger" href="#modal<?=$account->id?>">View</a> |
+					<?php
+						if( $eval->status == Core::getModel("evaluation/evaluation")::STATUS_ON_GOING ) {
+							?>
+							<a href="<?=Core::getBaseUrl()?>evaluation/evaluation/stop/id/<?=$eval->id?>" class="disabled">Stop</a> 
+							<?php
+						}else{
+							?>
+							<a href="<?=Core::getBaseUrl()?>evaluation/evaluation/resume/id/<?=$eval->id?>" class="disabled">Resume</a> 
+							<?php
+						}
+					?>
 				</td>
+				<!-- Modal Structure -->
+				  <div id="modal<?=$account->id?>" class="modal">
+				    <div class="modal-content center">
+				    	<h4 style="color: #455b65;">View Evaluation Result</h4>
+				    	<a href="<?=Core::getBaseUrl()?>admin/evaluation/view/student/1/id/<?=$account->id?>" class="btn" style="width: 185px;">Student</a>
+				    	<a href="<?=Core::getBaseUrl()?>admin/evaluation/view/peer/1/id/<?=$account->id?>" class="btn" style="width: 185px;">Peer</a>
+				    </div>
+				  </div>
 			</tr>
 			<?php
 		}
