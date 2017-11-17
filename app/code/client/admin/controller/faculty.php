@@ -7,10 +7,40 @@ Class Admin_Controller_Faculty extends Frontend_Controller_Action {
 		$this->setBlock("admin/faculty");
 	}
 
-	public function getFacultyData( $id ) {
+	public function getFacultyData( $id, $scyear = null, $sem = null ) {
 		$evaluationDb = Core::getModel("evaluation/evaluation");
+		$evaluationDetailsDb = Core::getModel("evaluation/evaluationdetails");
+		$ratingDb = Core::getModel("evaluation/rating");
 
 		$evaluation = $evaluationDb->where("account_id", $id)->first();
+		$evaluationDetails = $evaluationDetailsDb
+			->where("evaluation_id", $evaluation->id)
+			->where("school_year", $scyear)
+			->where("semester", $sem)
+			->get();
+
+		$ratings = [];
+		foreach( $evaluationDetails as $ed ) {
+			$ratings[] = $ratingDb->where("id", $ed->rating_id)->first();
+		}
+		$cr1 = 0;
+		$cr2 = 0;
+		$cr3 = 0;
+		$cr4 = 0;
+		foreach( $ratings as $rt ) {
+			$cr1 = $cr1 + $rt->ave_crit1;
+			$cr2 = $cr2 + $rt->ave_crit2;
+			$cr3 = $cr3 + $rt->ave_crit3;
+			$cr4 = $cr4 + $rt->ave_crit4;
+		}
+		return [
+			"cr1" => $cr1,
+			"cr2" => $cr2,
+			"cr3" => $cr3,
+			"cr4" => $cr4,
+		];
+		// $rating = $ratingDb->where("id", $evaluationDetails->rating_id)->first();
+
 	}
 
 	/**

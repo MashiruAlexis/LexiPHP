@@ -81,7 +81,9 @@
 
 <?php $this->getChildBlock("page/footer"); ?>
 <?php
-$faculty = Core::getSingleton("admin/faculty")->getFacultyData($_SESSION["auth"]->id);
+$scyear = isset($_GET["scyear"]) ? $_GET["scyear"] : Core::getSingleton("evaluation/evaluation")->getSchoolYear()[0];
+$sem = isset($_GET["sem"]) ? $_GET["sem"] : Core::getSingleton("evaluation/evaluation")->getSemester()[0];
+$faculty = Core::getSingleton("admin/faculty")->getFacultyData($_SESSION["auth"]->id, $scyear, $sem);
 ?>
 
 	<script type="text/javascript">
@@ -96,10 +98,10 @@ window.onload = function () {
 			// Change type to "doughnut", "line", "splineArea", etc.
 			type: "column",
 			dataPoints: [
-				{ label: "Commitment",  y: 10  },
-				{ label: "Knowledge of Subject Matter", y: 15  },
-				{ label: "Teaching for Independent Learning", y: 25  },
-				{ label: "Management of Learning",  y: 30  }
+				{ label: "Commitment",  y: <?=$faculty['cr1']?>  },
+				{ label: "Knowledge of Subject Matter", y: <?=$faculty['cr2']?>  },
+				{ label: "Teaching for Independent Learning", y: <?=$faculty['cr3']?>  },
+				{ label: "Management of Learning",  y: <?=$faculty['cr4']?>  }
 			]
 		}
 		]
