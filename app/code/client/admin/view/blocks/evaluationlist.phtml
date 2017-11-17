@@ -10,8 +10,18 @@
 
 <tbody>
 	<?php 
+		$accountDb = Core::getModel("account/account");
+		$accountDataDb = Core::getModel("account/accountdata");
+		$auth = Core::getSingleton("system/session")->get("auth");
 		foreach( Core::getModel("admin/evaluation")->get() as $eval ) {
 			$account = Core::getModel("account/account")->where("id", $eval->account_id)->first();
+			if( $accountDb->isAccountType("Dean") ) {
+				$rs = $accountDataDb
+					->where("account_id", $account->id)
+					->where("college_dept_id", $accountDb->getDepartment($auth->id)->id)
+					->exist();
+				if(! $rs ) {continue;}
+			}
 			?>
 			<tr>
 				<td><?=$eval->code?></td>

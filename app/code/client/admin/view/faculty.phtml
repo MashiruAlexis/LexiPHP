@@ -37,7 +37,7 @@ if( $accountType->type == "Teacher" ) {
 		</div>
 		<div class="row ">
 			<form>
-				<div class="input-field col s2">
+				<div class="input-field col s3">
 					<select>
 						<option value="" disabled selected>Choose your option</option>
 						<?php
@@ -50,7 +50,7 @@ if( $accountType->type == "Teacher" ) {
 					</select>
 					<label>School Year</label>
 				</div>
-				<div class="input-field col s2">
+				<div class="input-field col s3">
 					<select>
 						<option value="" disabled selected>Choose your option</option>
 						<option value="1">1st sem</option>
@@ -84,7 +84,11 @@ if( $accountType->type == "Teacher" ) {
 
 								<tbody>
 									<?php
+										$department = Core::getModel("account/account")->getDepartment($_SESSION["auth"]->id);
 										foreach( Core::getModel("account/account")->get() as $account ) {
+											if(! Core::getModel("account/accountdata")->where("account_id", $account->id)->where("college_dept_id", $department->id)->exist() ) {
+												continue;
+											}
 											if( $account->account_type_id == 1 or $account->account_type_id == 2 ) {
 												continue;
 											}
