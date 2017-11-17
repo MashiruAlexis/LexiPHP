@@ -9,7 +9,7 @@
 					<a href="<?=Core::getBaseUrl()?>admin/account/profile">Profile<span class="badge">1</span></a>
 				</li>
 				<li>
-					<a href="<?=Core::getBaseUrl()?>admin/account/profile">Change Password</a>
+					<a href="#modal1" class="modal-trigger">Change Password</a>
 				</li>
 				<li>
 					<a href="<?=Core::getBaseUrl()?>admin/account/profile">Change Email</a>
@@ -17,5 +17,19 @@
 			</ul>
 			<a class="btn dropdown-button" href="#!" data-activates="dropdown2">Menu<i class="material-icons right">arrow_drop_down</i></a>
 		</div>
+	</div>
+</div>
+
+<!-- Modal Trigger -->
+<a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+
+<!-- Modal Structure -->
+<div id="modal1" class="modal">
+	<div class="modal-content">
+		<h4>Modal Header</h4>
+		<p>A bunch of text</p>
+	</div>
+	<div class="modal-footer">
+		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">update</a>
 	</div>
 </div>
