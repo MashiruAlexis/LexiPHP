@@ -9,7 +9,7 @@
 					<a href="<?=Core::getBaseUrl()?>admin/account/profile">Profile<span class="badge">1</span></a>
 				</li>
 				<li>
-					<a href="<?=Core::getBaseUrl()?>admin/account/profile">Change Password</a>
+					<a href="#changepassword" class="modal-trigger">Change Password</a>
 				</li>
 				<li>
 					<a href="<?=Core::getBaseUrl()?>admin/account/profile">Change Email</a>
@@ -19,3 +19,15 @@
 		</div>
 	</div>
 </div>
+
+
+  <!-- Modal Structure -->
+  <div id="changepassword" class="modal">
+    <div class="modal-content">
+      <h4 style="color: #455b65;">Change Password</h4>
+      <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>

@@ -87,8 +87,6 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 		$evaluation = $evaluationDb->where("code", $_SESSION["evaluation"]["code"])->first();
 		$accountEvaluatedData = $accountDb->getAccountData( $evaluation->account_id );
 
-		Core::log( $evaluation );
-		Core::log( $accountEvaluatedData );
 		$evaluationDetailsDb->insert([
 			"evaluation_id" => $evaluation->id,
 			"evaluator_id" => $evaluatorId,
@@ -139,7 +137,7 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 	 */
 	public function validate( $code ) {
 		$evaluationDb = Core::getModel("evaluation/evaluation");
-		$rs = $evaluationDb->where("code", $code)->first();
+		$rs = $evaluationDb->where("code", $code)->where("status", $evaluationDb::STATUS_ON_GOING)->first();
 		if( $rs ) {
 			return true;
 		}
