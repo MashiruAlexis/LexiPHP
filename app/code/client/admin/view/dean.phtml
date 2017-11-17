@@ -90,14 +90,11 @@
 									<?php
 										$sem = isset($_GET["sem"]) ? $_GET["sem"] : Core::getSingleton("evaluation/evaluation")->getSemester()[0];
 										$scyear = isset($_GET["scyear"]) ? $_GET["scyear"] : Core::getSingleton("evaluation/evaluation")->getSchoolYear()[0];
-										Core::log( $scyear );
-										Core::log( $sem );
+										$accountDb = Core::getModel("account/account");
 										$accountDataDb = Core::getModel("account/accountdata");
 										foreach( Core::getModel("account/account")->where("account_type_id", 3)->get() as $account ) {
 											$accountData = $accountDataDb->where("account_id", $account->id)->where("scyear", $scyear)->where("sem", $sem)->first();
-											// Core::log( $accountData );
-											Core::log( $account );
-											if( $account->id != $accountData->account_id ) {
+											if(! $accountData ) {
 												continue;
 											}
 											?>
