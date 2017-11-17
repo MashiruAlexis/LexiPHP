@@ -26,19 +26,19 @@ Class Admin_Controller_Account extends Frontend_Controller_Action {
 			$this->_redirect($next);
 		}
 
-		$resEmail = $accountDb->where("email", $request["email"])->exist();
-		if( $resEmail ) {
-			$session->add("alert", [
-				"type" => "error",
-				"message" => "Email already exist."
-			]);
-			$this->_redirect($next);
-		}
+		// $resEmail = $accountDb->where("email", $request["email"])->exist();
+		// if( $resEmail ) {
+		// 	$session->add("alert", [
+		// 		"type" => "error",
+		// 		"message" => "Email already exist."
+		// 	]);
+		// 	$this->_redirect($next);
+		// }
 
 		$resSaveAccount = $accountDb->where("id", $request["id"])->update([
 			"fname" => $request["fname"],
 			"lname" => $request["lname"],
-			"email" => $request["email"],
+			// "email" => $request["email"],
 			"username" => $request["username"]
 		]);
 
@@ -61,7 +61,7 @@ Class Admin_Controller_Account extends Frontend_Controller_Action {
 		$hash 		= Core::getSingleton("system/hash");
 		$auth 		= $session->get("auth");
 		$request 	= Core::getSingleton("url/request")->getRequest();
-		$accountDb = Core::getModel("account/account");
+		$accountDb 	= Core::getModel("account/account");
 		$next 		= Core::getBaseUrl() . "admin";
 		if( $hash->verify($request["currentPass"], $auth->password) ) {
 			$accountDb->where("id", $auth->id)->update(["password" => $hash->hash($request["newPass"])]);

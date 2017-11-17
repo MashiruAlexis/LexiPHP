@@ -58,6 +58,7 @@ Class Account_Controller_Login extends Frontend_Controller_Action {
 	public function exitAction() {
 		$session = Core::getSingleton("system/session");
 		$session->del("auth");
+		$session->del("evaluation");
 		$session->add("alert", [
 				"type" => "info",
 				"message" => "You have successfully logout, come again."
