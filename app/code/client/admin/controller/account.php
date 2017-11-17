@@ -62,7 +62,7 @@ Class Admin_Controller_Account extends Frontend_Controller_Action {
 		$auth 		= $session->get("auth");
 		$request 	= Core::getSingleton("url/request")->getRequest();
 		$accountDb = Core::getModel("account/account");
-		$next 		= Core::getBaseUrl() . "admin/account/changePassword";
+		$next 		= Core::getBaseUrl() . "admin";
 		if( $hash->verify($request["currentPass"], $auth->password) ) {
 			$accountDb->where("id", $auth->id)->update(["password" => $hash->hash($request["newPass"])]);
 			$session->add("alert",[
@@ -79,5 +79,16 @@ Class Admin_Controller_Account extends Frontend_Controller_Action {
 		}
 		$this->_redirect($next);
 		return;
+	}
+
+	/**
+	 *	Change Email
+	 */
+	public function changeEmailAction() {
+		$request = Core::getSingleton("url/request")->getRequest();
+		$auth = $_SESSION["auth"];
+		$accountDb = Core::getModel("account/account");
+		$accountDb->where("id", $auth->id)->update(["email" => $request["email"]]);
+		$this->_redirect(Core::getBaseUrl(). "admin");
 	}
 }

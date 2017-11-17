@@ -6,13 +6,13 @@
 		<div class="col s2">
 			<ul id="dropdown2" class="dropdown-content pull-right">
 				<li>
-					<a href="<?=Core::getBaseUrl()?>admin/account/profile">Profile<span class="badge">1</span></a>
+					<a href="<?=Core::getBaseUrl()?>admin/account/profile">Profile</a>
 				</li>
 				<li>
 					<a href="#changepassword" class="modal-trigger">Change Password</a>
 				</li>
 				<li>
-					<a href="<?=Core::getBaseUrl()?>admin/account/profile">Change Email</a>
+					<a href="#changeEmail" class="modal-trigger">Change Email</a>
 				</li>
 			</ul>
 			<a class="btn dropdown-button" href="#!" data-activates="dropdown2">Menu<i class="material-icons right">arrow_drop_down</i></a>
@@ -20,7 +20,24 @@
 	</div>
 </div>
 
-
+<!-- Modal Structure -->
+  <div id="changeEmail" class="modal">
+    <form name="frmChangeEmail" id="frmChangeEmail" method="POST" action="<?=Core::getBaseUrl()?>admin/account/changeEmail">
+    	<div class="modal-content">
+	      <h4 style="color: #455b65;">Change Email</h4>
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="email" type="email" name="email" class="validate" value="<?=$_SESSION['auth']->email?>">
+         			<label for="email">Email</label>
+				</div>
+			</div>
+	    </div>
+	    <div class="modal-footer">
+	      <a class="modal-action modal-close waves-effect waves-green btn-flat" href="#changeEmail">Close</a>
+	      <input type="submit" class="waves-effect waves-green btn-flat" value="Update">
+	    </div>
+    </form>
+  </div>
   <!-- Modal Structure -->
   <div id="changepassword" class="modal">
     <form name="frmChangePass" id="frmChangePass" method="POST" action="<?=Core::getBaseUrl()?>admin/account/changePassword">
