@@ -15,6 +15,20 @@ Class Account_Model_Account extends Database_Model_Base {
 	 */
 	protected $table = "account";
 
+
+	/**
+	 *	check account type
+	 */
+	public function isAccountType( $account ) {
+		$auth = Core::getSingleton("system/session")->get("auth");
+		$accountTypeDb = Core::getModel("account/accountype");
+		$accountType = $accountTypeDb->where("id", $auth->account_type_id)->first();
+		if( $account == $accountype->type or $account == $accountype->id) {
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 *	check if current login account is admin
 	 */

@@ -27,12 +27,15 @@
 		<div class="row ">
 			<form>
 				<div class="input-field col s2">
-					<select>
+					<select name="scyear">
 						<!-- <option value="" disabled selected>Choose your option</option> -->
 						<?php
+							
 							foreach( Core::getSingleton("evaluation/evaluation")->getSchoolYear() as $scyear ) {
+								$s = "";
+								if( isset($_GET["scyear"]) and $_GET["scyear"] == $scyear ) { $s = "selected"; }
 								?>
-									<option value="<?=$scyear?>" ><?=$scyear?></option>
+									<option value="<?=$scyear?>" <?=$s?> ><?=$scyear?></option>
 								<?php
 							}
 						?>
@@ -40,11 +43,13 @@
 					<label>School Year</label>
 				</div>
 				<div class="input-field col s2">
-					<select>
+					<select name="sem">
 						<?php
 							foreach( Core::getSingleton("evaluation/evaluation")->getSemester() as $sem ) {
+								$s = "";
+								if( isset($_GET["sem"]) and $_GET["sem"] == $sem ) {$s = "selected";}
 								?>
-								<option value="<?=$sem?>"><?=$sem?></option>
+								<option value="<?=$sem?>" <?=$s?>><?=$sem?></option>
 								<?php
 							}
 						?>
@@ -52,7 +57,7 @@
 					<label>Semester</label>
 				</div>
 				<div class="input-field col s2">
-					<input type="submit" class="btn" name="btnSubmit" value="Go">
+					<input type="submit" class="btn" name="btnSubmit" value="View">
 				</div>
 			</form>
 		</div>
@@ -83,7 +88,18 @@
 
 								<tbody>
 									<?php
+										$sem = isset($_GET["sem"]) ? $_GET["sem"] : Core::getSingleton("evaluation/evaluation")->getSemester()[0];
+										$scyear = isset($_GET["scyear"]) ? $_GET["scyear"] : Core::getSingleton("evaluation/evaluation")->getSchoolYear()[0];
+										Core::log( $scyear );
+										Core::log( $sem );
+										$accountDataDb = Core::getModel("account/accountdata");
 										foreach( Core::getModel("account/account")->where("account_type_id", 3)->get() as $account ) {
+											$accountData = $accountDataDb->where("account_id", $account->id)->where("scyear", $scyear)->where("sem", $sem)->first();
+											// Core::log( $accountData );
+											Core::log( $account );
+											if( $account->id != $accountData->account_id ) {
+												continue;
+											}
 											?>
 											<tr>
 												<td><?=$account->fname?> <?=$account->lname?></td>
