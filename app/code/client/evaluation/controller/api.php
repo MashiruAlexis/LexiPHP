@@ -2,6 +2,21 @@
 
 Class Evaluation_Controller_Api extends Frontend_Controller_Action {
 
+	public function getEvaluationRating( $id ) {
+		$evaluationDb = Core::getModel("evaluation/evaluation");
+		$evaluationDetailsDb = Core::getModel("evaluation/evaluationdetails");
+		$ratingDb = Core::getModel("evaluation/rating");
+
+		$evaluation = $evaluationDb->where("id", $id)->first();
+		$evaluationDetails = $evaluationDetailsDb->where("evaluation_id", $evaluation->id)->get();
+		$ratings = [];
+		foreach( $evaluationDetails as $edtails ) {
+			$ratings[] = $ratingDb->where("id", $edtails->rating_id)->first();
+		}
+		// Core::log( $ratings );
+		return $ratings;
+	}
+
 	public function getDepartmentByEvaluation( $deptId = null ) {
 		$evaluationDb = Core::getModel("evaluation/evaluation");
 		$accountDb = Core::getModel("account/account");
@@ -24,31 +39,26 @@ Class Evaluation_Controller_Api extends Frontend_Controller_Action {
 		$evaluation = $evaluationDb->where("status", $evaluationDb::STATUS_ON_GOING)->get();
 		$department = $departmentDb->get();
 		$data = [];
+		$final = [];
+
 		foreach( $department as $dp ) {
-			Core::log( $dp );
-			Core::log( $this->getDepartmentByEvaluation($dp->id) );
-			Core::log("---------------------------------------");
+			foreach( $this->getDepartmentByEvaluation($dp->id) as $de ) {
+				$evalRatings = $this->getEvaluationRating( $de->id );
+				$totalRate = 0;
+				$ts = count($evalRatings);
+				foreach( $evalRatings as $rt ) {
+					$totalRate = $totalRate + $rt->ave_total;
+				}
+				
+			}
+			$final[] = ["label" => $dp->label, "rating" => $totalRate / $ts];
 		}
 		
-		return;
-		echo json_encode([
-				[
-					"criteria" => "Commitment",
-					"value" => 10
-				],
-				[
-					"criteria" => "Knowledge of Subject",
-					"value" => 40
-				],
-				[
-					"criteria" => "eaching for Independent Learning",
-					"value" => 50
-				],
-				[
-					"criteria" => "Management of Learning",
-					"value" => 78
-				],
-		]);
+		echo json_encode($final);
 		exit();
+	}
+
+	public function getFacultyDataAction() {
+		
 	}
 }

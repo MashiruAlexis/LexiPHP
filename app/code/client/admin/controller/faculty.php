@@ -7,6 +7,12 @@ Class Admin_Controller_Faculty extends Frontend_Controller_Action {
 		$this->setBlock("admin/faculty");
 	}
 
+	public function getFacultyData( $id ) {
+		$evaluationDb = Core::getModel("evaluation/evaluation");
+
+		$evaluation = $evaluationDb->where("account_id", $id)->first();
+	}
+
 	/**
 	 *	Create Faculty Account
 	 */

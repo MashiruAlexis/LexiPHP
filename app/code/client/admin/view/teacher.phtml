@@ -18,28 +18,41 @@
 	<div id="dashboard">
 		<?php $this->getChildBlock("page/alert"); ?>
 		<div class="row">
-			<div class="col s12">
-				<div class="input-field col s3">
-					<select>
-						<option value="" disabled>Choose your option</option>
-						<option value="1" selected>2016-2017</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
-						<option value="1">2017-2018</option>
-					</select>
-					<label>School Year</label>
+			<form name="frmView">
+				<div class="col s12">
+					<div class="input-field col s3">
+						<select name="scyear">
+							<option value="" disabled>Choose your option</option>
+							
+							<?php
+								foreach( Core::getSingleton("evaluation/evaluation")->getSchoolYear() as $scyear ) {
+									?>
+									<option value="<?=$scyear?>"><?=$scyear?></option>
+									<?php
+								}
+							?>
+						</select>
+						<label>School Year</label>
+					</div>
+					<div class="input-field col s3">
+						<select name="sem">
+							<option value="" disabled>Choose your option</option>
+							
+							<?php
+								foreach( Core::getSingleton("evaluation/evaluation")->getSemester() as $sem ) {
+									?>
+									<option value="<?=$sem?>"><?=$sem?></option>
+									<?php
+								}
+							?>
+						</select>
+						<label>Semester</label>
+					</div>
+					<div class="input-field col s3">
+						<input type="submit" value="View" class="btn">
+					</div>
 				</div>
-				<div class="input-field col s3">
-					<select>
-						<option value="" disabled>Choose your option</option>
-						<option value="1">Semester: 1st</option>
-						<option value="2" selected>Semester: 2nd</option>
-					</select>
-					<label>Semester</label>
-				</div>
-			</div>
+			</form>
 		</div>
 		<div class="row"> 
 			<!-- Latest Tasks START -->
@@ -67,8 +80,9 @@
 <!-- Main END --> 
 
 <?php $this->getChildBlock("page/footer"); ?>
-
-
+<?php
+$faculty = Core::getSingleton("admin/faculty")->getFacultyData($_SESSION["auth"]->id);
+?>
 
 	<script type="text/javascript">
 
