@@ -97,16 +97,11 @@ if( $accountType->type == "Teacher" ) {
 											$accountEvaluatorDb = Core::getModel("evaluation/evaluator");
 											$ratingDb = Core::getModel("evaluation/rating");
 											foreach( $evaluationDetails as $ed ) {
-												// Core::log( $ed );
 												$accountEvaluator = $accountEvaluatorDb
 													->where("id", $ed->evaluator_id)
-													// ->where("type", $accountType)
 													->first();
-												// if( $accountEvaluator->type !== $accountType ) {continue;}
+												if( !$accountEvaluator or $accountEvaluator->type != $accountType ) { continue; }
 												$rating = $ratingDb->where("id", $ed->rating_id)->first();
-												// Core::log( $accountEvaluator );
-												// Core::log( $rating );
-												// Core::log("___________________________");
 
 												$noOfItems++;
 												$sumRating = $sumRating + $rating->ave_total;

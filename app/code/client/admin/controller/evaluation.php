@@ -317,6 +317,47 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 	}
 
 	/**
+	 *	Get Evaluation DDS Data
+	 *	@var int $id
+	 *	@return array $data
+	 */
+	public function getEvaluationDdsData( $id, $debug = false ) {
+		$evalutionDb = Core::getModel("evaluation/evaluation");
+		$evaluationDetailsDb = Core::getModel("evaluation/evaluationdetails");
+		$ratingDb = Core::getModel("evaluation/rating");
+
+
+		$evaluation = $evalutionDb->where("id", $id)->first();
+		$evaluationDetails = $evaluationDetailsDb->where("evaluation_id", $evaluation->id)->get();
+		foreach( $evaluationDetails as $ed ) {
+			$rating = $ratingDb->where("id", $ed->rating_id)->first();
+			if( $this->hasEvaluator( $ed->evaluator_id ) ) {
+				Core::log( "Nice: " . $ed->evaluator_id );
+			}else{
+				Core::log( "Lol where did he go?" );
+			}
+			Core::log( $rating->ave_crit1 . " | " . $rating->ave_crit2 . " | " . $rating->ave_crit3 . " | " . $rating->ave_crit4 );
+			Core::log( $ed->comments );
+		}
+		return;
+		return $evaluationDetails;
+		return $evaluationDetails;
+		return count($evaluationDetails);
+		return $evaluation;
+	}
+
+	/**
+	 *	check if evaluation has evaluator
+	 */
+	public function hasEvaluator( $evalDetailsId ) {
+		$evaluatorDb = Core::getModel("evaluation/evaluator");
+		if( $evaluatorDb->where("id", $evalDetailsId)->exist() ) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 *	Get School Year
 	 */
 	public function getSchoolYear() {
