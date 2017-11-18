@@ -14,7 +14,7 @@
 	<div id="dashboard">
 		<?php $this->getChildBlock("page/alert"); ?>
 		<div class="row ">
-			<form name="frmSelect" method="GET" action="">
+			<form name="frmSelect">
 				<div class="input-field col s3">
 					<select name="scyear">
 						<option value="" disabled selected>Choose your option</option>
@@ -42,7 +42,7 @@
 					<label>Semester</label>
 				</div>
 				<div class="input-field col s3">
-					<input type="submit" class="btn" name="btnView" value="View">
+					<input type="submit" class="btn" value="View">
 				</div>
 			</form>
 		</div>
@@ -67,6 +67,7 @@
 								$evaluationDb 		= Core::getModel("evaluation/evaluation");
 								$evaluationDetailsDb = Core::getModel("evaluation/evaluationdetails");
 								$evaluatorDb 		= Core::getModel("evaluation/evaluator");
+								$ratingDb 			= Core::getModel("evaluation/rating");
 
 								$sem = Core::getSingleton("evaluation/evaluation")->getSemester()[0];
 								$scyear = Core::getSingleton("evaluation/evaluation")->getSchoolYear()[0];
@@ -79,49 +80,50 @@
 									$scyear = $request["scyear"];
 								}
 
-								$evaluation = $evaluationDb->where("account_id", $auth->id)->first();
-								if(! $evaluation ) { $this->getChildBlock("page/noeval"); return;}
-								$evaluationdetails = $evaluationDetailsDb
-									->where("evaluation_id", $evaluation->id)
-									->where("school_year", $scyear)
-									->where("semester", $sem)
-									->get();
-								foreach( $evaluationdetails as $ed ) {
-									$rs = $evaluatorDb
-										->where("account_id" , $ed->evaluator_id)
-										->where("type", "Dean")
-										->first();
-									$comments = $ed->comments;
+								$account = $accountDb->where("id", $auth->id)->first();
+								$accountData = $accountDataDb->where("account_id", $account->id)->first();
+								$evaluation = $evaluationDb->where("account_id", $account->id)->get();
+								$evaluator = $evaluatorDb->where("account_id", $accountData->supervisor_id)->first();
+								if(! $evaluation ) {
+									$this->getChildBlock("page/noeval"); return;
+								}
+								foreach( $evaluation as $ed ) {
+									$evaluationDetails = $evaluationDetailsDb
+										->where("school_year", $scyear)
+										->where("semester", $sem)
+										->where("evaluation_id", $ed->id)
+										->get();
 
-									if( $rs ) {
-										break;
+									if( empty($evaluationDetails) )  {
+										$this->getChildBlock("page/noeval"); return;
 									}
-									$ratingId = $ed->rating_id;
-								}
 
-								if( isset($rs) ) {
-									$accountData = $accountDataDb->where("account_id", $rs->account_id)->first();
-									$dept = $departmentDb->where("id", $accountData->college_dept_id)->first();
-								}else{
-									?>
-									<div class="container center">
-										<h1>No data to show</h1>
-									</div>
-									<?php
-									exit();
+
+									foreach( $evaluationDetails as $ed2 ) {
+										$evalTor = $evaluatorDb->where("id", $ed2->evaluator_id)->where("account_id", $accountData->supervisor_id)->first();
+										if( $evalTor ) {
+											$ratingId = $ed2->rating_id;
+											$comments = $ed2->comments;
+											break; 
+										}else{
+											$this->getChildBlock("page/noeval"); return;
+										}
+									}
+									
 								}
+								$accountTor = $accountDb->where("id", $accountData->supervisor_id)->first();
 							?>
 							<div class="container">
 								<div class="row">
 								<br>
 									<div class="col s6">
-										<span><b>Evaluator Name: </b><?=$rs->name?></span>
+										<span><b>Evaluator Name: </b><?=$evalTor->name?></span>
 									</div>
 									<div class="col s6">
-										<span><b>College/Dept.: <?=$dept->label?></b></span>
+										<span><b>College/Dept.: <?=$accountDb->getDepartment($accountTor->id)->label?></b></span>
 									</div>
 									<div class="col s6">
-										<span><b>Position: </b><?=$rs->type?></span>
+										<span><b>Position: </b><?=Core::getModel("account/accounttype")->where("id", $accountTor->account_type_id)->first()->type?></span>
 									</div>
 								</div>
 								<hr>

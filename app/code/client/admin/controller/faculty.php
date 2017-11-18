@@ -95,13 +95,17 @@ Class Admin_Controller_Faculty extends Frontend_Controller_Action {
 			"email" 			=> $request["email"],
 			"status" 			=> $accountDb::STATUS_ACTIVE
 		]);
-
+		$supervisorId = 0;
+		if( $accountDb->isAccountType("Dean") ) {
+			$supervisorId = $_SESSION["auth"]->id;
+		}
 		$accountDataDb->insert([
 			"account_id" 	=> $accountDb->lastId,
 			"subject_id" 	=> $request["subject"],
 			"scyear" 		=> $request["scyear"],
 			"sem" 			=> $request["sem"],
-			"college_dept_id" => $request["department"]
+			"college_dept_id" => $request["department"],
+			"supervisor_id" => $supervisorId
 		]);
 		
 		$session->add("alert",[
