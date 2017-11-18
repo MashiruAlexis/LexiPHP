@@ -23,7 +23,7 @@ Class Account_Model_Account extends Database_Model_Base {
 		$auth = Core::getSingleton("system/session")->get("auth");
 		$accountTypeDb = Core::getModel("account/accounttype");
 		$accountType = $accountTypeDb->where("id", $auth->account_type_id)->first();
-		if( $account == $accountType->type or $account == $accountype->id) {
+		if( $account == $accountType->type or $account == $accountType->id) {
 			return true;
 		}
 		return false;

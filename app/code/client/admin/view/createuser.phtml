@@ -114,6 +114,50 @@
 
 		</div>
 
+		<div class="row gone" id="teachdrop" >
+		  <div class="input-field col s6">
+		    <select name="scyear">
+		      <!-- <option value="" disabled selected>Choose your option</option> -->
+		      <?php
+		      	foreach( Core::getSingleton("evaluation/evaluation")->getSchoolYear() as $scyear ) {
+		      		?>
+		      			<option value="<?=$scyear?>"><?=$scyear?></option>
+		      		<?php
+		      	}
+		      ?>
+		    </select>
+		    <label>Account Type</label>
+		  </div>
+
+		  <div id="sem" class="input-field col s6 ">
+		    <select name="sem">
+		      <!-- <option value="" disabled selected>Choose your option</option> -->
+		      <?php
+		      	foreach( Core::getSingleton("evaluation/evaluation")->getSemester() as $sem ) {
+		      		?>
+		      			<option value="<?=$sem?>"><?=$sem?></option>
+		      		<?php
+		      	}
+		      ?>
+		    </select>
+		    <label>Semester</label>
+		  </div>
+
+		  <div id="subject" class="input-field col s12 ">
+		    <select name="subject">
+		      <?php
+		      	foreach( Core::getModel("admin/subject")->get() as $subject ) {
+		      		?>
+		      			<option value="<?=$subject->id?>"><?=$subject->subject_title?></option>
+		      		<?php
+		      	}
+		      ?>
+		    </select>
+		    <label>Subject</label>
+		  </div>
+
+		</div>
+
 
 		
 		<div class="row">
@@ -144,6 +188,12 @@
 			$('#department').addClass('gone').removeClass('goneoff');
 		}else{
 			$('#department').addClass('goneoff').removeClass('gone');
+		}
+
+		if( elem == 2 ) {
+			$('#teachdrop').addClass('goneff').removeClass('gone');
+		}else{
+			$('#teachdrop').addClass('gone').removeClass('goneoff');
 		}
 		console.log(elem);
 	}

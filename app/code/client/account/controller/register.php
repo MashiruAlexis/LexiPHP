@@ -59,11 +59,26 @@ Class Account_Controller_Register extends Frontend_Controller_Action {
 			"password" 			=> $hash->hash($request["password"]),
 			"status" 			=> $accountDb::STATUS_ACTIVE
 		]);
-		$accountDataDb->insert([
-			"account_id" => $accountDb->lastId,
-			"college_dept_id" => $request["department"],
-		]);
+		$aData["account_id"] = $accountDb->lastId;
+		$aData["college_dept_id"] = $request["department"];
 
+		if( $request["accountType"] == 3 ) {
+			if( isset($request["scyear"]) ) {
+				$aData["scyear"] = $request["scyear"];
+			}
+
+			if( isset($request["sem"]) ) {
+				$aData["sem"] = $request["sem"];
+			}
+
+			if( isset($request["subject"]) ) {
+				$aData["subject_id"] = $request["subject"];
+			}
+		}
+		Core::log( $aData );
+		// return;
+		$accountDataDb->insert($aData);
+		
 		if( $rs ) {
 			$session->add("alert", [
 				"type" => "success",

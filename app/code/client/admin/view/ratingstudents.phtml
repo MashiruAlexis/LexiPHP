@@ -103,6 +103,7 @@
 											}
 
 											$evaluation = $evaluationDb->where("account_id", $auth->id)->first();
+											if(! $evaluation ) { $this->getChildBlock("page/noeval"); return;}
 											$evaluationDetails = $evaluationDetailsDb
 												->where("school_year", $scyear)
 												->where("semester", $sem)
