@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.7.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 16, 2017 at 12:29 AM
--- Server version: 10.1.28-MariaDB
--- PHP Version: 7.1.11
+-- Generation Time: Nov 17, 2017 at 05:47 PM
+-- Server version: 10.1.26-MariaDB
+-- PHP Version: 7.1.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,8 +19,42 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `evaluationsystem`
+-- Database: `eval`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `academic_rank`
+--
+
+CREATE TABLE `academic_rank` (
+  `id` int(11) NOT NULL,
+  `rank` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `academic_rank`
+--
+
+INSERT INTO `academic_rank` (`id`, `rank`) VALUES
+(1, 'Instructor I'),
+(2, 'Instructor II'),
+(3, 'Instructor III'),
+(4, 'Asst. Prof. I'),
+(5, 'Asst. Prof. II'),
+(6, 'Asst. Prof. III'),
+(7, 'Asst. Prof. IV'),
+(8, 'Assoc. Prof. I'),
+(9, 'Assoc. Prof. II'),
+(10, 'Assoc. Prof. III'),
+(11, 'Assoc. Prof. IV'),
+(12, 'Assoc. Prof. V'),
+(13, 'Prof. I'),
+(14, 'Prof. II'),
+(15, 'Prof. III'),
+(16, 'Prof. IV'),
+(17, 'Prof. V');
 
 -- --------------------------------------------------------
 
@@ -64,7 +98,7 @@ CREATE TABLE `account_data` (
   `account_id` int(11) DEFAULT NULL,
   `teacher_id` int(5) NOT NULL,
   `college_dept_id` varchar(30) DEFAULT NULL,
-  `academic_rank` varchar(30) DEFAULT NULL,
+  `academic_rank_id` varchar(30) DEFAULT NULL,
   `subject_id` varchar(11) NOT NULL,
   `scyear` varchar(11) DEFAULT NULL,
   `sem` varchar(11) DEFAULT NULL
@@ -74,13 +108,12 @@ CREATE TABLE `account_data` (
 -- Dumping data for table `account_data`
 --
 
-INSERT INTO `account_data` (`id`, `account_id`, `teacher_id`, `college_dept_id`, `academic_rank`, `subject_id`, `scyear`, `sem`) VALUES
+INSERT INTO `account_data` (`id`, `account_id`, `teacher_id`, `college_dept_id`, `academic_rank_id`, `subject_id`, `scyear`, `sem`) VALUES
 (6, 4, 0, '1', NULL, '1', '2017-2018', '2nd'),
 (7, 3, 0, '2', NULL, '2', '2018-2019', '2nd'),
-(8, 3, 3, '3', NULL, '2', '2018-2019', '2nd'),
 (9, 5, 0, '4', NULL, '3', '2017-2018', '1st'),
 (11, 7, 0, '1', NULL, '', NULL, NULL),
-(12, 2, 2, '1', NULL, '1', NULL, NULL);
+(12, 2, 2, '1', NULL, '1', '2017-2018', '1st');
 
 -- --------------------------------------------------------
 
@@ -383,6 +416,12 @@ INSERT INTO `subject` (`id`, `subject_id`, `subbject_code`, `subject_title`) VAL
 --
 
 --
+-- Indexes for table `academic_rank`
+--
+ALTER TABLE `academic_rank`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `account`
 --
 ALTER TABLE `account`
@@ -459,77 +498,70 @@ ALTER TABLE `subject`
 --
 
 --
+-- AUTO_INCREMENT for table `academic_rank`
+--
+ALTER TABLE `academic_rank`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+--
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
 --
 -- AUTO_INCREMENT for table `account_data`
 --
 ALTER TABLE `account_data`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
 --
 -- AUTO_INCREMENT for table `account_type`
 --
 ALTER TABLE `account_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
 -- AUTO_INCREMENT for table `college_dept`
 --
 ALTER TABLE `college_dept`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- AUTO_INCREMENT for table `evaluation`
 --
 ALTER TABLE `evaluation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
 -- AUTO_INCREMENT for table `evaluation_criteria`
 --
 ALTER TABLE `evaluation_criteria`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- AUTO_INCREMENT for table `evaluation_data`
 --
 ALTER TABLE `evaluation_data`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `evaluation_details`
 --
 ALTER TABLE `evaluation_details`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
 --
 -- AUTO_INCREMENT for table `evaluation_sub_criteria`
 --
 ALTER TABLE `evaluation_sub_criteria`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
-
 --
 -- AUTO_INCREMENT for table `evaluator`
 --
 ALTER TABLE `evaluator`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
 --
 -- AUTO_INCREMENT for table `rating`
 --
 ALTER TABLE `rating`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
 --
 -- AUTO_INCREMENT for table `subject`
 --
 ALTER TABLE `subject`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-COMMIT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
