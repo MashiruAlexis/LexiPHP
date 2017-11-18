@@ -80,6 +80,7 @@ if( $accountType->type == "Teacher" ) {
 				$accountType = "Student";
 			}
 			$evaluation 		= Core::getModel("evaluation/evaluation")->where("account_id", $request["id"])->first();
+			if(! $evaluation ) { $this->getChildBlock("page/noeval"); return; }
 			$evaluationDetails 	= Core::getModel("evaluation/evaluationdetails")->where("evaluation_id",$evaluation->id)->get();
 			$account 			= Core::getModel("account/account")->where("id", $request["id"])->first();
 			$accountData 		= Core::getModel("account/accountdata")->where("account_id", $account->id)->first();
