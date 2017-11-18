@@ -15,6 +15,22 @@ Class Account_Model_Account extends Database_Model_Base {
 	 */
 	protected $table = "account";
 
+	/**
+	 *	check if acount is being evaluated
+	 */
+	public function hasEvaluation( $id ) {
+		$evaluationDb = Core::getModel("evaluation/evaluation");
+
+		$evaluation = $evaluationDb->get();
+
+		foreach( $evaluation as $eval ) {
+			if( $eval->account_id  == $id ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 	/**
 	 *	check account type
@@ -53,6 +69,27 @@ Class Account_Model_Account extends Database_Model_Base {
 		return $accountDepartment;
 	}
 
+	/**
+	 *	department compare
+	 */
+	public function sameDepartment( $id, $id2 = false ) {
+		$session = Core::getSingleton("system/session");
+		$department = Core::getModel("account/department");
+		$accountDb = Core::getModel("account/account");
+
+		if(! $id2 ) {
+			$auth = $session->get("auth");
+			$id2 = $auth->id;
+		}
+
+		$dep1 = $accountDb->getDepartment($id);
+		$dep2 = $accountDb->getDepartment($id2);
+		if( $dep1->id == $dep2->id ) {
+			return true;
+		}
+		return false;
+	}
+ 
 	/**
 	 *	Get Account Subject
 	 *	@var int $id

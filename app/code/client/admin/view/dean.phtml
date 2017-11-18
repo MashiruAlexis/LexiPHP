@@ -92,18 +92,22 @@
 										$scyear = isset($_GET["scyear"]) ? $_GET["scyear"] : Core::getSingleton("evaluation/evaluation")->getSchoolYear()[0];
 										$accountDb = Core::getModel("account/account");
 										$accountDataDb = Core::getModel("account/accountdata");
+										$evaluationDb = Core::getModel("evaluation/evaluation");
 										$depratment = Core::getModel("account/account")->getDepartment($_SESSION["auth"]->id);
 										foreach( Core::getModel("account/account")->where("account_type_id", 3)->get() as $account ) {
-											$accountData = $accountDataDb
-												->where("account_id", $account->id)
-												->where("scyear", $scyear)
-												->where("sem", $sem)
-												->where("college_dept_id", $depratment->id)
-												->first();
-											if(! $accountData ) {
-												continue;
-											}
-											?>
+											if( $accountDb->sameDepartment($account->id) ) {
+												if( $accountDb->hasEvaluation( $account->id ) ){
+													$accountData = $accountDataDb
+														->where("account_id", $account->id)
+														->where("scyear", $scyear)
+														->where("sem", $sem)
+														->where("college_dept_id", $depratment->id)
+														->first();
+													if(! $accountData ) {
+														continue;
+													}
+
+													?>
 											<tr>
 												<td><?=$account->fname?> <?=$account->lname?></td>
 												<td><?=Core::getModel("account/accounttype")->getAccountType($account->account_type_id)->type?></td>
@@ -124,6 +128,11 @@
 														  </div>
 											</tr>
 											<?php
+
+												}
+											}
+											
+											
 										}
 									?>
 									

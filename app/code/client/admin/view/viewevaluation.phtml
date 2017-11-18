@@ -41,32 +41,6 @@ if( $accountType->type == "Teacher" ) {
 				<?php
 			}
 		?>
-		<!-- <div class="row ">
-			<form>
-				<div class="input-field col s3">
-					<select>
-						<option value="" disabled >Choose your option</option>
-						<option value="1" selected>2017-2018</option>
-						<option value="1">2018-2019</option>
-						<option value="1">2019-2020</option>
-						<option value="1">2020-2021</option>
-						<option value="1">2021-2022</option>
-					</select>
-					<label>School Year</label>
-				</div>
-				<div class="input-field col s3">
-					<select>
-						<option value="" disabled>Choose your option</option>
-						<option value="1" >Semester: 1st</option>
-						<option value="2" selected>Semester: 2nd</option>
-					</select>
-					<label>Semester</label>
-				</div>
-				<div class="input-field col s2">
-					<input type="submit" class="btn" name="btnSubmit" value="Go">
-				</div>
-			</form>
-		</div> -->
 		<div class="row"> 
 			<!-- Latest Tasks START -->
 		<?php
@@ -80,12 +54,10 @@ if( $accountType->type == "Teacher" ) {
 				$accountType = "Student";
 			}
 			$evaluation 		= Core::getModel("evaluation/evaluation")->where("account_id", $request["id"])->first();
-			if(! $evaluation ) { $this->getChildBlock("page/noeval"); return; }
 			$evaluationDetails 	= Core::getModel("evaluation/evaluationdetails")->where("evaluation_id",$evaluation->id)->get();
 			$account 			= Core::getModel("account/account")->where("id", $request["id"])->first();
 			$accountData 		= Core::getModel("account/accountdata")->where("account_id", $account->id)->first();
 			$subject 			= Core::getModel("admin/subject")->where("id", $accountData->subject_id)->first();
-
 		?>
 			<div class="col s12 m12">
 				<div class="card hoverable">
@@ -122,26 +94,26 @@ if( $accountType->type == "Teacher" ) {
 										<?php
 											$noOfItems = 0;
 											$sumRating = 0;
+											$accountEvaluatorDb = Core::getModel("evaluation/evaluator");
+											$ratingDb = Core::getModel("evaluation/rating");
 											foreach( $evaluationDetails as $ed ) {
-												$evaluator = Core::getModel("evaluation/evaluator")->where("type", $accountType)->where("id", $ed->evaluator_id)->first();
-												$rating = Core::getModel("evaluation/rating")->where("id", $ed->rating_id)->first();
+												// Core::log( $ed );
+												$accountEvaluator = $accountEvaluatorDb
+													->where("id", $ed->evaluator_id)
+													// ->where("type", $accountType)
+													->first();
+												// if( $accountEvaluator->type !== $accountType ) {continue;}
+												$rating = $ratingDb->where("id", $ed->rating_id)->first();
+												// Core::log( $accountEvaluator );
+												// Core::log( $rating );
+												// Core::log("___________________________");
 
-												if(! $evaluator ) {
-													continue;
-												}
-												
-												if( $evaluator->type !== $accountType ) {
-													continue;
-												}
-												// if(! $evaluator->account_id ) {
-													$name = $evaluator->name;
-												// }
 												$noOfItems++;
 												$sumRating = $sumRating + $rating->ave_total;
 												?>
 												<tr>
-													<td><?=$name?></td>
-													<td><?=$evaluator->course?> <?=$evaluator->year?> year</td>
+													<td><?=$accountEvaluator->name?></td>
+													<td><?=$accountEvaluator->course?> <?=$accountEvaluator->year?> year</td>
 													<td><?=$rating->ave_total?></td>
 													<td><a class="modal-trigger" href="#modal<?=$ed->id?>">View Comment</a></td>
 													<!-- Modal Structure -->

@@ -99,7 +99,12 @@ if( $accountType->type == "Teacher" ) {
 				
 				<?php
 					foreach( Core::getModel("account/account")->where("account_type_id", 3)->get() as $faculty ) {
-						?>
+
+						if( Core::getModel("account/account")->sameDepartment($faculty->id) ) {
+							if( Core::getModel("account/account")->hasEvaluation($faculty->id) ) {
+								continue;
+							}
+							?>
 						<div class="col s4">
 							<p>
 								<input name="faculty" type="radio" value="<?=$faculty->id?>" id="<?=$faculty->id?>" />
@@ -107,6 +112,9 @@ if( $accountType->type == "Teacher" ) {
 							</p>
 						</div>
 						<?php
+
+						}
+						
 					}
 				?>
 				
