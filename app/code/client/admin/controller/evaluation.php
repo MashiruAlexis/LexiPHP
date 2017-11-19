@@ -329,21 +329,51 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 
 		$evaluation = $evalutionDb->where("id", $id)->first();
 		$evaluationDetails = $evaluationDetailsDb->where("evaluation_id", $evaluation->id)->get();
+		$total_crit1 = 0;
+		$total_crit2 = 0;
+		$total_crit3 = 0;
+		$total_crit4 = 0;
+		$total_ave = 0;
 		foreach( $evaluationDetails as $ed ) {
 			$rating = $ratingDb->where("id", $ed->rating_id)->first();
-			if( $this->hasEvaluator( $ed->evaluator_id ) ) {
-				Core::log( "Nice: " . $ed->evaluator_id );
-			}else{
-				Core::log( "Lol where did he go?" );
-			}
-			Core::log( $rating->ave_crit1 . " | " . $rating->ave_crit2 . " | " . $rating->ave_crit3 . " | " . $rating->ave_crit4 );
-			Core::log( $ed->comments );
+			$total_crit1 = 	$total_crit1 + $rating->ave_crit1;
+			$total_crit2 = 	$total_crit2 + $rating->ave_crit2;
+			$total_crit3 = 	$total_crit3 + $rating->ave_crit3;
+			$total_crit4 = 	$total_crit4 + $rating->ave_crit4;
+			$total_ave = 	$total_ave + $rating->ave_total;
+			
+			
+			// Core::log( $ed->comments );
 		}
+		Core::log( "Commitment: " . round($total_crit1 / count($evaluationDetails)) );
+		Core::log( "Knowledge of Subject: " . round($total_crit2 / count($evaluationDetails)) );
+		Core::log( "Teaching for Independent Learning: " . round($total_crit3 / count($evaluationDetails)) );
+		Core::log( "Management of Learning: " . round($total_crit4 / count($evaluationDetails)) );
+		Core::log( "Overall Rating: " . round($total_ave / count($evaluationDetails)) );
+		Core::log( "Recomendation: ayaw cgeg inom hoy!" );
+		$data = [
+			[
+				"label" 	=> "Commitment",
+				"rating" 	=> round($total_crit1 / count($evaluationDetails))
+			],
+			[
+				"label" 	=> "Knowledge of Subject",
+				"rating" 	=> round($total_crit2 / count($evaluationDetails)),
+			],
+			[
+				"label" 	=> "Teaching for Independent Learning",
+				"rating" 	=> round($total_crit3 / count($evaluationDetails))
+			],
+			[
+				"label" 	=> "Management of Learning",
+				"rating" 	=> round($total_crit4 / count($evaluationDetails))
+			]
+		];
 		return;
-		return $evaluationDetails;
-		return $evaluationDetails;
-		return count($evaluationDetails);
-		return $evaluation;
+	}
+
+	public function makeRecomendation( $data = array() ) {
+		
 	}
 
 	/**
