@@ -47,10 +47,10 @@ Class Evaluation_Controller_Api extends Frontend_Controller_Action {
 			foreach( $this->getDepartmentByEvaluation($dp->id) as $de ) {
 				$evalRatings = $this->getEvaluationRating( $de->id );
 				
-				$ts = count($evalRatings);
+				// $ts = count($evalRatings);
 				foreach( $evalRatings as $rt ) {
 					$totalRate = $totalRate + $rt->ave_total;
-
+					$ts++;
 				}
 			}
 			
@@ -65,7 +65,7 @@ Class Evaluation_Controller_Api extends Frontend_Controller_Action {
 		if( $num1 < 1 ) {
 			return 0;
 		}
-		return $num1 / $num2;
+		return round($num1 / $num2);
 	}
 
 	public function getFacultyDataAction() {
