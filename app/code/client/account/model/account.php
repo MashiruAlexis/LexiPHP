@@ -81,7 +81,6 @@ Class Account_Model_Account extends Database_Model_Base {
 			$auth = $session->get("auth");
 			$id2 = $auth->id;
 		}
-
 		$dep1 = $accountDb->getDepartment($id);
 		$dep2 = $accountDb->getDepartment($id2);
 		if( $dep1->id == $dep2->id ) {
