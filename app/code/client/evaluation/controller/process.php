@@ -1,4 +1,4 @@
-<?php
+	<?php
 
 Class Evaluation_Controller_Process extends Frontend_Controller_Action {
 
@@ -109,7 +109,7 @@ Class Evaluation_Controller_Process extends Frontend_Controller_Action {
 				$sum = $sum + $a;
 			}
 
-			return ((($sum / 25) * 0.20) * 100);
+			return (($sum / 25) * 100);
 		}
 
 		if( $type == 2 ) {
@@ -117,14 +117,14 @@ Class Evaluation_Controller_Process extends Frontend_Controller_Action {
 				$sum = $sum + $a;
 			}
 
-			return ((($sum / 25) * 0.30) * 100);
+			return (($sum / 25) * 100);
 		}
 
 		if( $type = 3 ) {
 			foreach( $ans as $a ) {
 				$sum = ($sum + $a);
 			}
-			return $sum;
+			return $sum / 4;
 		}
 		return 0;
 	}

@@ -34,10 +34,10 @@ Class Admin_Controller_Faculty extends Frontend_Controller_Action {
 			$cr4 = $cr4 + $rt->ave_crit4;
 		}
 		return [
-			"cr1" => $cr1,
-			"cr2" => $cr2,
-			"cr3" => $cr3,
-			"cr4" => $cr4,
+			"cr1" => $cr1 / count($ratings),
+			"cr2" => $cr2 / count($ratings),
+			"cr3" => $cr3 / count($ratings),
+			"cr4" => $cr4 / count($ratings),
 		];
 		// $rating = $ratingDb->where("id", $evaluationDetails->rating_id)->first();
 
@@ -95,13 +95,17 @@ Class Admin_Controller_Faculty extends Frontend_Controller_Action {
 			"email" 			=> $request["email"],
 			"status" 			=> $accountDb::STATUS_ACTIVE
 		]);
-
+		$supervisorId = 0;
+		if( $accountDb->isAccountType("Dean") ) {
+			$supervisorId = $_SESSION["auth"]->id;
+		}
 		$accountDataDb->insert([
 			"account_id" 	=> $accountDb->lastId,
 			"subject_id" 	=> $request["subject"],
 			"scyear" 		=> $request["scyear"],
 			"sem" 			=> $request["sem"],
-			"college_dept_id" => $request["department"]
+			"college_dept_id" => $request["department"],
+			"supervisor_id" => $supervisorId
 		]);
 		
 		$session->add("alert",[

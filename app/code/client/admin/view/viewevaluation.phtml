@@ -97,16 +97,11 @@ if( $accountType->type == "Teacher" ) {
 											$accountEvaluatorDb = Core::getModel("evaluation/evaluator");
 											$ratingDb = Core::getModel("evaluation/rating");
 											foreach( $evaluationDetails as $ed ) {
-												// Core::log( $ed );
 												$accountEvaluator = $accountEvaluatorDb
 													->where("id", $ed->evaluator_id)
-													// ->where("type", $accountType)
 													->first();
-												// if( $accountEvaluator->type !== $accountType ) {continue;}
+												if( !$accountEvaluator or $accountEvaluator->type != $accountType ) { continue; }
 												$rating = $ratingDb->where("id", $ed->rating_id)->first();
-												// Core::log( $accountEvaluator );
-												// Core::log( $rating );
-												// Core::log("___________________________");
 
 												$noOfItems++;
 												$sumRating = $sumRating + $rating->ave_total;
@@ -119,7 +114,7 @@ if( $accountType->type == "Teacher" ) {
 													<!-- Modal Structure -->
 													  <div id="modal<?=$ed->id?>" class="modal">
 													    <div class="modal-content">
-													      <h4 class="thin" style="color: #87a1ad;"><?=$name?>'s Comment</h4>
+													      <h4 class="thin" style="color: #87a1ad;"><?=$accountEvaluator->name?>'s Comment</h4>
 													      <p><?=$ed->comments?></p>
 													    </div>
 													    <div class="modal-footer">

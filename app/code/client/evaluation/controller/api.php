@@ -51,11 +51,19 @@ Class Evaluation_Controller_Api extends Frontend_Controller_Action {
 				}
 				
 			}
-			$final[] = ["label" => $dp->label, "rating" => $totalRate / $ts];
+			
+			$final[] = ["label" => $dp->label, "rating" => $this->division($totalRate, $ts)];
 		}
 		
 		echo json_encode($final);
 		exit();
+	}
+
+	public function division( $num1, $num2 ) {
+		if( $num1 < 1 ) {
+			return 0;
+		}
+		return $num1 / $num2;
 	}
 
 	public function getFacultyDataAction() {
