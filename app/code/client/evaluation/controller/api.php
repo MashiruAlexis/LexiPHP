@@ -40,16 +40,18 @@ Class Evaluation_Controller_Api extends Frontend_Controller_Action {
 		$department = $departmentDb->get();
 		$data = [];
 		$final = [];
-
+		$totalRate = 0;
+		$ts = 0;
 		foreach( $department as $dp ) {
+			$totalRate = 0; $ts = 0;
 			foreach( $this->getDepartmentByEvaluation($dp->id) as $de ) {
 				$evalRatings = $this->getEvaluationRating( $de->id );
-				$totalRate = 0;
+				
 				$ts = count($evalRatings);
 				foreach( $evalRatings as $rt ) {
 					$totalRate = $totalRate + $rt->ave_total;
+
 				}
-				
 			}
 			
 			$final[] = ["label" => $dp->label, "rating" => $this->division($totalRate, $ts)];
