@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 19, 2017 at 08:42 AM
+-- Generation Time: Nov 19, 2017 at 10:48 AM
 -- Server version: 5.7.19-0ubuntu0.16.04.1
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
@@ -184,8 +184,9 @@ INSERT INTO `decision` (`id`, `ranged`, `interpretation`, `recommendation`) VALU
 (1, '91-100', 'Excellent', NULL),
 (2, '86-90', 'Very Good', NULL),
 (3, '80-85', 'Good', NULL),
-(4, '75-79', 'Poor', NULL),
-(5, '0-74', 'Failed', NULL);
+(4, '71-79', 'Fair', NULL),
+(5, '65-70', 'Poor', NULL),
+(6, '0-64', 'Very Poor', NULL);
 
 -- --------------------------------------------------------
 
@@ -208,7 +209,7 @@ CREATE TABLE `evaluation` (
 --
 
 INSERT INTO `evaluation` (`id`, `evaluator_id`, `account_id`, `code`, `sem`, `school_year`, `status`) VALUES
-(1, NULL, 3, 'l0nzsf', NULL, NULL, 'stoped');
+(1, NULL, 3, 'l0nzsf', NULL, NULL, 'stopped');
 
 -- --------------------------------------------------------
 
@@ -270,7 +271,8 @@ CREATE TABLE `evaluation_details` (
 INSERT INTO `evaluation_details` (`id`, `evaluation_id`, `evaluator_id`, `rating_id`, `school_year`, `semester`, `deptartment`, `comments`) VALUES
 (1, 1, 1, 1, '2017-2018', '1st', NULL, 'He\'s so kind that i want him out in this school.'),
 (2, 1, 2, 2, '2017-2018', '1st', NULL, 'Wow i love the he teach'),
-(3, 1, 3, 3, '2017-2018', '1st', NULL, 'He\'s really kind to us period.');
+(3, 1, 3, 3, '2017-2018', '1st', NULL, 'He\'s really kind to us period.'),
+(4, 1, 4, 4, '2017-2018', '1st', NULL, 'Hi please give higher grade thanks');
 
 -- --------------------------------------------------------
 
@@ -333,7 +335,8 @@ CREATE TABLE `evaluator` (
 INSERT INTO `evaluator` (`id`, `account_id`, `type`, `name`, `year`, `course`, `date`) VALUES
 (1, 2, 'Dean', 'Alexis Celis', NULL, NULL, NULL),
 (2, 3, 'Teacher', 'Alexis Celis', NULL, NULL, NULL),
-(3, 0, 'Student', 'Darby Doll', '2nd', 'BSIT', NULL);
+(3, 0, 'Student', 'Darby Doll', '2nd', 'BSIT', NULL),
+(4, 0, 'Student', 'Katty', '2nd', 'BEED', NULL);
 
 -- --------------------------------------------------------
 
@@ -379,7 +382,8 @@ CREATE TABLE `rating` (
 INSERT INTO `rating` (`id`, `teacher_id`, `evaluation_id`, `crit_A1`, `crit_A2`, `crit_A3`, `crit_A4`, `crit_A5`, `ave_crit1`, `crit_B1`, `crit_B2`, `crit_B3`, `crit_B4`, `crit_B5`, `ave_crit2`, `crit_C1`, `crit_C2`, `crit_C3`, `crit_C4`, `crit_C5`, `ave_crit3`, `crit_D1`, `crit_D2`, `crit_D3`, `crit_D4`, `crit_D5`, `ave_crit4`, `ave_total`) VALUES
 (1, NULL, NULL, 5, 5, 5, 4, 5, '96', 5, 5, 5, 4, 4, '92', 5, 5, 5, 5, 5, '100', 1, 1, 1, 1, 1, '20', 77),
 (2, NULL, NULL, 5, 5, 5, 5, 4, '96', 5, 5, 5, 5, 5, '100', 5, 4, 3, 3, 5, '80', 5, 5, 5, 5, 5, '100', 94),
-(3, NULL, NULL, 5, 5, 5, 5, 5, '100', 4, 4, 5, 4, 4, '84', 4, 3, 5, 5, 5, '88', 4, 4, 5, 1, 5, '76', 87);
+(3, NULL, NULL, 5, 5, 5, 5, 5, '100', 4, 4, 5, 4, 4, '84', 4, 3, 5, 5, 5, '88', 4, 4, 5, 1, 5, '76', 87),
+(4, NULL, NULL, 5, 4, 5, 5, 5, '96', 5, 5, 4, 5, 5, '96', 4, 3, 4, 4, 5, '80', 5, 5, 5, 5, 5, '100', 93);
 
 -- --------------------------------------------------------
 
@@ -525,7 +529,7 @@ ALTER TABLE `college_dept`
 -- AUTO_INCREMENT for table `decision`
 --
 ALTER TABLE `decision`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `evaluation`
 --
@@ -545,7 +549,7 @@ ALTER TABLE `evaluation_data`
 -- AUTO_INCREMENT for table `evaluation_details`
 --
 ALTER TABLE `evaluation_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `evaluation_sub_criteria`
 --
@@ -555,12 +559,12 @@ ALTER TABLE `evaluation_sub_criteria`
 -- AUTO_INCREMENT for table `evaluator`
 --
 ALTER TABLE `evaluator`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `rating`
 --
 ALTER TABLE `rating`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `subject`
 --
