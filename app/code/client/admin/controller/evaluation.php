@@ -345,12 +345,11 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 			
 			// Core::log( $ed->comments );
 		}
-		Core::log( "Commitment: " . round($total_crit1 / count($evaluationDetails)) );
-		Core::log( "Knowledge of Subject: " . round($total_crit2 / count($evaluationDetails)) );
-		Core::log( "Teaching for Independent Learning: " . round($total_crit3 / count($evaluationDetails)) );
-		Core::log( "Management of Learning: " . round($total_crit4 / count($evaluationDetails)) );
-		Core::log( "Overall Rating: " . round($total_ave / count($evaluationDetails)) );
-		Core::log( "Recomendation: ayaw cgeg inom hoy!" );
+		// Core::log( "Commitment: " . round($total_crit1 / count($evaluationDetails)) );
+		// Core::log( "Knowledge of Subject: " . round($total_crit2 / count($evaluationDetails)) );
+		// Core::log( "Teaching for Independent Learning: " . round($total_crit3 / count($evaluationDetails)) );
+		// Core::log( "Management of Learning: " . round($total_crit4 / count($evaluationDetails)) );
+		// Core::log( "Overall Rating: " . round($total_ave / count($evaluationDetails)) );
 		$data = [
 			[
 				"label" 	=> "Commitment",
@@ -369,11 +368,88 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 				"rating" 	=> round($total_crit4 / count($evaluationDetails))
 			]
 		];
-		return;
+
+		// $data = [
+		// 	[
+		// 		"label" 	=> "Commitment",
+		// 		"rating" 	=> 67
+		// 	],
+		// 	[
+		// 		"label" 	=> "Knowledge of Subject",
+		// 		"rating" 	=> 78
+		// 	],
+		// 	[
+		// 		"label" 	=> "Teaching for Independent Learning",
+		// 		"rating" 	=> 60
+		// 	],
+		// 	[
+		// 		"label" 	=> "Management of Learning",
+		// 		"rating" 	=> 86
+		// 	]
+		// ];
+		// $overallRating = 0;
+		// foreach( $data as $dt ) {
+		// 	$overallRating = $overallRating + $dt["rating"];
+		// }
+
+		$overallRating = $total_ave / count($evaluationDetails);
+
+		
+		$decision = $this->makeRecomendation( $data, round($overallRating) );
+		$finalData = $data;
+		$finalData["recomendation"] = $decision;
+		$finalData["overall"] = $overallRating;
+		return $finalData;
 	}
 
-	public function makeRecomendation( $data = array() ) {
-		
+	public function makeRecomendation( $data = array() , $overall = false ) {
+		$decisionDb = Core::getModel("evaluation/decision");
+		$recomendationTxt = "Overall performance is ";
+		$recomendationTxt .= $this->getInterpretation($overall);
+
+		$highest = 0;
+		$lowest1 = 0;
+		$lowest2 = 0;
+		foreach( $data as $key => $dt ) {
+			if( $dt["rating"] > $data[$highest]["rating"] ) {
+				$highest = $key;
+			}
+			if( $dt["rating"] < $data[$lowest1]["rating"] ) {
+				$lowest1 = $key;
+			}
+		}
+		foreach( $data as $key => $dt ) {
+			if( $key == $lowest1 ) {
+				continue;
+			}
+			if( $dt["rating"] < $data[$lowest2]["rating"] ) {
+				$lowest2 = $key;
+			}
+		}
+
+		if( $this->getInterpretation($data[$highest]["rating"], true)->id < 2 ) {
+			$recomendationTxt .= ", keep up the good work.";
+		}
+
+		if( $this->getInterpretation($data[$highest]["rating"], true)->id == 3 or $this->getInterpretation($overall, true)->id >= 3 ) {
+			$recomendationTxt .= ' how ever the faculty can improve his/her performance by improving his/her  "'. $data[$lowest1]["label"] .'" and "'. $data[$lowest2]["label"] .'"';
+		}
+
+		return $recomendationTxt;
+	}
+
+	public function getInterpretation( $rate, $obj = false ) {
+		$decisionDb = Core::getModel("evaluation/decision");
+		foreach( $decisionDb->get() as $dc ) {
+			$range = explode("-", $dc->ranged);
+			if( $rate >= $range[0] and $rate <= $range[1] ) {
+				if( $obj ) {
+					return $dc;
+				}
+				return $dc->interpretation;
+			}
+		}
+		return false;
 	}
 
 	/**
