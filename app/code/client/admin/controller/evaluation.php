@@ -4,7 +4,7 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 
 	const STATUS_ON_GOING = "on-going";
 	const STATUS_COMPLETED = "completed";
-	const STATUS_STOPED = "stoped";
+	const STATUS_STOPED = "stopped";
 
 	private static $characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
 	private static $string;
