@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.6.6
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 24, 2017 at 12:40 AM
--- Server version: 10.1.28-MariaDB
--- PHP Version: 7.1.11
+-- Host: localhost
+-- Generation Time: Nov 19, 2017 at 11:03 AM
+-- Server version: 5.7.19-0ubuntu0.16.04.1
+-- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -90,10 +88,7 @@ INSERT INTO `account` (`id`, `account_type_id`, `fname`, `lname`, `username`, `p
 (18, 3, 'test2', 'test2', 'test2', '$2y$10$jbmhxVX3S09mpAv47GWFNea.CBGzYJQvBy1BatJxQhi9MQSoqrSJC', 'test2@admin.com', 'active', NULL, NULL),
 (19, 3, 'Alexis3', 'Alexis3', 'alexis3', '$2y$10$z8/scNUFaC2BWtjYIcU.GeekQ8AJbXwTJhLgOliSPe2ccTYEBNoRS', 'alexis3@admin.com', 'active', NULL, NULL),
 (20, 3, 'Alexis4', 'Alexis4', 'alexis4', '$2y$10$NTZAnR3p0XQSrV2WtQXM7eA3to263SsZyi1bZGZ/hAS9PEg8KeTEu', 'alexis4@admin.com', 'active', NULL, NULL),
-(21, 3, 'Roger', 'Abulencia', 'roger', '$2y$10$TZjZxEeF3q.2KC3E00FrPuSt0P5tA0r1.aMmOsCU7/r5wMcSi6NK6', 'roger@yahoo.com', 'active', NULL, NULL),
-(22, 3, 'test4', 'test4', 'test4', '$2y$10$kAwmTygp6VhNWxqXWw0oUe7AxY26hv0lCD7HhbYAb01XAvYIPP7qm', 'test4@admin.com', 'active', NULL, NULL),
-(23, 2, 'dean2', 'dean2', 'dean2', '$2y$10$dN6EJ2pAhTN.bjlDwPEpOuLuUa8AAd8.1gNlWa/mNFbkbH0C1Lyh6', 'dean2@admin.com', 'active', NULL, NULL),
-(24, 3, 'test5', 'test5', 'test5', '$2y$10$TTy.3Ntjxt5TClfr/GCJ8.4F/xHQP3fAoiWbPOFatlDmCN89rGeNW', 'test5@admin.com', 'active', NULL, NULL);
+(21, 3, 'Roger', 'Abulencia', 'roger', '$2y$10$TZjZxEeF3q.2KC3E00FrPuSt0P5tA0r1.aMmOsCU7/r5wMcSi6NK6', 'roger@yahoo.com', 'active', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -127,10 +122,7 @@ INSERT INTO `account_data` (`id`, `account_id`, `teacher_id`, `supervisor_id`, `
 (14, 18, NULL, 2, '1', NULL, '2', '2017-2018', '1st'),
 (15, 19, NULL, 2, '1', NULL, '3', '2017-2018', '1st'),
 (16, 20, NULL, 2, '1', NULL, '3', '2017-2018', '1st'),
-(17, 21, NULL, 2, '1', NULL, '2', '2017-2018', '2nd'),
-(18, 22, NULL, 2, '1', NULL, '1', '2017-2018', '1st'),
-(19, 23, NULL, 0, '2', NULL, NULL, NULL, NULL),
-(20, 24, NULL, 23, '2', NULL, '1', '2017-2018', '1st');
+(17, 21, NULL, 2, '1', NULL, '2', '2017-2018', '2nd');
 
 -- --------------------------------------------------------
 
@@ -219,9 +211,8 @@ CREATE TABLE `evaluation` (
 --
 
 INSERT INTO `evaluation` (`id`, `evaluator_id`, `account_id`, `code`, `sem`, `school_year`, `status`) VALUES
-(1, NULL, 3, 'l0nzsf', NULL, NULL, 'on-going'),
-(2, NULL, 21, 'o2bymq', NULL, NULL, 'on-going'),
-(3, NULL, 24, 'mivnaw', NULL, NULL, 'on-going');
+(1, NULL, 3, 'l0nzsf', NULL, NULL, 'stopped'),
+(2, NULL, 21, 'o2bymq', NULL, NULL, 'stopped');
 
 -- --------------------------------------------------------
 
@@ -287,11 +278,7 @@ INSERT INTO `evaluation_details` (`id`, `evaluation_id`, `evaluator_id`, `rating
 (4, 1, 4, 4, '2017-2018', '1st', NULL, 'Hi please give higher grade thanks'),
 (5, 2, 5, 5, '2017-2018', '2nd', NULL, 'Keep up the good work sir'),
 (6, 2, 6, 6, '2017-2018', '2nd', NULL, 'continue your punctuality and work ethics'),
-(7, 2, 7, 7, '2017-2018', '2nd', NULL, 'Thank you for imparting your knowledge sir..God Bless'),
-(8, 2, 8, 8, '2017-2018', '2nd', NULL, 'The best faculty member i ever have'),
-(9, 3, 9, 9, '2017-2018', '1st', NULL, 'This guys is really something else.'),
-(10, 3, 10, 10, '2017-2018', '1st', NULL, 'lol this guy is really funny'),
-(11, 3, 11, 11, '2017-2018', '1st', NULL, 'I am very good at this');
+(7, 2, 7, 7, '2017-2018', '2nd', NULL, 'Thank you for imparting your knowledge sir..God Bless');
 
 -- --------------------------------------------------------
 
@@ -358,11 +345,7 @@ INSERT INTO `evaluator` (`id`, `account_id`, `type`, `name`, `year`, `course`, `
 (4, 0, 'Student', 'Katty', '2nd', 'BEED', NULL),
 (5, 3, 'Teacher', 'Alexis Celis', NULL, NULL, NULL),
 (6, 2, 'Dean', 'Alexis Celis', NULL, NULL, NULL),
-(7, 0, 'Student', 'Carl Camenforte', '2nd', 'BSCE', NULL),
-(8, 2, 'Dean', 'Alexis Celis', NULL, NULL, NULL),
-(9, 23, '', 'dean2 dean2', NULL, NULL, NULL),
-(10, 0, 'Student', 'Maricar', '2nd', 'BA Com', NULL),
-(11, 24, '', 'test5 test5', NULL, NULL, NULL);
+(7, 0, 'Student', 'Carl Camenforte', '2nd', 'BSCE', NULL);
 
 -- --------------------------------------------------------
 
@@ -412,11 +395,7 @@ INSERT INTO `rating` (`id`, `teacher_id`, `evaluation_id`, `crit_A1`, `crit_A2`,
 (4, NULL, NULL, 5, 4, 5, 5, 5, '96', 5, 5, 4, 5, 5, '96', 4, 3, 4, 4, 5, '80', 5, 5, 5, 5, 5, '100', 93),
 (5, NULL, NULL, 4, 4, 4, 5, 4, '84', 4, 4, 4, 4, 4, '80', 4, 5, 4, 5, 4, '88', 4, 4, 4, 5, 4, '84', 84),
 (6, NULL, NULL, 4, 4, 5, 4, 4, '84', 4, 4, 5, 4, 4, '84', 4, 4, 5, 4, 5, '88', 4, 4, 5, 4, 4, '84', 85),
-(7, NULL, NULL, 4, 4, 5, 3, 5, '84', 4, 3, 4, 5, 5, '84', 5, 4, 4, 4, 5, '88', 4, 4, 5, 4, 5, '88', 86),
-(8, NULL, NULL, 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 100),
-(9, NULL, NULL, 5, 4, 5, 5, 5, '96', 1, 1, 2, 2, 3, '36', 3, 3, 4, 5, 5, '80', 5, 5, 5, 5, 5, '100', 78),
-(10, NULL, NULL, 5, 5, 4, 5, 4, '92', 2, 5, 5, 5, 5, '88', 5, 1, 1, 5, 4, '64', 5, 5, 5, 5, 5, '100', 86),
-(11, NULL, NULL, 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 100);
+(7, NULL, NULL, 4, 4, 5, 3, 5, '84', 4, 3, 4, 5, 5, '84', 5, 4, 4, 4, 5, '88', 4, 4, 5, 4, 5, '88', 86);
 
 -- --------------------------------------------------------
 
@@ -538,86 +517,71 @@ ALTER TABLE `subject`
 --
 ALTER TABLE `academic_rank`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
 --
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `account_data`
 --
 ALTER TABLE `account_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `account_type`
 --
 ALTER TABLE `account_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
 -- AUTO_INCREMENT for table `college_dept`
 --
 ALTER TABLE `college_dept`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- AUTO_INCREMENT for table `decision`
 --
 ALTER TABLE `decision`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
 --
 -- AUTO_INCREMENT for table `evaluation`
 --
 ALTER TABLE `evaluation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `evaluation_criteria`
 --
 ALTER TABLE `evaluation_criteria`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- AUTO_INCREMENT for table `evaluation_data`
 --
 ALTER TABLE `evaluation_data`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `evaluation_details`
 --
 ALTER TABLE `evaluation_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `evaluation_sub_criteria`
 --
 ALTER TABLE `evaluation_sub_criteria`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
-
 --
 -- AUTO_INCREMENT for table `evaluator`
 --
 ALTER TABLE `evaluator`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `rating`
 --
 ALTER TABLE `rating`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `subject`
 --
 ALTER TABLE `subject`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-COMMIT;
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
