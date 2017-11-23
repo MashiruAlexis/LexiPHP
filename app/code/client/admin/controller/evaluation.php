@@ -122,6 +122,19 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 			$this->_redirect( $next );
 		}
 
+		// bug fix for letting faculty to evaluate themself (LOL hahah)
+		$auth = $session->get("auth");
+		$evaluationDb = Core::getModel("evaluation/evaluation");
+		$codeData = $evaluationDb->where("code", $request["evalcode"])->first();
+		if( $codeData->account_id == $auth->id ) {
+			$session->add("alert", [
+				"type" => "error",
+				"message" => "Invalid Action, it is not possible to evaluate your own."
+			]);
+			$this->_redirect( $next );
+			return;
+		}
+ 
 		$_SESSION["evaluation"]["access"] = true;
 		$_SESSION["evaluation"]["code"] = $request["evalcode"];
 		$_SESSION["evaluation"]["hasEvaluator"] = true;
