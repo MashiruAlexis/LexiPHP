@@ -38,6 +38,17 @@ Class Admin_Controller_Faculty extends Frontend_Controller_Action {
 			$cr3 = $cr3 + $rt->ave_crit3;
 			$cr4 = $cr4 + $rt->ave_crit4;
 		}
+
+		if( $this->isZero( $cr1 ) or $this->isZero( $cr2 ) or $this->isZero( $cr3 ) or $this->isZero( $cr4 ) ) {
+			return [
+				"cr1" => count($ratings),
+				"cr2" => count($ratings),
+				"cr3" => count($ratings),
+				"cr4" => count($ratings),
+			];
+
+		}
+
 		return [
 			"cr1" => $cr1 / count($ratings),
 			"cr2" => $cr2 / count($ratings),
@@ -46,6 +57,18 @@ Class Admin_Controller_Faculty extends Frontend_Controller_Action {
 		];
 		// $rating = $ratingDb->where("id", $evaluationDetails->rating_id)->first();
 
+	}
+
+	/**
+	 *	Check if a number is zero
+	 *	@var int $num
+	 *	@return bool
+	 */
+	public function isZero( $num ) {
+		if( $num == 0 ) {
+			return true;
+		}
+		return false;
 	}
 
 	/**

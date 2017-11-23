@@ -4,15 +4,15 @@ $session = Core::getSingleton("system/session");
 $accountDb = Core::getModel("account/account");
 $accountType = $accountDb->getAccountType($session->get("auth")->id);
 
-if( $accountType->type == "Admin" ) {
+if( $accountDb->isAccountType("Admin") ) {
 	$this->getChildBlock("admin/nav");
 }
 
-if( $accountType->type == "Dean" ) {
+if( $accountDb->isAccountType("Dean") ) {
 	$this->getChildBlock("admin/navdean");
 }
 
-if( $accountType->type == "Teacher" ) {
+if( $accountDb->isAccountType("Teacher") ) {
 	$this->getChildBlock("admin/navteacher");
 }
 
