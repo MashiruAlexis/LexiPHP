@@ -41,7 +41,7 @@ if( $accountDb->isAccountType("Teacher") ) {
 					<select>
 						<option value="" disabled selected>Choose your option</option>
 						<?php
-							foreach( Core::getSingleton("admin/evaluation")->getSchoolYear() as $sy ) {
+							#foreach( Core::getSingleton("admin/evaluation")->getSchoolYear() as $sy ) {
 								?>
 								<option value="<?=$sy?>"><?=$sy?></option>
 								<?php

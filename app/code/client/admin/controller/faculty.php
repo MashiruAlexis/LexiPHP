@@ -22,7 +22,7 @@ Class Admin_Controller_Faculty extends Frontend_Controller_Action {
 		$ratings = [];
 		foreach( $evaluationDetails as $ed ) {
 			$rs = $ratingDb->where("id", $ed->rating_id)->first();
-			if(! $rs ) {
+			if( $rs ) {
 				$ratings[] = $rs;
 			}else{
 				$rs = [];
