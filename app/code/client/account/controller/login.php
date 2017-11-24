@@ -36,6 +36,15 @@ Class Account_Controller_Login extends Frontend_Controller_Action {
 
 		$user = $db->where("username", $request["username"])->first();
 
+		if( $user->status == $db::STATUS_DISABLED ) {
+			$session->add("alert", [
+				"type" => "error",
+				"message" => "Your account is Banned/locked. contact admin for more information."
+			]);
+			$this->_redirect( $next );
+			return;
+		}
+
 		if(! $hash->verify( $request["password"], $user->password ) ) {
 			$session->add("alert", [
 				"type" => "error",

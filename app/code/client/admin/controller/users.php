@@ -41,6 +41,44 @@ Class Admin_Controller_Users extends Frontend_Controller_Action {
 		return;
 	}
 
+	/**
+	 *	Ban/Lock Account
+	 */
+	public function banAction() {
+		$request = Core::getSingleton("url/request")->getRequest();
+		$session = Core::getSingleton("system/session");
+		$accountDb = Core::getModel("account/account");
+		$next = Core::getBaseUrl() . "admin/users";
+
+		if(!isset($request["id"]) ) {
+			$session->add("alert", [
+				"type" => "error",
+				"message" => "Invalid Access"
+			]);
+			$this->_redirect( $next );
+			return;
+		}
+
+		if( $accountDb->where("id", $request["id"])->exist() ) {
+			$accountDb->where("id", $request["id"])->update([
+				"status" => $accountDb::STATUS_DISABLED
+			]);
+			$session->add("alert", [
+				"type" => "success",
+				"message" => "Account was banned/lock."
+			]);
+			$this->_redirect($next);
+		}else{
+			$session->add("alert", [
+				"type" => "error",
+				"message" => "Invalid User"
+			]);
+			$this->_redirect($next);
+		}
+
+		$this->_redirect($next);
+	}
+
 	public function setup() {
 		$this->setJs("default/dashboard");
 		$this->setJs("default/jquery.validate.min");

@@ -8,7 +8,7 @@ Class Account_Model_Account extends Database_Model_Base {
 
 	const STATUS_ACTIVE = "active";
 	const STATUS_INACTIVE = "inactive";
-	const STATUS_DISABLED = "disable";
+	const STATUS_DISABLED = "disabled";
 
 	/**
 	 *	Table Name for this model
