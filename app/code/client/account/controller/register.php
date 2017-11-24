@@ -62,6 +62,17 @@ Class Account_Controller_Register extends Frontend_Controller_Action {
 		$aData["account_id"] = $accountDb->lastId;
 		$aData["college_dept_id"] = $request["department"];
 
+		// get dean based on department
+		$accountData = $accountDataDb->where("college_dept_id", $request["department"])->get();
+		$supervisorId = 0;
+		foreach( $accountData as $adata ) {
+			$account = $accountDb->where("id", $adata->account_id)->where("account_type_id", 2)->first();
+			if( $account ) {
+				$supervisorId = $account->id;
+			}
+		}
+		$aData["supervisor_id"] = $supervisorId;
+		
 		if( $request["accountType"] == 3 ) {
 			if( isset($request["scyear"]) ) {
 				$aData["scyear"] = $request["scyear"];
