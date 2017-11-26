@@ -17,8 +17,15 @@ Class System_Controller_Filesystem {
 	 */
 	public function isAccessable( $path ) {
 		if( file_exists($path) ) {
-
+			if( is_writable($path) ) {
+				return true;
+			}
 		}
+		return false;
 	}
+
+	
+
+
 
 }
