@@ -11,31 +11,32 @@ Class Test_Controller_Index extends Frontend_Controller_Action {
 	public function getPermission( $file ) {
 		$perms = fileperms($file);
 
-		switch ($perms & 0xF000) {
-		    case 0xC000: // socket
-		        $info = 's';
-		        break;
-		    case 0xA000: // symbolic link
-		        $info = 'l';
-		        break;
-		    case 0x8000: // regular
-		        $info = 'r';
-		        break;
-		    case 0x6000: // block special
-		        $info = 'b';
-		        break;
-		    case 0x4000: // directory
-		        $info = 'd';
-		        break;
-		    case 0x2000: // character special
-		        $info = 'c';
-		        break;
-		    case 0x1000: // FIFO pipe
-		        $info = 'p';
-		        break;
-		    default: // unknown
-		        $info = 'u';
-		}
+		// switch ($perms & 0xF000) {
+		//     case 0xC000: // socket
+		//         $info = 's';
+		//         break;
+		//     case 0xA000: // symbolic link
+		//         $info = 'l';
+		//         break;
+		//     case 0x8000: // regular
+		//         $info = 'r';
+		//         break;
+		//     case 0x6000: // block special
+		//         $info = 'b';
+		//         break;
+		//     case 0x4000: // directory
+		//         $info = 'd';
+		//         break;
+		//     case 0x2000: // character special
+		//         $info = 'c';
+		//         break;
+		//     case 0x1000: // FIFO pipe
+		//         $info = 'p';
+		//         break;
+		//     default: // unknown
+		//         $info = 'u';
+		// }
+		$info = "";
 
 		// Owner
 		$info .= (($perms & 0x0100) ? 'r' : '-');
