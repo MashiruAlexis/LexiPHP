@@ -442,6 +442,15 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 
 		if( $this->getInterpretation($data[$highest]["rating"], true)->id < 2 ) {
 			$recomendationTxt .= ", keep up the good work.";
+
+			if( $data[$lowest1]["rating"] < 80) {
+				$recomendationTxt .= ' how ever the faculty can improve his/her performance by improving his/her ' . $data[$lowest1]["label"];
+
+			}
+
+			if( $data[$lowest2]["rating"] < 80) {
+				$recomendationTxt .= ' how ever the faculty can improve his/her performance by improving his/her ' . $data[$lowest2]["label"];
+			}
 		}
 
 		if( $this->getInterpretation($data[$highest]["rating"], true)->id == 3 or $this->getInterpretation($overall, true)->id >= 3 ) {
