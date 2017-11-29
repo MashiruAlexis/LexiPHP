@@ -154,11 +154,26 @@ Class Database_Model_Base {
 	/**
 	 *	get
 	 */
-	public function get() {
+	public function get( $col = false ) {
 		if( empty($this->selectClause) ) {
-			$this->selectClause = "*";
+			if(! $col ) {
+				$this->selectClause = "*";
+			}else{
+				$c = 0;
+				$items = count( $col );
+				foreach( $col as $cl ) {
+					$this->selectClause .= $cl;
+					$c++;
+					if( $c < $items ) {
+						$this->selectClause .= ",";
+					} 
+					
+				}
+			}
+
 		}
 		$sql = "SELECT " . $this->selectClause . " FROM " . $this->table . $this->whereClause;
+		Core::log( $sql );
     	try {
 		    $stmt = $this->conn->prepare($sql); 
 		    $stmt->execute();

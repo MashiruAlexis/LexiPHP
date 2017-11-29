@@ -15,6 +15,7 @@
 		$auth = Core::getSingleton("system/session")->get("auth");
 		foreach( Core::getModel("admin/evaluation")->get() as $eval ) {
 			$account = Core::getModel("account/account")->where("id", $eval->account_id)->first();
+			$accountData = $accountDb->where("account_id", $account->id)->first();
 			if( $accountDb->isAccountType("Dean") ) {
 				$rs = $accountDataDb
 					->where("account_id", $account->id)
@@ -65,13 +66,27 @@
 				    <div class="modal-content">
 				    	<h4 style="color: #455b65;" class="center">Recommendation Support Module</h4><br>
 				    	<div class="container" id="printme<?=$eval->id?>">
+				    		<div class="row">
+				    			<?php
+				    			$adata = Core::getModel("account/accountdata")->where("account_id", $account->id)->first();
+				    			?>
+				    			<div class="col s6">Name: <?=$account->fname?> <?=$account->lname?></div>
+				    			<div class="col s6">College Dep.: <?=$accountDb->getDepartment($account->id)->label?></div>
+				    			<div class="col s6">Semester: <?=$adata->sem?></div>
+				    			<div class="col s6">School Year: <?=$adata->scyear?></div>
+				    		</div>
+				    		<hr>
 				    		<?php
 				    			$dds = Core::getSingleton("admin/evaluation")->getEvaluationDdsData($eval->id);
 				    			$recomend = $dds["recomendation"];
 				    			$rating = $dds["overall"];
 				    			unset($dds["recomendation"]);
 				    			unset($dds["overall"]);
+				    			$rating = 0;
+				    			$noOfItems = 0;
 				    			foreach( $dds as $ds ) {
+				    				$rating = $rating + $ds["rating"];
+				    				$noOfItems++;
 				    				?>
 				    				<div class="row">
 							    		<div class="col s6">
@@ -95,6 +110,11 @@
 							    		</div>
 							    	</div>
 							    	<hr>
+							    	<div class="row">
+							    		<div class="col s12">
+							    			<span class="right">Average: <?=$rating / $noOfItems?>%</span>
+							    		</div>
+							    	</div>
 							    	
 				    </div>
 				    	<div class="container">

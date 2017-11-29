@@ -69,8 +69,8 @@ if( $accountDb->isAccountType("Teacher") ) {
 						<div class="collection-header primary-color" style="background-color: #546e7a !important;">
 							<h5 class="light" style="color: white;">
 								List
-								<a href="#!" class="secondary-content tooltipped" data-position="bottom" data-delay="50" data-tooltip="View All">
-									<i class="material-icons secondary-color-text">arrow_forward</i>
+								<a href="#!" class="secondary-content tooltipped" data-position="bottom" data-delay="50" data-tooltip="Print">
+									Print
 								</a>
 							</h5>
 						</div>
@@ -140,6 +140,29 @@ if( $accountDb->isAccountType("Teacher") ) {
 	</div>
 	</form>
 	</div>
+<?php
+	$rating = Core::getModel("evaluation/rating")->get(["id", "ave_total"]);
+	Core::log( $rating );
+?>
+<div id="modal1" class="modal">
+	<div class="modal-content">
+		<table border="0" cellpadding="3" id="printTable">
+			<tbody>
+				<tr>
+					<th>First Name</th>
+					<th>Last Name</th>		
+					<th>Points</th>
+				</tr>
+				
+				<tr>
+					<td>Jill</td>
+					<td>Smith</td>		
+					<td>50</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
 
 <?php $this->getChildBlock("page/footer"); ?>
 
