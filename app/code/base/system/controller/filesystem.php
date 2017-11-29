@@ -4,12 +4,28 @@
  * See license file for more info.
  */
 
+/**
+ *	Filesytem manipulation url
+ *	@link http://php.net/manual/en/function.file-get-contents.php
+ */
 Class System_Controller_Filesystem {
 
-	public function scanDir( $path ) {
-		
+	/**
+	 *	Check if we have permission on this path
+	 *	@var string $path
+	 *	@return bool
+	 */
+	public function isAccessable( $path ) {
 		if( file_exists($path) ) {
-
+			if( is_writable($path) ) {
+				return true;
+			}
 		}
+		return false;
 	}
+
+	
+
+
+
 }
