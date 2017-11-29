@@ -64,7 +64,7 @@
 				  <div id="modal-anal<?=$account->id?>" class="modal">
 				    <div class="modal-content">
 				    	<h4 style="color: #455b65;" class="center">Decision Support System</h4><br>
-				    	<div class="container">
+				    	<div class="container" id="printme<?=$eval->id?>">
 				    		<?php
 				    			$dds = Core::getSingleton("admin/evaluation")->getEvaluationDdsData($eval->id);
 				    			$recomend = $dds["recomendation"];
@@ -95,8 +95,11 @@
 							    		</div>
 							    	</div>
 							    	<hr>
+							    	
 				    </div>
-				    	
+				    	<div class="container">
+				    		<a href="#" class="btn centered" onclick="PrintElem('printme<?=$eval->id?>')">Print</a>
+				    	</div>
 				    </div>
 				  </div>
 
@@ -108,3 +111,23 @@
 	?>
 </tbody>
 </table>
+
+<script type="text/javascript">
+function PrintElem(elem) {
+    var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+    mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+    mywindow.document.write('</head><body >');
+    mywindow.document.write('<h1>' + document.title  + '</h1>');
+    mywindow.document.write(document.getElementById(elem).innerHTML);
+    mywindow.document.write('</body></html>');
+
+    mywindow.document.close(); // necessary for IE >= 10
+    mywindow.focus(); // necessary for IE >= 10*/
+
+    mywindow.print();
+    mywindow.close();
+
+    return true;
+}
+</script>
