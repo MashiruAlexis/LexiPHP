@@ -122,9 +122,9 @@ Class Evaluation_Controller_Process extends Frontend_Controller_Action {
 
 		if( $type = 3 ) {
 			foreach( $ans as $a ) {
-				$sum = ($sum + $a);
+				$sum = $sum + $a;
 			}
-			return $sum / 4;
+			return $sum / count($ans);
 		}
 		return 0;
 	}
