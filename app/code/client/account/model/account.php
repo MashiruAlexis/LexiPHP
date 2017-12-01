@@ -16,6 +16,15 @@ Class Account_Model_Account extends Database_Model_Base {
 	protected $table = "account";
 
 	/**
+	 *	Check if account is status
+	 *	@param string $status
+	 *	@return bool
+	 */	
+	public function isStatus(  ) {
+
+	}
+
+	/**
 	 *	check if acount is being evaluated
 	 */
 	public function hasEvaluation( $id ) {

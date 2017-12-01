@@ -42,6 +42,51 @@ Class Admin_Controller_Users extends Frontend_Controller_Action {
 	}
 
 	/**
+	 *	UnBan Account
+	 */
+	public function unbanAction() {
+		$request = Core::getSingleton("url/request")->getRequest();
+		$session = Core::getSingleton("system/session");
+		$accountDb = Core::getModel("account/account");
+		$next = Core::getBaseUrl() . "admin/users";
+
+		if(! isset($request["id"]) ) {
+			$session->add("alert", [
+				"type" => "error",
+				"message" => "Invalid Access."
+			]);
+			$this->_redirect( $next );
+			return;
+		}
+
+		if(! $accountDb->where("id", $request["id"])->where("status", $accountDb::STATUS_DISABLED)->exist() ) {
+			$session->add("alert", [
+				"type" => "error",
+				"message" => "Invalid Access"
+			]);
+			$this->_redirect( $next );
+			return;
+		}
+
+		$rs = $accountDb->where("id", $request["id"])->update([ "status" => $accountDb::STATUS_ACTIVE ]);
+
+		if( $rs ) {
+			$session->add("alert", [
+				"type" => "success",
+				"message" => "Account was successfully unbanned/unlocked"
+			]);
+			$this->_redirect( $next );
+			return;
+		}
+		$session->add("alert", [
+			"type" => "error",
+			"message" => "The system encounter an error while performing an action."
+		]);
+		$this->_redirect( $next );
+		return;
+	}
+
+	/**
 	 *	Ban/Lock Account
 	 */
 	public function banAction() {
