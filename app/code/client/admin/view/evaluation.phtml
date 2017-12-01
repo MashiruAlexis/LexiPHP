@@ -61,6 +61,43 @@ if( $accountDb->isAccountType("Teacher") ) {
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<form name="frmView">
+				<div class="col s12">
+					<div class="input-field col s3">
+						<select name="scyear">
+							<option value="" disabled>Choose your option</option>
+							
+							<?php
+								foreach( Core::getSingleton("evaluation/evaluation")->getSchoolYear() as $scyear ) {
+									?>
+									<option value="<?=$scyear?>"><?=$scyear?></option>
+									<?php
+								}
+							?>
+						</select>
+						<label>School Year</label>
+					</div>
+					<div class="input-field col s3">
+						<select name="sem">
+							<option value="" disabled>Choose your option</option>
+							
+							<?php
+								foreach( Core::getSingleton("evaluation/evaluation")->getSemester() as $sem ) {
+									?>
+									<option value="<?=$sem?>"><?=$sem?></option>
+									<?php
+								}
+							?>
+						</select>
+						<label>Semester</label>
+					</div>
+					<div class="input-field col s3">
+						<input type="submit" value="View" class="btn">
+					</div>
+				</div>
+			</form>
+		</div>
 		<div class="row"> 
 			<!-- Latest Tasks START -->
 			<div class="col s12 m12">
@@ -70,7 +107,7 @@ if( $accountDb->isAccountType("Teacher") ) {
 							<h5 class="light" style="color: white;">
 								List
 								<a href="#!" class="secondary-content tooltipped" data-position="bottom" data-delay="50" data-tooltip="Print" onclick="printData()">
-									Print
+									<i class="material-icons">local_printshop</i>
 								</a>
 							</h5>
 						</div>
@@ -168,8 +205,21 @@ if( $accountDb->isAccountType("Teacher") ) {
 				?>
 				
 				<?php
+					$accountDataDb = Core::getModel("account/accountdata");
+					$request = Core::getSingleton("url/request")->getRequest();
 					foreach( $ratings as $rating ) {
 						$account = $evaluationdb->getAccount( $rating["id"] );
+						$accountData = $accountDataDb->where( "account_id", $account->id )->first();
+						if( isset($request["scyear"]) or isset($request["sem"]) ) {
+							$rs = $accountDataDb
+								->where("account_id", $account->id)
+								->where("scyear", $request["scyear"])
+								->where("sem", $request["sem"])
+								->first();
+							if(! $rs ) {
+								continue;
+							}
+						}
 						?>
 						<tr>
 							<td><?=$account->fname?></td>

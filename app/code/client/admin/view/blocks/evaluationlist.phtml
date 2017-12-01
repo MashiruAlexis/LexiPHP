@@ -10,12 +10,21 @@
 
 <tbody>
 	<?php 
-		$accountDb = Core::getModel("account/account");
-		$accountDataDb = Core::getModel("account/accountdata");
-		$auth = Core::getSingleton("system/session")->get("auth");
+		$request 		= Core::getSingleton("url/request")->getRequest();
+		$accountDb 		= Core::getModel("account/account");
+		$accountDataDb 	= Core::getModel("account/accountdata");
+		$auth 			= Core::getSingleton("system/session")->get("auth");
 		foreach( Core::getModel("admin/evaluation")->get() as $eval ) {
 			$account = Core::getModel("account/account")->where("id", $eval->account_id)->first();
 			$accountData = $accountDb->where("account_id", $account->id)->first();
+			if( isset($request["scyear"]) or isset($request["sem"]) ) {
+				$rs = $accountDataDb->where("account_id", $account->id)
+					->where("scyear", $request["scyear"])
+					->where("sem", $request["sem"])
+					->first();
+				if(! $rs ) { continue; }
+			}
+			
 			if( $accountDb->isAccountType("Dean") ) {
 				$rs = $accountDataDb
 					->where("account_id", $account->id)
