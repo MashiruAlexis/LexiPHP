@@ -69,7 +69,7 @@ if( $accountDb->isAccountType("Teacher") ) {
 						<div class="collection-header primary-color" style="background-color: #546e7a !important;">
 							<h5 class="light" style="color: white;">
 								List
-								<a href="#!" class="secondary-content tooltipped" data-position="bottom" data-delay="50" data-tooltip="Print">
+								<a href="#!" class="secondary-content tooltipped" data-position="bottom" data-delay="50" data-tooltip="Print" onclick="printData()">
 									Print
 								</a>
 							</h5>
@@ -142,31 +142,61 @@ if( $accountDb->isAccountType("Teacher") ) {
 	</div>
 <?php
 	$rating = Core::getModel("evaluation/rating")->get(["id", "ave_total"]);
-	Core::log( $rating );
 ?>
-<div id="modal1" class="modal">
-	<div class="modal-content">
-		<table border="0" cellpadding="3" id="printTable">
+<table border="0" cellpadding="12" id="printTable" style="display: none">
 			<tbody>
 				<tr>
 					<th>First Name</th>
 					<th>Last Name</th>		
-					<th>Points</th>
+					<th>Average</th>
 				</tr>
+				<?php
+
+
+					$evaluationdb = Core::getModel("evaluation/evaluation");
+					foreach( $evaluationdb->get() as $eval ) {
+						if(! $evaluationdb->hasRatings( $eval->id ) ) {
+							continue;
+						} 
+						$ratings[] = [ "id" => $eval->id, "ave" => $evaluationdb->getAverage( $eval->id ) ];
+					}
+					usort($ratings, function($a, $b) {
+					    return $a['ave'] <=> $b['ave'];
+					});
+					$ratings = array_reverse($ratings);
+
+				?>
 				
-				<tr>
-					<td>Jill</td>
-					<td>Smith</td>		
-					<td>50</td>
-				</tr>
+				<?php
+					foreach( $ratings as $rating ) {
+						$account = $evaluationdb->getAccount( $rating["id"] );
+						?>
+						<tr>
+							<td><?=$account->fname?></td>
+							<td><?=$account->lname?></td>		
+							<td><?=$rating["ave"]?></td>
+						</tr>
+						<?php
+					}
+				?>
+
 			</tbody>
 		</table>
-	</div>
-</div>
 
 <?php $this->getChildBlock("page/footer"); ?>
 
 <script type="text/javascript">
+function printData()
+{
+	$("#printTable").css("display", "block");
+   var divToPrint=document.getElementById("printTable");
+   newWin= window.open("");
+   newWin.document.write(divToPrint.outerHTML);
+   newWin.print();
+   newWin.close();
+   $("#printTable").css("display", "none");
+}
+
 	$('#btnEvalSubmit').on("click",function(){
 		var code = $('#evalcode').val();
 		$('#evalcodemodal').val(code);

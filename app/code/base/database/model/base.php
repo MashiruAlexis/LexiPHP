@@ -173,7 +173,6 @@ Class Database_Model_Base {
 
 		}
 		$sql = "SELECT " . $this->selectClause . " FROM " . $this->table . $this->whereClause;
-		Core::log( $sql );
     	try {
 		    $stmt = $this->conn->prepare($sql); 
 		    $stmt->execute();
