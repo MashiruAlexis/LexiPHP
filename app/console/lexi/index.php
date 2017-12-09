@@ -9,7 +9,7 @@ Class Console_Lexi_Index extends Console_Controller_Core {
 	public $description = "this is the best framework.";
 
 	public function handler( $args ) {
-		$this->log($args);
+		$this->getHelp();
 	}
 
 	/**

@@ -187,13 +187,18 @@ if( $accountDb->isAccountType("Teacher") ) {
 <?php
 	$rating = Core::getModel("evaluation/rating")->get(["id", "ave_total"]);
 ?>
-<table border="0" cellpadding="12" id="printTable" style="display: none">
-			<tbody>
+<div id="printTable" style="display: none">
+	<h1 style="text-align: center;">Evaluation Result</h1>
+	<table border="0" cellpadding="12" style="width: 100%;">
+			<tbody style="text-align: center;">
 				<tr>
 					<th>First Name</th>
-					<th>Last Name</th>		
+					<th>Last Name</th>
+					<th>Semester</th>
+					<th>School Year</th>
 					<th>Average</th>
 				</tr>
+
 				<?php
 
 
@@ -214,9 +219,12 @@ if( $accountDb->isAccountType("Teacher") ) {
 				<?php
 					$accountDataDb = Core::getModel("account/accountdata");
 					$request = Core::getSingleton("url/request")->getRequest();
+
 					foreach( $ratings as $rating ) {
-						$account = $evaluationdb->getAccount( $rating["id"] );
-						$accountData = $accountDataDb->where( "account_id", $account->id )->first();
+						$account 		= $evaluationdb->getAccount( $rating["id"] );
+						$accountData 	= $accountDataDb->where( "account_id", $account->id )->first();
+						$acctSem 		= $accountData->sem;
+						$acctScYear 	= $accountData->scyear;
 						if( isset($request["scyear"]) or isset($request["sem"]) ) {
 							$rs = $accountDataDb
 								->where("account_id", $account->id)
@@ -226,11 +234,15 @@ if( $accountDb->isAccountType("Teacher") ) {
 							if(! $rs ) {
 								continue;
 							}
+							$acctSem = $rs->sem;
+							$acctScYear = $rs->scyear;
 						}
 						?>
 						<tr>
 							<td><?=$account->fname?></td>
-							<td><?=$account->lname?></td>		
+							<td><?=$account->lname?></td>	
+							<td><?=$acctSem?></td>	
+							<td><?=$acctScYear?></td>	
 							<td><?=$rating["ave"]?></td>
 						</tr>
 						<?php
@@ -239,6 +251,7 @@ if( $accountDb->isAccountType("Teacher") ) {
 
 			</tbody>
 		</table>
+</div>
 
 <?php $this->getChildBlock("page/footer"); ?>
 

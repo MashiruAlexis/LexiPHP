@@ -23,11 +23,11 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 		$session = Core::getSingleton("system/session");
 		$process = Core::getSingleton("evaluation/process");
 
-		$evaluationDb = Core::getModel("evaluation/evaluation");
-		$evaluationDetailsDb = Core::getModel("evaluation/evaluationdetails");
-		$evaluatorDb = Core::getModel("evaluation/evaluator");
-		$accountDb = Core::getModel("account/account");
-		$ratingDb = Core::getModel("evaluation/rating");
+		$evaluationDb 			= Core::getModel("evaluation/evaluation");
+		$evaluationDetailsDb 	= Core::getModel("evaluation/evaluationdetails");
+		$evaluatorDb 			= Core::getModel("evaluation/evaluator");
+		$accountDb 				= Core::getModel("account/account");
+		$ratingDb 				= Core::getModel("evaluation/rating");
 
 		$next = Core::getBaseUrl() . "admin/evaluation/evaluatepeer";
 
@@ -88,12 +88,12 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 		$accountEvaluatedData = $accountDb->getAccountData( $evaluation->account_id );
 
 		$evaluationDetailsDb->insert([
-			"evaluation_id" => $evaluation->id,
-			"evaluator_id" => $evaluatorId,
-			"rating_id" => $ratingId,
-			"school_year" => $accountEvaluatedData->scyear,
-			"semester" => $accountEvaluatedData->sem,
-			"comments" => $request["comments"]
+			"evaluation_id" 	=> $evaluation->id,
+			"evaluator_id" 		=> $evaluatorId,
+			"rating_id" 		=> $ratingId,
+			"school_year" 		=> $accountEvaluatedData->scyear,
+			"semester" 			=> $accountEvaluatedData->sem,
+			"comments" 			=> $request["comments"]
 		]);
 
 		$session->add("alert", [
@@ -110,14 +110,14 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 	 *	Validate Evaluation Code
 	 */
 	public function validateCodeAction() {
-		$request = Core::getSingleton("url/request")->getRequest();
-		$session = Core::getSingleton("system/session");
-		$next = Core::getBaseUrl() . "admin/evaluation/evaluatepeer";
+		$request 	= Core::getSingleton("url/request")->getRequest();
+		$session 	= Core::getSingleton("system/session");
+		$next 		= Core::getBaseUrl() . "admin/evaluation/evaluatepeer";
 
 		if(! $this->validate( $request["evalcode"] ) ) {
 			$session->add("alert", [
-				"type" => "error",
-				"message" => "Evalution code does not exist."
+				"type" 		=> "error",
+				"message" 	=> "Evalution code does not exist."
 			]);
 			$this->_redirect( $next );
 		}
@@ -128,8 +128,8 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 		$codeData = $evaluationDb->where("code", $request["evalcode"])->first();
 		if( $codeData->account_id == $auth->id ) {
 			$session->add("alert", [
-				"type" => "error",
-				"message" => "Invalid Action, it is not possible to evaluate your own."
+				"type" 		=> "error",
+				"message" 	=> "Invalid Action, it is not possible to evaluate your own."
 			]);
 			$this->_redirect( $next );
 			return;
@@ -216,15 +216,15 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 	 *	Create Evaluation
 	 */
 	public function createAction() {
-		$request = Core::getSingleton("url/request")->getRequest();
-		$evaluationDb = Core::getModel("admin/evaluation");
-		$session = Core::getSingleton("system/session");
-		$next = Core::getBaseUrl() . "admin/evaluation";
+		$request 		= Core::getSingleton("url/request")->getRequest();
+		$evaluationDb 	= Core::getModel("admin/evaluation");
+		$session 		= Core::getSingleton("system/session");
+		$next 			= Core::getBaseUrl() . "admin/evaluation";
 
 		if( empty($request["evalcodemodal"]) ) {
 			$session->add("alert",[
-				"type" => "error",
-				"message" => "Invalid evaluation code."
+				"type" 		=> "error",
+				"message" 	=> "Invalid evaluation code."
 			]);
 			$this->_redirect($next);
 			return;
@@ -232,8 +232,8 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 
 		if( empty($request["faculty"]) ) {
 			$session->add("alert",[
-				"type" => "error",
-				"message" => "Please select faculty member to evaluate."
+				"type" 		=> "error",
+				"message" 	=> "Please select faculty member to evaluate."
 			]);
 			$this->_redirect($next);
 			return;
@@ -241,30 +241,30 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 
 		if( $evaluationDb->where("code", $request["evalcodemodal"])->exist() ) {
 			$session->add("alert",[
-				"type" => "error",
-				"message" => "Code has been used already."
+				"type" 		=> "error",
+				"message" 	=> "Code has been used already."
 			]);
 			$this->_redirect($next);
 			return;
 		}
 
 		$rs = $evaluationDb->insert([
-			"account_id" => $request["faculty"],
-			"code" => $request["evalcodemodal"],
-			"status" => self::STATUS_ON_GOING
+			"account_id" 	=> $request["faculty"],
+			"code" 			=> $request["evalcodemodal"],
+			"status" 		=> self::STATUS_ON_GOING
 		]);
 
 		if( $rs ) {
 			$session->add("alert", [
-				"type" => "success",
-				"message" => "New evaluation has been added."
+				"type" 		=> "success",
+				"message" 	=> "New evaluation has been added."
 			]);
 			$this->_redirect($next);
 			return;
 		}
 		$session->add("alert",[
-			"type" => "error",
-			"message" => "Something went wrong while processing evaluation."
+			"type" 		=> "error",
+			"message" 	=> "Something went wrong while processing evaluation."
 		]);
 		$this->_redirect($next);
 		return;
@@ -274,10 +274,10 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 	 *	Add Criteria
 	 */
 	public function addCriteriaAction() {
-		$req = Core::getSingleton("url/request")->getRequest();
+		$req 		= Core::getSingleton("url/request")->getRequest();
 		$evaluation = Core::getModel("admin/evaluation");
 		$criteriaDb = Core::getModel("admin/criteria");
-		$alert = Core::getSingleton("system/session");
+		$alert 		= Core::getSingleton("system/session");
 
 		unset($req["btnAddCriteria"]);
 
@@ -303,9 +303,9 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 	 *	Add Sub Criteria
 	 */
 	public function addSubCriteriaAction() {
-		$req = Core::getSingleton("url/request")->getRequest();
-		$session = Core::getSingleton("system/session");
-		$subCriteriaDb = Core::getModel("admin/subcriteria");
+		$req 			= Core::getSingleton("url/request")->getRequest();
+		$session 		= Core::getSingleton("system/session");
+		$subCriteriaDb 	= Core::getModel("admin/subcriteria");
 
 		if( isset($req["addSubCriteria"]) ) {
 			unset($req["addSubCriteria"]);
