@@ -16,6 +16,15 @@ Class Account_Model_Account extends Database_Model_Base {
 	protected $table = "account";
 
 	/**
+	 *	Search account by name
+	 *	@param string $name
+	 *	@return array $result
+	 */
+	public function queryAccountByName( $name ) {
+		return $this->where("fname", $name)->orWhere("lname", $name)->get();
+	}
+
+	/**
 	 *	Check if account is status
 	 *	@param string $status
 	 *	@return bool

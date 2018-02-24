@@ -70,6 +70,20 @@ Class Database_Model_Base {
 	}
 
 	/**
+	 * Run Sql Raw Statement
+	 */
+	public function statement ( $sqlraw ) {
+		return $this->conn->query( $sqlraw );
+	}
+
+	/**
+	 *	Return current selected table
+	 */
+	public function getCurrentTable() {
+		return $this->table;
+	}
+
+	/**
 	 *	SQL QUERIES Add, Update, Delete and SELECT
 	 */
 	public function insert( $items = array() ) {
@@ -207,6 +221,22 @@ Class Database_Model_Base {
 		    return false;
 		}
 		return true;
+	}
+
+	/**
+	 *	SQL LIKE Statement
+	 */
+	public function like( $col, $val ) {
+		$this->whereClause .= " WHERE " . $col . " LIKE '" . $val . "' ";
+		return $this;
+	}
+
+	/**
+	 *	SQL Or and LIKE
+	 */
+	public function orLike( $col, $val ) {
+		$this->whereClause .= " or " . $col . " LIKE '" . $val . "' ";
+		return $this;
 	}
 
 	/**
