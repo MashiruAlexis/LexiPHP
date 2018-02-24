@@ -49,12 +49,10 @@
 	<div class="modal-content">
 	  <nav class="flat">
 		<div class="nav-wrapper">
-		  <form>
 			<div class="input-field">
 			  <input id="search" type="search" class="secondary-color-text white" style="margin:0;" required>
 			  <label for="search"><i class="material-icons secondary-color-text">search</i></label>
 			  <i class="material-icons modal-action modal-close">close</i> </div>
-		  </form>
 		</div>
 	  </nav>
 	</div>
@@ -78,16 +76,33 @@
 	</div>
   </div>
 
+<!-- Modal Structure -->
+<div id="modal<?=$account->id?>" class="modal">
+	<div class="modal-content center">
+		<h4 style="color: #455b65;">View Evaluation Result</h4>
+		<a href="<?=Core::getBaseUrl()?>admin/evaluation/view/student/1/id/<?=$account->id?>" class="btn" style="width: 185px;">Student</a>
+		<a href="<?=Core::getBaseUrl()?>admin/evaluation/view/peer/1/id/<?=$account->id?>" class="btn" style="width: 185px;">Peer</a>
+	</div>
+</div>
+
 <script type="text/javascript">
-	$("#btnSearch").click(function(){
-	    $.getJSON("<?=Core::getBaseUrl()?>account/search/search/name/" + $("#search").val(), function(result){
+	function fireSearch() {
+		$.getJSON("<?=Core::getBaseUrl()?>account/search/search/name/" + $("#search").val(), function(result){
 	    	$("#peoplelist").empty();
 	        $.each(result, function(i, field){
-	        	// console.log(i);
-	        	// console.log(field);
-
 	            $("#peoplelist").append('<div class="col s6 m6"> <div class="card-panel secondary-color primary-color-text">'+ field.fname + ' ' + field.lname + '<a class="modal-trigger right" href="#" style="color: white;">View</a></div></div>');
 	        });
 	    });
+	}
+	$("#btnSearch").click(function(){
+	    fireSearch();
+	});
+
+	$("#search").keypress(function(e) {
+	    if(e.which == 13) {
+	        $('#searchPeople').openModal();
+	        $('#search-in-modal').closeModal();
+	        fireSearch();
+	    }
 	});
 </script>
