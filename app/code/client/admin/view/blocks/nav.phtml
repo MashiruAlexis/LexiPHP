@@ -86,6 +86,7 @@
 </div>
 
 <script type="text/javascript">
+
 	function fireSearch() {
 		$.getJSON("<?=Core::getBaseUrl()?>account/search/search/name/" + $("#search").val(), function(result){
 	    	$("#peoplelist").empty();
@@ -94,6 +95,7 @@
 	        });
 	    });
 	}
+
 	$("#btnSearch").click(function(){
 	    fireSearch();
 	});
@@ -105,4 +107,5 @@
 	        fireSearch();
 	    }
 	});
+	
 </script>
