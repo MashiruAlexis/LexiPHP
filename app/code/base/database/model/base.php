@@ -202,7 +202,7 @@ Class Database_Model_Base {
 	}
 
 	/**
-	 *	first
+	 *	Get the first record found
 	 */
 	public function first() {
 		if( empty($this->selectClause) ) {
@@ -336,7 +336,7 @@ Class Database_Model_Base {
 		if( empty($this->whereClause) ) {
 			$andTxt = " WHERE ";
 		}
-		$this->whereClause .= $andTxt . $col . " = '" . $val . "'";
+		$this->whereClause .= $andTxt . $col . "='" . $val . "'";
 		return $this;
 	}
 
@@ -347,7 +347,7 @@ Class Database_Model_Base {
 	 *	@return obj $this
 	 */
 	public function orWhere( $col, $val ) {
-		$this->whereClause .= $this->whereClause . " OR " . $col . "='" . $val . "' ";
+		$this->whereClause .= " OR " . $col . "='" . $val . "' ";
 		return $this;
 	}
 

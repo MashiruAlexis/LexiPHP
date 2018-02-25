@@ -102,6 +102,12 @@ Class Evaluation_Controller_Process extends Frontend_Controller_Action {
 		$this->_redirect( $next );
 	}
 
+	/**
+	 *	Get the average
+	 *	@param array $ans
+	 *	@param int $type
+	 *	@return int $res
+	 */
 	public function getAve($ans = array(), $type = false) {
 		$sum = 0;
 		if( $type == 1 ) {
@@ -132,12 +138,23 @@ Class Evaluation_Controller_Process extends Frontend_Controller_Action {
 	public function evaluatorInfoAction () {
 		$session = Core::getSingleton("system/session");
 		$request = Core::getSingleton("url/request")->getRequest();
+		$evaluatorDb = Core::getModel("evaluation/evaluator");
+
 		$next = Core::getBaseUrl() . "evaluation";
 
 		if( empty($request["fullname"]) or empty($request["year"]) or empty($request["course"]) ) {
 			$session->add("alert", [ 
 				"type" => "error",
 				"message" => "Please fill all the fields."
+			]);
+			$this->_redirect($next);
+			return;
+		}
+
+		if( $evaluatorDb->isDuplicate($_SESSION["evaluation"]["code"], $request["fullname"]) ) {
+			$session->add("alert", [ 
+				"type" => "error",
+				"message" => "You have already evaluated this Teacher."
 			]);
 			$this->_redirect($next);
 			return;

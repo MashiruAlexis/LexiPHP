@@ -18,17 +18,20 @@ Class Account_Controller_Login extends Frontend_Controller_Action {
 		$this->setBlock("account/login");
 	}
 
+	/**
+	 *	Authenticate Login
+	 */
 	public function authenticateAction() {
 		$request 	= Core::getSingleton("url/request")->getRequest();
 		$session 	= Core::getSingleton("system/session");
 		$db 		= Core::getModel("account/account");
-		$next 		= Core::getBaseUrl() . "account/login/";
+		$next 		= Core::getBaseUrl() . "account/login";
 		$hash 		= Core::getSingleton("system/hash");
 
 		if(! $db->where("username", $request["username"])->exist() ) {
 			$session->add("alert", [
 				"type" => "error",
-				"message" => "Username or Password did not match."
+				"message" => "Username or Password did not match.1"
 			]);
 			$this->_redirect($next);
 			return;
@@ -48,7 +51,7 @@ Class Account_Controller_Login extends Frontend_Controller_Action {
 		if(! $hash->verify( $request["password"], $user->password ) ) {
 			$session->add("alert", [
 				"type" => "error",
-				"message" => "Username or Password did not match."
+				"message" => "Username or Password did not match.2"
 			]);
 			$this->_redirect($next);
 			return;	

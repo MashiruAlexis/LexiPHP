@@ -38,12 +38,19 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 		$auth = $session->get("auth");
 		$code = isset($_SESSION["evaluation"]["code"]) ? $_SESSION["evaluation"]["code"] : false;
 
-		$evaluatorDb->insert([
-			"account_id" => $auth->id,
-			"type" => $accountDb->getAccountType($auth->id)->type,
-			"name" => $auth->fname . " " . $auth->lname,
-		]);
-		$evaluatorId = $evaluatorDb->lastId;
+		$evaluatorResData = $evaluatorDb->where("account_id", $auth->id)->first();
+		if( empty($evaluatorResData) ) {
+			$evaluatorDb->insert([
+				"account_id" => $auth->id,
+				"type" => $accountDb->getAccountType($auth->id)->type,
+				"name" => $auth->fname . " " . $auth->lname,
+			]);
+			$evaluatorId = $evaluatorDb->lastId;
+		}else{
+			$evaluatorId = $evaluatorResData->id;
+		}
+		
+		
 
 		$ratingDb->insert([
 			"crit_A1" => $request[1],
@@ -112,6 +119,7 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 	public function validateCodeAction() {
 		$request 	= Core::getSingleton("url/request")->getRequest();
 		$session 	= Core::getSingleton("system/session");
+		$evaluatorDb = Core::getModel("evaluation/evaluator");
 		$next 		= Core::getBaseUrl() . "admin/evaluation/evaluatepeer";
 
 		if(! $this->validate( $request["evalcode"] ) ) {
@@ -130,6 +138,16 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 			$session->add("alert", [
 				"type" 		=> "error",
 				"message" 	=> "Invalid Action, it is not possible to evaluate your own."
+			]);
+			$this->_redirect( $next );
+			return;
+		}
+		
+		// [new feature] check if the user has already evaluated this code
+		if( $evaluatorDb->isDuplicate($request["evalcode"], $auth->id) ) {
+			$session->add("alert", [
+				"type" 		=> "error",
+				"message" 	=> "You have already evaluated this peer."
 			]);
 			$this->_redirect( $next );
 			return;

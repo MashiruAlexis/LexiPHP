@@ -25,8 +25,8 @@ Class Account_Controller_Search extends Frontend_Controller_Action {
 		$res = $accountDb->get(["id", "fname", "lname"]);
 		$data1 = array();
 		$dataEval = [];
-		
-		foreach( $evaluationDb->where("status", $evaluationDb::STATUS_ON_GOING)->get(["account_id"]) as $data ) {
+
+		foreach( $evaluationDb->get(["account_id"]) as $data ) {
 			$dataEval[] = $data->account_id;
 		}
 
