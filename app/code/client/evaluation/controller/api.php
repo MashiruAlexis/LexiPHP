@@ -76,13 +76,9 @@ Class Evaluation_Controller_Api extends Frontend_Controller_Action {
 	*	TEST
 	*/
 	public function testAction() {
-		$evaluatiorDb = Core::getModel("evaluation/evaluator");
 		$request = Core::getSingleton("url/request")->getRequest();
-		if( $evaluatiorDb->isDuplicate( $request["code"] , $request["evaluator"] ) ) {
-			echo "Naa na!";
-			return;
-		}
-		echo "wala pa";
+		$search = Core::getSingleton("account/search");
+		Core::log( $search->searchByName($request["name"]) );
 		return;
 	}
 }

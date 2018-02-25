@@ -77,6 +77,18 @@ Class Account_Model_Account extends Database_Model_Base {
 	}
 
 	/**
+	 *	Check if current user is Dean
+	 */
+	public function isDean() {
+		$user = Core::getSingleton("system/session")->get("auth");
+		$accountTypeDb = Core::getModel("account/accounttype");
+		if( $user->account_type_id == 2 ) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 *	Get Account Department
 	 */
 	public function getDepartment( $id ) {

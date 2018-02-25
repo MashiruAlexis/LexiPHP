@@ -31,7 +31,7 @@ Class Account_Controller_Login extends Frontend_Controller_Action {
 		if(! $db->where("username", $request["username"])->exist() ) {
 			$session->add("alert", [
 				"type" => "error",
-				"message" => "Username or Password did not match.1"
+				"message" => "Username or Password did not match."
 			]);
 			$this->_redirect($next);
 			return;
@@ -51,7 +51,7 @@ Class Account_Controller_Login extends Frontend_Controller_Action {
 		if(! $hash->verify( $request["password"], $user->password ) ) {
 			$session->add("alert", [
 				"type" => "error",
-				"message" => "Username or Password did not match.2"
+				"message" => "Username or Password did not match."
 			]);
 			$this->_redirect($next);
 			return;	

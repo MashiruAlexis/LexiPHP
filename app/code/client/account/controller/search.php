@@ -13,8 +13,15 @@ Class Account_Controller_Search extends Frontend_Controller_Action {
 	 */
 	public function searchAction() {
 		$request 		= Core::getSingleton("url/request")->getRequest();
+		$session		= Core::getSingleton("system/session");
 		$accountDb 		= Core::getModel("account/account");
 		$evaluationDb 	= Core::getModel("evaluation/evaluation");
+
+		$user = $session->get("auth");
+		
+		if( $accountDb->isDean() ) {
+			$this->searchForDeanAction();
+		}
 
 		$accountDb->like("fname", "%" . $request["name"] . "%" )->orLike( "lname", "%" . $request["name"] . "%" );
 		foreach( explode(" ", $request["name"] ) as $val ) {
@@ -38,6 +45,47 @@ Class Account_Controller_Search extends Frontend_Controller_Action {
 			}
 		}
 		echo json_encode($data1); exit();
+		return;
+	}
+
+	/**
+	 *	Search Faculty by Name
+	 *	@param string $name
+	 *	@return obj $result
+	 */
+	public function searchByName( $name ) {
+		$accountDb 		= Core::getModel("account/account");
+		$evaluationDb 	= Core::getModel("evaluation/evaluation");
+		$request["name"] = $name;
+
+		$accountDb->like("fname", "%" . $request["name"] . "%" )->orLike( "lname", "%" . $request["name"] . "%" );
+		foreach( explode(" ", $request["name"] ) as $val ) {
+			$accountDb->orLike( "fname", "%" . $val . "%" );
+			$accountDb->orLike( "lname", "%" . $val . "%" );
+		}
+
+		return $accountDb->get(["id", "fname", "lname"]);
+	}
+
+	/**
+	 *	Search for Dean
+	 */
+	public function searchForDeanAction() {
+		$this->middleware("auth");
+		$request = Core::getSingleton("url/request")->getRequest();
+		$session = Core::getSingleton("system/session");
+		$user = $session->get("auth");
+		$accountDb = Core::getModel("account/account");
+		$names = $this->searchByName( $request["name"] );
+		$data = [];
+
+		foreach( $names as $name ) {
+			if( $accountDb->sameDepartment( $user->id, $name->id ) ) {
+				$data[] = $name;
+			}
+		}
+		echo json_encode($data); exit();
+
 		return;
 	}
 }
