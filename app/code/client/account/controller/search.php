@@ -18,9 +18,13 @@ Class Account_Controller_Search extends Frontend_Controller_Action {
 		$evaluationDb 	= Core::getModel("evaluation/evaluation");
 
 		$user = $session->get("auth");
-		
+
 		if( $accountDb->isDean() ) {
 			$this->searchForDeanAction();
+		}
+
+		if( $accountDb->isTeacher() ) {
+			$this->searchForTeacherAction();
 		}
 
 		$accountDb->like("fname", "%" . $request["name"] . "%" )->orLike( "lname", "%" . $request["name"] . "%" );
@@ -80,12 +84,34 @@ Class Account_Controller_Search extends Frontend_Controller_Action {
 		$data = [];
 
 		foreach( $names as $name ) {
-			if( $accountDb->sameDepartment( $user->id, $name->id ) ) {
+			if( $accountDb->sameDepartment( $user->id, $name->id ) and $accountDb->hasEvaluation($name->id) ) {
 				$data[] = $name;
 			}
 		}
 		echo json_encode($data); exit();
 
 		return;
+	}
+
+	/**
+	 *	Serach for Teachers
+	 */
+	public function searchForTeacherAction() {
+		$this->middleware("auth");
+		$user = Core::getSingleton("system/session")->get("auth");
+		$request = Core::getSingleton("url/request")->getRequest();
+		$accountDb = Core::getModel("account/account");
+
+		$names = $this->searchByName( $request["name"] );
+		$data = [];
+
+		foreach( $names as $name ) {
+			if( $accountDb->isTeacher( $name->id ) and $accountDb->hasEvaluation($name->id) ) {
+				$data[] = $name;
+			}
+		}
+		echo json_encode($data); exit();
+		return;
+
 	}
 }

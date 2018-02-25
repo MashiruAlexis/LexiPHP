@@ -65,11 +65,19 @@ Class Account_Model_Account extends Database_Model_Base {
 
 	/**
 	 *	check if current login account is admin
+	 *	@param int $id
+	 *	@return bool $result
 	 */
-	public function isAdmin() {
+	public function isAdmin( $id = false ) {
 		$session = Core::getSingleton("system/session");
 		$auth = $session->get("auth");
+		$accountDb = Core::getModel("account/account");
 		$accountTypeDb = Core::getModel("account/accounttype");
+
+		if( $id ) {
+			$auth = $accountDb->where("id", $id)->first();
+		}
+
 		if( $auth->account_type_id == 1 ) {
 			return true;
 		}
@@ -78,16 +86,43 @@ Class Account_Model_Account extends Database_Model_Base {
 
 	/**
 	 *	Check if current user is Dean
+	 *	@param int $id
+	 *	@return bool $result
 	 */
-	public function isDean() {
+	public function isDean( $id = false ) {
 		$user = Core::getSingleton("system/session")->get("auth");
+		$accountDb = Core::getModel("account/account");
 		$accountTypeDb = Core::getModel("account/accounttype");
+
+		if( $id ) {
+			$user = $accountDb->where("id", $id)->first();
+		}
+
 		if( $user->account_type_id == 2 ) {
 			return true;
 		}
 		return false;
 	}
 
+	/**
+	 *	Check if current user is Teacher
+	 *	@param int $id
+	 *	@return bool $result
+	 */
+	public function isTeacher( $id = false ) {
+		$user = Core::getSingleton("system/session")->get("auth");
+		$accountDb = Core::getModel("account/account");
+		$accountTypeDb = Core::getModel("account/accounttype");
+
+		if( $id ) {
+			$user = $accountDb->where("id", $id)->first();
+		}
+
+		if( $user->account_type_id == 3 ) {
+			return true;
+		}
+		return false;
+	}	
 	/**
 	 *	Get Account Department
 	 */
