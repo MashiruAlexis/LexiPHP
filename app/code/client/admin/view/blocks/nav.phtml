@@ -77,11 +77,11 @@
   </div>
 
 <!-- Modal Structure -->
-<div id="modal<?=$account->id?>" class="modal">
+<div id="modalViewPeople" class="modal">
 	<div class="modal-content center">
 		<h4 style="color: #455b65;">View Evaluation Result</h4>
-		<a href="<?=Core::getBaseUrl()?>admin/evaluation/view/student/1/id/<?=$account->id?>" class="btn" style="width: 185px;">Student</a>
-		<a href="<?=Core::getBaseUrl()?>admin/evaluation/view/peer/1/id/<?=$account->id?>" class="btn" style="width: 185px;">Peer</a>
+		<a href="<?=Core::getBaseUrl()?>admin/evaluation/view/student/1/id/<?=$account->id?>" id="link1" class="btn" style="width: 185px;">Student</a>
+		<a href="<?=Core::getBaseUrl()?>admin/evaluation/view/peer/1/id/<?=$account->id?>" id="link2" class="btn" style="width: 185px;">Peer</a>
 	</div>
 </div>
 
@@ -90,10 +90,23 @@
 	function fireSearch() {
 		$.getJSON("<?=Core::getBaseUrl()?>account/search/search/name/" + $("#search").val(), function(result){
 	    	$("#peoplelist").empty();
-	        $.each(result, function(i, field){
-	            $("#peoplelist").append('<div class="col s6 m6"> <div class="card-panel secondary-color primary-color-text">'+ field.fname + ' ' + field.lname + '<a class="modal-trigger right" href="#" style="color: white;">View</a></div></div>');
-	        });
+	    	if( result.length == 0 ) {
+	    		$("#peoplelist").append('<div class="card-panel alert center">No <strong><u>'+ $("#search").val() +'</u></strong> found in our database.</div>');
+	    	}else{
+	    		$.each(result, function(i, field){
+		            $("#peoplelist").append('<div class="col s6 m6"> <div class="card-panel secondary-color primary-color-text">'+ field.fname + ' ' + field.lname + '<a class="modal-trigger right" onclick="viewSeachPeople('+ field.id +')" href="#" style="color: white;">View</a></div></div>');
+		        });
+	    	}
 	    });
+	}
+
+	function viewSeachPeople( elem ) {
+		var link1 = document.getElementById("link1");
+		var link2 = document.getElementById("link2");
+		link1.setAttribute('href', "<?=Core::getBaseUrl()?>admin/evaluation/view/student/1/id/" + elem);
+		link2.setAttribute('href', "<?=Core::getBaseUrl()?>admin/evaluation/view/peer/1/id/" + elem);
+		$('#modalViewPeople').openModal();
+		$('#searchPeople').closeModal();
 	}
 
 	$("#btnSearch").click(function(){
