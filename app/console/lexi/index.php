@@ -22,8 +22,8 @@ Class Console_Lexi_Index extends Console_Controller_Core {
 		$this->log( $this->color( $config["AppName"], "green" ) . " version " . $this->color( $config["Version"], "purple", "light_gray" ) );
 		$this->log();
 		$this->log( $this->color( "Usage:", "yellow" ) );
-		$this->log( "   command [options] [arguments]" );
+		$this->log( "\tcommand [options] [arguments]" );
 		$this->log();
-		$this->log("testawd \t\t test");
+		$this->log("make:client \t\t auto create client directories.");
 	}
 }
