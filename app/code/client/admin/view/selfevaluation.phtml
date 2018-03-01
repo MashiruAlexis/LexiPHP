@@ -57,9 +57,10 @@
 						<div id="tasks">
 							<?php
 								// dont let the teacher take evaluation without code
-								$evalCode = Core::getModel("account/account")
+								$evalCode = Core::getModel("evaluation/evaluation")
 									->where("account_id", Core::getSingleton("system/session")->get("auth")->id)
 									->first();
+									// Core::log(  );
 								if(! empty($evalCode) ) {
 									$_SESSION["evaluation"]["access"] = true;
 									$_SESSION["evaluation"]["code"] = $evalCode->code;

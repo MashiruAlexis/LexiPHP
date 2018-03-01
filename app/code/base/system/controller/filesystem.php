@@ -21,7 +21,7 @@ Class System_Controller_Filesystem {
 	 *	@return bool $result
 	 */
 	public function mkdir( $path ) {
-		if( is_dir($path) ) {
+		if( $this->dirExist( $path ) ) {
 			return false;
 		}
 		mkdir($path);
@@ -34,10 +34,11 @@ Class System_Controller_Filesystem {
 	 *	@return bool $result
 	 */
 	public function dirExist( $path ) {
-		if( is_dir($path) ) {
-			return true;
-		}
-		return false;
+	    // Get canonicalized absolute pathname
+		$path = realpath($path);
+
+		// If it exist, check if it's a directory
+		return ($path !== false AND is_dir($path)) ? $path : false;
 	}
 
 	/** 
