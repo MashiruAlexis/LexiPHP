@@ -10,6 +10,46 @@
  */
 Class System_Controller_Filesystem {
 
+	protected $extension = [
+		".php",
+		".txt"
+	];
+
+	/**
+	 *	Create directory
+	 *	@param string $path
+	 *	@return bool $result
+	 */
+	public function mkdir( $path ) {
+		if( is_dir($path) ) {
+			return false;
+		}
+		mkdir($path);
+		return true;
+	}
+
+	/**
+	 *	Check if directory exists
+	 *	@param string $path
+	 *	@return bool $result
+	 */
+	public function dirExist( $path ) {
+		if( is_dir($path) ) {
+			return true;
+		}
+		return false;
+	}
+
+	/** 
+	 *	Create A File
+	 */
+	public function create( $filename, $content = false, $path, $extension = "php" ) {
+		if(! $this->isAccessable( $path ) ) {
+			return false;
+		}
+
+	}
+
 	/**
 	 *	Check if we have permission on this path
 	 *	@var string $path
@@ -23,9 +63,4 @@ Class System_Controller_Filesystem {
 		}
 		return false;
 	}
-
-	
-
-
-
 }

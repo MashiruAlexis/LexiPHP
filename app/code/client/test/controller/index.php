@@ -4,8 +4,8 @@ Class Test_Controller_Index extends Frontend_Controller_Action {
 
 	public function indexAction() {
 		$this->setPageTitle("Testing");
-
-		echo $this->getPermission( __FILE__ );
+		$make = Core::getConsole("make/controller");
+		Core::log( $make->handler("Testing") ); 
 	}
 
 	public function getPermission( $file ) {

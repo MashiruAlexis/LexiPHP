@@ -40,7 +40,7 @@ Class Console_Controller_Core {
 			$this->alert("error", "this script will only run on terminal.");
 			return;
 		}
-
+		
 		$this->args[1] = isset($this->args[1]) ? $this->args[1] : $this->getApp();
 
 		if ( strpos($this->args[1], ':') !== false ) {
@@ -53,6 +53,7 @@ Class Console_Controller_Core {
 		
 		unset($this->args[0]);
 		unset($this->args[1]);
+		unset($args); $args = [];
 
 		$this->setController( $this->getApp() . "/" . $this->getController() );
 		
@@ -63,7 +64,12 @@ Class Console_Controller_Core {
 		}
 
 		if( method_exists($this->getController(), $this->getMethod()) ) {
-			call_user_func_array([$this->getController(), $this->getMethod()], [$this->args]);
+			if(! empty($this->args) ) {
+				foreach( $this->args as $arg ) {
+					$args[] = $arg;
+				}
+			}
+			call_user_func_array([$this->getController(), $this->getMethod()], [$args]);
 		}
 	}
 

@@ -223,6 +223,14 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 	}
 
 	/**
+	 *	Evaluate Self
+	 */
+	public function evaluateSelfAction() {
+		$this->setPageTitle("Self Evaluation");
+		$this->setBlock("admin/selfevaluation");
+	}
+
+	/**
 	 *	Evaluate Peer Form
 	 */
 	public function evaluatePeerAction() {
