@@ -57,6 +57,15 @@
 						<div id="tasks">
 							<?php
 								// dont let the teacher take evaluation without code
+								$evalCode = Core::getModel("account/account")
+									->where("account_id", Core::getSingleton("system/session")->get("auth")->id)
+									->first();
+								if(! empty($evalCode) ) {
+									$_SESSION["evaluation"]["access"] = true;
+									$_SESSION["evaluation"]["code"] = $evalCode->code;
+									$_SESSION["evaluation"]["hasEvaluator"] = true;
+								}
+								
 								if( isset($_SESSION["evaluation"]) ) {
 									$evaluationDb = Core::getModel("admin/evaluation");
 									$accountDb = Core::getModel("account/account");
@@ -99,7 +108,7 @@
 										    <div class="card horizontal">
 										      <div class="card-stacked">
 										        <div class="card-content">
-										          <p class="center">Please, enter evaluation code first.</p>
+										          <p class="center">This account is not up for evaluation</p>
 										        </div>
 										      </div>
 										    </div>
