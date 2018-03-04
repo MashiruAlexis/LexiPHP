@@ -1,0 +1,116 @@
+<?php $this->getChildBlock("page/preloader"); ?>
+<?php 
+$session = Core::getSingleton("system/session");
+$accountDb = Core::getModel("account/account");
+$accountType = $accountDb->getAccountType($session->get("auth")->id);
+
+if( $accountDb->isAccountType("Admin") ) {
+	$this->getChildBlock("admin/nav");
+}
+
+if( $accountDb->isAccountType("Dean") ) {
+	$this->getChildBlock("admin/navdean");
+}
+
+if( $accountDb->isAccountType("Teacher") ) {
+	$this->getChildBlock("admin/navteacher");
+}
+
+?>
+<?php $this->getChildBlock("page/icon"); ?>
+<style type="text/css">
+	.bx {
+		border: 1px solid red;
+	}
+</style>
+<!-- Main START -->
+<main>
+<?php $this->getChildBlock("admin/profilemenu"); ?>
+<div class="container">
+	<h1 class="thin">Dean Dashboard</h1>
+	<div id="dashboard">
+		<?php $this->getChildBlock("page/alert"); ?>
+		<div class="row">
+			<div class="col s12" style="color: black;">
+				<h5><b>Dept: </b><?=Core::getModel("account/account")->getDepartment($_SESSION["auth"]->id)->label;?></h5>
+			</div>
+		</div>
+		<div class="row ">
+		
+		</div>
+		<div class="row"> 
+			<!-- Latest Tasks START -->
+			<div class="col s12 m12">
+				<div class="card hoverable">
+					<ul class="collection with-header">
+						<div class="collection-header primary-color" style="background-color: #546e7a !important;">
+							<h5 class="light center" style="color: white;">
+								List Of Self Evaluated Faculty 
+							</h5>
+						</div>
+						<div id="tasks">
+							<div class="container">
+								<table style="margin: 15px;" class="highlight centered">
+								<thead>
+								  <tr>
+									  <th>Faculty Name</th>
+									  <th>Academic Rank</th>
+									  <th>Status</th>
+									  <th>Action</th>
+								  </tr>
+								</thead>
+
+								<tbody>
+									<?php
+										$department = Core::getModel("account/account")->getDepartment($_SESSION["auth"]->id);
+										foreach( Core::getModel("account/account")->get() as $account ) {
+											$selfEvaluationData = Core::getModel("evaluation/evaluationself")->getData( $account->id );
+											if(! Core::getModel("account/accountdata")->where("account_id", $account->id)->where("college_dept_id", $department->id)->exist() ) {
+												// skip if not same department
+												continue;
+											}
+											if( $account->account_type_id == 1 or $account->account_type_id == 2 ) {
+												// only list teacher account
+												continue;
+											}
+											if(! Core::getModel("evaluation/evaluationself")->hasEvaluated( $account->id ) ) {
+												// also only if account has self evaluation
+												continue;
+											}
+											?>
+											<tr>
+												<td><?=$account->fname?> <?=$account->lname?></td>
+												<td><?=Core::getModel("account/accounttype")->getAccountType($account->account_type_id)->type?></td>
+												<td><?= $selfEvaluationData->status ?></td>
+												<td>
+													<?php
+														if( Core::getModel("evaluation/evaluationself")::STATUS_PENDING === $selfEvaluationData->status ) {
+															?>
+															<a href="<?=Core::getBaseUrl()?>admin/faculty/approveSelfEvaluation/id/<?=$account->id?>">Approve</a>
+															<?php
+														}else{
+															?>
+															<a href="#" style="color: blue;">Approved</a>
+															<?php
+														}
+													?>
+												</td>
+											</tr>
+											<?php
+										}
+									?>
+									
+								</tbody>
+								</table>
+							</div>
+						</div>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</main>
+<!-- Main END --> 
+
+<?php $this->getChildBlock("page/footer"); ?>

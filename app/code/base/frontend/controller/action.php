@@ -57,9 +57,10 @@ Class Frontend_Controller_Action {
 	/**
 	 *	Get Child Block
 	 *	@var string $child
+	 *	@param int|string|array $data
 	 *	@return $blocks
 	 */
-	public function getChildBlock( $child ) {
+	public function getChildBlock( $child, $data = false ) {
 		$key = explode("/", $child);
 		$path = Core::$paths[0] . $key[0] . DS . "view" . DS . "blocks" . DS . $key[1] . ".phtml";
 		if( file_exists($path) ) {

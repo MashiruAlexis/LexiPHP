@@ -114,6 +114,102 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 	}
 
 	/**
+	 *	Self Evaluation
+	 */
+	public function submitSelfEvaluationAction() {
+		$this->middleware("auth"); // user must login first
+		$request 		= Core::getSingleton("url/request")->getRequest();
+		$process 		= Core::getSingleton("evaluation/process");
+		$session 		= Core::getSingleton("system/session");
+		$user 			= $session->get("auth");
+		$ratingDb 		= Core::getModel("evaluation/rating");
+		$evaluationSelfDb = Core::getModel("evaluation/evaluationself");
+		$accountDb		= Core::getModel("account/account");
+		$next			= Core::getBaseUrl() . "admin/evaluation/evaluateself";
+
+		if( $evaluationSelfDb->hasEvaluated() ) {
+			$session->add("alert",[
+				"type" => "error",
+				"message" => "You have already evaluated yourself."
+			]);
+			$this->_redirect( $next );
+			return;
+		}
+
+		$rsRating = $ratingDb->insert([
+			"crit_A1" => $request[1],
+			"crit_A2" => $request[3],
+			"crit_A3" => $request[6],
+			"crit_A4" => $request[7],
+			"crit_A5" => $request[8],
+			"ave_crit1" => $process->getAve([$request[1],$request[3],$request[6],$request[7],$request[8]], 1),
+
+			"crit_B1" => $request[2],
+			"crit_B2" => $request[9],
+			"crit_B3" => $request[10],
+			"crit_B4" => $request[11],
+			"crit_B5" => $request[12],
+			"ave_crit2" => $process->getAve([$request[2],$request[9],$request[10],$request[11],$request[12]], 1),
+
+			"crit_C1" => $request[4],
+			"crit_C2" => $request[13],
+			"crit_C3" => $request[14],
+			"crit_C4" => $request[15],
+			"crit_C5" => $request[16],
+			"ave_crit3" => $process->getAve([$request[4],$request[13],$request[14],$request[15],$request[16]], 2),
+
+			"crit_D1" => $request[5],
+			"crit_D2" => $request[17],
+			"crit_D3" => $request[18],
+			"crit_D4" => $request[19],
+			"crit_D5" => $request[20],
+			"ave_crit4" => $process->getAve([$request[5],$request[17],$request[18],$request[19],$request[20]], 2),
+
+			"ave_total" => $process->getAve([
+				$process->getAve([$request[1],$request[3],$request[6],$request[7],$request[8]], 1),
+				$process->getAve([$request[2],$request[9],$request[10],$request[11],$request[12]], 1),
+				$process->getAve([$request[4],$request[13],$request[14],$request[15],$request[16]], 2),
+				$process->getAve([$request[5],$request[17],$request[18],$request[19],$request[20]], 2),
+			],
+			3)
+		]);
+
+		if(! $rsRating ) {
+			$session->add("alert",[
+				"type" => "error",
+				"message" => "something went wrong while calculating and saving your rating."
+			]);
+			$this->_redirect( $next );
+			return;
+		}
+
+		$data = [
+			"account_id" 	=> $user->id,
+			"rating_id" 	=> $ratingDb->lastId,
+			"scyear" 		=> $accountDb->getSchoolYear(),
+			"sem" 			=> $accountDb->getSem(),
+			"status" 		=> $evaluationSelfDb::STATUS_PENDING
+		];
+
+		$rsEvalSelf = $evaluationSelfDb->insert($data);
+		if(! $rsEvalSelf ) {
+			$session->add("alert",[
+				"type" => "error",
+				"message" => "something went wrong while saving your self evaluation."
+			]);
+			$this->_redirect( $next );
+			return;
+		}
+
+		$session->add("alert", [
+			"type" => "success",
+			"message" => "you have successfully evaluated yourself, waiting for Dean's approval."
+		]);
+		$this->_redirect( $next );
+		return;
+	}
+
+	/**
 	 *	Validate Evaluation Code
 	 */
 	public function validateCodeAction() {
@@ -441,6 +537,12 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 		return $finalData;
 	}
 
+	/**
+	 *	Make Recommendation
+	 *	@param array $data
+	 *	@param variant $overall
+	 *	@return string $recomendationnTxt
+	 */
 	public function makeRecomendation( $data = array() , $overall = false ) {
 		$decisionDb = Core::getModel("evaluation/decision");
 		$recomendationTxt = "Overall performance is ";
@@ -486,6 +588,12 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 		return $recomendationTxt;
 	}
 
+	/**
+	 *	Get Interpretation
+	 *	@param int $rate
+	 *	@param bool $obj
+	 *	@return obj|string $dc|$dc->interpretation
+	 */
 	public function getInterpretation( $rate, $obj = false ) {
 		$decisionDb = Core::getModel("evaluation/decision");
 		foreach( $decisionDb->get() as $dc ) {
@@ -502,6 +610,8 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 
 	/**
 	 *	check if evaluation has evaluator
+	 *	@param int $evalDetailsId
+	 *	@return bool true|false
 	 */
 	public function hasEvaluator( $evalDetailsId ) {
 		$evaluatorDb = Core::getModel("evaluation/evaluator");

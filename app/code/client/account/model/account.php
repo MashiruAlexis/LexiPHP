@@ -210,6 +210,40 @@ Class Account_Model_Account extends Database_Model_Base {
 	}
 
 	/**
+	 *	Get account school year
+	 *	@param int $id
+	 *	@return string $scyear
+	 */
+	public function getSchoolYear( $id = false ) {
+		$accountDataDb = Core::getModel("account/accountdata");
+		if(! $id ) {
+			$id = Core::getSingleton("system/session")->get("auth")->id;
+		}
+		$rs = $accountDataDb->where("account_id", $id)->first();
+		if( $rs ) {
+			return $rs->scyear;
+		}
+		return false;
+	}
+
+	/**
+	 *	Get account semester
+	 *	@param int $id
+	 *	@return string $sem
+	 */
+	public function getSem( $id = false ) {
+		$accountDataDb = Core::getModel("account/accountdata");
+		if(! $id ) {
+			$id = $id = Core::getSingleton("system/session")->get("auth")->id;
+		}
+		$rs = $accountDataDb->where("account_id", $id)->first();
+		if( $rs ) {
+			return $rs->sem;
+		}
+		return false;
+	}
+
+	/**
 	 *	Create Account Automatically
 	 */
 	public function preAccount() {

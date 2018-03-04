@@ -2,11 +2,67 @@
 
 Class Admin_Controller_Faculty extends Frontend_Controller_Action {
 
+	/**
+	 *	Faculty default page
+	 */
 	public function indexAction() {
 		$this->setPageTitle("Faculty");
 		$this->setBlock("admin/faculty");
 	}
 
+	/**
+	 *	Self Evaluation List
+	 */
+	public function selfEvaluationAction() {
+		$this->setPageTitle("Faculty Self Evaluation");
+		$this->setBlock("admin/selfevaluationlist");
+	}
+
+	/**
+	 *	Approve Teacher Self Evaluation
+	 */
+	public function approveSelfEvaluationAction() {
+		$request = Core::getSingleton("url/request")->getRequest();
+		$session = Core::getSingleton("system/session");
+		$evaluationSelfDb = Core::getModel("evaluation/evaluationself");
+		$next = Core::getBaseUrl() . 'admin/faculty/selfEvaluation';
+		if(! isset($request["id"]) ) {
+			$session->add("alert", [
+				"type" => "error",
+				"message" => "Invalid Request"
+			]);
+			$this->_redirect( $next );
+			return;
+		}
+
+		$rs = $evaluationSelfDb->where("account_id", $request["id"])->update([
+			"status" => $evaluationSelfDb::STATUS_APPROVED
+		]);
+
+		if(! $rs ) {
+			$session->add("alert",[
+				"type" => "error",
+				"message" => "Something went wrong while approving this evaluation."
+			]);
+			$this->_redirect( $next );
+			return;
+		}
+
+		$session->add("alert",[
+			"type" => "success",
+			"message" => "Teacher was successfully approved."
+		]);
+		$this->_redirect( $next );
+		return;
+	}
+
+	/**
+	 *	Faculty get data
+	 *	@param int $id
+	 *	@param int $scyear
+	 *	@param string $sem
+	 *	@return array $ratings
+	 */
 	public function getFacultyData( $id, $scyear = null, $sem = null ) {
 		$evaluationDb = Core::getModel("evaluation/evaluation");
 		$evaluationDetailsDb = Core::getModel("evaluation/evaluationdetails");
