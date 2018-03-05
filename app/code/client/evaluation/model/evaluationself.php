@@ -47,7 +47,6 @@ Class Evaluation_Model_Evaluationself extends Database_Model_Base {
 
 		$accountDb = Core::getModel("account/account");
 		$teachers = $accountDb->where("account_type_id", 3)->get();
-
 		if(! $accountDb->isDean($id) ) {
 			return false;
 		}
