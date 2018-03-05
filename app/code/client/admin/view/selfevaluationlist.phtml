@@ -55,52 +55,47 @@ if( $accountDb->isAccountType("Teacher") ) {
 								  <tr>
 									  <th>Faculty Name</th>
 									  <th>Academic Rank</th>
+									  <th>School Year</th>
+									  <th>Sem</th>
 									  <th>Status</th>
 									  <th>Action</th>
 								  </tr>
 								</thead>
 
-								<tbody>
-									<?php
-										$department = Core::getModel("account/account")->getDepartment($_SESSION["auth"]->id);
-										foreach( Core::getModel("account/account")->get() as $account ) {
-											$selfEvaluationData = Core::getModel("evaluation/evaluationself")->getData( $account->id );
-											if(! Core::getModel("account/accountdata")->where("account_id", $account->id)->where("college_dept_id", $department->id)->exist() ) {
-												// skip if not same department
-												continue;
-											}
-											if( $account->account_type_id == 1 or $account->account_type_id == 2 ) {
-												// only list teacher account
-												continue;
-											}
-											if(! Core::getModel("evaluation/evaluationself")->hasEvaluated( $account->id ) ) {
-												// also only if account has self evaluation
-												continue;
-											}
-											?>
-											<tr>
-												<td><?=$account->fname?> <?=$account->lname?></td>
-												<td><?=Core::getModel("account/accounttype")->getAccountType($account->account_type_id)->type?></td>
-												<td><?= $selfEvaluationData->status ?></td>
-												<td>
-													<?php
-														if( Core::getModel("evaluation/evaluationself")::STATUS_PENDING === $selfEvaluationData->status ) {
-															?>
-															<a href="<?=Core::getBaseUrl()?>admin/faculty/approveSelfEvaluation/id/<?=$account->id?>">Approve</a>
+									<tbody>
+										<?php 
+											$selfEvaluationDb = Core::getModel("evaluation/evaluationself");
+											$teachers = $selfEvaluationDb->getDeansTeachers();
+											foreach( $teachers as $teacher ) {
+												if(! $selfEvaluationDb->hasEvaluated( $teacher->id ) ) {
+													continue;
+												}
+												$eval = $selfEvaluationDb->where("account_id", $teacher->id)->first();
+												?>
+													<tr>
+														<td><?=$teacher->fname?> <?=$teacher->lname?></td>
+														<td><?=Core::getModel("account/accounttype")->getAccountType($teacher->account_type_id)->type?></td>
+														<td><?= $eval->scyear ?></td>
+														<td><?= $eval->sem ?></td>
+														<td><?= $eval->status ?></td>
+														<td>
 															<?php
-														}else{
+																if( Core::getModel("evaluation/evaluationself")::STATUS_PENDING === $eval->status ) {
+																	?>
+																	<a href="<?=Core::getBaseUrl()?>admin/faculty/approveSelfEvaluation/id/<?=$teacher->id?>">Approve</a>
+																	<?php
+																}else{
+																	?>
+																	<a href="<?=Core::getBaseUrl()?>admin/faculty/disapproveSelfEvaluation/id/<?=$teacher->id?>" style="color: red;">Disapprove</a>
+																	<?php
+																}
 															?>
-															<a href="#" style="color: blue;">Approved</a>
-															<?php
-														}
-													?>
-												</td>
-											</tr>
-											<?php
-										}
-									?>
-									
-								</tbody>
+														</td>
+													</tr>
+												<?php
+											}
+										?>
+									</tbody>
 								</table>
 							</div>
 						</div>

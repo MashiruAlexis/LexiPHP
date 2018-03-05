@@ -40,7 +40,9 @@
 	  <li><a href="<?=Core::getBaseUrl()?>admin" class="waves-effect"><i class="mdi-action-dashboard left"></i><span>Dashboard</span></a></li>
 	  <li><a href="<?=Core::getBaseUrl()?>admin/faculty" class="waves-effect"><i class="mdi-action-dashboard left"></i><span>Faculty</span></a></li>
 	  <li><a href="<?=Core::getBaseUrl()?>admin/evaluation" class="waves-effect"><i class="mdi-action-dashboard left"></i><span>Evaluation</span></a></li>
-	  <li><a href="<?=Core::getBaseUrl()?>admin/faculty/selfEvaluation" class="waves-effect"><i class="mdi-action-dashboard left"></i><span>Self Evaluations<span class="new badge">4</span></span></a></li>
+	  <li><a href="<?=Core::getBaseUrl()?>admin/faculty/selfEvaluation" class="waves-effect"><i class="mdi-action-dashboard left"></i><span>Self Evaluations
+	  		<?php $this->getChildBlock('admin/deanbadge'); ?>
+	  	</span></a></li>
 	  
 	</ul>
   </div>

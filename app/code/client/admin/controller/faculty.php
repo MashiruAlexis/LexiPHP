@@ -50,10 +50,58 @@ Class Admin_Controller_Faculty extends Frontend_Controller_Action {
 
 		$session->add("alert",[
 			"type" => "success",
-			"message" => "Teacher was successfully approved."
+			"message" => "Teacher self evaluation was successfully approved."
 		]);
 		$this->_redirect( $next );
 		return;
+	}
+
+	/**
+	 *	Disapprove faculty self evaluation
+	 *	@param int $id
+	 *	@return none
+	 */
+	public function disapproveSelfEvaluationAction() {
+		$request = Core::getSingleton("url/request")->getRequest();
+		$session = Core::getSingleton("system/session");
+		$evalSelfDb = Core::getModel("evaluation/evaluationself");
+
+		$next = Core::getBaseUrl() . "admin/faculty/selfEvaluation";
+
+		if(! isset($request["id"]) ) {
+			$session->add("alert", [
+				"type" => "error",
+				"message" => "Invalid request."
+			]);
+			$this->_redirect( $next );
+			return;
+		}
+
+		if(! $evalSelfDb->hasEvaluated( $request["id"] ) ) {
+			$session->add("alert",[
+				"type" => "error",
+				"message" => "Invalid Request."
+			]);
+			$this->_redirect( $next );
+			return;
+		}
+
+		$rs = $evalSelfDb->where("account_id", $request["id"])->update(["status" => $evalSelfDb::STATUS_PENDING]);
+		if(! $rs ) {
+			$session->add("alert",[
+				"type" => "error",
+				"message" => "Something went wrong while processing this request."
+			]);
+			$this->_redirect( $next );
+			return;
+		}
+
+		$session->add("alert",[
+			"type" => "success",
+			"message" => "Teacher self evaluation was disapproved."
+		]);
+		$this->_redirect( $next );
+		return false;
 	}
 
 	/**

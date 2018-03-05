@@ -1,0 +1,11 @@
+<?php
+$c = Core::getModel("evaluation/evaluationself")->getBadgeCount();
+?>
+
+<?php
+	if( $c > 0 ) {
+		?>
+			<span class="new badge"><?=$c?></span>
+		<?php
+	}
+?>
