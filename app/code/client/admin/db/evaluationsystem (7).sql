@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2018 at 01:42 PM
+-- Generation Time: Nov 24, 2017 at 12:40 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -82,7 +82,7 @@ CREATE TABLE `account` (
 INSERT INTO `account` (`id`, `account_type_id`, `fname`, `lname`, `username`, `password`, `email`, `status`, `updated_at`, `created_at`) VALUES
 (1, 1, 'Alexis', 'Celis', 'alexis', '$2y$10$bII82dEH1evCqo9tS7CnLOzwJtUIqiLSZnrUiYMJrEJzDsZQK.dCq', 'alexis@alexis.com', 'active', NULL, NULL),
 (2, 2, 'Alexis', 'Celis', 'alexis1', '$2y$10$hkdZ6LOcQVo3ervGZnjGMOwykU98nqdwr79nCfXV6I2FAOkJyrMLi', 'alexis1@alexis.com', 'active', NULL, NULL),
-(3, 3, 'Alexis', 'Celis', 'alexis2', '$2y$10$fkObKuPg/92spH8tOBRnxeGJxwwA06aJdFx7F9e/TcgcHst6JA/2q', 'alexis2@alexis.com', 'active', NULL, NULL),
+(3, 3, 'Alexis', 'Celis', 'alexis2', '$2y$10$F.et6GT05kaKgC4XttqSoOe4Hg4Xnxk7TCMR2fXWikEzt8XyOKRfS', 'alexis2@alexis.com', 'active', NULL, NULL),
 (4, 3, 'Jared', 'Celis', 'jared', '$2y$10$BFnDl1tKeFzvAoS2d3PR5OQXIF724VEnsjTIlBWqT9kaFcCyWndSe', 'jared@admin.com', 'active', NULL, NULL),
 (5, 3, 'James', 'Jones', 'james', '$2y$10$.AiWnDypBBxlSevqxHafkeTZPKA5EBLh12u/n52p8XjvivIzDsIfC', 'james@admin.com', 'active', NULL, NULL),
 (7, 2, 'dean', 'dean', 'dean1', '$2y$10$LzF.axypsbFSaBASK6Svj.4JqOa9NhIhfZh4dCgu23Qe0QlO9OtdS', 'dean@dean.com', 'active', NULL, NULL),
@@ -119,9 +119,9 @@ CREATE TABLE `account_data` (
 
 INSERT INTO `account_data` (`id`, `account_id`, `teacher_id`, `supervisor_id`, `college_dept_id`, `academic_rank_id`, `subject_id`, `scyear`, `sem`) VALUES
 (6, 4, 0, NULL, '1', NULL, '1', '2017-2018', '1st'),
-(7, 3, 0, 2, '2', NULL, '2', '2017-2018', '1st'),
+(7, 3, 0, 2, '1', NULL, '2', '2017-2018', '1st'),
 (9, 5, 0, NULL, '4', NULL, '3', '2017-2018', '1st'),
-(11, 7, 0, NULL, '2', NULL, '', NULL, NULL),
+(11, 7, 0, NULL, '1', NULL, '', NULL, NULL),
 (12, 2, 2, NULL, '1', NULL, '1', '2017-2018', '1st'),
 (13, 17, NULL, 2, '1', NULL, '1', '2017-2018', '1st'),
 (14, 18, NULL, 2, '1', NULL, '2', '2017-2018', '1st'),
@@ -220,10 +220,8 @@ CREATE TABLE `evaluation` (
 
 INSERT INTO `evaluation` (`id`, `evaluator_id`, `account_id`, `code`, `sem`, `school_year`, `status`) VALUES
 (1, NULL, 3, 'l0nzsf', NULL, NULL, 'on-going'),
-(2, NULL, 21, 'o2bymq', NULL, NULL, 'stopped'),
-(3, NULL, 24, 'mivnaw', NULL, NULL, 'stopped'),
-(4, NULL, 19, 'ib1d7v', NULL, NULL, 'on-going'),
-(5, NULL, 20, 'etonfv', NULL, NULL, 'stopped');
+(2, NULL, 21, 'o2bymq', NULL, NULL, 'on-going'),
+(3, NULL, 24, 'mivnaw', NULL, NULL, 'on-going');
 
 -- --------------------------------------------------------
 
@@ -293,39 +291,7 @@ INSERT INTO `evaluation_details` (`id`, `evaluation_id`, `evaluator_id`, `rating
 (8, 2, 8, 8, '2017-2018', '2nd', NULL, 'The best faculty member i ever have'),
 (9, 3, 9, 9, '2017-2018', '1st', NULL, 'This guys is really something else.'),
 (10, 3, 10, 10, '2017-2018', '1st', NULL, 'lol this guy is really funny'),
-(11, 3, 11, 11, '2017-2018', '1st', NULL, 'I am very good at this'),
-(12, 1, 12, 12, '2017-2018', '1st', NULL, 'Nice, good job my friend.'),
-(13, 2, 13, 13, '2017-2018', '2nd', NULL, 'What a let down!'),
-(14, 2, 2, 14, '2017-2018', '2nd', NULL, 'The future is near.'),
-(15, 2, 14, 15, '2017-2018', '2nd', NULL, 'Good Luck to you my trusted friend.'),
-(16, 1, 15, 16, '2017-2018', '1st', NULL, 'This guy is just so amazing.'),
-(17, 1, 16, 17, '2017-2018', '1st', NULL, 'Wow just wow!'),
-(18, 1, 2, 18, '2017-2018', '1st', NULL, 'this so amazing'),
-(19, 5, 17, 24, '2017-2018', '1st', NULL, 'Nice');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `evaluation_self`
---
-
-CREATE TABLE `evaluation_self` (
-  `id` int(11) NOT NULL,
-  `account_id` int(11) DEFAULT NULL,
-  `rating_id` int(11) DEFAULT NULL,
-  `scyear` varchar(10) DEFAULT NULL,
-  `sem` varchar(10) DEFAULT NULL,
-  `status` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `evaluation_self`
---
-
-INSERT INTO `evaluation_self` (`id`, `account_id`, `rating_id`, `scyear`, `sem`, `status`) VALUES
-(3, 3, 22, '2017-2018', '1st', 'approved'),
-(4, 19, 23, '2017-2018', '1st', 'approved'),
-(5, 20, 25, '2017-2018', '1st', 'approved');
+(11, 3, 11, 11, '2017-2018', '1st', NULL, 'I am very good at this');
 
 -- --------------------------------------------------------
 
@@ -373,7 +339,7 @@ INSERT INTO `evaluation_sub_criteria` (`id`, `evaluation_criteria_id`, `question
 
 CREATE TABLE `evaluator` (
   `id` int(11) NOT NULL,
-  `account_id` varchar(11) DEFAULT '0',
+  `account_id` int(11) DEFAULT '0',
   `type` varchar(20) DEFAULT NULL,
   `name` varchar(30) NOT NULL,
   `year` varchar(20) DEFAULT NULL,
@@ -386,23 +352,17 @@ CREATE TABLE `evaluator` (
 --
 
 INSERT INTO `evaluator` (`id`, `account_id`, `type`, `name`, `year`, `course`, `date`) VALUES
-(1, '2', 'Dean', 'Alexis Celis', NULL, NULL, NULL),
-(2, '3', 'Teacher', 'Alexis Celis', NULL, NULL, NULL),
-(3, '0', 'Student', 'Darby Doll', '2nd', 'BSIT', NULL),
-(4, '0', 'Student', 'Katty', '2nd', 'BEED', NULL),
-(5, '3', 'Teacher', 'Alexis Celis', NULL, NULL, NULL),
-(6, '2', 'Dean', 'Alexis Celis', NULL, NULL, NULL),
-(7, '0', 'Student', 'Carl Camenforte', '2nd', 'BSCE', NULL),
-(8, '2', 'Dean', 'Alexis Celis', NULL, NULL, NULL),
-(9, '23', '', 'dean2 dean2', NULL, NULL, NULL),
-(10, '0', 'Student', 'Maricar', '2nd', 'BA Com', NULL),
-(11, '24', '', 'test5 test5', NULL, NULL, NULL),
-(12, '0', 'Student', 'katty1', '2nd', 'BSCE', NULL),
-(13, '3', 'Teacher', 'Alexis Celis', NULL, NULL, NULL),
-(14, '20', '', 'Alexis4 Alexis4', NULL, NULL, NULL),
-(15, '0', 'Student', 'Alexis Celis the second', '1st', 'BSIT', NULL),
-(16, '0', 'Student', 'Ramon Alexis Celis The First', '1st', 'BSIT', NULL),
-(17, '0', 'Student', 'Mashiro', '1st', 'BSIT', NULL);
+(1, 2, 'Dean', 'Alexis Celis', NULL, NULL, NULL),
+(2, 3, 'Teacher', 'Alexis Celis', NULL, NULL, NULL),
+(3, 0, 'Student', 'Darby Doll', '2nd', 'BSIT', NULL),
+(4, 0, 'Student', 'Katty', '2nd', 'BEED', NULL),
+(5, 3, 'Teacher', 'Alexis Celis', NULL, NULL, NULL),
+(6, 2, 'Dean', 'Alexis Celis', NULL, NULL, NULL),
+(7, 0, 'Student', 'Carl Camenforte', '2nd', 'BSCE', NULL),
+(8, 2, 'Dean', 'Alexis Celis', NULL, NULL, NULL),
+(9, 23, '', 'dean2 dean2', NULL, NULL, NULL),
+(10, 0, 'Student', 'Maricar', '2nd', 'BA Com', NULL),
+(11, 24, '', 'test5 test5', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -456,18 +416,7 @@ INSERT INTO `rating` (`id`, `teacher_id`, `evaluation_id`, `crit_A1`, `crit_A2`,
 (8, NULL, NULL, 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 100),
 (9, NULL, NULL, 5, 4, 5, 5, 5, '96', 1, 1, 2, 2, 3, '36', 3, 3, 4, 5, 5, '80', 5, 5, 5, 5, 5, '100', 78),
 (10, NULL, NULL, 5, 5, 4, 5, 4, '92', 2, 5, 5, 5, 5, '88', 5, 1, 1, 5, 4, '64', 5, 5, 5, 5, 5, '100', 86),
-(11, NULL, NULL, 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 100),
-(12, NULL, NULL, 5, 5, 4, 4, 5, '92', 5, 5, 5, 5, 5, '100', 5, 4, 4, 3, 5, '84', 5, 5, 5, 4, 5, '96', 93),
-(13, NULL, NULL, 5, 5, 5, 4, 5, '96', 5, 4, 3, 1, 1, '56', 1, 1, 1, 2, 2, '28', 2, 3, 2, 3, 3, '52', 58),
-(14, NULL, NULL, 4, 4, 4, 4, 4, '80', 4, 4, 4, 4, 4, '80', 4, 4, 4, 4, 4, '80', 4, 4, 4, 4, 4, '80', 80),
-(15, NULL, NULL, 5, 5, 5, 4, 3, '88', 3, 4, 4, 5, 5, '84', 2, 2, 5, 1, 2, '48', 4, 5, 5, 5, 5, '96', 79),
-(16, NULL, NULL, 5, 4, 4, 4, 5, '88', 5, 4, 4, 4, 3, '80', 3, 3, 4, 4, 3, '68', 2, 2, 2, 2, 2, '40', 69),
-(17, NULL, NULL, 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 100),
-(18, NULL, NULL, 5, 4, 5, 5, 5, '96', 4, 3, 3, 4, 3, '68', 3, 4, 5, 5, 5, '88', 5, 5, 5, 5, 5, '100', 88),
-(22, NULL, NULL, 5, 5, 5, 4, 4, '92', 4, 3, 2, 3, 4, '64', 5, 5, 5, 5, 5, '100', 5, 5, 3, 5, 5, '92', 87),
-(23, NULL, NULL, 5, 4, 4, 4, 5, '88', 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 97),
-(24, NULL, NULL, 5, 4, 4, 5, 1, '76', 1, 1, 1, 1, 1, '20', 1, 1, 1, 1, 1, '20', 1, 1, 5, 5, 5, '68', 46),
-(25, NULL, NULL, 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 100);
+(11, NULL, NULL, 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 5, 5, 5, 5, 5, '100', 100);
 
 -- --------------------------------------------------------
 
@@ -554,13 +503,6 @@ ALTER TABLE `evaluation_data`
 -- Indexes for table `evaluation_details`
 --
 ALTER TABLE `evaluation_details`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `evaluation_id` (`evaluation_id`);
-
---
--- Indexes for table `evaluation_self`
---
-ALTER TABLE `evaluation_self`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -631,7 +573,7 @@ ALTER TABLE `decision`
 -- AUTO_INCREMENT for table `evaluation`
 --
 ALTER TABLE `evaluation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `evaluation_criteria`
@@ -649,13 +591,7 @@ ALTER TABLE `evaluation_data`
 -- AUTO_INCREMENT for table `evaluation_details`
 --
 ALTER TABLE `evaluation_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
-
---
--- AUTO_INCREMENT for table `evaluation_self`
---
-ALTER TABLE `evaluation_self`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `evaluation_sub_criteria`
@@ -667,29 +603,19 @@ ALTER TABLE `evaluation_sub_criteria`
 -- AUTO_INCREMENT for table `evaluator`
 --
 ALTER TABLE `evaluator`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `rating`
 --
 ALTER TABLE `rating`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `subject`
 --
 ALTER TABLE `subject`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `evaluation_details`
---
-ALTER TABLE `evaluation_details`
-  ADD CONSTRAINT `evaluation_details_ibfk_1` FOREIGN KEY (`evaluation_id`) REFERENCES `evaluation` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
