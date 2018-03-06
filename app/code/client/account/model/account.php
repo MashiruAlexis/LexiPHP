@@ -125,22 +125,26 @@ Class Account_Model_Account extends Database_Model_Base {
 	}	
 	/**
 	 *	Get Account Department
+	 *	@param int $id
+	 *	@return obj $deparment
 	 */
 	public function getDepartment( $id ) {
 		$accountDataDb 			= Core::getModel("account/accountdata");
 		$accountDepartmentDb 	= Core::getModel("account/department");
-		$accountdata 			= $accountDataDb->where("account_id", $id)->first();
-		$accountDepartment 		= $accountDepartmentDb->where("id", $accountdata->college_dept_id)->first();
-		return $accountDepartment;
+
+		return $accountDepartmentDb->where("id", $accountDataDb->where("account_id", $id)->first()->college_dept_id)->first();
+		// $accountdata 			= $accountDataDb->where("account_id", $id)->first();
+		// $accountDepartment 		= $accountDepartmentDb->where("id", $accountdata->college_dept_id)->first();
+		// return $accountDepartment;
 	}
 
 	/**
 	 *	department compare
 	 */
 	public function sameDepartment( $id, $id2 = false ) {
-		$session = Core::getSingleton("system/session");
+		$session 	= Core::getSingleton("system/session");
 		$department = Core::getModel("account/department");
-		$accountDb = Core::getModel("account/account");
+		$accountDb 	= Core::getModel("account/account");
 
 		if(! $id2 ) {
 			$auth = $session->get("auth");
