@@ -23,6 +23,20 @@ foreach ($this->getJs() as $varJs) {
 <body class="">
 
 <?php
+if( Core::getSingleton("system/kernel")->getConfig("system")["childBlockHints"] ) {
+	?>
+	<style type="text/css">
+		.childblockhints {
+			z-index: 99999;
+			border: 1px solid red;
+		}
+		.childBlockTextPath {
+			background-color: red;
+			color: white;
+		}
+	</style>
+	<?php
+}
 	foreach ($this->getBlocks() as $varBlocks) {
 		include $varBlocks;
 		echo "\n";

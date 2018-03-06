@@ -68,7 +68,7 @@ Class Account_Controller_Search extends Frontend_Controller_Action {
 			$accountDb->orLike( "lname", "%" . $val . "%" );
 		}
 
-		return $accountDb->get(["id", "fname", "lname"]);
+		return $accountDb->get(["id", "fname", "lname", "account_type_id"]);
 	}
 
 	/**
@@ -84,6 +84,10 @@ Class Account_Controller_Search extends Frontend_Controller_Action {
 		$data = [];
 
 		foreach( $names as $name ) {
+			// Core::log( $user );
+			// Core::log( $name );
+			// Core::log( '__________________________________________' );
+
 			if( $accountDb->sameDepartment( $user->id, $name->id ) and $accountDb->hasEvaluation($name->id) ) {
 				$data[] = $name;
 			}

@@ -127,10 +127,10 @@ Class Account_Model_Account extends Database_Model_Base {
 	 *	Get Account Department
 	 */
 	public function getDepartment( $id ) {
-		$accountDataDb = Core::getModel("account/accountdata");
-		$accountDepartmentDb = Core::getModel("account/department");
-		$accountdata = $accountDataDb->where("account_id", $id)->first();
-		$accountDepartment = $accountDepartmentDb->where("id", $accountdata->college_dept_id)->first();
+		$accountDataDb 			= Core::getModel("account/accountdata");
+		$accountDepartmentDb 	= Core::getModel("account/department");
+		$accountdata 			= $accountDataDb->where("account_id", $id)->first();
+		$accountDepartment 		= $accountDepartmentDb->where("id", $accountdata->college_dept_id)->first();
 		return $accountDepartment;
 	}
 

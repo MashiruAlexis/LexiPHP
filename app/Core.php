@@ -64,21 +64,6 @@ Class Core {
 	protected $kernel;
 
 	/**
-	 *	Default App
-	 */
-	public $app = "index";
-
-	/**
-	 *	Default Controller
-	 */
-	public $controller = "index";
-
-	/**
-	 *	Default Method
-	 */
-	public $method = "index";
-
-	/**
 	 *	Params
 	 */
 	public $params = array();
