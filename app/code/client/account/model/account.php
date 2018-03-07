@@ -122,7 +122,8 @@ Class Account_Model_Account extends Database_Model_Base {
 			return true;
 		}
 		return false;
-	}	
+	}
+	
 	/**
 	 *	Get Account Department
 	 *	@param int $id
@@ -133,13 +134,13 @@ Class Account_Model_Account extends Database_Model_Base {
 		$accountDepartmentDb 	= Core::getModel("account/department");
 
 		return $accountDepartmentDb->where("id", $accountDataDb->where("account_id", $id)->first()->college_dept_id)->first();
-		// $accountdata 			= $accountDataDb->where("account_id", $id)->first();
-		// $accountDepartment 		= $accountDepartmentDb->where("id", $accountdata->college_dept_id)->first();
-		// return $accountDepartment;
 	}
 
 	/**
-	 *	department compare
+	 *	Compare the account deparment
+	 *	@param int $id
+	 *	@param int $id2
+	 *	@return bool $result
 	 */
 	public function sameDepartment( $id, $id2 = false ) {
 		$session 	= Core::getSingleton("system/session");
