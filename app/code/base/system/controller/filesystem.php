@@ -15,6 +15,11 @@ Class System_Controller_Filesystem {
 		".txt"
 	];
 
+	protected $excludeStr = [
+		".",
+		".."
+	];
+
 	/**
 	 *	Create directory
 	 *	@param string $path
@@ -39,6 +44,45 @@ Class System_Controller_Filesystem {
 
 		// If it exist, check if it's a directory
 		return ($path !== false AND is_dir($path)) ? $path : false;
+	}
+
+	/**
+	 *	Get directory list
+	 *	@param string $path
+	 *	@return array $result
+	 */
+	public function getDirList( $path ) {
+		if( $this->dirExist( $path ) ) {
+			$dirs = [];
+			foreach( array_filter(glob($path . '*')) as $dir ) {
+				$dirs[] = str_replace($path, "", $dir);
+			}
+			return $dirs;
+		}
+		return false;
+	}
+
+	/**
+	 *	Get directory contents
+	 */
+	public function getDirContents( $path, $dir = false ) {
+		if (is_dir($path)){
+			if ($dh = opendir($path)){
+				$files = [];
+				while (($file = readdir($dh)) !== false){
+					if( in_array($file, $this->excludeStr) ) {
+						continue;
+					}
+					if( $dir == false and $this->dirExist( $path . DS . $file ) ) {
+						continue;
+					}
+					$files[] = $file;
+				}
+				closedir($dh);
+				return $files;
+			}
+		}
+		return false;
 	}
 
 	/** 

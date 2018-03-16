@@ -68,17 +68,19 @@ Class Frontend_Controller_Action {
 	public function getChildBlock( $child, $data = false ) {
 		$config = Core::getSingleton("system/kernel")->getConfig("system");
 		$key = explode("/", $child);
-		$path = Core::$paths[0] . $key[0] . DS . "view" . DS . $this->childBlockDir . DS . $key[1] . ".phtml";
-		if( file_exists($path) ) {
-			// check if child block hint is enabled
-			if( $config["childBlockHints"] ) {
-				echo "<div class='container childblockhints'>";
-				echo "<span class='childBlockTextPath'>". $path ."</span>";
-				include $path;
-				echo "</div>";
-				return;
+		foreach( Core::$paths as $path ) {
+			$path = $path . $key[0] . DS . "view" . DS . $this->childBlockDir . DS . $key[1] . ".phtml";
+			if( file_exists($path) ) {
+				// check if child block hint is enabled
+				if( $config["childBlockHints"] ) {
+					echo "<div class='container childblockhints'>";
+					echo "<span class='childBlockTextPath'>". $path ."</span>";
+					include $path;
+					echo "</div>";
+					return;
+				}
+				return include $path;			
 			}
-			return include $path;			
 		}
 		return false;
 	}

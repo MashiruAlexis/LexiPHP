@@ -4,12 +4,12 @@
  * See license file for more info.
  */
 
- Class {controller}_Controller_{filename} extends {parent} {
+ Class Test_Controller_Test extends Frontend_Controller_Action {
 
  	/**
  	 *	Default controller action
  	 */
  	public function indexAction() {
-
+ 		// code here
  	}
  }

@@ -20,6 +20,9 @@ Class Console_Make_Client extends Console_Controller_Core {
 
 		$file = Core::getSingleton("system/filesystem");
 		$this->path = Core::$paths[0] . $args[0];
+		if( in_array("-base", $args) ) {
+			$this->path = Core::$paths[1] . $args[0];
+		}
 		if( $file->dirExist( $this->path ) ) {
 			$this->error("Error: " . $args[0] . " already exists.");
 			return false;

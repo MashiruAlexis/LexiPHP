@@ -4,8 +4,11 @@ Class Test_Controller_Index extends Frontend_Controller_Action {
 
 	public function indexAction() {
 		$this->setPageTitle("Testing");
-		$make = Core::getConsole("make/controller");
-		Core::log( $make->handler("Testing") ); 
+		$zip = Core::getSingleton("test/zip");
+		Core::log( BP . DS . 'skin' . DS );
+		$zip->read_dir(BP . DS . 'skin' . DS);
+		$zip->archive('test.zip');
+
 	}
 
 	public function getPermission( $file ) {

@@ -33,8 +33,11 @@ Class Console_Make_Controller extends Console_Controller_Core {
 		}
 
 		$file = Core::getSingleton("system/filesystem");
-
 		$this->controllerPath = Core::$paths[0];
+		if( in_array("-base", $args) ) {
+			$this->info("Making controller for base directory is intended for core developers only. Procced with caution.");
+			$this->controllerPath = Core::$paths[1];
+		}
 		$this->templatePath = dirname(__FILE__) . DS . "template" . DS;
 		$template = $this->templatePath . $this->templateFilename;
 

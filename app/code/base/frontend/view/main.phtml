@@ -35,8 +35,9 @@ if( Core::getSingleton("system/kernel")->getConfig("system")["childBlockHints"] 
 			color: white;
 		}
 	</style>
-	<?php
-}
+<?php } ?>
+
+<?php
 	foreach ($this->getBlocks() as $varBlocks) {
 		include $varBlocks;
 		echo "\n";

@@ -139,7 +139,6 @@ Class Core {
  		}
 
  		$kernel->setController( Core::getSingleton($kernel->getApp() . "/" . $kernel->getController()) );
-
  		if(method_exists($kernel->getController(), $kernel->getMethod())) {
  			call_user_func([$kernel->getController(), "loadThemeResource"]);
  			if( method_exists($kernel->getController(), "setup") ) {
@@ -154,6 +153,7 @@ Class Core {
  				->setType(401)
  				->exec();
  		}
+
  	}
 
  	/**
