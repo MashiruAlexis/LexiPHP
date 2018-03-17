@@ -5,6 +5,7 @@
  */
 Class Console_Make_Console extends Console_Controller_Core {
 
+	public $description = "Create console command.";
 	protected $path;
 	protected $templateName = "console.txt";
 	protected $parent = "Console_Controller_Core";

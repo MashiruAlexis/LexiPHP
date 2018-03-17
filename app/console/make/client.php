@@ -2,6 +2,7 @@
 
 Class Console_Make_Client extends Console_Controller_Core {
 
+	public $description = "Create client and it's sub directories.";
 	public $path;
 	protected $dirs = [
 		"controller",

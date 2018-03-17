@@ -29,13 +29,12 @@ Class Console_Lexi_Index extends Console_Controller_Core {
 		$this->log( "\tcommand [options] [arguments]" );
 		$this->log();
 
-		
-
 		$cmds = $this->getCmds();
 		foreach( $cmds as $cmd ) {
 			$this->warning( $cmd . ":" );
 			foreach( $this->getSubCmd( $cmd ) as $subCmd ) {
-				$this->log("   " . $subCmd . "\t This command will do something in the future.");
+				$tabs = (strlen($subCmd) < 5) ? "\t\t" : "\t"; 
+				$this->log("   " . $subCmd . $tabs . " " . $this->getCmdDesc($cmd . '/' . $subCmd));
 			}
 			$this->log();
 		}
@@ -63,6 +62,28 @@ Class Console_Lexi_Index extends Console_Controller_Core {
 			$subCmdData[] = str_replace(".php", "", $subCmd);
 		}
 		return $subCmdData;
+	}
+
+	/**
+	 *	Get command description
+	 *	@param string $cmd
+	 *	@return string $desc
+	 */ 
+	public function getCmdDesc( $cmd, $desc = 'description' ) {
+		$cmd = Core::getConsole( $cmd );
+		if( property_exists($cmd, $desc) ) {
+			return $cmd->{$desc};
+		}
+		return false;
+	}
+
+	/**
+	 *	Get object property
+	 *	@param obj $class
+	 *	@return string $property
+	 */
+	public function getObjProperty( $class ) {
+
 	}
 
 	/**

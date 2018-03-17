@@ -4,13 +4,13 @@
  * See license file for more info.
  */
 
-Class {controller}_Controller_{filename} extends {parent} {
+Class Alexis_Controller_Index extends Frontend_Controller_Action {
 
 	/**
 	 *	Default controller action
 	 */
 	public function indexAction() {
-		$this->setPageTitle('{controller}');
+		$this->setPageTitle('Alexis');
 		// code here
 	}
 }

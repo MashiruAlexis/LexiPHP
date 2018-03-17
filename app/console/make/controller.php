@@ -13,6 +13,11 @@ Class Console_Make_Controller extends Console_Controller_Core {
 	protected $controllerParent = 'Frontend_Controller_Action';
 	protected $controllerParentNeedle = '{parent}';
 	protected $controllerExtension = ".php";
+	protected $dirs = [
+		"controller",
+		"model",
+		"view"
+	];
 	
 	public $templateFilename = "controller.txt";
 
@@ -27,9 +32,10 @@ Class Console_Make_Controller extends Console_Controller_Core {
 			return;
 		}
 
-		if(! isset($args[1]) ) {
-			$this->error("Error: a second argument is needed for this command.");
-			return;
+		$args = explode("/", $args[0]);
+		if( count($args) < 2 ) {
+			$this->error("Error: invalid syntax. check help.");
+			return false;
 		}
 
 		$file = Core::getSingleton("system/filesystem");
@@ -42,9 +48,10 @@ Class Console_Make_Controller extends Console_Controller_Core {
 		$template = $this->templatePath . $this->templateFilename;
 
 		if(! $file->dirExist( $this->controllerPath . $args[0] ) ) {
-			$this->error("Error: please create a client first.");
-			$this->info("Info: run this command php lexi make:client clientname");
-			return false;
+			if(! $this->makeClient( $args[0] ) ) {
+				$this->error("Error: something went while creating client.");
+				return false;
+			}
 		}
 
 		if( file_exists($template) ) {
@@ -57,14 +64,47 @@ Class Console_Make_Controller extends Console_Controller_Core {
 				$this->error("Error: " . $args[1] . " already created.");
 				return false;
 			}
-			file_put_contents($controllerFilePath, $template);
+			@file_put_contents($controllerFilePath, $template);
 			if( file_exists($controllerFilePath) ) {
 				$this->info($args[1] . " controller was successfully created.");
+				$this->warning( $controllerFilePath );
 				return true;
 			}
-			$this->error("Error: something went wrong while creating " . $args[1] );
+			$this->log( $this->color("Error: something went wrong while creating ", "red") . $this->color($args[1], "green") );
 		}
 		return false;
+	}
+
+	/**
+	 *	Create Client Directories
+	 *	@param string $args
+	 *	@param bool $base
+	 *	@return bool $result
+	 */
+	public function makeClient( $args, $base = false ) {
+		$file = Core::getSingleton("system/filesystem");
+		$this->path = Core::$paths[0] . $args;
+		if( $base ) {
+			$this->path = Core::$paths[1] . $args;
+		}
+		if( $file->dirExist( $this->path ) ) {
+			$this->error("Error: " . $args . " already exists.");
+			return false;
+		}
+
+		if( $file->mkdir( strtolower($this->path) ) ) {
+			$mvcPath = $this->path . DS;
+			foreach( $this->dirs as $dir ) {
+				$file->mkdir( $mvcPath . $dir );
+			}
+		}else{
+			$this->error("Error: something went wrong while creating " . $args);
+			return false;
+		}
+		$this->info("Info: " . $args . " was successfully created");
+		$this->info("Path: " . $this->path);
+		$this->handler([$args . "/index"]);
+		return true;
 	}
 
 }
