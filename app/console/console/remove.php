@@ -10,15 +10,16 @@ Class Console_console_remove extends Console_Controller_Core {
 	public function handler( $args ) {
 		if( empty($args) ) {
 			$this->error("Error: no arguments was passed.");
+			return false;
 		}
-		$this->log( $args );
+
 		if( strrpos("/", $args[0]) > 0 ) {
 			$param = explode("/", $args[0]);
 			$path = $this->getConsolePath() . $param[0] . DS . $param[1] . ".php";
 			if(! file_exists($path) ) {
 				$this->error("Error: command doest not exist.");
 				return false;
-			} 
+			}
 			unlink($path);
 			$this->success("Command was successfully removed (" . $param[0] . '/' . $param[1] . ')');
 			return true;
