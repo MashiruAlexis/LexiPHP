@@ -20,7 +20,22 @@ foreach ($this->getJs() as $varJs) {
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
-<body class="loading">
+<body class="">
+
+<?php
+if( Core::getSingleton("system/kernel")->getConfig("system")["childBlockHints"] ) {
+	?>
+	<style type="text/css">
+		.childblockhints {
+			z-index: 99999;
+			border: 1px solid red;
+		}
+		.childBlockTextPath {
+			background-color: red;
+			color: white;
+		}
+	</style>
+<?php } ?>
 
 <?php
 	foreach ($this->getBlocks() as $varBlocks) {

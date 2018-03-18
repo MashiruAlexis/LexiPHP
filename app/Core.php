@@ -23,7 +23,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
+ob_start();
 spl_autoload_register(function($class) {
 	$class = strtolower(str_replace("_", DIRECTORY_SEPARATOR, $class));
 	$paths = Core::$paths;
@@ -62,21 +62,6 @@ Class Core {
 	 *	System Kernel
 	 */
 	protected $kernel;
-
-	/**
-	 *	Default App
-	 */
-	public $app = "index";
-
-	/**
-	 *	Default Controller
-	 */
-	public $controller = "index";
-
-	/**
-	 *	Default Method
-	 */
-	public $method = "index";
 
 	/**
 	 *	Params
@@ -154,7 +139,6 @@ Class Core {
  		}
 
  		$kernel->setController( Core::getSingleton($kernel->getApp() . "/" . $kernel->getController()) );
-
  		if(method_exists($kernel->getController(), $kernel->getMethod())) {
  			call_user_func([$kernel->getController(), "loadThemeResource"]);
  			if( method_exists($kernel->getController(), "setup") ) {
@@ -169,6 +153,7 @@ Class Core {
  				->setType(401)
  				->exec();
  		}
+
  	}
 
  	/**

@@ -38,6 +38,11 @@ Class Frontend_Controller_Action {
 	public $mainBlock = "";
 
 	/**
+	 *	Child Block Directory
+	 */
+	public $childBlockDir = 'blocks';
+
+	/**
 	 *	Page Title
 	 */
 	public $pageTitle = "LexiPHP Framework";
@@ -57,13 +62,25 @@ Class Frontend_Controller_Action {
 	/**
 	 *	Get Child Block
 	 *	@var string $child
+	 *	@param int|string|array $data
 	 *	@return $blocks
 	 */
-	public function getChildBlock( $child ) {
+	public function getChildBlock( $child, $data = false ) {
+		$config = Core::getSingleton("system/kernel")->getConfig("system");
 		$key = explode("/", $child);
-		$path = Core::$paths[0] . $key[0] . DS . "view" . DS . "blocks" . DS . $key[1] . ".phtml";
-		if( file_exists($path) ) {
-			return include $path;
+		foreach( Core::$paths as $path ) {
+			$path = $path . $key[0] . DS . "view" . DS . $this->childBlockDir . DS . $key[1] . ".phtml";
+			if( file_exists($path) ) {
+				// check if child block hint is enabled
+				if( $config["childBlockHints"] ) {
+					echo "<div class='container childblockhints'>";
+					echo "<span class='childBlockTextPath'>". $path ."</span>";
+					include $path;
+					echo "</div>";
+					return;
+				}
+				return include $path;			
+			}
 		}
 		return false;
 	}
@@ -79,8 +96,23 @@ Class Frontend_Controller_Action {
 		foreach( Core::$skinPath as $path ) {
 			$imagePath = $path . $img[0] . DS . "images" . DS . $img[1];
 			if( file_exists($imagePath) ) {
-				$imagePath = str_replace(BP . DS, $baseUrl, $imagePath);
+				$imagePath = str_replace("\\", "/", str_replace(BP . DS, $baseUrl, $imagePath));
 				return $imagePath;
+			}
+		}
+	}
+
+	/**
+	 *	Get Font
+	 *	@param string $font
+	 *	@return string $font url
+	 */
+	public function getFont( $font ) {
+		$font = explode("/", $font);
+		foreach( Core::$skinPath as $path ) {
+			$fontPath = $path . $font[0] . DS . "font" . DS . $font[1];
+			if( file_exists($fontPath) ) {
+				return str_replace("\\", "/", str_replace(BP . DS, Core::getBaseUrl(), $fontPath));
 			}
 		}
 	}
@@ -130,26 +162,15 @@ Class Frontend_Controller_Action {
 		$baseurl = $config->getBaseUrl();
 		foreach($paths as $jsPaths) {
 			$fileLoc = BP . DS . "skin" . DS . $jsPaths . DS . $varJs[0] . DS . "js" . DS . $varJs[1] . ".js";
-			if( strpos( $fileLoc, US ) !== false ) {
-				$fileLoc = str_replace(US, DS, $fileLoc);
-				$varJs[1] = str_replace(US, DS, $varJs[1]);
-			}
+			// if( strpos( $fileLoc, US ) !== false ) {
+			// 	$fileLoc = str_replace(US, DS, $fileLoc);
+			// 	$varJs[1] = str_replace(US, DS, $varJs[1]);
+			// }
 			if(file_exists($fileLoc)) {
 				$this->js[] = "<script src='" . $baseurl . "skin" . BS . $jsPaths . BS . $varJs[0] . BS . "js" . BS . $varJs[1] . ".js'></script>";
 			}
 		}
 	}
-
-	/**
-	 * Set CSS [Deprecated]
-	 */
-	// public function setBaseCss($varCss) {
-	// 	$varCss = explode(BS, $varCss);
-	// 	$dir = Core::getSingleton("system/config")->loadConfigFile()->frontend->directory;
-	// 	$sysConfig = Core::getSingleton("system/config")->loadConfigFile();
-	// 	$baseurl = $sysConfig->system->url;
-	// 	$this->css[] = "<link rel='stylesheet' href='" . $baseurl . $dir->skin . BS . $dir->base . BS . $varCss[0] . BS . $dir->css . BS . $varCss[1] . ".css'>";
-	// }
 
 	/**
 	 *	Link external css file
@@ -166,17 +187,6 @@ Class Frontend_Controller_Action {
 	}
 
 	/**
-	 *	Set JS [Deprecated]
-	 */
-	// public function setBaseJs($varJs) {
-	// 	$varJs = explode(BS, $varJs);
-	// 	$dir = Core::getSingleton("system/config")->loadConfigFile()->frontend->directory;
-	// 	$sysConfig = Core::getSingleton("system/config")->loadConfigFile();
-	// 	$baseurl = $sysConfig->system->url;
-	// 	$this->js[] = "<script src='" . $baseurl . $dir->skin . BS . $dir->base . BS . $varJs[0] . BS . $dir->js . BS . $varJs[1] . ".js'></script>";
-	// }
-
-	/**
 	 *	Get Images from Skin
 	 */
 	public function getBaseImage($varImage) {
@@ -190,7 +200,7 @@ Class Frontend_Controller_Action {
 	/**
 	 *	Set Blocks
 	 */
-	public function setBlock( $block ) {
+	public function setBlock( $block, $data = false ) {
 		$block = explode(BS, $block);
 		$path = Core::$paths[0] . $block[0] . DS . "view" . DS . $block[1] . ".phtml";
 		if( file_exists($path) ) {

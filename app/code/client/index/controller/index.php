@@ -5,20 +5,17 @@
  */
 
 Class Index_Controller_Index extends Frontend_Controller_Action {
-
 	
-
-	public function indexAction() {
-		$this->setPageTitle("LexiPHP");
-		$this->setBlock("index/index");
-		$this->setBlock("index/nav");
+	public function __construct() {
+		$this->middleware("autologin");
 	}
 
-	/**
-	 *	Js, Css and fonts
-	 */
+	public function indexAction() {
+		$this->setPageTitle("Faculty Evaluation System");
+		$this->setBlock("index/main");
+	}
+
 	public function setup() {
-		$this->setCss("index/index");
-		$this->setJs("index/index");
+		$this->setCss("index/style");
 	}
 }

@@ -14,6 +14,13 @@ Class System_Controller_Session {
 	 */
 	public function add( $name, $val = false ) {
 		if( $val ) {
+			if( is_array($val) ) {
+				if( isset($_SESSION[$name]) ) {
+					$_SESSION[$name] = $_SESSION[$name] + $val;
+				}
+				$_SESSION[$name] = $val;
+				return $this;
+			}
 			$_SESSION[$name] = $val;
 			return $this;
 		}

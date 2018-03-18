@@ -35,10 +35,10 @@ Class Console_Controller_Core {
 	 *	Run lexi cli
 	 */
 	public function run() {
-		$config = Core::getSingleton("system/config")->getConfig();
-		if( $config["CliScript"] != $this->args[0] ) {
-			$this->alert("error", "this script will only run on terminal.");
-			return;
+		// lets test if request was made from command
+		if(! $this->is_cli( $this->args[0] ) ) {
+			$this->error("Error: this console command will only run on CLI");
+			return false;
 		}
 
 		$this->args[1] = isset($this->args[1]) ? $this->args[1] : $this->getApp();
@@ -53,6 +53,7 @@ Class Console_Controller_Core {
 		
 		unset($this->args[0]);
 		unset($this->args[1]);
+		unset($args); $args = [];
 
 		$this->setController( $this->getApp() . "/" . $this->getController() );
 		
@@ -63,8 +64,26 @@ Class Console_Controller_Core {
 		}
 
 		if( method_exists($this->getController(), $this->getMethod()) ) {
-			call_user_func_array([$this->getController(), $this->getMethod()], [$this->args]);
+			if(! empty($this->args) ) {
+				foreach( $this->args as $arg ) {
+					$args[] = $arg;
+				}
+			}
+			call_user_func_array([$this->getController(), $this->getMethod()], [$args]);
 		}
+	}
+
+	/**
+	 *	Test to see if a request was made from the command line.
+	 */
+	public function is_cli( $arg = false ) {
+		$config = Core::getSingleton("system/config")->getConfig();
+		if( $arg ) {
+			if( $config["CliScript"] != $arg ) {
+				return false;
+			}
+		}
+		return (PHP_SAPI === 'cli' OR defined('STDIN'));
 	}
 
 	/**
@@ -198,6 +217,8 @@ Class Console_Controller_Core {
 
 	/**
 	 *	Check if controller exist
+	 *	@param string $cont
+	 *	@return bool $result
 	 */
 	public function controllerExist( $cont ) {
 		$cont = explode("/", $cont);
@@ -293,10 +314,7 @@ Class Console_Controller_Core {
 		return $this->method;
 	}
 
-	public function test() {
-		$this->alert("error", "Hello World!");
-		$this->alert("warning", "Hello World!");
-		$this->alert("info", "Hello World!");
-		$this->alert("success", "Hello World!");
+	public function getConsolePath() {
+		return Core::getConsole("lexi/index")->getConsolePath();
 	}
 }

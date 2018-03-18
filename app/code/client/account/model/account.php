@@ -6,216 +6,287 @@
 
 Class Account_Model_Account extends Database_Model_Base {
 
+	const STATUS_ACTIVE = "active";
+	const STATUS_INACTIVE = "inactive";
+	const STATUS_DISABLED = "disabled";
+
 	/**
 	 *	Table Name for this model
 	 */
-	protected $table = "accounts";
-
+	protected $table = "account";
 
 	/**
-	 *	Get Account By Id
-	 *	@param int $id
-	 *	@return obj $account
+	 *	Search account by name
+	 *	@param string $name
+	 *	@return array $result
 	 */
-	public function get( $id = false ){
-		if( $id ) {
-			return $this->where("id", $id)->first();
-		}
-		return $this->get();
+	public function queryAccountByName( $name ) {
+		return $this->where("fname", $name)->orWhere("lname", $name)->get();
 	}
 
 	/**
-	 *	Login User By Col
-	 */
-	public function loginBy( $col, $val ) {
-		$res = $this->where( $col, $val )->first();
-		Core::getSingleton("system/session")->add("auth", $res);
-	}
-
-	/**
-	 *	Get Rate
-	 */
-	public function getRate() {
+	 *	Check if account is status
+	 *	@param string $status
+	 *	@return bool
+	 */	
+	public function isStatus(  ) {
 
 	}
 
 	/**
-	 *	Get Id
+	 *	check if acount is being evaluated
 	 */
-	public function getId() {
-		return Core::getSingleton("system/session")->get("auth")->id;
-	}
+	public function hasEvaluation( $id ) {
+		$evaluationDb = Core::getModel("evaluation/evaluation");
 
-	/**
-	 *	Get Toggl Data
-	 *	@param string $col
-	 *	@return obj|string|int $toggl
-	 */
-	public function getToggl( $col = false ) {
-		$toggl = Core::getModel("toggl/toggl");
-		$res = $toggl->where("uid", Core::getSingleton("system/session")->get('auth')->id)->first();
-		if( $col ) {
-			return isset($res->$col) ? $res->$col : "";
-		}
-		return $res;
-	}
+		$evaluation = $evaluationDb->get();
 
-	/**
-	 *	Get Default workspace
-	 */
-	public function getDefaultWorkspace( $col = false ) {
-		foreach( $this->getWorkspace() as $workspace ) {
-			if( $workspace->isDefault ) {
-				if( $col ) {
-					return $workspace->$col;
-				}
-				return $workspace;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 *	Get Workspace
-	 *	@return $obj $workspace
-	 */
-	public function getWorkspace() {
-		$workspace = Core::getModel("toggl/workspace");
-		$res = $workspace->where( "togglId", $this->getToggl("togglId") )->get();
-		return $res;
-	}
-
-	/**
-	 *	Check if account has default workspace
-	 */
-	public function hasDefaultWorkspace() {
-		$workspaces = $this->getWorkspace();
-		foreach( $workspaces as $workspace ) {
-			if( $workspace->isDefault ) {
+		foreach( $evaluation as $eval ) {
+			if( $eval->account_id  == $id ) {
 				return true;
 			}
 		}
+
 		return false;
 	}
 
 	/**
-	 *	Get time entries
+	 *	check account type
 	 */
-	public function getTimeEntries( $since, $until = false ){
-		$toggl = Core::getSingleton("toggl/handler");
-		$data;
-		$page = 2;
-		$params = [
-			"since" 		=> $since,
-			"user_agent" 	=> Core::getSingleton("system/config")->getConfig("email"),
-			"workspace_id" 	=> $this->getDefaultWorkspace("workspaceId"),
-			"user_ids" 		=> $this->getToggl("togglId"),
+	public function isAccountType( $account ) {
+		$auth = Core::getSingleton("system/session")->get("auth");
+		$accountTypeDb = Core::getModel("account/accounttype");
+		$accountType = $accountTypeDb->where("id", $auth->account_type_id)->first();
+		if( $account == $accountType->type or $account == $accountType->id) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 *	check if current login account is admin
+	 *	@param int $id
+	 *	@return bool $result
+	 */
+	public function isAdmin( $id = false ) {
+		$session = Core::getSingleton("system/session");
+		$auth = $session->get("auth");
+		$accountDb = Core::getModel("account/account");
+		$accountTypeDb = Core::getModel("account/accounttype");
+
+		if( $id ) {
+			$auth = $accountDb->where("id", $id)->first();
+		}
+
+		if( $auth->account_type_id == 1 ) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 *	Check if current user is Dean
+	 *	@param int $id
+	 *	@return bool $result
+	 */
+	public function isDean( $id = false ) {
+		$user = Core::getSingleton("system/session")->get("auth");
+		$accountDb = Core::getModel("account/account");
+		$accountTypeDb = Core::getModel("account/accounttype");
+
+		if( $id ) {
+			$user = $accountDb->where("id", $id)->first();
+		}
+
+		if( $user->account_type_id == 2 ) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 *	Check if current user is Teacher
+	 *	@param int $id
+	 *	@return bool $result
+	 */
+	public function isTeacher( $id = false ) {
+		$user = Core::getSingleton("system/session")->get("auth");
+		$accountDb = Core::getModel("account/account");
+		$accountTypeDb = Core::getModel("account/accounttype");
+
+		if( $id ) {
+			$user = $accountDb->where("id", $id)->first();
+		}
+
+		if( $user->account_type_id == 3 ) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 *	Get Account Department
+	 *	@param int $id
+	 *	@return obj $deparment
+	 */
+	public function getDepartment( $id ) {
+		$accountDataDb 			= Core::getModel("account/accountdata");
+		$accountDepartmentDb 	= Core::getModel("account/department");
+
+		return $accountDepartmentDb->where("id", $accountDataDb->where("account_id", $id)->first()->college_dept_id)->first();
+	}
+
+	/**
+	 *	Compare the account deparment
+	 *	@param int $id
+	 *	@param int $id2
+	 *	@return bool $result
+	 */
+	public function sameDepartment( $id, $id2 = false ) {
+		$session 	= Core::getSingleton("system/session");
+		$department = Core::getModel("account/department");
+		$accountDb 	= Core::getModel("account/account");
+
+		if(! $id2 ) {
+			$auth = $session->get("auth");
+			$id2 = $auth->id;
+		}
+		$dep1 = $accountDb->getDepartment($id);
+		$dep2 = $accountDb->getDepartment($id2);
+		if( $dep1->id == $dep2->id ) {
+			return true;
+		}
+		return false;
+	}
+ 
+	/**
+	 *	Get Account Subject
+	 *	@var int $id
+	 *	@return obj $subject
+	 */
+	public function getSubject( $id ) {
+		$accountDataDb = Core::getModel("account/accountdata");
+		$subjectDb = Core::getModel("admin/subject");
+
+		$accountData = $accountDataDb->where( "account_id", $id )->first();
+		return $subjectDb->where("id", $accountData->subject_id)->first();
+	}
+
+	/**
+	 *	Get Year
+	 */
+	// public function getYear( $id ) {
+	// 	$accountDataDb = Core::getModel("account/accountdata");
+	// 	$accountData = $accountDataDb->where( "account_id", $id )->first();
+	// 	return $accountData->
+	// }
+
+	/**
+	 *	Get Account Data
+	 *	@var int $id
+	 *	@return obj $account
+	 */
+	public function getAccountData( $id ) {
+		$accountDataDb = Core::getModel("account/accountdata");
+		$rs = $accountDataDb->where("account_id", $id)->first();
+		if( $rs ) {
+			return $rs;
+		}
+		return false;
+	}
+
+	/**
+	 *	Get Account Type
+	 *	@var int $id
+	 *	@return obj $type
+	 */
+	public function getAccountType( $id ) {
+		return Core::getModel("account/accounttype")->where("id", $id)->first();
+	}
+
+	/**
+	 *	Get Fullname by account id
+	 *	@var int $id
+	 *	@var string $name
+	 */
+	public function getFullname( $id ) {
+		$account = $this->where("id", $id)->first();
+		return $account->fname . " " . $account->lname;
+	}
+
+	/**
+	 *	Get account school year
+	 *	@param int $id
+	 *	@return string $scyear
+	 */
+	public function getSchoolYear( $id = false ) {
+		$accountDataDb = Core::getModel("account/accountdata");
+		if(! $id ) {
+			$id = Core::getSingleton("system/session")->get("auth")->id;
+		}
+		$rs = $accountDataDb->where("account_id", $id)->first();
+		if( $rs ) {
+			return $rs->scyear;
+		}
+		return false;
+	}
+
+	/**
+	 *	Get account semester
+	 *	@param int $id
+	 *	@return string $sem
+	 */
+	public function getSem( $id = false ) {
+		$accountDataDb = Core::getModel("account/accountdata");
+		if(! $id ) {
+			$id = $id = Core::getSingleton("system/session")->get("auth")->id;
+		}
+		$rs = $accountDataDb->where("account_id", $id)->first();
+		if( $rs ) {
+			return $rs->sem;
+		}
+		return false;
+	}
+
+	/**
+	 *	Create Account Automatically
+	 */
+	public function preAccount() {
+		$hash = Core::getSingleton("system/hash");
+		$data[] = [
+			"account_type_id" 	=> 1,
+			"fname" 			=> "Alexis",
+			"lname" 			=> "Celis",
+			"username" 			=> "alexis",
+			"password" 			=> $hash->hash("blockman123"),
+			"email" 			=> "alexis@alexis.com",
+			"status"			=> self::STATUS_ACTIVE
 		];
 
-		if( $until ) {
-			$params["until"] = $until;
-		}
+		$data[] = [
+			"account_type_id" 	=> 2,
+			"fname" 			=> "Alexis",
+			"lname" 			=> "Celis",
+			"username" 			=> "alexis1",
+			"password" 			=> $hash->hash("blockman123"),
+			"email" 			=> "alexis1@alexis.com",
+			"status"			=> self::STATUS_ACTIVE
+		];
 
-		$res = $toggl->getApp("reports")->detailed($params);
+		$data[] = [
+			"account_type_id" 	=> 3,
+			"fname" 			=> "Alexis",
+			"lname" 			=> "Celis",
+			"username" 			=> "alexis2",
+			"password" 			=> $hash->hash("blockman123"),
+			"email" 			=> "alexis2@alexis.com",
+			"status"			=> self::STATUS_ACTIVE
+		];
 
-		$data = $res["data"];
-
-		if( $res["total_count"] > 50 ) {
-			$params["page"] = 2;
-			$res =  $toggl->getApp("reports")->detailed($params);
-			$data = $this->combine($data, $res["data"]);
-			if( $res["total_count"] > 100 ) {
-				$params["page"] = 3;
-				$res =  $toggl->getApp("reports")->detailed($params);
-				$data = $this->combine($data, $res["data"]);
-				if( $res["total_count"] > 150 ) {
-					$params["page"] = 4;
-					$res =  $toggl->getApp("reports")->detailed($params);
-					$data = $this->combine($data, $res["data"]);
-				}
-			}
-		}
-		return $data;
-	}
-
-	/**
-	 *	Get Total Hours
-	 *	@param date|time $since
-	 *	@param date|time $until
-	 *	@return date|time $time
-	 */
-	public function getTotalHours( $since, $until = false ) {
-		$date = Core::getSingleton("system/date");
-		if( $until ) {
-			$entries = $this->getTimeEntries( $since, $until );
-		}else{
-			$entries = $this->getTimeEntries( $since );
-		}
-		if( empty($entries) ) {
-			return false;
-		}
-		$times = "00:00:00";
-		foreach( $entries as $entry ) {
-			$dur = $date->getDiff( $entry["start"], $entry["end"] );
-			$timeAdd[] = $dur;
-		}
-		return $date->sumTime( $timeAdd );
-	}
-
-	/**
-	 *	Get Total Earned
-	 *	@param time $time
-	 *	@return int $earned
-	 */
-	public function getTotalEarned( $time = "00:00:00", $rate ) {
-		$time = explode(":", $time);
-		$hourPay = $time[0];
-		$minPay = ($time[1] / 60);
-		$secPay = (($time[1] / 60) / 60);
-		$total = $hourPay + $minPay + $secPay;
-		$total = $total * $rate;
-		return number_format($total, 2, '.', '');
-	}
-
-	/**
-	 *	Combine arrays
-	 */
-	public function combine( $base, $data ) {
 		foreach( $data as $dt ) {
-			$base[] = $dt;
-		}
-		return $base;
-	}
-
-	/**
-	 * Creates Dummy Account
-	 */
-	public function dummy() {
-		$accounts[] = [
-			"username" 	=> "mashiro",
-			"password" 	=> "blockman123",
-			"email" 	=> "alexis@arkhold.com",
-			"fname" 	=> "Mashiro",
-			"lname" 	=> "Alexis",
-			"contact" 	=> "09061498612",
-			"skills" 	=> "Backend Developer",
-			"apiKey" 	=> "c7279f362fe703f7a3f53e941d454f5d",
-		];
-
-		$accounts[] = [
-			"username" 	=> "jllimpo",
-			"password" 	=> "123123123",
-			"email" 	=> "jovelou@team.arkhold.com",
-			"fname" 	=> "",
-			"lname" 	=> "",
-			"contact" 	=> "",
-			"skills" 	=> "Stupid",
-			"apiKey" 	=> "2230d512d73c8174025a216af0b548a6",
-		];
-
-		foreach( $accounts as $account ) {
-			$this->insert($account);
+			$this->insert($dt);
 		}
 		return true;
 	}
+
 }

@@ -6,6 +6,9 @@
 
 Class Console_Migrate_Refresh extends Console_Controller_Core {
 
+	public $description = "This will refresh the database.";
+	public $help = "Syntax must be right.";
+
 	public function handler() {
 		$db = Core::getModel("database/base");
 		foreach( $db->showTables() as $table ) {

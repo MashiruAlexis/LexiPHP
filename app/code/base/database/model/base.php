@@ -70,9 +70,24 @@ Class Database_Model_Base {
 	}
 
 	/**
+	 * Run Sql Raw Statement
+	 */
+	public function statement ( $sqlraw ) {
+		return $this->conn->query( $sqlraw );
+	}
+
+	/**
+	 *	Return current selected table
+	 */
+	public function getCurrentTable() {
+		return $this->table;
+	}
+
+	/**
 	 *	SQL QUERIES Add, Update, Delete and SELECT
 	 */
 	public function insert( $items = array() ) {
+
 		$sql = "INSERT INTO " . $this->table . " (";
 		$itemLoopCounter = 0;
 		foreach( $items as $key => $val ) {
@@ -93,11 +108,9 @@ Class Database_Model_Base {
 		}
 		$sql .= ")";
 		try {
-		    // use exec() because no results are returned
-
 		    $this->conn->exec($sql);
-		    }
-		catch(PDOException $e){
+		    $this->lastId = $this->conn->lastInsertId();
+		}catch(PDOException $e){
 			echo $sql . "<br>" . $e->getMessage();
 			return false;
 		}
@@ -155,9 +168,23 @@ Class Database_Model_Base {
 	/**
 	 *	get
 	 */
-	public function get() {
+	public function get( $col = false ) {
 		if( empty($this->selectClause) ) {
-			$this->selectClause = "*";
+			if(! $col ) {
+				$this->selectClause = "*";
+			}else{
+				$c = 0;
+				$items = count( $col );
+				foreach( $col as $cl ) {
+					$this->selectClause .= $cl;
+					$c++;
+					if( $c < $items ) {
+						$this->selectClause .= ",";
+					} 
+					
+				}
+			}
+
 		}
 		$sql = "SELECT " . $this->selectClause . " FROM " . $this->table . $this->whereClause;
     	try {
@@ -175,7 +202,7 @@ Class Database_Model_Base {
 	}
 
 	/**
-	 *	first
+	 *	Get the first record found
 	 */
 	public function first() {
 		if( empty($this->selectClause) ) {
@@ -194,6 +221,22 @@ Class Database_Model_Base {
 		    return false;
 		}
 		return true;
+	}
+
+	/**
+	 *	SQL LIKE Statement
+	 */
+	public function like( $col, $val ) {
+		$this->whereClause .= " WHERE " . $col . " LIKE '" . $val . "' ";
+		return $this;
+	}
+
+	/**
+	 *	SQL Or and LIKE
+	 */
+	public function orLike( $col, $val ) {
+		$this->whereClause .= " or " . $col . " LIKE '" . $val . "' ";
+		return $this;
 	}
 
 	/**
@@ -283,14 +326,28 @@ Class Database_Model_Base {
 	}
 
 	/**
-	 *	auto generate where clause in sql
+	 *	Sql Where Clause
+	 *	@param string $col
+	 *	@param string $val
+	 *	@return obj $this
 	 */
 	public function where( $col, $val ) {
 		$andTxt = " and ";
 		if( empty($this->whereClause) ) {
 			$andTxt = " WHERE ";
 		}
-		$this->whereClause .= $andTxt . $col . " = '" . $val . "'";
+		$this->whereClause .= $andTxt . $col . "='" . $val . "'";
+		return $this;
+	}
+
+	/**
+	 *	OrWhere Clause
+	 *	@param string $col
+	 *	@param string $val
+	 *	@return obj $this
+	 */
+	public function orWhere( $col, $val ) {
+		$this->whereClause .= " OR " . $col . "='" . $val . "' ";
 		return $this;
 	}
 

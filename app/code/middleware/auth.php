@@ -15,6 +15,8 @@ Class Auth {
 
 		if(! $auth->isAuth() ) {
 			$param = http_build_query( ["redirect" => $http->getUrl()] );
+			header('WWW-Authenticate: Basic realm="My Realm"');
+    		header('HTTP/1.0 401 Unauthorized');
 			header("location: " . Core::getBaseUrl() . "account/login/?" .$param);
 			exit();
 		}

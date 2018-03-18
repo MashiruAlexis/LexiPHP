@@ -39,25 +39,11 @@
 		</li>
 	  <li><a href="<?=Core::getBaseUrl()?>dashboard" class="waves-effect"><i class="mdi-action-dashboard left"></i><span>Dashboard</span></a></li>
 	  <li><a href="<?=Core::getBaseUrl()?>settings/account" class="waves-effect"><i class="mdi-action-settings left"></i><span>Settings</span></a></li>
+	  <li><a href="<?=Core::getBaseUrl()?>myark.apk" class="waves-effect"><i class="mdi-action-android left"></i><span>Get Android App</span></a></li>
 	  
 	</ul>
   </div>
-  <!-- Search in Modal START -->
-  <div id="search-in-modal" class="modal">
-	<div class="modal-content">
-	  <nav class="flat">
-		<div class="nav-wrapper">
-		  <form>
-			<div class="input-field">
-			  <input id="search" type="search" class="secondary-color-text white" style="margin:0;" required>
-			  <label for="search"><i class="material-icons secondary-color-text">search</i></label>
-			  <i class="material-icons modal-action modal-close">close</i> </div>
-		  </form>
-		</div>
-	  </nav>
-	</div>
-	<div class="modal-footer"> <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Search now</a> </div>
-  </div>
-  <!-- Search in Modal END --> 
+
 </header>
 <!-- Header END --> 
+<?php $this->getChildBlock("admin/search"); ?>
