@@ -1,0 +1,9 @@
+select {
+    visibility: hidden;
+    display: block;
+    position: absolute;
+}
+
+.evaluate {
+	font-size: 19px;
+}

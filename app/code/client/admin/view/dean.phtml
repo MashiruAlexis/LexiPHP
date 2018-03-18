@@ -1,0 +1,152 @@
+<?php $this->getChildBlock("page/preloader"); ?>
+<?php $this->getChildBlock("admin/navdean"); ?>
+<?php $this->getChildBlock("page/icon"); ?>
+<style type="text/css">
+	.bx {
+		border: 1px solid red;
+	}
+</style>
+<!-- Main START -->
+<main>
+<?php $this->getChildBlock("admin/profilemenu"); ?>
+<div class="container">
+	<h1 class="thin">Dean Dashboard</h1>
+	<div id="dashboard">
+		<?php $this->getChildBlock("page/alert"); ?>
+		<div class="row">
+			<div class="col s12" style="color: black;">
+				<?php
+					$session = Core::getSingleton("system/session");
+					$auth = $session->get("auth");
+					$accountDb = Core::getModel("account/account");
+
+				?>
+				<h5><b>Dept: </b><?=$accountDb->getDepartment($auth->id)->label?></h5>
+			</div>
+		</div>
+		<div class="row ">
+			<form>
+				<div class="input-field col s2">
+					<select name="scyear">
+						<!-- <option value="" disabled selected>Choose your option</option> -->
+						<?php
+							
+							foreach( Core::getSingleton("evaluation/evaluation")->getSchoolYear() as $scyear ) {
+								$s = "";
+								if( isset($_GET["scyear"]) and $_GET["scyear"] == $scyear ) { $s = "selected"; }
+								?>
+									<option value="<?=$scyear?>" <?=$s?> ><?=$scyear?></option>
+								<?php
+							}
+						?>
+					</select>
+					<label>School Year</label>
+				</div>
+				<div class="input-field col s2">
+					<select name="sem">
+						<?php
+							foreach( Core::getSingleton("evaluation/evaluation")->getSemester() as $sem ) {
+								$s = "";
+								if( isset($_GET["sem"]) and $_GET["sem"] == $sem ) {$s = "selected";}
+								?>
+								<option value="<?=$sem?>" <?=$s?>><?=$sem?></option>
+								<?php
+							}
+						?>
+					</select>
+					<label>Semester</label>
+				</div>
+				<div class="input-field col s2">
+					<input type="submit" class="btn" name="btnSubmit" value="View">
+				</div>
+			</form>
+		</div>
+		<div class="row"> 
+			<!-- Latest Tasks START -->
+			<div class="col s12 m12">
+				<div class="card hoverable">
+					<ul class="collection with-header">
+						<div class="collection-header primary-color" style="background-color: #546e7a !important;">
+							<h5 class="light center" style="color: white;">
+								List Of Faculty
+								<a href="#!" class="secondary-content tooltipped" data-position="bottom" data-delay="50" data-tooltip="View All">
+									<i class="material-icons secondary-color-text">arrow_forward</i>
+								</a>
+							</h5>
+						</div>
+						<div id="tasks">
+							<div class="container">
+								<table style="margin: 15px;" class="highlight centered">
+								<thead>
+								  <tr>
+									  <th>Name</th>
+									  <th>Faculty</th>
+									  <th>Status</th>
+									  <th>Action</th>
+								  </tr>
+								</thead>
+
+								<tbody>
+									<?php
+										$sem = isset($_GET["sem"]) ? $_GET["sem"] : Core::getSingleton("evaluation/evaluation")->getSemester()[0];
+										$scyear = isset($_GET["scyear"]) ? $_GET["scyear"] : Core::getSingleton("evaluation/evaluation")->getSchoolYear()[0];
+										$accountDb = Core::getModel("account/account");
+										$accountDataDb = Core::getModel("account/accountdata");
+										$evaluationDb = Core::getModel("evaluation/evaluation");
+										$depratment = Core::getModel("account/account")->getDepartment($_SESSION["auth"]->id);
+										foreach( Core::getModel("account/account")->where("account_type_id", 3)->get() as $account ) {
+											if( $accountDb->sameDepartment($account->id) ) {
+												if( $accountDb->hasEvaluation( $account->id ) ){
+													$accountData = $accountDataDb
+														->where("account_id", $account->id)
+														->where("scyear", $scyear)
+														->where("sem", $sem)
+														->where("college_dept_id", $depratment->id)
+														->first();
+													if(! $accountData ) {
+														continue;
+													}
+
+													?>
+											<tr>
+												<td><?=$account->fname?> <?=$account->lname?></td>
+												<td><?=Core::getModel("account/accounttype")->getAccountType($account->account_type_id)->type?></td>
+												<td><?= $account->status ?></td>
+												<td>
+													<!-- <a href="<?=Core::getBaseUrl()?>admin/evaluation/view/teacher/1/id/<?=$account->id?>">View</a> --> 
+													<a class="modal-trigger" href="#modal<?=$account->id?>">View</a> |
+													<a href="<?=Core::getBaseUrl()?>admin/evaluation/evaluate/id/<?=$account->id?>">Evaluate</a>
+													
+												</td>
+														<!-- Modal Structure -->
+														  <div id="modal<?=$account->id?>" class="modal">
+														    <div class="modal-content center">
+														    	<h4 style="color: #455b65;">View Evaluation Result</h4>
+														    	<a href="<?=Core::getBaseUrl()?>admin/evaluation/view/student/1/id/<?=$account->id?>" class="btn" style="width: 185px;">Student</a>
+														    	<a href="<?=Core::getBaseUrl()?>admin/evaluation/view/peer/1/id/<?=$account->id?>" class="btn" style="width: 185px;">Peer</a>
+														    </div>
+														  </div>
+											</tr>
+											<?php
+
+												}
+											}
+											
+											
+										}
+									?>
+									
+								</tbody>
+								</table>
+							</div>
+						</div>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</main>
+<!-- Main END --> 
+
+<?php $this->getChildBlock("page/footer"); ?>

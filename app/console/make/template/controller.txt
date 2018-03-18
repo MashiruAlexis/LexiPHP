@@ -1,0 +1,16 @@
+<?php
+/**
+ * Copyright © Ramon Alexis Celis All rights reserved.
+ * See license file for more info.
+ */
+
+Class {controller}_Controller_{filename} extends {parent} {
+
+	/**
+	 *	Default controller action
+	 */
+	public function indexAction() {
+		$this->setPageTitle('{controller}');
+		// code here
+	}
+}

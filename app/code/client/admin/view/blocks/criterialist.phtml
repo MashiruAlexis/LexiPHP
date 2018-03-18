@@ -1,0 +1,33 @@
+
+<ul class="collection">
+	<?php
+		foreach( Core::getModel("admin/criteria")->get() as $criteria ) {
+			?>
+			<li class="collection-item dismissable"><div><?=$criteria->label?><a href="#modal<?=$criteria->id?>" class="secondary-content modal-trigger"><i class="material-icons">edit</i></a></div></li>
+			
+			<div id="modal<?=$criteria->id?>" class="modal">
+				<!--
+				/**
+				 *	Forms
+				 */
+				-->
+				<form name="frmUpdateCriteria"  method="POST" action="<?=Core::getBaseUrl()?>admin/configure/updateCriteria" />
+					<input type="hidden" name="criteriaId" value="<?=$criteria->id?>">
+					<div class="modal-content">
+						<h4 style="color: #455b65;">Update Criteria</h4>
+						<div class="row">
+							<div class="input-field col s12">
+								<input placeholder="Placeholder" id="criteria" name="<?=$criteria->id?>" type="text" class="validate" value="<?=$criteria->label?>">
+								<label for="criteria">Criteria</label>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="submit" name="btnUpdateCriteria" value="Update" class="modal-action modal-close waves-effect waves-green btn-flat">
+					</div>
+				</form>
+			</div>
+			<?php
+		}
+	?>
+</ul>

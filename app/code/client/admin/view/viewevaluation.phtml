@@ -1,0 +1,152 @@
+<?php $this->getChildBlock("page/preloader"); ?>
+<?php 
+$session = Core::getSingleton("system/session");
+$accountDb = Core::getModel("account/account");
+$accountType = $accountDb->getAccountType($session->get("auth")->id);
+
+if( $accountDb->isAccountType("Admin") ) {
+	$this->getChildBlock("admin/nav");
+}
+
+if( $accountDb->isAccountType("Dean") ) {
+	$this->getChildBlock("admin/navdean");
+}
+
+if( $accountDb->isAccountType("Teacher") ) {
+	$this->getChildBlock("admin/navteacher");
+}
+?>
+<?php $this->getChildBlock("page/icon"); ?>
+<style type="text/css">
+	.bx {
+		border: 1px solid red;
+	}
+</style>
+<!-- Main START -->
+<main>
+<?php $this->getChildBlock("admin/profilemenu"); ?>
+<div class="container">
+	<h1 class="thin">Dean Dashboard</h1>
+	<div id="dashboard">
+		<?php $this->getChildBlock("page/alert"); ?>
+		<?php
+			if(! Core::getModel("account/account")->isAdmin() ) {
+				?>
+				<div class="row">
+					<div class="col s12" style="color: black;">
+						<h5><b>Dept: </b><?=Core::getModel("account/account")->getDepartment($_SESSION["auth"]->id)->label?></h5>
+					</div>
+				</div>
+				<?php
+			}
+		?>
+		<div class="row"> 
+			<!-- Latest Tasks START -->
+		<?php
+			$request = Core::getSingleton("url/request")->getRequest();
+			if(! isset($request["id"]) ) {
+				$this->_redirect(Core::getBaseUrl() . "admin");
+			}
+			if( isset($request["peer"]) ) {
+				$accountType = "Teacher";
+			}else{
+				$accountType = "Student";
+			}
+			$evaluation 		= Core::getModel("evaluation/evaluation")->where("account_id", $request["id"])->first();
+			$evaluationDetails 	= Core::getModel("evaluation/evaluationdetails")->where("evaluation_id",$evaluation->id)->get();
+			$account 			= Core::getModel("account/account")->where("id", $request["id"])->first();
+			$accountData 		= Core::getModel("account/accountdata")->where("account_id", $account->id)->first();
+			$subject 			= Core::getModel("admin/subject")->where("id", $accountData->subject_id)->first();
+		?>
+			<div class="col s12 m12">
+				<div class="card hoverable">
+					<ul class="collection with-header">
+						<div class="collection-header primary-color" style="background-color: #546e7a !important;">
+							<h5 class="light center" style="color: white;">
+								View Evaluation
+								<a href="#!" class="secondary-content tooltipped" data-position="bottom" data-delay="50" data-tooltip="View All">
+									<i class="material-icons secondary-color-text">arrow_forward</i>
+								</a>
+							</h5>
+						</div>
+						<div id="tasks">
+							<div class="container">
+								<div class="row">
+									<div class="col s12">
+										<p><b>ID:</b> <?=$account->id?></p>
+										<p><b>Name of Faculty:</b> <?=$account->fname?> <?=$account->lname?></p>
+										<p><b>Subject:</b> <?=$subject->subject_title?></p>
+									</div>
+								</div>
+								<div class="row">
+									<table class="highlight centered" style="margin-bottom: 15px;">
+										<thead>
+											<tr>
+												<th>Name</th>
+												<th>Course and Year</th>
+												<th>Rating</th>
+												<th>Action</th>
+											</tr>
+										</thead>
+
+										<tbody>
+										<?php
+											$noOfItems = 0;
+											$sumRating = 0;
+											$accountEvaluatorDb = Core::getModel("evaluation/evaluator");
+											$ratingDb = Core::getModel("evaluation/rating");
+											foreach( $evaluationDetails as $ed ) {
+												$accountEvaluator = $accountEvaluatorDb
+													->where("id", $ed->evaluator_id)
+													->first();
+												if( !$accountEvaluator or $accountEvaluator->type != $accountType ) { continue; }
+												$rating = $ratingDb->where("id", $ed->rating_id)->first();
+
+												$noOfItems++;
+												$sumRating = $sumRating + $rating->ave_total;
+												?>
+												<tr>
+													<td><?=$accountEvaluator->name?></td>
+													<td><?=$accountEvaluator->course?> <?=$accountEvaluator->year?> year</td>
+													<td><?=$rating->ave_total?></td>
+													<td><a class="modal-trigger" href="#modal<?=$ed->id?>">View Comment</a></td>
+													<!-- Modal Structure -->
+													  <div id="modal<?=$ed->id?>" class="modal">
+													    <div class="modal-content">
+													      <h4 class="thin" style="color: #87a1ad;"><?=$accountEvaluator->name?>'s Comment</h4>
+													      <p><?=$ed->comments?></p>
+													    </div>
+													    <div class="modal-footer">
+													      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+													    </div>
+													  </div>
+													<!-- Main END --> 
+												</tr>
+												<?php
+											}
+										?>
+										
+										</tbody>
+									</table>
+								</div>
+								<div class="row">
+									<div class="col s2 offset-s9">
+										<?php
+										$ave = 0;
+											if( $sumRating > 0 ) {
+												$ave = $sumRating / $noOfItems;
+											}
+										?>
+										<p><b>Average Rating:</b> <?=$ave?></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</main>
+<?php $this->getChildBlock("page/footer"); ?>
