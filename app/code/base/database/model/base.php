@@ -273,7 +273,10 @@ Class Database_Model_Base {
 	 *	@param string $name
 	 *	@return bool
 	 */
-	public function truncate( $name ) {
+	public function truncate( $name = false ) {
+		if(! $name ) {
+			$name = $this->getTable();
+		}
 		$res = $this->conn->exec("TRUNCATE TABLE $name");
 		if( $this->tableNotEmpty( $name ) ) {
 			return false;

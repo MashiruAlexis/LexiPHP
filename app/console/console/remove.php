@@ -7,6 +7,8 @@
 
 Class Console_console_remove extends Console_Controller_Core {
 
+	public $description = "Remove/Delete console command. [In-Developement]";
+
 	public function handler( $args ) {
 		if( empty($args) ) {
 			$this->error("Error: no arguments was passed.");

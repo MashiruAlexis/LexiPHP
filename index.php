@@ -22,6 +22,6 @@ if (version_compare(phpversion(), $req = '5.6.0', '<')===true) {
 require_once "app/Core.php";
 
 /**
- *	Let Start !!!
+ *	Let's Start !!!
  */
 Core::app();
