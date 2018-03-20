@@ -60,7 +60,11 @@ Class Console_Controller_Core {
 		if( $this->controllerExist( $this->getController() ) ) {
 			$this->setController( Core::getConsole($this->getController()) );
 		}else{
+			if( $this->controllerExist( $this->getApp() . "/index" ) ) {
+				$this->setController( $this->getApp() . "/index" );
+			}
 			$this->error("Error: unknown console command.");
+			return false;
 		}
 
 		if( method_exists($this->getController(), $this->getMethod()) ) {

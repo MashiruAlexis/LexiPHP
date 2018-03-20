@@ -7,4 +7,4 @@
 -> Database: support other types of query like (SQL join etc..)
 -> Create setup command
 -> change make:client syntax to 'php lexi make:client test/test' or remove it completely
--> File permission [can't delete file because of this even in windows environment.]
+-> File permission [can't delete file because of this, even in windows environment.]
