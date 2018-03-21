@@ -14,7 +14,11 @@ Class Console_lexi_down extends Console_Controller_Core {
 			$args[] = 'false';
 		}
 		$file = Core::getSingleton("system/config")->getConfig("maintenanceFlagFile");
-		file_put_contents($file, $args[0]);
+		if( file_exists($file) ) {
+			$this->info("Were already down, we dont need to go deeper :)");
+			return false;
+		}
+		@file_put_contents($file, $args[0]);
 		if( file_exists($file) ) {
 			$this->success("This site is now under maintenance.");
 			return true;
