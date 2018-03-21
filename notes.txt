@@ -8,3 +8,4 @@
 -> Create setup command
 -> change make:client syntax to 'php lexi make:client test/test' or remove it completely
 -> File permission [can't delete file because of this, even in windows environment.]
+-> Router for request method [POST, GET, etc..]
