@@ -5,22 +5,23 @@
  */
 
 Class System_Controller_Logger {
-  
-  /**
-   *  Default Log File Name
-   */
-  public $filename = "systemlog.txt";
-  
-  /**
-   *  Default Log Location
-   */
-  public $logLocation = "/var/log/";
-  
-  /**
-   *  Log Proccess
-   */
-  public function log($varString) {
-    $date = Core::getSingleton("system/date");
-    Core::log($date->getTitme());
-  }
+
+	protected $path = '';
+
+	/**
+	 *	Set Path where to log
+	 *	@param string $path
+	 *	@return obj $this
+	 */
+	public function setPath( $path ) {
+		$this->path = $path;
+		return $this;
+	}
+
+	/**
+	 *	Log
+	 *	@param 
+	 */
+	public function log() {
+	}
 }
