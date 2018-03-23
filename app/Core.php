@@ -94,7 +94,7 @@ Class Core {
  	public function __construct() {
  		// let's check if we need to activate maintenance mode
 		if( file_exists(Core::getSingleton("system/config")->getConfig('maintenanceFlagFile')) ) {
-			Core::getSingleton("error/maintenance")->indexAction();
+			Core::getSingleton("error/error")->setType(500)->exec();
 			exit();
 		}
 

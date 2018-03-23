@@ -11,8 +11,8 @@ Class Error_Controller_Maintenance extends Frontend_Controller_Action {
 	 */
 	public function indexAction() {
 		$this->setPageTitle('Maintenance');
-		$this->setBlock('error/maintenance');
-		$this->setCss("error/error-style");
+		$this->setBlock('error/maintenance_v1');
+		$this->setCss("error/error-style-v1");
 		$this->render();
 		exit();
 		// code here

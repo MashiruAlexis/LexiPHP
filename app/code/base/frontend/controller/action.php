@@ -221,11 +221,14 @@ Class Frontend_Controller_Action {
 	 *	Get the block and insert
 	 */
 	public function getBlock( $block = false ) {
-		if( $block ) {
-			$blocks = explode(BS, $block);
-			$blockPath = Core::$paths[0] . $blocks[0] . DS . "view" . DS . $blocks[1] . ".phtml";
-			if( file_exists($blockPath) ) {
-				return include $blockPath;
+		if(! strpos($block, '/') ) {
+			return false;
+		}
+		$blocks = explode("/", $block);
+		foreach( Core::$paths as $path ) {
+			$template = $path . $blocks[0] . DS . 'view' . DS . $blocks[1] . '.phtml';
+			if( file_exists($template) ) {
+				return include $template;
 			}
 		}
 		return false;
