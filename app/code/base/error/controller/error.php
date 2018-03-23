@@ -60,7 +60,7 @@ Class Error_Controller_Error extends Frontend_Controller_Action {
 	/**
 	 *	Error Message
 	 */
-	public $message = "Sorry";
+	public $message = false;
 
 	/**
 	 *	Use this controller as index method
@@ -79,10 +79,47 @@ Class Error_Controller_Error extends Frontend_Controller_Action {
 	}
 
 	/**
+	 *	new custom error
+	 */
+	public function new() {
+		$this->setPageTitle($this->errorTypes[$this->type]["title"]);
+		$this->setCss("error/error-style-v1");
+		$this->setBlock("error/new");
+		$this->render();
+		exit();
+	}
+
+	/**
 	 *	Set error type
+	 *	@param int $type
+	 *	@return obj $this
 	 */
 	public function setType( $type ) {
 		$this->type = $type;
+		return $this;
+	}
+
+	/**
+	 *	Get error type
+	 */
+	public function getType() {
+		return $this->type;
+	}
+
+	/**
+	 *	Get message
+	 */
+	public function getMessage() {
+		return $this->message;
+	}
+
+	/**
+	 *	Set message
+	 *	@param string $msg
+	 *	@return obj $this
+	 */
+	public function setMessage( $msg ) {
+		$this->message = $msg;
 		return $this;
 	}
 }

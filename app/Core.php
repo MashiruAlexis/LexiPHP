@@ -112,10 +112,9 @@ Class Core {
  			foreach($dirs as $dir) {
  				if($this->params[0] == str_replace(BPcore, "", $dir)) {
  					Core::dispatchError()
- 						->setTitlepage("Access Denied")
  						->setMessage("Sorry this page is reserve for core files only")
- 						->setType(401)
- 						->exec();
+ 						->setType(403)
+ 						->new();
  				}
  			}
  		}
@@ -138,7 +137,6 @@ Class Core {
 
  		if(! Core::controllerExist([$kernel->getApp(), $kernel->getController()]) ) {
  			Core::dispatchError()
- 				->setTitlepage("Page not found")
  				->setMessage("Sorry the page deosnt exist.")
  				->setType(401)
  				->exec();
@@ -154,7 +152,6 @@ Class Core {
  			call_user_func([$kernel->getController(), "render"]);
  		}else {
  			Core::dispatchError()
- 				->setTitlepage("Page not found")
  				->setMessage("Sorry the page deosnt exist.")
  				->setType(401)
  				->exec();

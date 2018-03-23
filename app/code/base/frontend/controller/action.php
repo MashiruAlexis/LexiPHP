@@ -202,9 +202,12 @@ Class Frontend_Controller_Action {
 	 */
 	public function setBlock( $block, $data = false ) {
 		$block = explode(BS, $block);
-		$path = Core::$paths[0] . $block[0] . DS . "view" . DS . $block[1] . ".phtml";
-		if( file_exists($path) ) {
-			$this->blocks[] = $path;
+		foreach( Core::$paths as $path ) {
+			$path = $path . $block[0] . DS . "view" . DS . $block[1] . ".phtml";
+			if( file_exists($path) ) {
+				$this->blocks[] = $path;
+				return true;
+			}
 		}
 		return false;
 	}
