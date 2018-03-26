@@ -18,6 +18,15 @@ if (version_compare(phpversion(), $req = '5.6.0', '<')===true) {
 	<?php
     exit;
 }
+// register_shutdown_function( function () {
+// 	$error = error_get_last();
+// 	Core::getSingleton("error/error")
+// 		->setType(500)
+// 		->setExeptionMessage($error['message'])
+// 		->setFile($error['file'])
+// 		->setLine($error['line'])
+// 		->new();
+// } );
 
 require_once "app/Core.php";
 

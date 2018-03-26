@@ -476,15 +476,8 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 			$total_crit3 = 	$total_crit3 + $rating->ave_crit3;
 			$total_crit4 = 	$total_crit4 + $rating->ave_crit4;
 			$total_ave = 	$total_ave + $rating->ave_total;
-			
-			
-			// Core::log( $ed->comments );
 		}
-		// Core::log( "Commitment: " . round($total_crit1 / count($evaluationDetails)) );
-		// Core::log( "Knowledge of Subject: " . round($total_crit2 / count($evaluationDetails)) );
-		// Core::log( "Teaching for Independent Learning: " . round($total_crit3 / count($evaluationDetails)) );
-		// Core::log( "Management of Learning: " . round($total_crit4 / count($evaluationDetails)) );
-		// Core::log( "Overall Rating: " . round($total_ave / count($evaluationDetails)) );
+		
 		$data = [
 			[
 				"label" 	=> "Commitment",
@@ -504,32 +497,7 @@ Class Admin_Controller_Evaluation extends Frontend_Controller_Action {
 			]
 		];
 
-		// $data = [
-		// 	[
-		// 		"label" 	=> "Commitment",
-		// 		"rating" 	=> 67
-		// 	],
-		// 	[
-		// 		"label" 	=> "Knowledge of Subject",
-		// 		"rating" 	=> 78
-		// 	],
-		// 	[
-		// 		"label" 	=> "Teaching for Independent Learning",
-		// 		"rating" 	=> 60
-		// 	],
-		// 	[
-		// 		"label" 	=> "Management of Learning",
-		// 		"rating" 	=> 86
-		// 	]
-		// ];
-		// $overallRating = 0;
-		// foreach( $data as $dt ) {
-		// 	$overallRating = $overallRating + $dt["rating"];
-		// }
-
 		$overallRating = $total_ave / count($evaluationDetails);
-
-		
 		$decision = $this->makeRecomendation( $data, round($overallRating) );
 		$finalData = $data;
 		$finalData["recomendation"] = $decision;

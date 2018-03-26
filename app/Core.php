@@ -94,7 +94,10 @@ Class Core {
  	public function __construct() {
  		// let's check if we need to activate maintenance mode
 		if( file_exists(Core::getSingleton("system/config")->getConfig('maintenanceFlagFile')) ) {
-			Core::getSingleton("error/error")->setType(500)->exec();
+			Core::getSingleton("error/error")
+				->setMessage("This is under maintenance.<br/>Our service team has been dispatched to bring it back online.")
+				->setType(500)
+				->new();
 			exit();
 		}
 
@@ -137,8 +140,8 @@ Class Core {
 
  		if(! Core::controllerExist([$kernel->getApp(), $kernel->getController()]) ) {
  			Core::dispatchError()
- 				->setMessage("Sorry the page deosnt exist.")
- 				->setType(401)
+ 				->setMessage("Sorry the page doesn't exist")
+ 				->setType(404)
  				->exec();
  		}
 
@@ -152,8 +155,8 @@ Class Core {
  			call_user_func([$kernel->getController(), "render"]);
  		}else {
  			Core::dispatchError()
- 				->setMessage("Sorry the page deosnt exist.")
- 				->setType(401)
+ 				->setMessage("Sorry the page doesn't exist")
+ 				->setType(404)
  				->exec();
  		}
 
