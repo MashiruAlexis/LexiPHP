@@ -35,26 +35,12 @@ Class System_Controller_Kernel {
 	 *	Kernel on boot
 	 */
 	public function __construct() {
-
-		# Set PHP ERROR HANDLERS
-		// set_error_handler( ['Error_Controller_Error', 'errorHandler'] );
-		// set_exception_handler( ["Error_Controller_Error", "exceptionHandler"] );
-		
-
 		$config = $this->getConfig("system");
 		$session = Core::getSingleton("system/session");
-	// test
 		if( isset($config["app"]) ) {
 			$this->setApp( $config["app"] );
 		}
-// fopen("test", 'r');
-		// set debug mode
-		// if( $config["debug"] ) {
-		// 	error_reporting(E_ALL);
-		// 	ini_set('display_errors', 1);
-		// }
-
-		Core::getSingleton("error/error");
+		// Core::getSingleton("error/error");
 		// start session
 		$session->start();
 	}

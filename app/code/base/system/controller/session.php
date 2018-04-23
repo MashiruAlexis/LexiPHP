@@ -69,7 +69,7 @@ Class System_Controller_Session {
 		if ( session_id() == '' ) {
 			return false;
 		}
-	return true;
+		return true;
 	}
 
 	/**

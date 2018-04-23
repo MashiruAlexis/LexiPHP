@@ -292,4 +292,30 @@ Class Core {
  		return new Core;
  	}
 
+ 	/**
+ 	 *	Exceptions
+ 	 */
+ 	public static function exceptionHandler( $e ) {
+ 		echo "----- EXCEPTION -----";
+ 		echo $e->getMessage();
+ 		return;
+ 	}
+
+ 	/**
+ 	 *	Errors
+ 	 */
+ 	public static function errorHandler( $severity, $message, $filepath = null, $line = 0 ) {
+ 		echo "----- ERROR -----";
+ 		echo $message;
+ 		return;
+ 	}
+
+ 	/**
+ 	 *	Shutdown
+ 	 */
+ 	public static function shutdownHandler() {
+ 		echo "----- SHUTDOWN -----";
+ 		self::log( error_get_last() );
+ 	}
+
  }

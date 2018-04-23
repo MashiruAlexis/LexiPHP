@@ -17,7 +17,7 @@ Class Console_Db_Delete extends Console_Controller_Core {
 		$db->truncate();
 		
 		if( $db->tableNotEmpty($db->getTable()) ) {
-			$this->error("Error: something went while processing this command.");
+			$this->error("Error: something went wrong while processing this command.");
 			return false;
 		}
 		$this->success($args[0] . " was successfully deleted.");

@@ -90,13 +90,13 @@ Class Error_Controller_Error extends Frontend_Controller_Action {
 		// include(dirname(__FILE__) . DS . 
 
 
-		$loader = BP . DS . 'vendor' . DS . 'autoload.php';
-		if( file_exists($loader) ) {
-			require $loader;
-			$whoops = new \Whoops\Run;
-			$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-			$whoops->register();
-		}
+		// $loader = BP . DS . 'vendor' . DS . 'autoload.php';
+		// if( file_exists($loader) ) {
+		// 	require $loader;
+		// 	$whoops = new \Whoops\Run;
+		// 	$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+		// 	$whoops->register();
+		// }
 		
 	}
 
