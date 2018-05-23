@@ -78,13 +78,17 @@ Class Handler {
 	 *	@return void
 	 */	
 	public function errorHandler( $severity, $message, $filepath = null, $line = 0 ) {
-
-		$_SESSION['error']['severity'] = $severity;
-		$_SESSION['error']['message'] = $message;
-		$_SESSION['error']['filepath'] = $filepath;
-		$_SESSION['error']['line'] = $line;
+		$severity = isset($severity) ? $severity : 0;
+		$error = [
+			"severity" => $serverity,
+			"message" => $message,
+			"filepath" => $filepath,
+			"line" => $line
+		];
 		$_SESSION['page'] = $this->getUri();
 		$_SESSION['type'] = 'error';
+		Handler::log( SYS_CONFIG['baseUrl'] );
+		return;
 		header('location: ' . SYS_CONFIG['baseUrl'] . '/errors');
 		exit();
 	}

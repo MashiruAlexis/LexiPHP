@@ -40,7 +40,16 @@ Class System_Controller_Kernel {
 		if( isset($config["app"]) ) {
 			$this->setApp( $config["app"] );
 		}
-		// Core::getSingleton("error/error");
+
+		// whoops error handler
+		$loader = BP . DS . 'vendor' . DS . 'autoload.php';
+		if( file_exists($loader) ) {
+			require $loader;
+			$whoops = new \Whoops\Run;
+			$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+			$whoops->register();
+		}
+
 		// start session
 		$session->start();
 	}
