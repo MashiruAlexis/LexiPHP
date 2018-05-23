@@ -9,17 +9,66 @@
 		</thead>
 
 		<tbody>
+		  <tbody>
+
+		  	<!-- Network Connection -->
+		  <tr>
+			<td>Network Connection</td>
+			<td><span id="netConnect" style="color: white;">unknown</span></td>
+		  </tr>
+
+			<!-- check the phones battery level -->
 		  <tr>
 			<td>Battery Level</td>
 			<td><span id="batlvl">0</span></td>
 		  </tr>
+
+		  <!-- check what type of OS used -->
+		  <tr>
+			<td>OS</td>
+			<td><span id="browser">unknown</span></td>
+		  </tr>
+
+		  <!-- use vibrate -->
+		  <tr>
+			<td>Vibrate Button</td>
+			<td><a id="btnvibrate" class="waves-effect waves-light btn-small">Button</a></td>
+		  </tr>
+
+		</tbody>
 		</tbody>
 	  </table>
 	</div>
 </div>
 
 <script type="text/javascript">
-	navigator.getBattery().then(function(battery) {
+	// Net work connection
+
+	function getConnectionStatus() {
+		if(navigator.onLine) {
+			$( "#netConnect" ).removeClass( "red" ).addClass( "green" );
+		    document.getElementById("netConnect").innerHTML = "Online";
+		}else{
+			$( "#netConnect" ).removeClass( "green" ).addClass( "red" );
+		    document.getElementById("netConnect").innerHTML = "Offline";
+		  }
+	}
+	getConnectionStatus();
+	setInterval(getConnectionStatus, 2000);
+
+
+	// used OS Type
+	document.getElementById("browser").innerHTML = navigator.platform;
+
+	// vibrate
+	$('#btnvibrate').click( function(e) {
+		e.preventDefault();
+		window.navigator.vibrate([100,30,100,30,100,200,200,30,200,30,200,200,100,30,100,30,100]); // Vibrate 'SOS' in Morse.
+		return false; 
+	} );
+
+// battery manipulation code
+navigator.getBattery().then(function(battery) {
   function updateAllBatteryInfo(){
 	updateChargeInfo();
 	updateLevelInfo();
@@ -39,6 +88,7 @@
   battery.addEventListener('levelchange', function(){
 	updateLevelInfo();
   });
+
   function updateLevelInfo(){
 	// console.log("Battery level: "
 	// 			+ battery.level * 100 + "%");
