@@ -4,7 +4,7 @@
  * See license file for more info.
  */
 
-if( $godmode = true ) {
+if( $godmode = false ) {
 	if (version_compare(phpversion(), $req = '5.6.0', '<') === true) {
 	    ?>
 	    	<div style="font:12px/1.35em arial, helvetica, sans-serif;">
