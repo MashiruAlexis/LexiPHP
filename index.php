@@ -4,23 +4,23 @@
  * See license file for more info.
  */
 
-if (!defined('PHP_VERSION_ID') || !(PHP_VERSION_ID === 70002 || PHP_VERSION_ID === 70004  || PHP_VERSION_ID >= 70006 )) {
-	?>
-    	<div style="font:12px/1.35em arial, helvetica, sans-serif;">
-			<div style="margin:0 0 25px 0; border-bottom:1px solid #ccc;">
-				<h3 style="margin:0; font-size:1.7em; font-weight:normal; text-transform:none; text-align:left; color:#2f2f2f;">
-					Whoops, it looks like you have an invalid PHP version.
-				</h3>
+if( $godmode = true ) {
+	if (version_compare(phpversion(), $req = '5.6.0', '<') === true) {
+	    ?>
+	    	<div style="font:12px/1.35em arial, helvetica, sans-serif;">
+				<div style="margin:0 0 25px 0; border-bottom:1px solid #ccc;">
+					<h3 style="margin:0; font-size:1.7em; font-weight:normal; text-transform:none; text-align:left; color:#2f2f2f;">
+						Whoops, it looks like you have an invalid PHP version.
+					</h3>
+				</div>
+				<p>Sorry for breaking it to  you, there's no way for you to fix this aside from installing the required php version.</p>
+				<p>Current: <b>PHP <?=phpversion()?></b></p>
+				<p>Required: <b>PHP <?=$req?></b></p>
 			</div>
-			<p>Sorry for breaking it to  you, there's no way for you to fix this aside from installing the required php version.</p>
-			<p>Current: <b>PHP <?=phpversion()?></b></p>
-			<p>Required: <b>PHP <?=$req?></b></p>
-			<p>PHP Ver ID: <b>PHP <?=PHP_VERSION_ID?></b></p>
-		</div>
-	<?php
-    exit;
+		<?php
+	    exit;
+	}
 }
-
 
 
 // require_once "errors/controller/handler.php";
