@@ -3,8 +3,9 @@
  * Copyright © Ramon Alexis Celis All rights reserved.
  * See license file for more info.
  */
-if (version_compare(phpversion(), $req = '5.6.0', '<')===true) {
-    ?>
+
+if (!defined('PHP_VERSION_ID') || !(PHP_VERSION_ID === 70002 || PHP_VERSION_ID === 70004  || PHP_VERSION_ID >= 70006 )) {
+	?>
     	<div style="font:12px/1.35em arial, helvetica, sans-serif;">
 			<div style="margin:0 0 25px 0; border-bottom:1px solid #ccc;">
 				<h3 style="margin:0; font-size:1.7em; font-weight:normal; text-transform:none; text-align:left; color:#2f2f2f;">
@@ -19,6 +20,7 @@ if (version_compare(phpversion(), $req = '5.6.0', '<')===true) {
 	<?php
     exit;
 }
+
 
 
 // require_once "errors/controller/handler.php";
