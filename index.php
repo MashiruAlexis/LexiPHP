@@ -14,6 +14,7 @@ if (version_compare(phpversion(), $req = '5.6.0', '<')===true) {
 			<p>Sorry for breaking it to  you, there's no way for you to fix this aside from installing the required php version.</p>
 			<p>Current: <b>PHP <?=phpversion()?></b></p>
 			<p>Required: <b>PHP <?=$req?></b></p>
+			<p>PHP Ver ID: <b>PHP <?=PHP_VERSION_ID?></b></p>
 		</div>
 	<?php
     exit;
