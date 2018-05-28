@@ -29,7 +29,7 @@ Class System_Controller_Kernel {
 	/**
 	 *	Config Default Path
 	 */
-	protected $configDefaultPath = BP . DS . "app" . DS . "config" . DS;
+	protected $configDefaultPath;
 
 	/**
 	 *	Kernel on boot
@@ -72,7 +72,7 @@ Class System_Controller_Kernel {
 	 *	@return array $config
 	 */
 	public function getConfig( $config ) {
-		$configFilePath = $this->configDefaultPath . $config . ".php";
+		$configFilePath = BP . DS . "app" . DS . "config" . DS . $config . ".php";
 		if( file_exists($configFilePath) ) {
 			return include($configFilePath);
 		}
