@@ -30,6 +30,7 @@ return [
 		"default/jquery.min",
 		"default/popper.min",
 		"default/bootstrap-material-design",
+		"default/material-kit.min",
 	]
 
 ];
