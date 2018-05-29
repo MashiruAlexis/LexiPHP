@@ -91,15 +91,13 @@ Class Frontend_Controller_Action {
 	 *	@return string $image
 	 */
 	public function getImage( $image ) {
-		$img = explode("/", $image);
-		$baseUrl = Core::getSingleton("system/config")->getBaseUrl();
+		$image = str_replace("/", DS, $image);
 		foreach( Core::$skinPath as $path ) {
-			$imagePath = $path . $img[0] . DS . "images" . DS . $img[1];
-			if( file_exists($imagePath) ) {
-				$imagePath = str_replace("\\", "/", str_replace(BP . DS, $baseUrl, $imagePath));
-				return $imagePath;
+			if( file_exists($path . $image) ) {
+				return str_replace("\\", "/", str_replace(BP . DS, Core::getBaseUrl(), $path.$image));;
 			}
 		}
+		return 'Image does not exist.';
 	}
 
 	/**
