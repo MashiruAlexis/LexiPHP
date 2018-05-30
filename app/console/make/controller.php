@@ -6,6 +6,7 @@
 
 Class Console_Make_Controller extends Console_Controller_Core {
 
+	public $description = "Creates controller within client app.";
 	protected $controllerPath;
 	protected $templatePath;
 	protected $controllerNeedle = '{controller}';
