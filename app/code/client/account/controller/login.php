@@ -20,6 +20,7 @@ Class Account_Controller_Login extends Frontend_Controller_Action {
 	public function authenticateAction() {
 		$data = Core::getSingleton("http/request")->getRequest();
 		Core::log( $data );
-		$this->_redirect(Core::getBaseUrl());
+		echo "<a href='". Core::getBaseUrl() ."'>Go Home</a>";
+		//$this->_redirect(Core::getBaseUrl());
 	}
 }
