@@ -303,6 +303,9 @@ Class Database_Model_Base {
 	 *	@return bool
 	 */
 	public function tableExist( $name ) {
+		if(! $this->showTables() ) {
+			return false;
+		}
 		return in_array($name, $this->showTables()) ? true : false;
 	}
 

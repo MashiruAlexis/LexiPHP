@@ -15,12 +15,8 @@ Class Console_Make_Console extends Console_Controller_Core {
 			$this->error("Error: no arguments was passed.");
 			return false;
 		}
-		$this->log( $args );
-		if(! isset($args[1]) ) {
-			$this->error("Error: a second argument is needed.");
-			return 0;
-		}
 
+		$args = explode(":", $args[0]);
 		$key1 = strtolower($args[0]);
 		$key2 = strtolower($args[1]);
 

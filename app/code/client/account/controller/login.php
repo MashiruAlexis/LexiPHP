@@ -21,6 +21,5 @@ Class Account_Controller_Login extends Frontend_Controller_Action {
 		$data = Core::getSingleton("http/request")->getRequest();
 		Core::log( $data );
 		echo "<a href='". Core::getBaseUrl() ."'>Go Home</a>";
-		//$this->_redirect(Core::getBaseUrl());
 	}
 }

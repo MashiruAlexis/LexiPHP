@@ -12,5 +12,8 @@ Class Account_Controller_Register extends Frontend_Controller_Action {
 	public function indexAction() {
 		$this->setPageTitle('Register');
 		$this->setBlock("account/register");
+		$this->setCss("default/validetta.min");
+		$this->setJs("default/validetta.min");
 	}
+
 }

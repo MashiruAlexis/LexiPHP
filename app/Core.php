@@ -196,17 +196,6 @@ Class Core {
  	}
 
  	/**
- 	 *	Get new Instace of object
- 	 *	@var string $instance
- 	 *	@return obj $obj
- 	 */
- 	public static function getInstance( $instance ) {
- 		$obj = explode("/", $instance);
- 		$obj = $obj[0] . US . "controller" . US . $obj[1];
- 		return new $obj;
- 	}
-
- 	/**
  	 *	Error Handler
  	 */
  	public static function dispatchError() {
@@ -247,6 +236,20 @@ Class Core {
  		}
  		$cmd =  "console_" . $cmd[0] . "_" . $cmd[1]; 
  		return new $cmd;
+ 	}
+
+ 	/**
+ 	 *	Instanciate Migration Class
+ 	 *	@param string $migration
+ 	 *	@return obj $migration
+ 	 */
+ 	public static function getMigration( $migration ) {
+ 		$path = BP . DS . "database" . DS . "migration" . DS . $migration . ".php";
+ 		if(! file_exists($path) ) {
+ 			return false;
+ 		}
+ 		// include_once $path;
+ 		return new $migration;
  	}
 
  	/**

@@ -25,12 +25,12 @@ return [
 
 	/*
 	|--------------------------------------------------------------------------
-	|	Toggl Autoloader
+	|	Database Autoloader
 	|--------------------------------------------------------------------------
 	|
-	| Autoloader for toggl module.
+	| Autoloader for Migrations and Seeders.
 	*/
-	'toggl' => "app/code/modules/toggl/Classloader.php",
+	'database' => "database/autoload.php",
 
 	/*
 	|--------------------------------------------------------------------------
