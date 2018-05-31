@@ -14,8 +14,7 @@ Class Console_Migrate_Index extends Console_Controller_Core {
 	/**
 	 *	Up the migrations
 	 */
-	public function handler() {
-
+	public function handler( $args = [] ) {
 		$migrations = $this->getList();
 		if( count($migrations) < 1 ) {
 			$this->error("Error: no migration file was found.");
@@ -23,8 +22,14 @@ Class Console_Migrate_Index extends Console_Controller_Core {
 		}
 
 		foreach( $migrations as $migration ) {
-			Core::getMigration($migration)->up();
-			$this->success($migration . " was migrated successfully.");
+			if(! in_array("-down", $args) ) {
+				Core::getMigration($migration)->up();
+				$this->success($migration . " was migrated successfully.");
+			}else{
+				Core::getMigration($migration)->down();
+				$this->warning($migration . " was reverse migrate successfully.");
+			}
+			
 		}
 		return;
 	}

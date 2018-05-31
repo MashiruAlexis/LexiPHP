@@ -40,6 +40,7 @@ Class Console_Make_Client extends Console_Controller_Core {
 					return false;
 				}
 			}
+			Core::getConsole("make/controller")->handler(["$args[0]/index"]);
 		}else{
 			$this->error("Error: something went wrong while creating " . $args[0]);
 			$this->info("Info: check you command syntax and try again.");

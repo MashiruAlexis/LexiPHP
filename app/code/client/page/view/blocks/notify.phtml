@@ -1,0 +1,29 @@
+<?php
+$noti = Core::getSingleton("system/session");
+
+// icons
+$icons = [
+	"error" => "error_outline",
+	"info" => "info_outline",
+	"warning" => "warning",
+	"success" => "check"
+];
+
+if( $alert = $noti->get("alert") ) {
+	if( $alert["type"] === "error" ) { $type = "danger"; } else { $type = $alert["type"]; }
+	?>
+	<div class="alert alert-<?=$type?>">
+		<div class="container">
+			<div class="alert-icon">
+				<i class="material-icons"><?=$icons[$alert['type']]?></i>
+			</div>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true"><i class="material-icons">clear</i></span>
+			</button>
+			<b><?php echo strtoupper($alert["type"]); ?>:</b> <?= $alert['msg'] ?>
+		</div>
+	</div>
+	<?php
+	$noti->del("alert");
+}
+?>
