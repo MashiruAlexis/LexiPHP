@@ -29,6 +29,14 @@ Class System_Controller_Session {
 	}
 
 	/**
+	 *	Checks if a key exist in session
+	 *	@param string $key
+	 */
+	public function has( $key ) {
+		return $this->get($key);
+	}
+
+	/**
 	 *	Get data from session
 	 *	@var string $key
 	 *	@return string|array|obj $session

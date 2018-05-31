@@ -1,6 +1,7 @@
 <?php $this->getChildBlock("index/nav"); ?>
     <div class="section section-signup page-header" style="background-image: url('<?=$this->getImage("default/img/kit/bg2.jpg")?>');">
     <div class="container">
+      <?php $this->getChildBlock("page/notify"); ?>
       <div class="row">
         <div class="col-md-4 ml-auto mr-auto">
           <div class="card card-signup">
@@ -28,17 +29,8 @@
                         <i class="material-icons">face</i>
                     </span>
                   </div>
-                  <input type="text" name="user" class="form-control" placeholder="User Name..." required autocomplete="off">
+                  <input type="text" name="user" class="form-control" placeholder="User Name..." required autocomplete="off" value="<?=isset($_GET['user']) ? $_GET['user'] : ""?>">
                 </div></span>
-
-                <!-- <span class="bmd-form-group"><div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">
-                        <i class="material-icons">email</i>
-                    </span>
-                  </div>
-                  <input type="email" class="form-control" placeholder="Email...">
-                </div></span> -->
 
                 <span class="bmd-form-group"><div class="input-group">
                   <div class="input-group-prepend">
@@ -48,17 +40,6 @@
                   </div>
                   <input type="password" name="pass" class="form-control" placeholder="Password..." required>
                 </div></span>
-                <!-- If you want to add a checkbox to this form, uncomment this code
-
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" value="">
-                        Subscribe to newsletter
-                        <span class="form-check-sign">
-                            <span class="check"></span>
-                        </span>
-                    </label>
-                </div> -->
               </div>
               <div class="card-footer justify-content-center">
                 <input type="submit" class="btn btn-link btn-primary btn-lg" value="Get Started">

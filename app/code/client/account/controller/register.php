@@ -10,6 +10,7 @@ Class Account_Controller_Register extends Frontend_Controller_Action {
 	 *	Default controller action
 	 */
 	public function indexAction() {
+		$this->middleware("autologin");
 		$this->setPageTitle('Register');
 		$this->setBlock("account/register");
 		$this->setCss("default/validetta.min");
@@ -49,7 +50,8 @@ Class Account_Controller_Register extends Frontend_Controller_Action {
 				"type" => "success",
 				"msg" => "Your account was successfully created."
 			]);
-		$this->_redirect(Core::getBaseUrl());
+		$accountDb->login($data["user"], $data["pass"]);
+		$this->_redirect(Core::getBaseUrl() . "dashboard");
 		return;
 	}
 

@@ -10,6 +10,7 @@ Class Index_Controller_Index extends Frontend_Controller_Action {
 	 *	Default controller action
 	 */
 	public function indexAction() {
+		$this->middleware("autologin");
 		$this->setPageTitle('LexiPHP');
 		$this->setBlock("index/index");
 	}

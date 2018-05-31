@@ -10,7 +10,8 @@ Class Dashboard_Controller_Index extends Frontend_Controller_Action {
 	 *	Default controller action
 	 */
 	public function indexAction() {
+		$this->middleware("authenticated");
 		$this->setPageTitle('Dashboard');
-		// code here
+		$this->setBlock("dashboard/main");
 	}
 }

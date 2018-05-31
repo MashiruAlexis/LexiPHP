@@ -6,12 +6,5 @@
 
 Class Account_Controller_Auth extends Frontend_Controller_Action {
 
-	/**
-	 *	Authenticate Login Cridentials
-	 *	@param username
-	 *	@param password
-	 */
-	public function authenticate( $username, $password ) {
-		
-	}
+
 }

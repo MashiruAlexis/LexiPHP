@@ -23,6 +23,7 @@ Class System_Controller_Date {
 
 
 	public function __construct() {
+		date_default_timezone_set("Asia/Manila");
 		$this->dateTimeFormat = $this->dateFormat . " " . $this->timeFormat;
 	}
 

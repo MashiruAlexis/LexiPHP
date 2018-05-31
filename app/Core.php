@@ -278,10 +278,23 @@ Class Core {
 
  	/**
  	 *	Print Variables
- 	 *	@var string $str
- 	 *	@return
+ 	 *	@param string $str
+ 	 *	@param bool $file
+ 	 *	@return void
  	 */
- 	public static function log( $str ) {
+ 	public static function log( $str, $string = false, $filename = "system.log" ) {
+ 		$path = BP . DS . "logs" . DS . $filename;
+ 		$date = Core::getSingleton("system/date");
+
+ 		if( $string || is_object($str) || is_array($str) ) {
+ 			file_put_contents($path, "====# " . $date->getDate() . " #====" . "\n", FILE_APPEND);
+ 			file_put_contents($path, print_r($str, true) . "\n", FILE_APPEND);
+ 			return;
+ 		}else{
+ 			file_put_contents($path, $date->getDate() . ": " . $str . "\n", FILE_APPEND);
+ 			return;
+ 		}
+
  		echo "<pre>";
  		print_r($str);
  		echo "</pre>";

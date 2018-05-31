@@ -15,7 +15,7 @@ Class Accounts extends Database_Model_Schema {
 		$this->create('accounts');
 		$this->increments("id");
 		$this->string("username", 30);
-		$this->string("password", 20);
+		$this->string("password", 200);
 		$this->string("email", 20);
 		$this->string("created_at", 30);
 		$this->string("updated_at", 30);
