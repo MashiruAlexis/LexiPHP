@@ -13,6 +13,7 @@ Class {name} extends Database_Model_Schema {
 	public function up() {
 		// create table
 		$this->create('{table}');
+		$this->increments("id"); // primary id
 		// next is culomn1
 		// next is culomn2
 		// next is culomn3
