@@ -78,20 +78,6 @@ Class Console_Lexi_Index extends Console_Controller_Core {
 	}
 
 	/**
-	 *	Get object property
-	 *	@param obj $class
-	 *	@return string $property
-	 */
-	public function getObjProperty( $class ) {
-
-	}
-
-	/**
-	 *	Print Commands
-	 */
-	public function printCmd(  ) {}
-
-	/**
 	 *	Return Console Command Path
 	 *	@return $path
 	 */

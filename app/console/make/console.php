@@ -42,6 +42,7 @@ Class Console_Make_Console extends Console_Controller_Core {
 
 		if( new Console_Controller_Maker($setup) ) {
 			$this->success("Maker Success");
+			$this->info("to test run: php lexi $key1:$key2");
 			return 1;
 		}
 		return;

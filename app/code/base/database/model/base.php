@@ -61,8 +61,8 @@ Class Database_Model_Base {
 		$kernel = Core::getSingleton("system/kernel");
 		$dbConfig = $kernel->getConfig("database");
 		if( $dbConfig ) {
-			$this->database = $dbConfig["DatabaseName"];
-			$this->user = $dbConfig["Username"];
+			$this->database = $dbConfig["Database"];
+			$this->user = $dbConfig["User"];
 			$this->pass = $dbConfig["Password"];
 			$this->host = $dbConfig["Host"];
 		}

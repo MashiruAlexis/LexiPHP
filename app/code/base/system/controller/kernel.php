@@ -41,9 +41,11 @@ Class System_Controller_Kernel {
 			$this->setApp( $config["app"] );
 		}
 
+		$debug = isset($config["debug"]) ? $config["debug"] : false;
+
 		// whoops error handler
 		$loader = BP . DS . 'vendor' . DS . 'autoload.php';
-		if( file_exists($loader) ) {
+		if( file_exists($loader) and $debug ) {
 			require $loader;
 			$whoops = new \Whoops\Run;
 			$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
