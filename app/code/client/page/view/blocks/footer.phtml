@@ -1,8 +1,35 @@
-<footer>
-	<div class="footer-copyright">
-		<div class="container">
-		© 2017 ESSU
-		<a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+<footer class="footer ">
+	<div class="container">
+		<nav class="pull-left">
+			<ul>
+				<li>
+					<a href="<?=Core::getBaseUrl()?>">
+						LexiPHP
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						About Us
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						Blog
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						Licenses
+					</a>
+				</li>
+			</ul>
+		</nav>
+		<div class="copyright pull-right">
+			&copy;
+			<script>
+				document.write(new Date().getFullYear())
+			</script>, made with <i class="material-icons">favorite</i> by
+			<a href="<?=Core::getBaseUrl()?>" target="_blank">LexiPHP</a> for simplicity.
 		</div>
 	</div>
 </footer>

@@ -29,7 +29,7 @@ Class System_Controller_Kernel {
 	/**
 	 *	Config Default Path
 	 */
-	protected $configDefaultPath = BP . DS . "app" . DS . "config" . DS;
+	protected $configDefaultPath;
 
 	/**
 	 *	Kernel on boot
@@ -37,15 +37,21 @@ Class System_Controller_Kernel {
 	public function __construct() {
 		$config = $this->getConfig("system");
 		$session = Core::getSingleton("system/session");
-		
 		if( isset($config["app"]) ) {
 			$this->setApp( $config["app"] );
 		}
-		// set debug mode
-		if( $config["debug"] ) {
-			error_reporting(E_ALL);
-			ini_set('display_errors', 1);
+
+		$debug = isset($config["debug"]) ? $config["debug"] : false;
+
+		// whoops error handler
+		$loader = BP . DS . 'vendor' . DS . 'autoload.php';
+		if( file_exists($loader) and $debug ) {
+			require $loader;
+			$whoops = new \Whoops\Run;
+			$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+			$whoops->register();
 		}
+
 		// start session
 		$session->start();
 	}
@@ -68,7 +74,7 @@ Class System_Controller_Kernel {
 	 *	@return array $config
 	 */
 	public function getConfig( $config ) {
-		$configFilePath = $this->configDefaultPath . $config . ".php";
+		$configFilePath = BP . DS . "app" . DS . "config" . DS . $config . ".php";
 		if( file_exists($configFilePath) ) {
 			return include($configFilePath);
 		}

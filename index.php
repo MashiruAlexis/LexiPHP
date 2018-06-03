@@ -3,7 +3,7 @@
  * Copyright © Ramon Alexis Celis All rights reserved.
  * See license file for more info.
  */
-if (version_compare(phpversion(), $req = '5.6.0', '<')===true) {
+if (version_compare(phpversion(), $req = '5.6.0', '<') === true) {
     ?>
     	<div style="font:12px/1.35em arial, helvetica, sans-serif;">
 			<div style="margin:0 0 25px 0; border-bottom:1px solid #ccc;">
@@ -19,9 +19,16 @@ if (version_compare(phpversion(), $req = '5.6.0', '<')===true) {
     exit;
 }
 
+
+// require_once "errors/controller/handler.php";
 require_once "app/Core.php";
 
 /**
- *	Let Start !!!
+ *	Well capture all the error with this.
+ */
+// \Errors\Controller\Handler::boot();
+
+/**
+ *	Let's Start !!!
  */
 Core::app();

@@ -1,0 +1,8 @@
+<div class="cover">
+	<h1><?=$this->getPageTitle()?>
+		<small>Error <?=$this->getType()?></small>
+	</h1>
+	<p class="lead"><?=$this->getMessage()?></p>
+
+	<?php $this->getChildBlock("error/details"); ?>
+</div>

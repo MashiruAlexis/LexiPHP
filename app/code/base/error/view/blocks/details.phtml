@@ -1,0 +1,18 @@
+<h2>Additional Information</h2>
+<pre>Description: <?=$this->getExceptionMessage()?></pre>
+<pre>File: <?=$this->getFile()?></pre>
+<pre>Line: <?=$this->getLine()?></pre>
+
+<h2>Traces</h2>
+<?php
+	if( $this->getTraces() ) {
+		// Core::log( $this->getTraces() ); exit();
+		foreach( $this->getTraces() as $trace ) {
+			Core::log( "File: " . isset($trace['file']) ? $trace['file']  : '' );
+			Core::log( "Line: " . isset($trace['line']) ? $trace['line']  : '' );
+			Core::log( "Class: " . isset($trace['class']) ? $trace['class']  : '' );
+		}
+	}else{
+		Core::log("No Traces found.");
+	}
+?>

@@ -1,0 +1,86 @@
+<?php
+
+/**
+ * Copyright © Ramon Alexis Celis All rights reserved.
+ * See license file for more info.
+ */
+
+/**
+ *	System Configuration File
+ */
+
+return [
+
+	/**
+	 * --------------------
+	 *	App Name
+	 * --------------------
+	 */
+	"AppName" => "LexiPHP",
+
+	/**
+	 * --------------------
+	 *	Version
+	 * --------------------
+	 */
+	"Version" => "1.0.6",
+
+	/**
+	 * --------------------
+	 *	Base URL
+	 * --------------------
+	 */
+	"baseUrl" => "{baseUrl}",
+
+	/**
+	 * --------------------
+	 *	Site Name
+	 * --------------------
+	 */
+	"siteName" => "{siteName}",
+
+	/**
+	 * --------------------
+	 *	Maintenance Flag File
+	 * --------------------
+	 */
+	"maintenanceFlagFile" => "maintenance.flag",
+
+	/**
+	 * --------------------
+	 *	ChildBlock Hints
+	 * --------------------
+	 */
+	"childBlockHints" => 0,
+
+	/**
+	 * --------------------
+	 *	Skin Directories
+	 * --------------------
+	 */
+	"skin" => array(
+			"base",
+			"client"
+		),
+
+	/**
+	 * --------------------
+	 *	Default App
+	 * --------------------
+	 */
+	"app" => "index",
+
+	/**
+	 * --------------------
+	 *	CLI Script
+	 * --------------------
+	 */
+	"CliScript" => "lexi",
+
+	/**
+	 * --------------------
+	 *	Debug Mode
+	 * --------------------
+	 */
+	"debug" => "true"
+];

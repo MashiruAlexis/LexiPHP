@@ -6,27 +6,12 @@
 
 Class Dashboard_Controller_Index extends Frontend_Controller_Action {
 
-	public function indexAction() {
-		$this->setPageTitle("Dashboard");
-		$auth = Core::getSingleton("account/auth");
-
-		// trigger login form
-		if(! $auth->isLogin() ) {
-			$this->setCss("default/style");
-			$this->setBlock("account/login");
-			return;	
-		}
-
-		$this->setBlock("dashboard/body");
-
-	}
-
 	/**
-	 *
+	 *	Default controller action
 	 */
-	public function setup() {
-		$this->setJs("default/dashboard");
-		$this->setCss("default/ark");
-		$this->setJs("toggl/toggl");
+	public function indexAction() {
+		$this->middleware("authenticated");
+		$this->setPageTitle('Dashboard');
+		$this->setBlock("dashboard/main");
 	}
 }

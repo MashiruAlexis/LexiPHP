@@ -91,15 +91,13 @@ Class Frontend_Controller_Action {
 	 *	@return string $image
 	 */
 	public function getImage( $image ) {
-		$img = explode("/", $image);
-		$baseUrl = Core::getSingleton("system/config")->getBaseUrl();
+		$image = str_replace("/", DS, $image);
 		foreach( Core::$skinPath as $path ) {
-			$imagePath = $path . $img[0] . DS . "images" . DS . $img[1];
-			if( file_exists($imagePath) ) {
-				$imagePath = str_replace("\\", "/", str_replace(BP . DS, $baseUrl, $imagePath));
-				return $imagePath;
+			if( file_exists($path . $image) ) {
+				return str_replace("\\", "/", str_replace(BP . DS, Core::getBaseUrl(), $path.$image));;
 			}
 		}
+		return 'Image does not exist.';
 	}
 
 	/**
@@ -202,9 +200,12 @@ Class Frontend_Controller_Action {
 	 */
 	public function setBlock( $block, $data = false ) {
 		$block = explode(BS, $block);
-		$path = Core::$paths[0] . $block[0] . DS . "view" . DS . $block[1] . ".phtml";
-		if( file_exists($path) ) {
-			$this->blocks[] = $path;
+		foreach( Core::$paths as $path ) {
+			$path = $path . $block[0] . DS . "view" . DS . $block[1] . ".phtml";
+			if( file_exists($path) ) {
+				$this->blocks[] = $path;
+				return true;
+			}
 		}
 		return false;
 	}
@@ -221,11 +222,14 @@ Class Frontend_Controller_Action {
 	 *	Get the block and insert
 	 */
 	public function getBlock( $block = false ) {
-		if( $block ) {
-			$blocks = explode(BS, $block);
-			$blockPath = Core::$paths[0] . $blocks[0] . DS . "view" . DS . $blocks[1] . ".phtml";
-			if( file_exists($blockPath) ) {
-				return include $blockPath;
+		if(! strpos($block, '/') ) {
+			return false;
+		}
+		$blocks = explode("/", $block);
+		foreach( Core::$paths as $path ) {
+			$template = $path . $blocks[0] . DS . 'view' . DS . $blocks[1] . '.phtml';
+			if( file_exists($template) ) {
+				return include $template;
 			}
 		}
 		return false;

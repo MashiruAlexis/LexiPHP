@@ -6,6 +6,7 @@
 
 Class Console_Make_Controller extends Console_Controller_Core {
 
+	public $description = "Creates controller within client app.";
 	protected $controllerPath;
 	protected $templatePath;
 	protected $controllerNeedle = '{controller}';
@@ -32,7 +33,9 @@ Class Console_Make_Controller extends Console_Controller_Core {
 			return;
 		}
 
+		$base = in_array("-base", $args) ? true : false;
 		$args = explode("/", $args[0]);
+
 		if( count($args) < 2 ) {
 			$this->error("Error: invalid syntax. check help.");
 			return false;
@@ -40,10 +43,12 @@ Class Console_Make_Controller extends Console_Controller_Core {
 
 		$file = Core::getSingleton("system/filesystem");
 		$this->controllerPath = Core::$paths[0];
-		if( in_array("-base", $args) ) {
+		
+		if( $base ) {
 			$this->info("Making controller for base directory is intended for core developers only. Procced with caution.");
 			$this->controllerPath = Core::$paths[1];
 		}
+
 		$this->templatePath = dirname(__FILE__) . DS . "template" . DS;
 		$template = $this->templatePath . $this->templateFilename;
 

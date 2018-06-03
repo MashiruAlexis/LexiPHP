@@ -61,8 +61,8 @@ Class Database_Model_Base {
 		$kernel = Core::getSingleton("system/kernel");
 		$dbConfig = $kernel->getConfig("database");
 		if( $dbConfig ) {
-			$this->database = $dbConfig["DatabaseName"];
-			$this->user = $dbConfig["Username"];
+			$this->database = $dbConfig["Database"];
+			$this->user = $dbConfig["User"];
 			$this->pass = $dbConfig["Password"];
 			$this->host = $dbConfig["Host"];
 		}
@@ -273,7 +273,10 @@ Class Database_Model_Base {
 	 *	@param string $name
 	 *	@return bool
 	 */
-	public function truncate( $name ) {
+	public function truncate( $name = false ) {
+		if(! $name ) {
+			$name = $this->getTable();
+		}
 		$res = $this->conn->exec("TRUNCATE TABLE $name");
 		if( $this->tableNotEmpty( $name ) ) {
 			return false;
@@ -300,6 +303,9 @@ Class Database_Model_Base {
 	 *	@return bool
 	 */
 	public function tableExist( $name ) {
+		if(! $this->showTables() ) {
+			return false;
+		}
 		return in_array($name, $this->showTables()) ? true : false;
 	}
 

@@ -60,7 +60,11 @@ Class Console_Controller_Core {
 		if( $this->controllerExist( $this->getController() ) ) {
 			$this->setController( Core::getConsole($this->getController()) );
 		}else{
+			if( $this->controllerExist( $this->getApp() . "/index" ) ) {
+				$this->setController( $this->getApp() . "/index" );
+			}
 			$this->error("Error: unknown console command.");
+			return false;
 		}
 
 		if( method_exists($this->getController(), $this->getMethod()) ) {
@@ -74,15 +78,34 @@ Class Console_Controller_Core {
 	}
 
 	/**
+	 *	Extract Variable Data
+	 *	@param array $var
+	 *	@return array $data
+	 */
+	public function extract( $vars  = [] ) {
+		
+		if( count($vars) < 1 ) {
+			return false;
+		}
+
+		foreach( $vars as $var ) {
+			$rs = explode("=", $var);
+			$data[$rs[0]] = $rs[1];
+		}
+
+		return isset($data) ? $data : false;
+	}
+
+	/**
 	 *	Test to see if a request was made from the command line.
 	 */
 	public function is_cli( $arg = false ) {
 		$config = Core::getSingleton("system/config")->getConfig();
-		if( $arg ) {
-			if( $config["CliScript"] != $arg ) {
-				return false;
-			}
-		}
+		// if( $arg ) {
+		// 	if( $config["CliScript"] != $arg ) {
+		// 		return false;
+		// 	}
+		// }
 		return (PHP_SAPI === 'cli' OR defined('STDIN'));
 	}
 

@@ -6,112 +6,53 @@
 
 Class Account_Controller_Register extends Frontend_Controller_Action {
 
+	/**
+	 *	Default controller action
+	 */
 	public function indexAction() {
-		$this->setPageTitle("Create Account");
+		$this->middleware("autologin");
+		$this->setPageTitle('Register');
 		$this->setBlock("account/register");
+		$this->setCss("default/validetta.min");
+		$this->setJs("default/validetta.min");
 	}
 
 	/**
-	 *	Create User Account
+	 *	Create account
 	 */
 	public function createAction() {
-		$session 	= Core::getSingleton("system/session");
-		$request 	= Core::getSingleton("url/request")->getRequest();
-		$accountDb 	= Core::getModel("account/account");
-		$accountDataDb = Core::getModel("account/accountdata");
-		$hash 		= Core::getSingleton("system/hash");
-		$next 		= isset($request["redirect"]) ? $request["redirect"] : false;
+		$data = Core::getSingleton("url/request")->getRequest();
+		$accountDb = Core::getModel("account/account");
+		$alert = Core::getSingleton("system/session");
 
-		if( $accountDb->where("username", $request["username"])->exist() ) {
-			$session->add("alert", [
+		// check if user already exists
+		if( $accountDb->userExist( $data ) ) {
+			$alert->add("alert", [
 				"type" => "error",
-				"message" => "Username already exist."
+				"msg" => "Account already exist."
 			]);
-
-			if( $next ) {
-				$this->_redirect( $next );
-			}
-			$this->_redirect( Core::getBaseUrl() . "admin" );
+			$this->_redirect(Core::getBaseUrl() . "account/register");
+			return;
 		}
 
-		if( $accountDb->where("email", $request["email"])->exist() ) {
-			$session->add("alert", [
+		$rs = $accountDb->add( $data );
+
+		if(! $rs ) {
+			$alert->add("alert",[
 				"type" => "error",
-				"message" => "Email already exist."
+				"msg" => "Sorry something went error while creting your account."
 			]);
-
-			if( $next ) {
-				$this->_redirect( $next );
-			}
-			$this->_redirect( Core::getBaseUrl() . "admin" );
+			$this->_redirect(Core::getBaseUrl() . "account/register");
+			return;
 		}
 
-		if(! isset($request["department"]) ) {
-			$request["department"] = "";
-		}
-
-		$rs = $accountDb->insert([
-			"account_type_id" 	=> $request["accountType"],
-			"fname"				=> $request["fname"],
-			"lname"				=> $request["lname"],
-			"username" 			=> $request["username"],
-			"email" 			=> $request["email"],
-			"password" 			=> $hash->hash($request["password"]),
-			"status" 			=> $accountDb::STATUS_ACTIVE
-		]);
-		$aData["account_id"] = $accountDb->lastId;
-		$aData["college_dept_id"] = $request["department"];
-
-		// get dean based on department
-		$accountData = $accountDataDb->where("college_dept_id", $request["department"])->get();
-		$supervisorId = 0;
-		foreach( $accountData as $adata ) {
-			$account = $accountDb->where("id", $adata->account_id)->where("account_type_id", 2)->first();
-			if( $account ) {
-				$supervisorId = $account->id;
-			}
-		}
-		$aData["supervisor_id"] = $supervisorId;
-		
-		if( $request["accountType"] == 3 ) {
-			if( isset($request["scyear"]) ) {
-				$aData["scyear"] = $request["scyear"];
-			}
-
-			if( isset($request["sem"]) ) {
-				$aData["sem"] = $request["sem"];
-			}
-
-			if( isset($request["subject"]) ) {
-				$aData["subject_id"] = $request["subject"];
-			}
-		}
-		Core::log( $aData );
-		// return;
-		$accountDataDb->insert($aData);
-		
-		if( $rs ) {
-			$session->add("alert", [
+		$alert->add("alert", [
 				"type" => "success",
-				"message" => "Successfully created account."
+				"msg" => "Your account was successfully created."
 			]);
-		}else{
-			$session->add("alert", [
-				"type" => "error",
-				"message" => "Something went wrong while creating this account."
-			]);
-		}
-
-		if( $next ) {
-			$this->_redirect( $next );
-		}
+		$accountDb->login($data["user"], $data["pass"]);
+		$this->_redirect(Core::getBaseUrl() . "dashboard");
 		return;
-	}
-
-	public function setup() {
-		$this->setJs("account/account");
-		$this->setJs("default/jquery.validate.min");
-		$this->setCss("default/style");
 	}
 
 }

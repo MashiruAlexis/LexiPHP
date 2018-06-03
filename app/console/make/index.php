@@ -9,4 +9,11 @@ Class Console_Make_Index extends Console_Controller_Core {
 		$this->warning("Syntax2: php lexi make:controller clientname controllername");
 		return true;
 	}
+
+	/**
+	 *	get the template path
+	 */
+	public function getTemplatePath()  {
+		return $this->getConsolePath() . "make" . DS . "template"  . DS;
+	}
 }

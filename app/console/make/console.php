@@ -16,11 +16,7 @@ Class Console_Make_Console extends Console_Controller_Core {
 			return false;
 		}
 
-		if(! isset($args[1]) ) {
-			$this->error("Error: a second argument is needed.");
-			return 0;
-		}
-
+		$args = explode(":", $args[0]);
 		$key1 = strtolower($args[0]);
 		$key2 = strtolower($args[1]);
 
@@ -46,6 +42,7 @@ Class Console_Make_Console extends Console_Controller_Core {
 
 		if( new Console_Controller_Maker($setup) ) {
 			$this->success("Maker Success");
+			$this->info("to test run: php lexi $key1:$key2");
 			return 1;
 		}
 		return;

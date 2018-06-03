@@ -92,6 +92,15 @@ Class Core {
  	 *	Bootsrap
  	 */
  	public function __construct() {
+ 		// let's check if we need to activate maintenance mode
+		if( file_exists(Core::getSingleton("system/config")->getConfig('maintenanceFlagFile')) ) {
+			Core::getSingleton("error/error")
+				->setMessage("This is under maintenance.<br/>Our service team has been dispatched to bring it back online.")
+				->setType(500)
+				->new();
+			exit();
+		}
+
  		// instantiate the kernel
  		$kernel = Core::getSingleton("system/kernel");
 
@@ -106,10 +115,9 @@ Class Core {
  			foreach($dirs as $dir) {
  				if($this->params[0] == str_replace(BPcore, "", $dir)) {
  					Core::dispatchError()
- 						->setTitlepage("Access Denied")
  						->setMessage("Sorry this page is reserve for core files only")
- 						->setType(401)
- 						->exec();
+ 						->setType(403)
+ 						->new();
  				}
  			}
  		}
@@ -132,9 +140,8 @@ Class Core {
 
  		if(! Core::controllerExist([$kernel->getApp(), $kernel->getController()]) ) {
  			Core::dispatchError()
- 				->setTitlepage("Page not found")
- 				->setMessage("Sorry the page deosnt exist.")
- 				->setType(401)
+ 				->setMessage("Sorry the page doesn't exist")
+ 				->setType(404)
  				->exec();
  		}
 
@@ -148,9 +155,8 @@ Class Core {
  			call_user_func([$kernel->getController(), "render"]);
  		}else {
  			Core::dispatchError()
- 				->setTitlepage("Page not found")
- 				->setMessage("Sorry the page deosnt exist.")
- 				->setType(401)
+ 				->setMessage("Sorry the page doesn't exist")
+ 				->setType(404)
  				->exec();
  		}
 
@@ -187,17 +193,6 @@ Class Core {
  		}
  		
  		return self::$objects[$controller];
- 	}
-
- 	/**
- 	 *	Get new Instace of object
- 	 *	@var string $instance
- 	 *	@return obj $obj
- 	 */
- 	public static function getInstance( $instance ) {
- 		$obj = explode("/", $instance);
- 		$obj = $obj[0] . US . "controller" . US . $obj[1];
- 		return new $obj;
  	}
 
  	/**
@@ -244,6 +239,20 @@ Class Core {
  	}
 
  	/**
+ 	 *	Instanciate Migration Class
+ 	 *	@param string $migration
+ 	 *	@return obj $migration
+ 	 */
+ 	public static function getMigration( $migration ) {
+ 		$path = BP . DS . "database" . DS . "migration" . DS . $migration . ".php";
+ 		if(! file_exists($path) ) {
+ 			return false;
+ 		}
+ 		// include_once $path;
+ 		return new $migration;
+ 	}
+
+ 	/**
  	 *	Get Base URL
  	 *	@return string $BaseUrl
  	 */
@@ -269,10 +278,23 @@ Class Core {
 
  	/**
  	 *	Print Variables
- 	 *	@var string $str
- 	 *	@return
+ 	 *	@param string $str
+ 	 *	@param bool $file
+ 	 *	@return void
  	 */
- 	public static function log( $str ) {
+ 	public static function log( $str, $string = false, $filename = "system.log" ) {
+ 		$path = BP . DS . "logs" . DS . $filename;
+ 		$date = Core::getSingleton("system/date");
+
+ 		if( $string || is_object($str) || is_array($str) ) {
+ 			file_put_contents($path, "====# " . $date->getDate() . " #====" . "\n", FILE_APPEND);
+ 			file_put_contents($path, print_r($str, true) . "\n", FILE_APPEND);
+ 			return;
+ 		}else{
+ 			file_put_contents($path, $date->getDate() . ": " . $str . "\n", FILE_APPEND);
+ 			return;
+ 		}
+
  		echo "<pre>";
  		print_r($str);
  		echo "</pre>";
@@ -284,6 +306,32 @@ Class Core {
  	 */
  	public static function app() {
  		return new Core;
+ 	}
+
+ 	/**
+ 	 *	Exceptions
+ 	 */
+ 	public static function exceptionHandler( $e ) {
+ 		echo "----- EXCEPTION -----";
+ 		echo $e->getMessage();
+ 		return;
+ 	}
+
+ 	/**
+ 	 *	Errors
+ 	 */
+ 	public static function errorHandler( $severity, $message, $filepath = null, $line = 0 ) {
+ 		echo "----- ERROR -----";
+ 		echo $message;
+ 		return;
+ 	}
+
+ 	/**
+ 	 *	Shutdown
+ 	 */
+ 	public static function shutdownHandler() {
+ 		echo "----- SHUTDOWN -----";
+ 		self::log( error_get_last() );
  	}
 
  }

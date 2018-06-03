@@ -2,9 +2,15 @@
 
 Class Autologin {
 
+	/**
+	 *	Autologin Users
+	 */
 	public function __construct() {
-		if( Core::getSingleton("account/auth")->isAuth() ) {
-			header("location:" . Core::getBaseUrl() . "admin");
+		$acct = Core::getModel("account/account");
+		if( $acct->isAuth() ) {
+			header("location: " . Core::getBaseUrl() . "dashboard");
+			exit();
 		}
 	}
+
 }
