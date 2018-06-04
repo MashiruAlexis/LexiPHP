@@ -22,6 +22,11 @@ Class Console_lexi_setup extends Console_Controller_Core {
 
 		// set the template path
 		$tempPath = $this->getConsolePath() . "make" . DS . "template"  . DS . "system.txt";
+
+		// htaccess template
+		$htaccess = $this->getConsolePath() . "make" . DS . "template"  . DS . "htaccess.txt";
+
+
 		// set the destination path
 		$dest = BP . DS . "app" . DS . "config" .  DS . "system.php";
 		
@@ -53,12 +58,16 @@ Class Console_lexi_setup extends Console_Controller_Core {
 		$temp = file_get_contents($tempPath);
 		$temp = str_replace("{baseUrl}", $this->baseUrl, $temp);
 		$temp = str_replace("{siteName}", $this->siteName, $temp);
+
+		$tempHtaccess = file_get_contents($htaccess);
+		$tempHtaccess = str_replace('{base}', "", $tempHtaccess);
 		
 		// create the file
 		@file_put_contents($dest, $temp);
+		@file_put_contents($htaccess, $tempHtaccess);
 
 		// check if the file was created successfully
-		if( file_exists($dest) ) {
+		if( file_exists($dest) and file_exists($htaccess)) {
 			$this->success("Success: system setup complete.");
 			return true;
 		}
