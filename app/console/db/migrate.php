@@ -1,15 +1,13 @@
 <?php
+
 /**
  * Copyright © Ramon Alexis Celis All rights reserved.
  * See license file for more info.
  */
 
-Class Console_Migrate_Index extends Console_Controller_Core {
+Class Console_db_migrate extends Console_Controller_Core {
 
-	/**
-	 *	Description
-	 */
-	public $description = "Indexed!";
+	public $description = 'Run migrations.';
 
 	/**
 	 *	Up the migrations
@@ -49,5 +47,4 @@ Class Console_Migrate_Index extends Console_Controller_Core {
 
 		return $list;
 	}
-
 }

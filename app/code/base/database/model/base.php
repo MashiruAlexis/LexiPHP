@@ -314,6 +314,7 @@ Class Database_Model_Base {
 	 */
 	public function showTables() {
 		$tables =  $this->conn->query("show tables from " . $this->database)->fetchAll();
+
 		$tableName = "Tables_in_" . $this->database;
 		foreach( $tables as $table ) {
 			$list[] = $table->$tableName;

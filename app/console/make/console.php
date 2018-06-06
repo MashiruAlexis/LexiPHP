@@ -45,17 +45,6 @@ Class Console_Make_Console extends Console_Controller_Core {
 			$this->info("to test run: php lexi $key1:$key2");
 			return 1;
 		}
-		return;
-
-		$maker = Core::getSingleton("console/maker");
-
-		
-
-		$temp = file_get_contents($this->path);
-		$temp = str_replace("{command}", ucfirst($args[0]), $temp);
-		$temp = str_replace("{filename}", ucfirst($args[1]), $temp);
-		$temp = str_replace("{parent}", $this->parent, $temp);
-		file_put_contents("test.php", $temp);
-
+		return true;
 	}
 }

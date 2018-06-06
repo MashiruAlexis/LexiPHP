@@ -90,6 +90,9 @@ Class Console_Controller_Core {
 
 		foreach( $vars as $var ) {
 			$rs = explode("=", $var);
+			if( count($rs) < 2 ) {
+				continue;
+			}
 			$data[$rs[0]] = $rs[1];
 		}
 

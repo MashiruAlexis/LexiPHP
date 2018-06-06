@@ -37,8 +37,8 @@ Class Console_Controller_Maker extends Console_Controller_Core {
 		
 
 		$temp = file_get_contents($setup['template']);
-		$temp = str_replace('{key1}', $setup['key1'], $temp);
-		$temp = str_replace('{key2}', $setup['key2'], $temp);
+		$temp = str_replace('{key1}', ucfirst($setup['key1']), $temp);
+		$temp = str_replace('{key2}', ucfirst($setup['key2']), $temp);
 		$temp = str_replace('{parent}', $setup['parent'], $temp);
 
 		if( file_put_contents($setup['path'] . $setup['filename'], $temp) ) {

@@ -239,7 +239,7 @@ Class Core {
  	}
 
  	/**
- 	 *	Instanciate Migration Class
+ 	 *	Instanciate Migration Object
  	 *	@param string $migration
  	 *	@return obj $migration
  	 */
@@ -248,8 +248,20 @@ Class Core {
  		if(! file_exists($path) ) {
  			return false;
  		}
- 		// include_once $path;
+
  		return new $migration;
+ 	}
+
+ 	/**
+ 	 *	Instanciate Seeder Object
+ 	 *	@param string $seeder
+ 	 *	@return obj $seeder
+ 	 */
+ 	public static function getSeeder( $seeder ) {
+ 		$path = BP . DS . "database" . DS . "seeder" . DS . $seeder . ".php";
+ 		if( file_exists($path) ) {
+ 			return new $seeder;
+ 		}
  	}
 
  	/**
