@@ -28,11 +28,13 @@ Class Console_db_setup extends Console_Controller_Core {
 		$tempPath = $this->getConsolePath() . "make" . DS . "template"  . DS . "database.txt";
 		$destPath = BP . DS . "app" . DS . "config" . DS . "database.php";
 
-		foreach( $args as $argK => $argV ) {
-			if( property_exists($this, $argK) ) {
-				$this->{$argK} = $argV;
-			}else{
-				$this->warning("Unknown argument: " . $argK);
+		if( $args ) {
+			foreach( $args as $argK => $argV ) {
+				if( property_exists($this, $argK) ) {
+					$this->{$argK} = $argV;
+				}else{
+					$this->warning("Unknown argument: " . $argK);
+				}
 			}
 		}
 
