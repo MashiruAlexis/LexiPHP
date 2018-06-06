@@ -45,7 +45,7 @@ Class System_Controller_Kernel {
 
 		// whoops error handler
 		$loader = BP . DS . 'vendor' . DS . 'autoload.php';
-		if( file_exists($loader) and $debug ) {
+		if( file_exists($loader) && $debug == true ) {
 			require $loader;
 			$whoops = new \Whoops\Run;
 			$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);

@@ -4,7 +4,7 @@
  * See license file for more info.
  */
 
-Class Accounts extends Database_Model_Schema {
+Class TestMigration extends Database_Model_Schema {
 
 	/**
 	 *	Run the migration
@@ -12,13 +12,9 @@ Class Accounts extends Database_Model_Schema {
 	 */
 	public function up() {
 		// create table
-		$this->create('accounts');
+		$this->create('test');
 		$this->increments("id");
-		$this->string("username", 30);
-		$this->string("password", 200);
-		$this->string("email", 20);
-		$this->string("created_at", 30);
-		$this->string("updated_at", 30);
+		$this->string("name");
 
 		// exection table schema
 		$this->exec();
@@ -29,6 +25,6 @@ Class Accounts extends Database_Model_Schema {
 	 *	@return void
 	 */
 	public function down() {
-		$this->dropTable('accounts');
+		$this->dropTable('test');
 	}
 }

@@ -17,10 +17,12 @@ Class Console_make_migration extends Console_Controller_Core {
 			$this->error("Error: missing argurments.");
 			return false;
 		}
-		$name = ucfirst(strtolower($args[0]));
+
+		// set the class name
+		$name = ucfirst(strtolower($args[0])) . "Migration";
 		$table = strtolower($args[0]);
 		$pathF = dirname(__FILE__) . DS . "template" . DS . "migration.txt";
-		$pathT = BP . DS . "database" . DS . "migration" . DS . strtolower($args[0]) . ".php";
+		$pathT = BP . DS . "database" . DS . "migration" . DS . ucfirst($args[0]) . "Migration.php";
 
 		if( file_exists($pathT) ) {
 			$this->error("Error: ". $name ." already exists.");

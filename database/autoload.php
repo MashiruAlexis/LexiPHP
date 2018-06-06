@@ -4,9 +4,17 @@
  * See license file for more info.
  */
 
-spl_autoload_register(function( $obj ) {
-	$obj = BP . DS . "database" . DS . "migration" . DS . $obj . ".php";
-	if( file_exists($obj) ) {
-		return include_once $obj;
+// migration and seeder autoload
+spl_autoload_register(function( $database ) {
+	if( strpos($database, "Migration") ) {
+		$database = BP . DS . "database" . DS . "migration" . DS . $database . ".php";
+	}
+
+	if( strpos($database, "Seeder") ) {
+		$database = BP . DS . "database" . DS . "seeder" . DS . $database . ".php";
+	}
+	
+	if( file_exists($database) ) {
+		return include_once $database;
 	}
 });
