@@ -39,6 +39,20 @@ Class Console_Db_Seed extends Console_Controller_Core {
 				$this->info($seeds . " seeded successfully.");
 				return true;
 			}
+		}else{
+			$file = Core::getSingleton("system/filesystem");
+			$path = BP . DS . "database" . DS . "seeder" . DS;
+			$seeders = $file->getDirContents($path);
+			if( count($seeders) < 1 ) {
+				$this->error("Error: please create a seed file before running this command.");
+				return false;
+			}
+			foreach( $seeders as $seeder ) {
+				$seeder = str_replace(".php", "", $seeder);
+				Core::getSeeder($seeder)->seed();
+				$this->success($seeder . " successfully seeded.");
+			}
+			return true;
 		}
 		$this->error("Error: something went wrong while running this command.");
 		return false;
