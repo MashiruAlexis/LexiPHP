@@ -43,14 +43,14 @@ Class System_Controller_Kernel {
 
 		$debug = isset($config["debug"]) ? $config["debug"] : false;
 
-		// whoops error handler
-		$loader = BP . DS . 'vendor' . DS . 'autoload.php';
-		if( file_exists($loader) && $debug == true ) {
-			require $loader;
-			$whoops = new \Whoops\Run;
-			$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-			$whoops->register();
-		}
+		// // whoops error handler
+		// $loader = BP . DS . 'vendor' . DS . 'autoload.php';
+		// if( file_exists($loader) && $debug == true ) {
+		// 	require $loader;
+		// 	$whoops = new \Whoops\Run;
+		// 	$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+		// 	$whoops->register();
+		// }
 
 		// start session
 		$session->start();

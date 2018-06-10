@@ -19,7 +19,6 @@ if (version_compare(phpversion(), $req = '5.6.0', '<') === true) {
     exit;
 }
 
-
 // require_once "errors/controller/handler.php";
 require_once "app/Core.php";
 
@@ -27,6 +26,16 @@ require_once "app/Core.php";
  *	Well capture all the error with this.
  */
 // \Errors\Controller\Handler::boot();
+
+
+// whoops error handler
+$loader = BP . DS . 'vendor' . DS . 'autoload.php';
+if( file_exists($loader) ) {
+	require $loader;
+	$whoops = new \Whoops\Run;
+	$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+	$whoops->register();
+}
 
 /**
  *	Let's Start !!!

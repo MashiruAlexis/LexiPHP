@@ -77,20 +77,8 @@ Class Handler {
 	 *	@param int $line
 	 *	@return void
 	 */	
-	public function errorHandler( $severity, $message, $filepath = null, $line = 0 ) {
-		$severity = isset($severity) ? $severity : 0;
-		$error = [
-			"severity" => $serverity,
-			"message" => $message,
-			"filepath" => $filepath,
-			"line" => $line
-		];
-		$_SESSION['page'] = $this->getUri();
-		$_SESSION['type'] = 'error';
-		Handler::log( SYS_CONFIG['baseUrl'] );
-		return;
-		header('location: ' . SYS_CONFIG['baseUrl'] . '/errors');
-		exit();
+	public function errorHandler( $severity = 0, $message, $filepath = null, $line = 0 ) {
+
 	}
 
 	/**
@@ -114,7 +102,8 @@ Class Handler {
 	public function shutdownHandler() {
 		if(! empty(error_get_last()) ) {
 			$error = error_get_last();
-			$this->errorHandler( $error['type'], $error['message'], $error['file'], $error['line'] );
+			self::log( $error );
+			// $this->errorHandler( $error['type'], $error['message'], $error['file'], $error['line'] );
 			return;
 		}
 	}

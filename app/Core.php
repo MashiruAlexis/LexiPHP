@@ -4,7 +4,8 @@
  * See license file for more info.
  */
 
-spl_autoload_register(["Core", "autload"]);
+spl_autoload_register(["Core", "autoload"]);
+define("BPcore", "app/code/base/");
 define("DS", DIRECTORY_SEPARATOR);
 define("PS", PATH_SEPARATOR);
 define("BP", dirname(dirname(__FILE__)));
@@ -49,11 +50,6 @@ Class Core {
  	 *	Skin Paths
  	 */
  	public static $skinPath;
-
- 	/**
- 	 *	Url
- 	 */
- 	public static $url = null;
 
  	/**
  	 *	Bootsrap
@@ -258,13 +254,17 @@ Class Core {
  		$path = BP . DS . "logs" . DS . $filename;
  		$date = Core::getSingleton("system/date");
 
- 		if( $string || is_object($str) || is_array($str) ) {
- 			file_put_contents($path, "====# " . $date->getDate() . " #====" . "\n", FILE_APPEND);
- 			file_put_contents($path, print_r($str, true) . "\n", FILE_APPEND);
- 			return;
+ 		if($string && is_writable($path)) {
+ 			if( $string || is_object($str) || is_array($str) ) {
+	 			file_put_contents($path, "====# " . $date->getDate() . " #====" . "\n", FILE_APPEND);
+	 			file_put_contents($path, print_r($str, true) . "\n", FILE_APPEND);
+	 			return;
+	 		}else{
+	 			file_put_contents($path, $date->getDate() . ": " . $str . "\n", FILE_APPEND);
+	 			return;
+	 		}
  		}else{
- 			file_put_contents($path, $date->getDate() . ": " . $str . "\n", FILE_APPEND);
- 			return;
+ 			echo "Error: " . $path . " is not writable";
  		}
 
  		echo "<pre>";
@@ -283,7 +283,7 @@ Class Core {
  	/**
  	 *	Core Autoloader
  	 */
- 	public static function autload( $class ) {
+ 	public static function autoload( $class ) {
  		$class = strtolower(str_replace("_", DIRECTORY_SEPARATOR, $class));
 		$paths = Core::$paths;
 		

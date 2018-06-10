@@ -142,6 +142,7 @@ Class Frontend_Controller_Action {
 		$config = Core::getSingleton("system/config");
 		$paths = $config->getSkinPath();
 		$baseurl = $config->getBaseUrl();
+		Core::log($paths, true, "system.log");
 		foreach($paths as $cssPath) {
 			$fileLoc = BP . DS . "skin" . DS . $cssPath . DS . $varCss[0] . DS . "css" . DS . $varCss[1] . ".css";
 			if(file_exists($fileLoc)) {
@@ -248,16 +249,6 @@ Class Frontend_Controller_Action {
 	 */
 	public function render() {
 		return include dirname(dirname(__FILE__)) . DS . "view" . DS . "main.phtml";
-	}
-
-	/**
-	 *	Clear the blocks [pending removal]
-	 */
-	public function clear() {
-		$this->css = null;
-		$this->js = null;
-		$this->blocks = null;
-		return $this;
 	}
 
 	/**
