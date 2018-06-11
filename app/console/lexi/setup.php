@@ -17,6 +17,7 @@ Class Console_lexi_setup extends Console_Controller_Core {
 	 *	Default handler
 	 */
 	public function handler( $args = [] ) {
+		$file = Core::getSingleton("system/filesystem");
 		$defaultBaseUrl = 'http://localhost/LexiPHP/';
 		$defaultSiteName = 'LexiPHP';
 
@@ -29,6 +30,13 @@ Class Console_lexi_setup extends Console_Controller_Core {
 
 		// set the destination path
 		$dest = BP . DS . "app" . DS . "config" .  DS . "system.php";
+
+		// if the system config already exist let load them the values
+		if( $file->exists($dest) ) {
+			$config = include_once $dest;
+			$defaultBaseUrl = $config['baseUrl'];
+			$defaultSiteName = $config['siteName'];
+		}
 		
 		// extract the data passed on this command
 		$args = $this->extract( $args );
@@ -64,8 +72,8 @@ Class Console_lexi_setup extends Console_Controller_Core {
 		
 		// create the file
 		@file_put_contents($dest, $temp);
-		@file_put_contents($htaccess, $tempHtaccess);
-
+		@file_put_contents('.htaccess', $tempHtaccess);
+		
 		// check if the file was created successfully
 		if( file_exists($dest) and file_exists($htaccess)) {
 			$this->success("Success: system setup complete.");
