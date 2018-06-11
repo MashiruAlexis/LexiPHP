@@ -1,16 +1,41 @@
 <!-- navigation bar -->
-<?php $this->getChildBlock("index/nav"); ?>
+<?php $this->getChildBlock("page/nav"); ?>
 
-<div class="page-header header-filter clear-filter purple-filter" data-parallax="true" style="background-image: url('<?=$this->getImage("default/img/kit/bg2.jpg")?>');">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-8 ml-auto mr-auto">
-				<div class="brand">
-					<h1>LexiPHP</h1>
-					<h3>This is a lightweight PHP framework made to simplify and organize your with MVC Pattern</h3>
-				</div>
+<!-- main page -->
+	<div class="wrapper wrapper-full-page">
+		<div class="full-page lock-page" filter-color="black" style="background-color: #21232a;" data-image="<?=$this->getImage("mdb/img/lock.jpg")?>">
+			<!--   you can change the color of the filter page using: data-color="blue | green | orange | red | purple" -->
+			<div class="content">
+				<form method="#" action="#">
+					<div class="card card-profile card-hidden">
+						<div class="card-avatar">
+							<a href="#pablo">
+								<img class="avatar" src="<?=$this->getImage("mdb/img/faces/avatar.jpg")?>" alt="...">
+							</a>
+						</div>
+						<div class="card-content">
+							<h4 class="card-title">Tania Andrew</h4>
+							<div class="form-group label-floating">
+								<label class="control-label">Enter Password</label>
+								<input type="password" class="form-control">
+							</div>
+						</div>
+						<div class="card-footer">
+							<button type="button" class="btn btn-rose btn-round">Unlock</button>
+						</div>
+					</div>
+				</form>
 			</div>
+			<?php $this->getChildBlock("page/footer"); ?>
 		</div>
 	</div>
-</div>
+<script type="text/javascript">
+    $().ready(function() {
+        demo.checkFullPageBackgroundImage();
 
+        setTimeout(function() {
+            // after 1000 ms we add the class animated to the login/register card
+            $('.card').removeClass('card-hidden');
+        }, 700)
+    });
+</script>

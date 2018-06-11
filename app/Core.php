@@ -64,6 +64,14 @@ Class Core {
 			exit();
 		}
 
+		$boot = Core::getSingleton("system/boot");
+		if(! empty($boot->getErrors()) ) {
+			foreach( $boot->getErrors() as $errs ) {
+				Core::log( $errs );
+			}
+			exit(); // end the system!
+		}
+
  		// instantiate the kernel
  		$kernel = Core::getSingleton("system/kernel");
 
@@ -254,7 +262,7 @@ Class Core {
  		$path = BP . DS . "logs" . DS . $filename;
  		$date = Core::getSingleton("system/date");
 
- 		if($string && is_writable($path)) {
+ 		if($string === true && is_writable($path)) {
  			if( $string || is_object($str) || is_array($str) ) {
 	 			file_put_contents($path, "====# " . $date->getDate() . " #====" . "\n", FILE_APPEND);
 	 			file_put_contents($path, print_r($str, true) . "\n", FILE_APPEND);
@@ -264,7 +272,9 @@ Class Core {
 	 			return;
 	 		}
  		}else{
- 			echo "Error: " . $path . " is not writable";
+ 			if( $string === true ) {
+ 				echo "Error: " . $path . " is not writable";
+ 			}
  		}
 
  		echo "<pre>";

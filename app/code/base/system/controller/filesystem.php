@@ -108,4 +108,24 @@ Class System_Controller_Filesystem {
 		}
 		return false;
 	}
+
+	/**
+	 *	Check if file or directory exist
+	 *	@param $path
+	 *	@return bool
+	 */
+	public function exists( $path ) {
+
+		// check if file exists
+		if( file_exists($path) && is_file($path) ) {
+			return true;
+		}
+
+		// check if directory exist
+		if( $this->dirExist( $path ) ) {
+			return true;
+		}
+
+		return false;
+	}
 }

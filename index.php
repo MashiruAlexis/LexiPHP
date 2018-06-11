@@ -29,13 +29,13 @@ require_once "app/Core.php";
 
 
 // whoops error handler
-$loader = BP . DS . 'vendor' . DS . 'autoload.php';
-if( file_exists($loader) ) {
-	require $loader;
-	$whoops = new \Whoops\Run;
-	$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-	$whoops->register();
-}
+// $loader = BP . DS . 'vendor' . DS . 'autoload.php';
+// if( file_exists($loader) ) {
+// 	require $loader;
+// 	$whoops = new \Whoops\Run;
+// 	$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+// 	$whoops->register();
+// }
 
 /**
  *	Let's Start !!!

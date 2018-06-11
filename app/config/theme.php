@@ -20,6 +20,7 @@ return [
 	"css" => [
 		"mdb/bootstrap.min",
 		"mdb/material-dashboard",
+		"mdb/demo",
 		"mdb/font-awesome",
 		"mdb/google-roboto-300-700",
 	],
@@ -45,15 +46,13 @@ return [
 		"mdb/jquery-jvectormap",
 		"mdb/nouislider.min",
 		"mdb/jquery.select-bootstrap",
-		"mdb/jquery.select-bootstrap",
 		"mdb/jquery.datatables",
 		"mdb/sweetalert2",
 		"mdb/jasny-bootstrap.min",
 		"mdb/fullcalendar.min",
 		"mdb/jquery.tagsinput",
 		"mdb/material-dashboard",
-		"mdb/material.min",
-		"mdb/material.min",
+		"mdb/demo",
 	]
 
 ];
