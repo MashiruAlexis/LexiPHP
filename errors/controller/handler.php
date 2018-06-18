@@ -8,6 +8,9 @@ use Errors\Controller\Config;
  */
 Class Handler {
 
+	/**
+	 *	Error Types
+	 */
 	protected $errorTypes = [
 		"400" => [
 			"title" => "Bad Request",
@@ -51,11 +54,23 @@ Class Handler {
 		]
 	];
 
+	// path to blocks
+	private $blockPath;
+
 	// let set the handler
 	public function __construct() {
+		$this->blockPath = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . "view" . DIRECTORY_SEPARATOR;
 		set_error_handler([$this, 'errorHandler']);
 		set_exception_handler([$this, 'exceptionHandler']);
 		register_shutdown_function([$this, 'shutdownHandler']);
+	}
+
+	/**
+	 *	Render the generated error
+	 */
+	public function render() {
+		// get the main block
+		echo $this->blockPath . 'main.phtml';
 	}
 
 	/**
@@ -77,7 +92,7 @@ Class Handler {
 	 *	@param int $line
 	 *	@return void
 	 */	
-	public function errorHandler( $severity = 0, $message, $filepath = null, $line = 0 ) {
+	public function errorHandler( $error_level, $error_message, $error_file, $error_line, $error_context ) {
 
 	}
 
@@ -87,11 +102,19 @@ Class Handler {
 	 *	@return void
 	 */
 	public function exceptionHandler( $e ) {
-		$_SESSION['error'] = $e;
-		$_SESSION['page'] = $this->getUri();
-		$_SESSION['type'] = 'exception';
- 		header('location: ' . SYS_CONFIG['baseUrl'] . 'errors');
+		$_SESSION["hasErrorOccurred"] == true;
+		$_SESSION['errors'] = $e;
+		$_SESSION["lastUrl"] = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+		// header('location: ' . $_SESSION["lastUrl"]);
+		echo "Error Has Occured! <br/>";
+		echo "Last page:  " . $_SESSION['lastUrl'];
 		exit();
+		return;
+		// $_SESSION['page'] = $this->getUri();
+		// $_SESSION['type'] = 'exception';
+		// $this->log( $e );
+ 		// header('location: ' . SYS_CONFIG['baseUrl'] . 'errors');
+		 
 	}
 
 	/**

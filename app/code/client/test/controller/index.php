@@ -11,8 +11,7 @@ Class Test_Controller_Index extends Frontend_Controller_Action {
 	 */
 	public function indexAction() {
 		$this->setPageTitle('Test');
-		echo '
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQKdd8Te1vj2OyjfP1H9NPIz4DrxXO4iQ&callback=initMap"
-  type="text/javascript"></script>';
+		// throw new Exception("Error Processing Request");
+		$this->setBlock("test/main");
 	}
 }

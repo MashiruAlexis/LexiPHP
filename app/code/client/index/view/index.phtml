@@ -1,34 +1,39 @@
 <!-- navigation bar -->
 <?php $this->getChildBlock("page/nav"); ?>
-
+<style type="text/css">
+#search{
+  position:fixed;
+  width: 100vw;
+  height: 0;
+  background: rgba(0,0,0,.975);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all .5s;
+  will-change: transform, opacity;
+  z-index: -1;
+}
+</style>
 <!-- main page -->
-	<div class="wrapper wrapper-full-page">
-		<div class="full-page lock-page" filter-color="black" style="background-color: #21232a;" data-image="<?=$this->getImage("mdb/img/lock.jpg")?>">
-			<!--   you can change the color of the filter page using: data-color="blue | green | orange | red | purple" -->
-			<div class="content">
-				<form method="#" action="#">
-					<div class="card card-profile card-hidden">
-						<div class="card-avatar">
-							<a href="#pablo">
-								<img class="avatar" src="<?=$this->getImage("mdb/img/faces/avatar.jpg")?>" alt="...">
-							</a>
-						</div>
-						<div class="card-content">
-							<h4 class="card-title">Tania Andrew</h4>
-							<div class="form-group label-floating">
-								<label class="control-label">Enter Password</label>
-								<input type="password" class="form-control">
-							</div>
-						</div>
-						<div class="card-footer">
-							<button type="button" class="btn btn-rose btn-round">Unlock</button>
-						</div>
-					</div>
-				</form>
-			</div>
-			<?php $this->getChildBlock("page/footer"); ?>
-		</div>
-	</div>
+<div class="wrapper wrapper-full-page">
+    <div class="full-page pricing-page" data-image="../../assets/img/bg-pricing.jpg">
+        <div class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3 text-center">
+                        <h2 class="title">LexiPHP</h2>
+                        <h5 class="description">This is a lightweight PHP framework made to simplify and organize your PHP with MVC Pattern</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php $this->getChildBlock('page/footer'); ?>
+    </div>
+</div>
+
+<?php $this->getChildBlock("test/errors"); ?>
+
 <script type="text/javascript">
     $().ready(function() {
         demo.checkFullPageBackgroundImage();

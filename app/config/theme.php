@@ -23,6 +23,7 @@ return [
 		"mdb/demo",
 		"mdb/font-awesome",
 		"mdb/google-roboto-300-700",
+		"mdb/lexi-override",
 	],
 
 	/**

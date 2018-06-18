@@ -19,13 +19,13 @@ if (version_compare(phpversion(), $req = '5.6.0', '<') === true) {
     exit;
 }
 
-// require_once "errors/controller/handler.php";
+require_once "errors/controller/handler.php";
 require_once "app/Core.php";
 
 /**
  *	Well capture all the error with this.
  */
-// \Errors\Controller\Handler::boot();
+\Errors\Controller\Handler::boot();
 
 
 // whoops error handler

@@ -64,6 +64,7 @@ Class Core {
 			exit();
 		}
 
+		// check if the system booted successfully
 		$boot = Core::getSingleton("system/boot");
 		if(! empty($boot->getErrors()) ) {
 			foreach( $boot->getErrors() as $errs ) {
@@ -74,6 +75,13 @@ Class Core {
 
  		// instantiate the kernel
  		$kernel = Core::getSingleton("system/kernel");
+
+ 		// recover last error
+ 		if( isset($_SESSION["hasErrorOccurred"]) and $_SESSION["hasErrorOccurred"] == true ) {
+ 			echo "error triggered!";
+ 			$_SESSION['hasErrorOccurred'] = false;
+ 			exit();
+ 		}
 
  		// get all the request
  		if(isset($_GET['request'])) {
