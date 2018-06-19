@@ -1,46 +1,29 @@
 <!-- navigation bar -->
 <?php $this->getChildBlock("page/nav"); ?>
-<style type="text/css">
-#search{
-  position:fixed;
-  width: 100vw;
-  height: 0;
-  background: rgba(0,0,0,.975);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: all .5s;
-  will-change: transform, opacity;
-  z-index: -1;
-}
-</style>
 <!-- main page -->
 <div class="wrapper wrapper-full-page">
-    <div class="full-page pricing-page" data-image="../../assets/img/bg-pricing.jpg">
-        <div class="content">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6 col-md-offset-3 text-center">
-                        <h2 class="title">LexiPHP</h2>
-                        <h5 class="description">This is a lightweight PHP framework made to simplify and organize your PHP with MVC Pattern</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <?php $this->getChildBlock('page/footer'); ?>
-    </div>
+	<div class="full-page pricing-page" data-image="../../assets/img/bg-pricing.jpg">
+		<div class="content">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-md-offset-3 text-center">
+						<h2 class="title">LexiPHP</h2>
+						<h5 class="description">This is a lightweight PHP framework made to simplify and organize your PHP with MVC Pattern</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+		<?php $this->getChildBlock('page/footer'); ?>
+	</div>
 </div>
 
-<?php $this->getChildBlock("test/errors"); ?>
-
 <script type="text/javascript">
-    $().ready(function() {
-        demo.checkFullPageBackgroundImage();
+	$().ready(function() {
+		demo.checkFullPageBackgroundImage();
 
-        setTimeout(function() {
-            // after 1000 ms we add the class animated to the login/register card
-            $('.card').removeClass('card-hidden');
-        }, 700)
-    });
+		setTimeout(function() {
+			// after 1000 ms we add the class animated to the login/register card
+			$('.card').removeClass('card-hidden');
+		}, 700)
+	});
 </script>

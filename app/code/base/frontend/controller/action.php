@@ -94,7 +94,7 @@ Class Frontend_Controller_Action {
 		$image = str_replace("/", DS, $image);
 		foreach( Core::$skinPath as $path ) {
 			if( file_exists($path . $image) ) {
-				return str_replace("\\", "/", str_replace(BP . DS, Core::getBaseUrl(), $path.$image));;
+				return str_replace("\\", "/", str_replace(BP . DS, Core::getBaseUrl(), $path.$image));
 			}
 		}
 		return 'Image does not exist.';

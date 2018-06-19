@@ -5,6 +5,7 @@ namespace Errors;
  *	Auto Error namespace
  */
 Class Autoload {
+	
 	protected $basepath;
 
 	/**
@@ -21,12 +22,22 @@ Class Autoload {
 	 *	@return void
 	 */
 	public function autoloader( $obj ) {
+
+		# make the path is compatible with the current OS
+		$obj = str_replace("\\", DIRECTORY_SEPARATOR, $obj);
+
+		# lower the character since linux is very sensitive
 		$obj = strtolower($obj);
-		$path = $this->basepath . DS . $obj . '.php';
+
+		# set the basepath
+		$path = $this->basepath . DIRECTORY_SEPARATOR . $obj . '.php';
+
+		# check if the error controller exist before we load it
 		if( file_exists($path) ) {
 			return include_once $path;
 		}
-		return;
+
+		return false;
 	}
 
 	/**

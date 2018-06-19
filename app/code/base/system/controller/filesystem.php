@@ -29,7 +29,7 @@ Class System_Controller_Filesystem {
 		if( $this->dirExist( $path ) ) {
 			return false;
 		}
-		mkdir($path);
+		mkdir($path, 0774);
 		return true;
 	}
 

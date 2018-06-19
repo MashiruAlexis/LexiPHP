@@ -1,0 +1,28 @@
+<?php
+use Errors\Controller\Logger;
+use Errors\Controller\Handler;
+
+# error style must included.
+$this->getChildBlock("overlaystyle");
+$this->getChildBlock("errorstyle");
+
+$make = new Logger;
+?>
+
+<!--
+	this is the template for displaying exception error!
+	-->
+
+<div class="modal">
+	<div class="modal__overlay">
+		<div class="col-md-12 text-center cent">
+			<h1>Webservice currently unavailable <small>Error 500</small></h1>
+			<p class="lead">
+				An unexpected condition was encountered. Our service team has been dispatched to bring it back online.
+			</p>
+
+			<?php $this->getChildBlock('additionalinfo'); ?>
+			<?php $this->getChildBlock('traces'); ?>
+		</div>
+	</div>
+</div>

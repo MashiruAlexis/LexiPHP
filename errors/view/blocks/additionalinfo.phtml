@@ -1,0 +1,23 @@
+<?php
+$error = $this->errors;
+
+if( is_object($error) ) {
+	?>
+	<div class="container">
+		<h2>Additional Information</h2>
+		<pre>Description: <?=$error->getMessage()?></pre>
+		<pre>File: <?=$error->getFile()?></pre>
+		<pre>Line: <?=$error->getLine()?></pre>
+	</div>
+	<?php
+}else{
+	?>
+	<div class="container">
+		<h2>Additional Information</h2>
+		<pre>Description: <?=$error['error_message']?></pre>
+		<pre>File: <?=$error['error_file']?></pre>
+		<pre>Line: <?=$error['error_line']?></pre>
+	</div>
+	<?php
+}
+?>

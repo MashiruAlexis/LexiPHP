@@ -2,6 +2,8 @@
 namespace Errors\Controller;
 
 use Errors\Controller\Config;
+use Errors\Controller\Block;
+use Errors\Controller\Logger;
 
 /**
  *	Modify PHP defualt error handler
@@ -93,7 +95,18 @@ Class Handler {
 	 *	@return void
 	 */	
 	public function errorHandler( $error_level, $error_message, $error_file, $error_line, $error_context ) {
-
+		$block = new Block;
+		$block->setErrorType("error");
+		$block->setError([
+			"error_level" => $error_level,
+			"error_message" => $error_message,
+			"error_file" => $error_file,
+			"error_line" => $error_line,
+			"error_context" => $error_context
+		]);
+		$block->setBlock("main");
+		$block->render();
+		return;
 	}
 
 	/**
@@ -102,19 +115,12 @@ Class Handler {
 	 *	@return void
 	 */
 	public function exceptionHandler( $e ) {
-		$_SESSION["hasErrorOccurred"] == true;
-		$_SESSION['errors'] = $e;
-		$_SESSION["lastUrl"] = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-		// header('location: ' . $_SESSION["lastUrl"]);
-		echo "Error Has Occured! <br/>";
-		echo "Last page:  " . $_SESSION['lastUrl'];
-		exit();
+		$block = new Block;
+		$block->setErrorType("exception");
+		$block->setError($e);
+		$block->setBlock("main");
+		$block->render();
 		return;
-		// $_SESSION['page'] = $this->getUri();
-		// $_SESSION['type'] = 'exception';
-		// $this->log( $e );
- 		// header('location: ' . SYS_CONFIG['baseUrl'] . 'errors');
-		 
 	}
 
 	/**
@@ -125,8 +131,7 @@ Class Handler {
 	public function shutdownHandler() {
 		if(! empty(error_get_last()) ) {
 			$error = error_get_last();
-			self::log( $error );
-			// $this->errorHandler( $error['type'], $error['message'], $error['file'], $error['line'] );
+			$this->errorHandler( $error['type'], $error['message'], $error['file'], $error['line'], $error['context'] );
 			return;
 		}
 	}
@@ -141,6 +146,13 @@ Class Handler {
 		print_r($str);
 		echo "</pre>";
 		return;
+	}
+
+	/**
+	 *	Get the error types
+	 */
+	public function getErrorTypes() {
+		return $this->errorTypes;
 	}
 
 	/**

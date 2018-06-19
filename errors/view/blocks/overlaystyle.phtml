@@ -1,0 +1,71 @@
+<style type="text/css">
+.modal {
+  display: block;
+  padding: 0 1em;
+  text-align: center;
+  width: 100%;
+}
+@media (min-width: 43.75em) {
+
+  .modal {
+    padding: 1em 2em;
+    text-align: right;
+  }
+}
+
+
+
+.modal__overlay {
+  background-color: #0d0f15;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  text-align: center;
+  top: 0;
+  z-index: -800;
+}
+
+.modal__box {
+  padding: 1em .75em;
+  position: relative;
+  margin: 1em auto;
+  max-width: 500px;
+  width: 90%;
+}
+@media (min-height: 37.5em) {
+
+  .modal__box {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translate(-50%, -80%);
+    -ms-transform: translate(-50%, -80%);
+    transform: translate(-50%, -80%);
+  }
+}
+@media (min-width: 50em) {
+
+  .modal__box { padding: 1.75em; }
+}
+
+.modal__overlay {
+  opacity: 0;
+  overflow: hidden;
+  -webkit-transform: scale(0.5);
+  -ms-transform: scale(0.5);
+  transform: scale(0.5);
+  -webkit-transition: all 0.75s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 0.75s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.modal__overlay {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+  -webkit-transition: all 0.75s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 0.75s cubic-bezier(0.19, 1, 0.22, 1);
+  z-index: 800;
+}
+</style>
