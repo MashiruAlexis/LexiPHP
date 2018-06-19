@@ -16,7 +16,12 @@ if( count($exception->getTrace()) < 1 ) {
 			foreach( $traces as $key => $val ) {
 				if( is_array($val) ) {
 					foreach( $val as $trc ) {
-						echo "\n" . $trc;
+						if( is_array($trc) ) {
+							echo "\n";
+							print_r($trc);
+						}else{
+							echo "\n" . $trc;
+						}						
 					}
 					echo "<hr>";
 				}else{

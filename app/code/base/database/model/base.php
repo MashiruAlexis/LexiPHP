@@ -382,7 +382,7 @@ Class Database_Model_Base {
 			$this->conn = $conn;
 		}
 		catch(PDOException $e){
-			echo "Connection failed: " . $e->getMessage();
+			throw new Exception("Connection failed: " . $e->getMessage(), 1);
 		}
 		return $this->conn;
 	}
