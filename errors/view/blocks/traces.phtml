@@ -3,6 +3,9 @@ $exception = $this->errors;
 if( count($exception->getTrace()) < 1 ) {
 	return;
 }
+// echo "<pre>";
+// print_r($this->errors);
+// echo "</pre>";
 ?>
 
 <h2>Traces</h2>
@@ -11,9 +14,16 @@ if( count($exception->getTrace()) < 1 ) {
 		foreach( $exception->getTrace() as $traces ) {
 			echo "<pre>";
 			foreach( $traces as $key => $val ) {
-				?>
-				 <?="\n"?><?=$key?>: <?=$val?> 
-				<?php
+				if( is_array($val) ) {
+					foreach( $val as $trc ) {
+						echo "\n" . $trc;
+					}
+					echo "<hr>";
+				}else{
+					?>
+					<?="\n"?><?=$key?>: <?=$val?> 
+					<?php
+				}
 			}
 			echo "</pre>";
 		}

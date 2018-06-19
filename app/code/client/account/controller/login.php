@@ -11,7 +11,7 @@ Class Account_Controller_Login extends Frontend_Controller_Action {
 	 */
 	public function indexAction() {
 		$this->middleware("autologin");
-		$this->setPageTitle('Login');awdawd
+		$this->setPageTitle('Login');
 		$this->setBlock("account/login");
 	}
 

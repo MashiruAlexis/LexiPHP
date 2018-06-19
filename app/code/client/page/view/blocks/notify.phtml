@@ -17,13 +17,14 @@ if( $alert = $noti->get("alert") ) {
 			<div class="alert-icon">
 				<i class="material-icons"><?=$icons[$alert['type']]?></i>
 			</div>
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true"><i class="material-icons">clear</i></span>
-			</button>
-			<b><?php echo strtoupper($alert["type"]); ?>:</b> <?= $alert['msg'] ?>
+			<button type="button" aria-hidden="true" class="close">
+                <i class="material-icons">close</i>
+            </button>
+			<span><b><?php echo strtoupper($alert["type"]); ?>:</b> <?= $alert['msg'] ?></span>
 		</div>
 	</div>
 	<?php
 	$noti->del("alert");
 }
 ?>
+
