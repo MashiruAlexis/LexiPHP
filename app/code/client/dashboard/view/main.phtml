@@ -1,29 +1,87 @@
-<?php $this->getChildBlock("page/navauth"); ?>
-<div class="section section-signup page-header" style="background-image: url('<?=$this->getImage("default/img/kit/bg2.jpg")?>');">
-    <div class="container">
-      <div class="row">
-      	<?php $this->getChildBlock("page/notify"); ?>
-        <div class="col-md-12 ml-auto mr-auto">
-          <div class="card card-signup">
-            <form name="frmLogin" class="form" method="POST" action="<?=Core::getBaseUrl()?>account/login/authenticate">
-              <div class="card-header card-header-primary text-center">
-                <h4>Dashboard</h4>
-              </div>
-              <div class="card-body">
-
-              	<h1>Welcome to Dashboard <?=Core::getSingleton("system/session")->get("account")->username?></h1>
-
-              </div>
-              <div class="card-footer justify-content-center">
-                <!-- <input type="submit" class="btn btn-link btn-primary btn-lg" value="Get Started"> -->
-              </div>
-            </form>
-          </div>
+    <div class="wrapper">
+        <?php $this->getChildBlock("dashboard/navsideauth"); ?>
+        <div class="main-panel">
+            <?php $this->getChildBlock('dashboard/navtopauth'); ?>
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <form id="RangeValidation" class="form-horizontal" action="#" method="">
+                                    <div class="card-header card-header-text" data-background-color="rose">
+                                        <h4 class="card-title">Range Validation</h4>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="row">
+                                            <label class="col-sm-2 label-on-left">Min Length</label>
+                                            <div class="col-sm-7">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label"></label>
+                                                    <input class="form-control" type="text" name="min_length" minLength="5" />
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-3 label-on-right">
+                                                <code>minLength="5"</code>
+                                            </label>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-sm-2 label-on-left">Max Length</label>
+                                            <div class="col-sm-7">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label"></label>
+                                                    <input class="form-control" type="text" name="max_length" maxLength="5" />
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-3 label-on-right">
+                                                <code>maxLength="5"</code>
+                                            </label>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-sm-2 label-on-left">Range</label>
+                                            <div class="col-sm-7">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label"></label>
+                                                    <input class="form-control" type="text" name="range" range="[6,10]" />
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-3 label-on-right">
+                                                <code>range="[6,10]"</code>
+                                            </label>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-sm-2 label-on-left">Min Value</label>
+                                            <div class="col-sm-7">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label"></label>
+                                                    <input class="form-control" type="text" name="min" min="6" />
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-3 label-on-right">
+                                                <code>min="6"</code>
+                                            </label>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-sm-2 label-on-left">Max Value</label>
+                                            <div class="col-sm-7">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label"></label>
+                                                    <input class="form-control" type="text" name="max" max="6" />
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-3 label-on-right">
+                                                <code>max="6"</code>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-center">
+                                        <button type="submit" class="btn btn-rose btn-fill">Validate Inputs</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php $this->getChildBlock("page/footer"); ?>
         </div>
-      </div>
     </div>
-  </div>
-<?php #$this->getChildBlock("page/footer"); ?>
-<script type="text/javascript">
-	$("body").addClass("signup-page");
-</script>

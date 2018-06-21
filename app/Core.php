@@ -57,11 +57,7 @@ Class Core {
  	public function __construct() {
  		// let's check if we need to activate maintenance mode
 		if( file_exists(Core::getSingleton("system/config")->getConfig('maintenanceFlagFile')) ) {
-			Core::getSingleton("error/error")
-				->setMessage("This is under maintenance.<br/>Our service team has been dispatched to bring it back online.")
-				->setType(500)
-				->new();
-			exit();
+			self::dispatchError()->dispatch('e_maintenance');
 		}
 
 		// check if the system booted successfully
@@ -178,7 +174,7 @@ Class Core {
  	 *	Error Handler
  	 */
  	public static function dispatchError() {
- 		return Core::getSingleton("error/error");
+ 		return new \Errors\Controller\Handler;
  	}
 
  	/**

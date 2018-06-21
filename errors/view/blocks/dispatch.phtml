@@ -1,0 +1,15 @@
+<?php
+	$block->getChildBlock("ovaerlaystyle");
+	$block->getChildBlock("errorstyle");
+?>
+
+<div class="modal">
+	<div class="modal__overlay">
+		<div class="col-md-12 text-center cent">
+			<h1><?= $type['title'] ?></h1>
+			<p class="lead">
+				<?= $type['message'] ?>
+			</p>
+		</div>
+	</div>
+</div>

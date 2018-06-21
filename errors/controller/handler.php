@@ -2,7 +2,7 @@
 namespace Errors\Controller;
 
 use Errors\Controller\Config;
-use Errors\Controller\Block;
+use Errors\Controller\Block as Block;
 use Errors\Controller\Logger;
 
 /**
@@ -51,6 +51,10 @@ Class Handler {
 			"message" => "The requested hostname is not routed. Use only hostnames to access resources."
 		],
 		"521" => [
+			"title" => "Webservice currently unavailable",
+			"message" => "We've got some trouble with our backend upstream cluster. Our service team has been dispatched to bring it back online."
+		],
+		"e_maintenance" => [
 			"title" => "Webservice currently unavailable",
 			"message" => "We've got some trouble with our backend upstream cluster. Our service team has been dispatched to bring it back online."
 		]
@@ -126,7 +130,7 @@ Class Handler {
 	}
 
 	/**
-	 *	Shutdown handler
+	 *	Shutdown handler [ PHP 7.2 does support this anymore :( ]
 	 *	@param func error_get_last()
 	 *	@return void
 	 */
@@ -158,6 +162,26 @@ Class Handler {
 	}
 
 	/**
+	 *	Dispath an error without being triggered.
+	 *	@param string $type
+	 *	@param string $message
+	 *	@param obj \Error\Controller\Block $block
+	 *	@return void
+	 */
+	public function dispatch( $type ) {
+		$block = new Block;
+		# check if the error type valid
+		if(! isset($this->errorTypes[$type]) ) {
+			throw new Exception("Dispatch type is invalid", 1);
+			return;
+		}
+		$type = $this->errorTypes[$type];
+		$block->getChildBlock('dispatch');
+		exit();
+		return;
+	}
+
+	/**
 	 * Custom setter and getter
 	 *	@param string $medthod
 	 *	@param string $params
@@ -174,7 +198,7 @@ Class Handler {
 			}elseif($type == "get") {
 				return $this->$property;
 			}else{
-				throw new Exception("Error Processing Request", 1);
+				throw new Exception("Error setter and getter at", 1);
 			}
 		} catch (Exception $e) {
 			Core::log($e);
