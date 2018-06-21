@@ -56,7 +56,7 @@ Class Handler {
 		],
 		"e_maintenance" => [
 			"title" => "Webservice currently unavailable",
-			"message" => "We've got some trouble with our backend upstream cluster. Our service team has been dispatched to bring it back online."
+			"message" => "Our site is under maintenance.<br/>Our service team has been dispatched to bring it back online."
 		]
 	];
 
@@ -143,6 +143,26 @@ Class Handler {
 	}
 
 	/**
+	 *	Dispath an error without being triggered.
+	 *	@param string $type
+	 *	@return void
+	 */
+	public function dispatch( $type ) {
+		$block = new Block;
+		# check if the error type valid
+		if(! isset($this->errorTypes[$type]) ) {
+			throw new Exception("Dispatch type is invalid", 1);
+			return;
+		}
+		$type = $this->errorTypes[$type];
+		$block->setErrorType('dispatch');
+		$block->setError($type);
+		$block->setBlock('main');
+		$block->render();
+		return;
+	}
+
+	/**
 	 *	Logger
 	 *	@param string $str
 	 *	@return void
@@ -159,50 +179,6 @@ Class Handler {
 	 */
 	public function getErrorTypes() {
 		return $this->errorTypes;
-	}
-
-	/**
-	 *	Dispath an error without being triggered.
-	 *	@param string $type
-	 *	@param string $message
-	 *	@param obj \Error\Controller\Block $block
-	 *	@return void
-	 */
-	public function dispatch( $type ) {
-		$block = new Block;
-		# check if the error type valid
-		if(! isset($this->errorTypes[$type]) ) {
-			throw new Exception("Dispatch type is invalid", 1);
-			return;
-		}
-		$type = $this->errorTypes[$type];
-		$block->getChildBlock('dispatch');
-		exit();
-		return;
-	}
-
-	/**
-	 * Custom setter and getter
-	 *	@param string $medthod
-	 *	@param string $params
-	 *	@return void
-	 */
-	public function __call($method, $params = null) {
-		$type = substr($method, 0, 3);
-		$property = lcfirst(substr($method, 3));
-		try {
-			
-			if($type == "set") {
-				$this->$property = $params[0];
-				return $this;
-			}elseif($type == "get") {
-				return $this->$property;
-			}else{
-				throw new Exception("Error setter and getter at", 1);
-			}
-		} catch (Exception $e) {
-			Core::log($e);
-		}
 	}
 
 	/**

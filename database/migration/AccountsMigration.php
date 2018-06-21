@@ -19,7 +19,7 @@ Class AccountsMigration extends Database_Model_Schema {
 		$this->string("email", 20);
 		$this->string("created_at", 30);
 		$this->string("updated_at", 30);
-
+		Core::getSingleton("console/core")->warning(__CLASS__ . " was up");
 		// exection table schema
 		$this->exec();
 	}

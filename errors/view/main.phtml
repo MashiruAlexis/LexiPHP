@@ -2,9 +2,5 @@
 	display exception and error in this template
 	-->
 <?php
-	if( $this->errorType == "exception" ) {
-		$this->getChildBlock("exception");
-	}else{
-		$this->getChildBlock("error");
-	}
+	$this->getChildBlock($this->errorType);
 ?>

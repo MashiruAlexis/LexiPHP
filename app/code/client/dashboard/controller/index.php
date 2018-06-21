@@ -6,11 +6,14 @@
 
 Class Dashboard_Controller_Index extends Frontend_Controller_Action {
 
+	public function __construct() {
+		Core::middleware('auth');
+	}
+
 	/**
 	 *	Default controller action
 	 */
 	public function indexAction() {
-		$this->middleware("authenticated");
 		$this->setPageTitle('Dashboard');
 		$this->setBlock("dashboard/main");
 	}

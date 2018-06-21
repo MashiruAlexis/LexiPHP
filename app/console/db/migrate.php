@@ -21,13 +21,19 @@ Class Console_db_migrate extends Console_Controller_Core {
 
 		foreach( $migrations as $migration ) {
 			if(! in_array("-down", $args) ) {
-				Core::getMigration($migration)->up();
-				$this->success($migration . " was migrated successfully.");
+				if( $mg = Core::getMigration($migration) ) {
+					$this->log( $mg->up() );
+					// $mg->up();
+					$this->success($migration . " was migrated successfully.");
+				}else{
+					$this->warning("Warning: " . $migration . " was already migrated.");
+				}
 			}else{
-				Core::getMigration($migration)->down();
-				$this->warning($migration . " was reverse migrate successfully.");
+				if( $mg = Core::getMigration($migration) ) {
+					$mg->down();
+					$this->warning($migration . " was reverse migrate successfully.");
 			}
-			
+			}
 		}
 		return;
 	}

@@ -30,4 +30,8 @@ Class Config {
 		}
 		return false;;
 	}
+
+	public static function run() {
+		return new Config;
+	}
 }

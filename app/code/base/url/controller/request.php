@@ -12,9 +12,17 @@ Class Url_Controller_Request {
 	public $request = array();
 
 	/**
+	 *	Request Method
+	 */
+	public $method;
+
+	/**
 	 *	Group the request
 	 */
 	public function genRequest($varReq) {
+		# set what method used when making the http request
+		$this->method = $_SERVER['REQUEST_METHOD'];
+
 		unset($_GET["request"]);
 		if( isset($_GET) ) {
 			$this->request = $this->request + $_GET;
@@ -54,12 +62,24 @@ Class Url_Controller_Request {
 	}
 
 	/**
-	 *	Return Request
+	 *	POST METHOD
 	 */
-	// public function getRequest() {
+	public function getPost( $data = false ) {
+		# validate request method
+		if( $this->method !== 'POST' ) {
+			Core::dispatchError()->dispatch(400);
+		}
 
-	// 	// return $core->getParams();
-	// }
+		if(! $data ) {
+			return $this->request;
+		}
+
+		if(isset($this->request[$varSting])) {
+			return $this->request[$varSting];
+		}
+
+		return false;
+	}
 
 	public function __call($method, $params = null) {
 

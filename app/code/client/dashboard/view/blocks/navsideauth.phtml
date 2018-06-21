@@ -5,7 +5,7 @@
         Tip 3: you can change the color of the sidebar with data-background-color="white | black"
             -->
             <div class="logo">
-                <a href="http://www.creative-tim.com/" class="simple-text">
+                <a href="<?=Core::getBaseUrl()?>" class="simple-text">
                     Mashapps
                 </a>
             </div>
@@ -17,11 +17,11 @@
             <div class="sidebar-wrapper">
                 <div class="user">
                     <div class="photo">
-                        <img src="<?=$this->getImage('mdb/img/faces/avatar.jpg')?>" />
+                        <img src="<?=$this->getImage('default/img/avatar.png')?>" />
                     </div>
                     <div class="info">
                         <a data-toggle="collapse" href="#collapseExample" class="collapsed">
-                            Tania Andrew
+                            <?= $_SESSION['account']->username ?>
                             <b class="caret"></b>
                         </a>
                         <div class="collapse" id="collapseExample">
@@ -29,9 +29,9 @@
                                 <li>
                                     <a href="#">My Profile</a>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a href="#">Edit Profile</a>
-                                </li>
+                                </li> -->
                                 <li>
                                     <a href="<?=Core::getBaseUrl()?>account/logout">Logout</a>
                                 </li>
@@ -51,10 +51,19 @@
                         Tools
                         -->
                     <li>
-                        <a href="<?=Core::getBaseUrl()?>tools">
-                            <i class="material-icons">Tools</i>
-                            <p>Tools</p>
+                        <a data-toggle="collapse" href="#toolsDmenu">
+                            <i class="material-icons">image</i>
+                            <p>Tools
+                                <b class="caret"></b>
+                            </p>
                         </a>
+                        <div class="collapse" id="toolsDmenu">
+                            <ul class="nav">
+                                <li>
+                                    <a href="<?=Core::getBaseUrl()?>dashboard/sms">SMS</a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
 
                 </ul>

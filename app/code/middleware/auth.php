@@ -1,6 +1,6 @@
 <?php
 
-Class Authenticated {
+Class Auth {
 
 	/**
 	 *	Autologin Users

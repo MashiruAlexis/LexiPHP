@@ -1,15 +1,18 @@
 <?php
-	$block->getChildBlock("ovaerlaystyle");
-	$block->getChildBlock("errorstyle");
+	$this->getChildBlock("ovaerlaystyle");
+	$this->getChildBlock("errorstyle");
+
 ?>
 
 <div class="modal">
 	<div class="modal__overlay">
 		<div class="col-md-12 text-center cent">
-			<h1><?= $type['title'] ?></h1>
+			<h1><?= $this->errors['title'] ?></h1>
 			<p class="lead">
-				<?= $type['message'] ?>
+				<?= $this->errors['message'] ?>
 			</p>
+			<p class="lead">try going <a href="<?=\Errors\Controller\Config::run()->get('system')['baseUrl']?>">Home</a></p>
 		</div>
 	</div>
 </div>
+<?php exit(); ?>

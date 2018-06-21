@@ -72,13 +72,6 @@ Class Core {
  		// instantiate the kernel
  		$kernel = Core::getSingleton("system/kernel");
 
- 		// recover last error
- 		if( isset($_SESSION["hasErrorOccurred"]) and $_SESSION["hasErrorOccurred"] == true ) {
- 			echo "error triggered!";
- 			$_SESSION['hasErrorOccurred'] = false;
- 			exit();
- 		}
-
  		// get all the request
  		if(isset($_GET['request'])) {
  			$httpurl = Core::getSingleton("Url/Http");
@@ -89,10 +82,7 @@ Class Core {
 
  			foreach($dirs as $dir) {
  				if($this->params[0] == str_replace(BPcore, "", $dir)) {
- 					Core::dispatchError()
- 						->setMessage("Sorry this page is reserve for core files only")
- 						->setType(403)
- 						->new();
+ 					self::dispatchError()->dispatch(403);
  				}
  			}
  		}
@@ -114,11 +104,9 @@ Class Core {
  		}
 
  		if(! Core::controllerExist([$kernel->getApp(), $kernel->getController()]) ) {
- 			Core::dispatchError()
- 				->setMessage("Sorry the page doesn't exist")
- 				->setType(404)
- 				->exec();
+ 			self::dispatchError()->dispatch(404);
  		}
+
  		ob_start();
  		$kernel->setController( Core::getSingleton($kernel->getApp() . "/" . $kernel->getController()) );
  		if(method_exists($kernel->getController(), $kernel->getMethod())) {
@@ -129,10 +117,7 @@ Class Core {
  			call_user_func_array([$kernel->getController(), $kernel->getMethod()], [$this->params]);
  			call_user_func([$kernel->getController(), "render"]);
  		}else {
- 			Core::dispatchError()
- 				->setMessage("Sorry the page doesn't exist")
- 				->setType(404)
- 				->exec();
+ 			self::dispatchError()->dispatch(404);
  		}
 
  	}
@@ -213,7 +198,8 @@ Class Core {
  	 */
  	public static function getMigration( $migration ) {
  		$path = BP . DS . "database" . DS . "migration" . DS . $migration . ".php";
- 		if(! file_exists($path) ) {
+ 		$db = Core::getModel("database/base");
+ 		if(! file_exists($path) || $db->tableExist(strtolower(str_replace("Migration", "", $migration))) ) {
  			return false;
  		}
 
@@ -230,6 +216,15 @@ Class Core {
  		if( file_exists($path) ) {
  			return new $seeder;
  		}
+ 	}
+
+ 	/**
+ 	 *	set the middleware
+ 	 *	@param string $name
+ 	 *	@return obj $middleware
+ 	 */
+ 	public static function middleware( $name ) {
+ 		return new $name;
  	}
 
  	/**
