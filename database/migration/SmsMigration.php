@@ -14,9 +14,10 @@ Class SmsMigration extends Database_Model_Schema {
 		// create table
 		$this->create('sms');
 		$this->increments("id"); // primary id
-		$this->string("from", 30);
-		$this->string("to", 10);
+		$this->string("senderId", 10);
+		$this->string("receiver", 10);
 		$this->string("message", 100);
+		$this->string("response", 500);
 
 		// exection table schema
 		$this->exec();

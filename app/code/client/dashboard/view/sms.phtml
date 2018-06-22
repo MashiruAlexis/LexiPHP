@@ -18,7 +18,7 @@
                                             <div class="col-sm-2">
                                                 <div class="form-group label-floating">
                                                     <label class="control-label"></label>
-                                                    <input class="form-control" type="number" name="number" placeholder="10 digit number" number="true" min="10" required />
+                                                    <input class="form-control" type="number" name="number" placeholder="10 digit number" number="true" min="10" required value="<?= isset($_GET['number']) ? $_GET['number'] : "" ?>" />
                                                 </div>
                                             </div>
                                         </div>
@@ -27,7 +27,7 @@
                                             <div class="col-sm-7">
                                                 <div class="form-group label-floating">
                                                     <label class="control-label"></label>
-                                                    <input class="form-control" type="text" name="message" maxLength="100" />
+                                                    <input class="form-control" type="text" name="message" maxLength="100" value="<?= isset($_GET['message']) ? $_GET['message'] : "" ?>" />
                                                 </div>
                                             </div>
                                         </div>

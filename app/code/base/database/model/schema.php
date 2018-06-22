@@ -80,7 +80,7 @@ Class Database_Model_Schema extends Database_Model_Base {
 			}
 		}
 		catch(PDOException $e) {
-    		echo $sql . "<br>" . $e->getMessage();
+    		echo $this->sql . "<br>" . $e->getMessage();
     	}
 	}
 

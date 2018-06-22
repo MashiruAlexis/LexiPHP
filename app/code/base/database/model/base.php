@@ -101,7 +101,7 @@ Class Database_Model_Base {
 		$itemLoopCounter = 0;
 		foreach( $items as $key => $item ) {
 			$itemLoopCounter++;
-			$sql .= '"' . $item . '"';
+			$sql .= '"' . str_replace('"', "'", $item) . '"';
 			if( $itemLoopCounter != count($items) ) {
 				$sql .= ",";
 			}
@@ -111,7 +111,7 @@ Class Database_Model_Base {
 		    $this->conn->exec($sql);
 		    $this->lastId = $this->conn->lastInsertId();
 		}catch(PDOException $e){
-			echo $sql . "<br>" . $e->getMessage();
+			throw new Exception($sql . "<br>" . $e->getMessage(), 1);			
 			return false;
 		}
 		$sql = null;
@@ -379,6 +379,8 @@ Class Database_Model_Base {
 		try {
 			$conn = new PDO("mysql:host=". $this->host .";dbname=" . $this->database, $this->user, $this->pass);
 			$conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    		$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 			$this->conn = $conn;
 		}
 		catch(PDOException $e){

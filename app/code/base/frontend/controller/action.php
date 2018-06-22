@@ -237,9 +237,17 @@ Class Frontend_Controller_Action {
 
 	/**
 	 *	Redirect
+	 *	@param string $url
+	 *	@param array $data
+	 *	@return void
 	 */
-	public function _redirect( $urlKey ) {
-		header("location: " . $urlKey);
+	public function _redirect( $url, $data = false ) {
+		# send the parameters need to be sent back
+		if( $data ) {
+			$url = $url . '?' . http_build_query($data);
+		}
+
+		header("location: " . $url);
 		exit();
 	}
 

@@ -198,8 +198,7 @@ Class Core {
  	 */
  	public static function getMigration( $migration ) {
  		$path = BP . DS . "database" . DS . "migration" . DS . $migration . ".php";
- 		$db = Core::getModel("database/base");
- 		if(! file_exists($path) || $db->tableExist(strtolower(str_replace("Migration", "", $migration))) ) {
+ 		if(! file_exists($path) ) {
  			return false;
  		}
 
@@ -249,6 +248,19 @@ Class Core {
  			}
  		}
  		return false;
+ 	}
+
+ 	/**
+ 	 *	Make a system alert
+ 	 *	@param array $data
+ 	 *	@return void
+ 	 */
+ 	public function alert( $data = [] ) {
+ 		Core::getSingleton('system/session')->add("alert",[
+ 			"type" => $data['type'],
+ 			'msg' => $data['msg']
+ 		]);
+ 		return true;
  	}
 
  	/**

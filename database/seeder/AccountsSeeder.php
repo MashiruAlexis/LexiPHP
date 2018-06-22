@@ -15,6 +15,14 @@ Class AccountsSeeder extends Database_Model_Schema {
 			"created_at" => $date->getDate()
 		]);
 
+		$rs = $this->insert([
+			"username" => "admin",
+			"password" => $pass->hash( "ako" ),
+			"email" => "celisramon@ymail.com",
+			"updated_at" => $date->getDate(),
+			"created_at" => $date->getDate()
+		]);
+
 		if(! $rs ) {
 			return false;
 		}
