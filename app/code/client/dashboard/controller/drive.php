@@ -70,6 +70,16 @@ Class Dashboard_Controller_Drive extends Frontend_Controller_Action {
 			return false;
 		}
 
+		# create trash directory
+		if(! mkdir($base . ".trash" . DS) ) {
+			# create a global alert message
+			Core::alert([
+				"type" => "error",
+				"msg" => 'Something went wrong while creating your trash directory for your storage drive.'
+			]);
+			return false;
+		}
+
 		return true;
 	}
 
@@ -85,7 +95,7 @@ Class Dashboard_Controller_Drive extends Frontend_Controller_Action {
 				array(
 					'driver'        => 'LocalFileSystem',           // driver for accessing file system (REQUIRED)
 					'path'          => $this->basePath ,                 // path to files (REQUIRED)
-					'URL'           => dirname($_SERVER['PHP_SELF']) . '/../files/' . $account->username, // URL to files (REQUIRED)
+					'URL'           => '/package/drive/files/' . $_SESSION['account']->username . '/', // URL to files (REQUIRED)
 					'trashHash'     => 't1_Lw',                     // elFinder's hash of trash folder
 					'winHashFix'    => DIRECTORY_SEPARATOR !== '/', // to make hash same to Linux one on windows too
 					'uploadDeny'    => array('php'),                // All Mimetypes not allowed to upload
@@ -97,8 +107,8 @@ Class Dashboard_Controller_Drive extends Frontend_Controller_Action {
 				array(
 					'id'            => '1',
 					'driver'        => 'Trash',
-					'path'          => '../files/.trash/',
-					'tmbURL'        => dirname($_SERVER['PHP_SELF']) . '/../files/.trash/.tmb/',
+					'path'          => $this->basePath . '.trash/',
+					'tmbURL'        => '/package/drive/files/' . $_SESSION['account']->username . '/.trash/.tmb/',
 					'winHashFix'    => DIRECTORY_SEPARATOR !== '/', // to make hash same to Linux one on windows too
 					'uploadDeny'    => array('all'),                // Recomend the same settings as the original volume that uses the trash
 					'uploadAllow'   => array('image', 'text/plain'),// Same as above
@@ -107,6 +117,8 @@ Class Dashboard_Controller_Drive extends Frontend_Controller_Action {
 				)
 			)
 		);
+
+		Core::log( 'test' );
 
 		// run elFinder
 		$connector = new elFinderConnector(new elFinder($opts));
