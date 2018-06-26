@@ -118,8 +118,6 @@ Class Dashboard_Controller_Drive extends Frontend_Controller_Action {
 			)
 		);
 
-		Core::log( 'test' );
-
 		// run elFinder
 		$connector = new elFinderConnector(new elFinder($opts));
 		$connector->run();
