@@ -2,3 +2,4 @@ app/code/base/system/config.xml
 app/config/system.php
 app/config/database.php
 .htaccess
+package/drive/files/

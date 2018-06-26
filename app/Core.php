@@ -255,7 +255,7 @@ Class Core {
  	 *	@param array $data
  	 *	@return void
  	 */
- 	public function alert( $data = [] ) {
+ 	public static function alert( $data = [] ) {
  		Core::getSingleton('system/session')->add("alert",[
  			"type" => $data['type'],
  			'msg' => $data['msg']
