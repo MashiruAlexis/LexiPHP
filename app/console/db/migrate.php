@@ -26,8 +26,6 @@ Class Console_db_migrate extends Console_Controller_Core {
 				$this->warning($name . " was reverse migrate successfully.");
 				return true;
 			}else{
-				Core::log( "wasname" . $name );
-				Core::log( $args );
 				Core::getMigration($name)->up();
 				$this->success($name . " was migrated successfully.");
 				return true;

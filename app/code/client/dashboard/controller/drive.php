@@ -123,5 +123,13 @@ Class Dashboard_Controller_Drive extends Frontend_Controller_Action {
 		$connector->run();
 	}
 
+	/**
+	 *	Get the baseurl via api call
+	 */
+	public function baseurlAction() {
+		Response::json([
+			'url' => Core::getBaseUrl()
+		]);
+	}
 	
 }

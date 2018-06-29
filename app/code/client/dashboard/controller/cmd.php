@@ -15,14 +15,19 @@ Class Dashboard_Controller_Cmd extends Frontend_Controller_Action {
 	 */
 	public function indexAction() {
 		$this->setPageTitle("CMD");
-		$data = Core::getSingleton("url/request")->getRequest();
-		$data = explode(" ", $data['cmd']);
-		$maincommand = $data[0];
-		unset($data[0]);
-		$data = explode(" ", $data[1]);
-		echo '<pre>';
-		echo Core::getConsole(str_replace(":", '/', $maincommand))->handler(isset($data[0]) ? $data[0] : [] );
-		echo'</pre>';
+		$data = Core::getSingleton("url/request")->getRequest('cmd');
+        $cmd = Core::getSingleton("console/core");
+        $data = explode(" ", $data);
+        $newData[] = 'bot'; 
+        if( is_array($data) ) {
+            foreach( $data as $dt ) {
+                $newData[] = $dt;
+            }
+        }
+        $cmd->setArgs($newData);
+        echo "<pre>";
+        $cmd->run();
+        echo "</pre>";
 		echo '
 		<div class="col-md-12">
                             <div class="card">

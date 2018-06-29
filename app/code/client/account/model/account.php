@@ -23,6 +23,9 @@ Class Account_Model_Account extends Database_Model_Base {
 	public function login( $username, $password ) {
 		$hash = Core::getSingleton("system/hash");
 		$sess = Core::getSingleton("system/session");
+		$http = Core::getSingleton('http/browser');
+		$date = Core::getSingleton('system/date');
+		$acctlogs = Core::getModel('account/accountlogs');
 
 		$rs = $this->where("username", $username)->first();
 
@@ -32,7 +35,13 @@ Class Account_Model_Account extends Database_Model_Base {
 
 		if( $hash->verify($password, $rs->password) ) {
 			$sess->add("account", $rs );
-			Core::log( "username: " . $rs->username, true, "accounts.log" );
+			$acctlogs->insert([
+				'accountId' => $rs->id,
+				'os' 		=> $http->getPlatform(),
+				'browser' 	=> $http->getBrowser(),
+				'ipaddress' => $http->getIpAddress(),
+				'datetime' 	=> $date->getDate()
+			]);
 			return true;
 		}
 
