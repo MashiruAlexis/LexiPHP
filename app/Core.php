@@ -61,9 +61,8 @@ Class Core {
 		}
 
 		// check if the system booted successfully
-		$boot = Core::getSingleton("system/boot");
-		if(! empty($boot->getErrors()) ) {
-			foreach( $boot->getErrors() as $errs ) {
+		if(! empty(Core::getSingleton("system/boot")->getErrors()) ) {
+			foreach( Core::getSingleton("system/boot")->getErrors() as $errs ) {
 				Core::log( $errs );
 			}
 			exit(); // end the system!
