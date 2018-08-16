@@ -600,7 +600,7 @@ select.form-control:focus {
   box-shadow: none;
 }
 </style>
-<div class="container-fluid" style="background-color: #80808042; margin-top: 1%;">
+<div class="container-fluid" style="background-color: #8080800f; margin-top: 1%;">
 	<div class="row">
 		<div class="col-md-6">
 			<div class="form-group row">
@@ -615,7 +615,85 @@ select.form-control:focus {
 			      <input type="text" class="form-control" id="name" required style="border-bottom: 1px dotted #000000;">
 			    </div>
 			  </div>
+			  <div class="form-group row">
+			    <label for="name" class="col-sm-3 col-form-label">Signature:
+			    </label>
+			    <div class="col-sm-9">
+			    	<img src="" style="display: none;" id="img-rep-com" class="img-fluid" alt="Responsive image">
+			      	<input type="text" data-toggle="modal" data-target="#sigRep" class="form-control" id="text-com-sig" required style="border-bottom: 1px dotted #000000;">
+			    </div>
+			  </div>
+
+			  <div class="form-group row">
+			    <label for="name" class="col-sm-3 col-form-label">Date:</label>
+			    <div class="col-sm-9">
+			      <input type="text" class="form-control" id="name" required style="border-bottom: 1px dotted #000000;">
+			    </div>
+			  </div>
+
+		</div>
+
+		<div class="col-md-6">
+			<h5>Sole global advertising sales</h5>
+			<h5>Link Media Advertising LLC</h5>
+			<div class="form-group row">
+			    <label for="name" class="col-sm-3 col-form-label">Representative Name: </label>
+			    <div class="col-sm-9">
+			      <input type="text" class="form-control" id="name" required style="border-bottom: 1px dotted #000000;">
+			    </div>
+			  </div>
+			  <div class="form-group row">
+			    <label for="name" class="col-sm-3 col-form-label">Signature</label>
+			    <div class="col-sm-9">
+			      <input type="text" class="form-control" id="name" required style="border-bottom: 1px dotted #000000;">
+			    </div>
+			  </div>
+
+			  <div class="form-group row">
+			    <label for="name" class="col-sm-3 col-form-label">Date:</label>
+			    <div class="col-sm-9">
+			      <input type="text" class="form-control" id="name" required style="border-bottom: 1px dotted #000000;">
+			    </div>
+			  </div>
+
 		</div>
 
 	</div>
 </div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="sigRep" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Signature:</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<div class="rep-com"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="clearComSig()"	>Clear</button>
+        <button type="button" class="btn btn-primary" onclick="addAttacthComSig()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+	$('.rep-com').jqSignature({width: 465});
+	function clearComSig() {
+		$('.rep-com').jqSignature('clearCanvas');
+	}
+	function addAttacthComSig(){
+		$('#img-rep-com').css('display', 'block');
+		$("#img-rep-com").attr("src", $('.rep-com').jqSignature('getDataURL'));
+		$('.rep-com').jqSignature('clearCanvas');
+		$('#text-com-sig').css('display', 'none');
+		$('#sigRep').modal('toggle');
+	}
+</script>

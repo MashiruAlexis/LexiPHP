@@ -18,7 +18,8 @@ return [
 	 * ----------------------------------
 	 */
 	"css" => [
-		"default/bootstrap.min"
+		"default/bootstrap.min",
+		"default/override"
 	],
 
 	/**

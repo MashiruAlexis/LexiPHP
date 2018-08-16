@@ -17,4 +17,8 @@ Class Sales_Controller_Contract extends Frontend_Controller_Action {
 		$this->setPageTitle('Contract');
 		$this->setBlock('sales/contract');
 	}
+
+	public function setup() {
+		$this->setJs('sales/signature');
+	}
 }
