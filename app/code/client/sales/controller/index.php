@@ -4,13 +4,13 @@
  * See license file for more info.
  */
 
-Class Index_Controller_Index extends Frontend_Controller_Action {
+Class Sales_Controller_Index extends Frontend_Controller_Action {
 
 	/**
 	 *	Default controller action
 	 */
 	public function indexAction() {
-		$this->setPageTitle('Index');
-		// code here
+		$this->setPageTitle('Sales');
+		$this->setBlock('sales/main');
 	}
 }

@@ -1,0 +1,11 @@
+<?php
+	$http = Core::getSingleton("url/request")->getRequest();
+	if(! isset($http['for']) ) {
+		throw new Exception("Error Processing Request", 1);
+	}
+
+	if( $http['for'] == 'yalalink' ) {
+		$this->getChildBlock('sales/yalalinkcontract');
+	}
+
+?>
