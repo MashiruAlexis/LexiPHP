@@ -85,7 +85,7 @@ Class Core {
  				}
  			}
  		}
-
+ 		
  		if(isset($this->params[0])) {
 			$kernel->setApp( $this->params[0] );
 			unset($this->params[0]);

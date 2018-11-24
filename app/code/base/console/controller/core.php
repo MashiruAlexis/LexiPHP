@@ -37,8 +37,8 @@ Class Console_Controller_Core {
 	public function run() {
 		// lets test if request was made from command
 		if(! $this->is_cli( $this->args[0] ) ) {
-			#$this->error("Error: this console command will only run on CLI");
-			#return false;
+			$this->error("Error: this console command will only run on CLI");
+			return false;
 		}
 
 		$this->args[1] = isset($this->args[1]) ? $this->args[1] : $this->getApp();
