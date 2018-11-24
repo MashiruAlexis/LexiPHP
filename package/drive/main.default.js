@@ -4,7 +4,7 @@
  * Rename "main.default.js" to "main.js" and edit it if you need configure elFInder options or any things. And use that in elfinder.html.
  * e.g. `<script data-main="./main.js" src="./require.js"></script>`
  **/
- var baseUrl = 'https://' + window.location.hostname + '/';
+ var baseUrl = '//' + window.location.hostname + '/';
  var packagePath = "package/drive/";
  console.log( "baseurl: " + baseUrl + packagePath);
 (function(){
