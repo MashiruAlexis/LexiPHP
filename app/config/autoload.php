@@ -40,4 +40,13 @@ return [
 	| Autoloader for middleware
 	*/
 	'middleware' => "app/code/middleware/autoload.php",
+
+	/*
+	|--------------------------------------------------------------------------
+	|	Composer Support
+	|--------------------------------------------------------------------------
+	|
+	| Autoloader for middleware
+	*/
+	'middleware' => BP . DS . 'vendor' . DS . 'autoload.php',
 ];

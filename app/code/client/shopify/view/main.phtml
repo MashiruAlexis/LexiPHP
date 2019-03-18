@@ -1,0 +1,19 @@
+<div class="container">
+	<div class="row">
+		<div class="col col-md-12">
+			<h2>Test</h2>
+			<pre>
+<?php
+$config = array(
+    'ShopUrl' 	=> 'loozaax.myshopify.com',
+    'ApiKey' 	=> '7f42d0b68645a7d895aef315e635864e',
+    'Password' 	=> '7cc9db7040eb54b8aced87a04663e22f',
+);
+
+$shopify = PHPShopify\ShopifySDK::config($config);
+print_r($shopify->Product->get());
+?>
+			</pre>
+		</div>
+	</div>
+</div>
